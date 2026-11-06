@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback, useMemo } from 'react';
 import { User, RtdbConversation, BlockOptions, UserStatus, UserSettings } from '@shared/types';
 import { userService } from '../../services/userService';
 import { useUserCache } from '../../store/userCacheStore';
-import { useAuthStore } from '../../store/authStore';
+import { useAuthStore } from '@/features/auth';
 import { toast } from '../../store/toastStore';
 import { TOAST_MESSAGES } from '../../constants';
 import { usePostStore } from '../../store';

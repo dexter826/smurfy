@@ -2,7 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { StickyNote, Sparkles } from 'lucide-react';
 import { PostItem, PostModal, CreatePost, FeedSkeleton, FriendSuggestionsWidget, BirthdayWidget } from '../components/feed';
 
-import { useAuthStore } from '../store/authStore';
+import { useAuthStore } from '@/features/auth';
 import { useSharePostStore } from '../store';
 import { useLoadingStore } from '../store/loadingStore';
 import { Visibility, MediaObject, Post } from '@shared/types';

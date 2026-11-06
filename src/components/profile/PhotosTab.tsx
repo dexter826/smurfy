@@ -3,7 +3,7 @@ import { MessageType, MediaObject } from '@shared/types';
 import { postService } from '../../services/postService';
 import { Skeleton, MediaViewer, LazyImage, SensitiveMediaGuard, EmptyState } from '../ui';
 import { Image as ImageIcon, Loader2, Play } from 'lucide-react';
-import { useAuthStore } from '../../store/authStore';
+import { useAuthStore } from '@/features/auth';
 import { useFriendIds } from '../../hooks';
 import { DocumentSnapshot } from 'firebase/firestore';
 

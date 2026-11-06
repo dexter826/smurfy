@@ -3,9 +3,9 @@ import { onAuthStateChanged } from "firebase/auth";
 import { onSnapshot, doc, Timestamp } from 'firebase/firestore';
 import { auth, db } from "@/lib/firebase/config";
 import { User, BlockOptions, UserSettings, Visibility, Generation, MediaObject, UserStatus, UserRole } from "@shared/types";
-import { userService } from "../services/userService";
+import { userService } from "@/services/userService";
 import { authService } from "../services/authService";
-import { friendService } from "../services/friendService";
+import { friendService } from "@/services/friendService";
 import { isFullyBlocked } from "@/lib/block/blockUtils";
 import { collection } from 'firebase/firestore';
 
@@ -17,13 +17,13 @@ const DEFAULT_SETTINGS: UserSettings = {
   createdAt: Timestamp.now(),
   updatedAt: Timestamp.now(),
 };
-import { presenceService } from "../services/presenceService";
-import { resetAllStores } from "./storeUtils";
-import { useUserCache } from "./userCacheStore";
-import { useLoadingStore } from "./loadingStore";
-import { usePostStore } from "./posts";
-import { useRtdbChatStore } from "./rtdbChatStore";
-import { getDirectConversationId } from "../utils/chatUtils";
+import { presenceService } from "@/services/presenceService";
+import { resetAllStores } from "@/store/storeUtils";
+import { useUserCache } from "@/store/userCacheStore";
+import { useLoadingStore } from "@/store/loadingStore";
+import { usePostStore } from "@/store/posts";
+import { useRtdbChatStore } from "@/store/rtdbChatStore";
+import { getDirectConversationId } from "@/utils/chatUtils";
 
 interface AuthState {
   user: User | null;

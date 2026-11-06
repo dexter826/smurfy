@@ -1,4 +1,4 @@
-export { authService } from './authService';
+export { authService } from '@/features/auth';
 export { commentService } from './commentService';
 export { friendService } from './friendService';
 export { notificationService } from './notificationService';

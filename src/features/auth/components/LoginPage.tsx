@@ -2,18 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useAuthStore } from '../store/authStore';
-import { useLoadingStore } from '../store/loadingStore';
-import { Button, Input, Checkbox, DatePicker } from '../components/ui';
-import { toast } from '../store/toastStore';
-import { TOAST_MESSAGES } from '../constants';
+import { useAuthStore } from '@/features/auth';
+import { useLoadingStore } from '@/store/loadingStore';
+import { Button, Input, Checkbox, DatePicker } from '@/components/ui';
+import { toast } from '@/store/toastStore';
+import { TOAST_MESSAGES } from '@/constants';
 import { Mail, Lock, Eye, EyeOff, User, AlertCircle, CheckCircle } from 'lucide-react';
-import { AuthBrandingPanel } from '../components/layout/AuthBrandingPanel';
+import { AuthBrandingPanel } from '@/components/layout/AuthBrandingPanel';
 import {
   loginSchema, registerSchema, forgotPasswordSchema,
   LoginFormValues, RegisterFormValues, ForgotPasswordFormValues,
-} from '../utils/validation';
-import { calculateGeneration } from '../utils/userUtils';
+} from '@/utils/validation';
+import { calculateGeneration } from '@/utils/userUtils';
 
 type Tab = 'login' | 'register' | 'forgot';
 

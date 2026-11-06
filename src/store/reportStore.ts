@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { ReportType, ReportReason, Report, MediaObject } from '@shared/types';
 import { reportService } from '../services/reportService';
 import { userService } from '../services/userService';
-import { useAuthStore } from './authStore';
+import { useAuthStore } from '@/features/auth';
 
 interface ReportState {
   isOpen: boolean;

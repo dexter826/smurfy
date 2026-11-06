@@ -17,7 +17,7 @@ import { PostMediaGrid } from '../feed/shared/PostMediaGrid';
 import { REPORT_CONFIG, TOAST_MESSAGES, CONFIRM_MESSAGES } from '../../constants';
 import { formatRelativeTime, formatDateTime } from '../../utils/dateUtils';
 import { toast } from '../../store/toastStore';
-import { useAuthStore } from '../../store/authStore';
+import { useAuthStore } from '@/features/auth';
 
 interface ReportDetailModalProps {
   reportId: string;

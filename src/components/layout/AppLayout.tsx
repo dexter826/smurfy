@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { NavLink, Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { MessageCircle, Users, LayoutGrid, Settings, LogOut, Moon, Sun, Bell, Menu, Shield } from 'lucide-react';
-import { useAuthStore } from '../../store/authStore';
+import { useAuthStore } from '@/features/auth';
 import { useThemeStore } from '../../store/themeStore';
 import { useRtdbChatStore } from '../../store';
 import { useContactStore } from '../../store/contactStore';

@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Report, ReportStatus, ReportType, User, UserRole } from '@shared/types';
 import { reportService } from '../services/reportService';
-import { useAuthStore } from '../store/authStore';
+import { useAuthStore } from '@/features/auth';
 import { useUserCache } from '../store/userCacheStore';
 import { useLoadingStore } from '../store/loadingStore';
 import { toast } from '../store/toastStore';

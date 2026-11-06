@@ -5,13 +5,13 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import {
   MapPin, Sparkles, ArrowRight, X, SkipForward,
 } from 'lucide-react';
-import { useAuthStore } from '../store/authStore';
-import { Button, SearchableSelect } from '../components/ui';
-import type { SearchableOption } from '../components/ui/SearchableSelect';
-import { AuthBrandingPanel } from '../components/layout/AuthBrandingPanel';
-import { onboardingSchema, OnboardingFormValues } from '../utils/validation';
-import { toast } from '../store/toastStore';
-import { API_ENDPOINTS, VALIDATION, INTEREST_SUGGESTIONS, TOAST_MESSAGES } from '../constants';
+import { useAuthStore } from '@/features/auth';
+import { Button, SearchableSelect } from '@/components/ui';
+import type { SearchableOption } from '@/components/ui/SearchableSelect';
+import { AuthBrandingPanel } from '@/components/layout/AuthBrandingPanel';
+import { onboardingSchema, OnboardingFormValues } from '@/utils/validation';
+import { toast } from '@/store/toastStore';
+import { API_ENDPOINTS, VALIDATION, INTEREST_SUGGESTIONS, TOAST_MESSAGES } from '@/constants';
 
 
 

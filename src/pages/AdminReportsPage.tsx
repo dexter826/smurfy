@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useAuthStore } from '../store/authStore';
+import { useAuthStore } from '@/features/auth';
 import { Skeleton } from '../components/ui';
 import { ReportsView } from '../components/admin/ReportsView';
 import { ReportDetailModal } from '../components/admin/ReportDetailModal';

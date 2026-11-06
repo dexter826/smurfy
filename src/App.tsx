@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
-import { useAuthStore } from './store/authStore';
+import { useAuthStore } from '@/features/auth';
 import { UserStatus } from '@shared/types';
 import { AppLayout } from './components/layout/AppLayout';
 import { Loading, ToastContainer, ConnectionStatus, ErrorBoundary, SplashScreen } from './components/ui';
@@ -9,7 +9,7 @@ import { AdminLayout } from './components/layout/AdminLayout';
 import { ProtectedRoute } from './components/layout/ProtectedRoute';
 import { useSelfPresence } from './hooks/useSelfPresence';
 import { useNotifications } from './hooks/useNotifications';
-import LoginPage from './pages/LoginPage';
+import LoginPage from '@/features/auth/components/LoginPage';
 import ChatPage from './pages/ChatPage';
 
 const FeedPage = React.lazy(() => import('./pages/FeedPage'));
@@ -18,13 +18,13 @@ const ProfilePage = React.lazy(() => import('./pages/ProfilePage'));
 const SettingsPage = React.lazy(() => import('./pages/SettingsPage'));
 const NotificationsPage = React.lazy(() => import('./pages/NotificationsPage'));
 const BannedPage = React.lazy(() => import('./pages/BannedPage'));
-const EmailVerificationPage = React.lazy(() => import('./pages/EmailVerificationPage'));
+const EmailVerificationPage = React.lazy(() => import('@/features/auth/components/EmailVerificationPage'));
 const MobileMenuPage = React.lazy(() => import('./pages/MobileMenuPage'));
 const AdminReportsPage = React.lazy(() => import('./pages/AdminReportsPage'));
 const AdminUsersPage = React.lazy(() => import('./pages/AdminUsersPage'));
 const AdminDashboardPage = React.lazy(() => import('./pages/AdminDashboardPage'));
 const AdminModerationPage = React.lazy(() => import('./pages/AdminModerationPage'));
-const OnboardingPage = React.lazy(() => import('./pages/OnboardingPage'));
+const OnboardingPage = React.lazy(() => import('@/features/auth/components/OnboardingPage'));
 const NotFoundPage = React.lazy(() => import('./pages/NotFoundPage'));
 const JoinGroupPage = React.lazy(() => import('./pages/JoinGroupPage'));
 

@@ -22,7 +22,7 @@ import {
 import { db } from '@/lib/firebase/config';
 import { Comment, ReactionType, ReactionDoc, CommentStatus, MediaObject, UserStatus } from '@shared/types'
 import { PAGINATION, IMAGE_COMPRESSION, STORAGE_PATHS } from '../constants';
-import { useAuthStore } from '../store/authStore';
+import { useAuthStore } from '@/features/auth';
 import { batchGetUsers } from '../utils/batchUtils';
 import { compressImage } from '../utils/imageUtils';
 import { uploadWithProgress } from '../utils/uploadUtils';

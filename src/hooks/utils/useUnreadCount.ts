@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useRtdbChatStore } from '../../store';
-import { useAuthStore } from '../../store/authStore';
+import { useAuthStore } from '@/features/auth';
 
 /**
  * Tính tổng số tin nhắn chưa đọc

@@ -1,5 +1,5 @@
 import { useMemo, useCallback } from 'react';
-import { useAuthStore } from '@/store/authStore';
+import { useAuthStore } from '@/features/auth';
 
 export const useBlockedUsers = () => {
   const blockedUsers = useAuthStore(state => state.blockedUsers);

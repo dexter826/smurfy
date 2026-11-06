@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { useAuthStore } from '../store/authStore';
-import { useLoadingStore } from '../store/loadingStore';
-import { Button } from '../components/ui';
+import { useAuthStore } from '@/features/auth';
+import { useLoadingStore } from '@/store/loadingStore';
+import { Button } from '@/components/ui';
 import { Mail, RefreshCw, CheckCircle, ArrowLeft, ShieldCheck } from 'lucide-react';
-import { toast } from '../store/toastStore';
-import { TOAST_MESSAGES } from '../constants';
+import { toast } from '@/store/toastStore';
+import { TOAST_MESSAGES } from '@/constants';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { auth } from '@/lib/firebase/config';
-import { AuthBrandingPanel } from '../components/layout/AuthBrandingPanel';
+import { AuthBrandingPanel } from '@/components/layout/AuthBrandingPanel';
 
 const EmailVerificationPage: React.FC = () => {
   const { checkVerificationStatus, sendVerificationEmail, logout } = useAuthStore();

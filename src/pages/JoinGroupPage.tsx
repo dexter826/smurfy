@@ -3,7 +3,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { Users, ShieldCheck, Clock, Info, ChevronLeft } from 'lucide-react';
 
 import { Button, Loading, Avatar } from '../components/ui';
-import { useAuthStore } from '../store/authStore';
+import { useAuthStore } from '@/features/auth';
 import { useChat } from '../hooks';
 import { toast } from '../store/toastStore';
 import { TOAST_MESSAGES } from '../constants';

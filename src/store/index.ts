@@ -1,4 +1,4 @@
-export { useAuthStore } from './authStore';
+export { useAuthStore } from '@/features/auth';
 export { useRtdbChatStore } from './rtdbChatStore';
 export { usePostStore } from './posts';
 export { useContactStore } from './contactStore';

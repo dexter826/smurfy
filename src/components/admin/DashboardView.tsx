@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { userService } from '../../services/userService';
 import { reportService } from '../../services/reportService';
 import { Report, User, ReportStatus } from '@shared/types';
-import { useAuthStore } from '../../store/authStore';
+import { useAuthStore } from '@/features/auth';
 import { Skeleton, UserAvatar, EmptyState } from '../ui';
 import { formatRelativeTime } from '../../utils/dateUtils';
 import { REPORT_CONFIG } from '../../constants';

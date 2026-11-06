@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 import { User, MediaObject, Visibility, PostType } from '@shared/types';
-import { useAuthStore } from '../../store/authStore';
+import { useAuthStore } from '@/features/auth';
 import { userService } from '../../services/userService';
 import { systemPostService } from '../../services/systemPostService';
 import { useUserCache } from '../../store/userCacheStore';

@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { Cake, MessageCircle } from 'lucide-react';
 import { useNavigate, Link } from 'react-router-dom';
-import { useAuthStore } from '../../store/authStore';
+import { useAuthStore } from '@/features/auth';
 import { friendService } from '../../services/friendService';
 import { User, Visibility } from '@shared/types';
 import { isBirthdayToday } from '../../utils/dateUtils';

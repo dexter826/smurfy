@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { RtdbMessage, RtdbConversation, User, UserStatus } from '@shared/types';
-import { useAuthStore } from '../../store/authStore';
+import { useAuthStore } from '@/features/auth';
 
 interface UseMessageStatusOptions {
     messages: Array<{ id: string; data: RtdbMessage }>;

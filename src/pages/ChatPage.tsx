@@ -5,7 +5,7 @@ import { BlockOptionsModal, ConfirmDialog, EmptyState } from '../components/ui';
 import { User } from '@shared/types';
 import { useChat } from '../hooks';
 import { useLoadingStore } from '../store/loadingStore';
-import { useAuthStore } from '../store/authStore';
+import { useAuthStore } from '@/features/auth';
 import { useFriendIds, useBlockedUsers } from '../hooks';
 import { friendService } from '../services/friendService';
 import { useConversationMemberSettings } from '../hooks/chat/useConversationMemberSettings';

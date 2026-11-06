@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Search, UserPlus, MessageCircle, User as UserIcon, Clock, Check } from 'lucide-react';
 import { Button, Input, Modal, UserAvatar, EmptyState, Skeleton } from '../ui';
 import { useContactStore } from '../../store/contactStore';
-import { useAuthStore } from '../../store/authStore';
+import { useAuthStore } from '@/features/auth';
 import { useLoadingStore } from '../../store/loadingStore';
 import { useRtdbChatStore } from '../../store';
 import { toast } from '../../store/toastStore';

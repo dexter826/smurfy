@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { notificationService } from '../services/notificationService';
-import { useAuthStore } from '../store/authStore';
+import { useAuthStore } from '@/features/auth';
 import { useRtdbChatStore } from '../store/rtdbChatStore';
 import { soundManager } from '../services/soundManager';
 

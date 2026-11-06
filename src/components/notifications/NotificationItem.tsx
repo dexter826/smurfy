@@ -6,7 +6,7 @@ import { UserAvatar, Skeleton } from '../ui';
 import { notificationService } from '../../services/notificationService';
 import { useNavigate } from 'react-router-dom';
 import { useNotificationStore } from '../../store/notificationStore';
-import { useAuthStore } from '../../store/authStore';
+import { useAuthStore } from '@/features/auth';
 import { useUserCache } from '../../store/userCacheStore';
 
 interface NotificationItemProps {

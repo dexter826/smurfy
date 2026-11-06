@@ -10,7 +10,7 @@ import { postSchema, PostFormValues } from '../../../utils/validation';
 import { MEDIA_CONSTRAINTS, TOAST_MESSAGES, VALIDATION } from '../../../constants';
 import { insertTextAtCursor } from '../../../utils/uiUtils';
 import { useAutoResizeTextarea } from '../../../hooks/utils';
-import { useAuthStore } from '../../../store/authStore';
+import { useAuthStore } from '@/features/auth';
 import { useLinkPreview } from '../../../hooks/useLinkPreview';
 import { LinkPreviewCard } from '../../shared/LinkPreviewCard';
 

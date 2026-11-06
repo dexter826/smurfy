@@ -1,7 +1,7 @@
 import { StateCreator } from 'zustand';
 import { MediaObject } from '@shared/types';
 import { rtdbGroupService } from '../../services/chat/rtdbGroupService';
-import { useAuthStore } from '../authStore';
+import { useAuthStore } from '@/features/auth';
 import { RtdbConversationSlice } from './rtdbConversationSlice';
 import { RtdbMessageSlice } from './rtdbMessageSlice';
 

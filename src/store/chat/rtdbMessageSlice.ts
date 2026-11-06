@@ -3,7 +3,7 @@ import { ref, onValue, get as dbGet } from 'firebase/database';
 import { rtdb } from '@/lib/firebase/config';
 import { RtdbMessage, MessageType, SharedPostMessagePayload } from '@shared/types';
 import { rtdbMessageService } from '../../services/chat/messages';
-import { useAuthStore } from '../authStore';
+import { useAuthStore } from '@/features/auth';
 import type { RtdbChatState } from '../rtdbChatStore';
 import { PAGINATION } from '../../constants';
 import { getServerSyncedNow } from '../../services/chat/chatTime';

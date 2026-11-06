@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { User, Visibility } from '@shared/types';
 import { friendService } from '../../../services/friendService';
-import { useAuthStore } from '../../../store/authStore';
+import { useAuthStore } from '@/features/auth';
 import { Modal, Input, Button, Avatar, UserAvatar, IconButton, ImageCropper } from '../../ui';
 import { groupSchema, GroupFormValues } from '../../../utils/validation';
 import { validateFile } from '../../../utils';

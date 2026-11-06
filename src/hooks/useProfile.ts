@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { User, FriendStatus } from '@shared/types';
-import { useAuthStore } from '../store/authStore';
+import { useAuthStore } from '@/features/auth';
 import { userService } from '../services/userService';
 import { toast } from '../store/toastStore';
 import { useUserCache } from '../store/userCacheStore';

@@ -5,7 +5,7 @@ import { useContacts } from '../hooks';
 import { Button, Input, ConfirmDialog, BlockOptionsModal, EmptyState } from '../components/ui';
 import { CONFIRM_MESSAGES, TOAST_MESSAGES } from '../constants';
 import { FriendRequestItem, FriendItem, AddFriendModal, SuggestionItem } from '../components/contacts';
-import { useAuthStore } from '../store/authStore';
+import { useAuthStore } from '@/features/auth';
 import { toast } from '../store/toastStore';
 import { BlockOptions, User } from '@shared/types';
 

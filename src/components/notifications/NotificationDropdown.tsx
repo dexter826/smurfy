@@ -4,7 +4,7 @@ import { Bell } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useClickOutside } from '../../hooks/utils';
 import { useNotificationStore } from '../../store/notificationStore';
-import { useAuthStore } from '../../store/authStore';
+import { useAuthStore } from '@/features/auth';
 import { IconButton } from '../ui';
 import { NotificationList } from './NotificationList';
 

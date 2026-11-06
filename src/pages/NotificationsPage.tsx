@@ -2,7 +2,7 @@ import React from 'react';
 import { ChevronLeft, Trash2, CheckCheck } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useNotificationStore } from '../store/notificationStore';
-import { useAuthStore } from '../store/authStore';
+import { useAuthStore } from '@/features/auth';
 import { NotificationList } from '../components/notifications/NotificationList';
 import { IconButton } from '../components/ui';
 

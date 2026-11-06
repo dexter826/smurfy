@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { Shield, Users, Flag, LogOut, Moon, Sun, ChevronLeft, LayoutDashboard, ShieldAlert } from 'lucide-react';
-import { useAuthStore } from '../../store/authStore';
+import { useAuthStore } from '@/features/auth';
 import { useThemeStore } from '../../store/themeStore';
 import { ConfirmDialog, UserAvatar } from '../ui';
 import { useLogout } from '../../hooks/utils/useLogout';

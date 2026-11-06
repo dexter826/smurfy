@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { RtdbMessage, RtdbConversation, RtdbUserChat, MemberRole, User, UserStatus } from '@shared/types';
-import { useAuthStore } from '../store/authStore';
+import { useAuthStore } from '@/features/auth';
 import { useRtdbChatStore } from '../store';
 import { useContactStore } from '../store/contactStore';
 import { useUserCache } from '../store/userCacheStore';

@@ -5,7 +5,7 @@ import { Timestamp } from 'firebase/firestore';
 import { userService } from '../services/userService';
 import { friendService } from '../services/friendService';
 import { useLoadingStore } from './loadingStore';
-import { useAuthStore } from './authStore';
+import { useAuthStore } from '@/features/auth';
 import { usePostStore } from './posts';
 
 interface ContactState {

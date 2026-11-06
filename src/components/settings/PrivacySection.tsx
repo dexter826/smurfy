@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { Eye, MessageCircle, Users, Lock, ChevronDown, Globe, CheckCheck, MessageSquareQuote } from 'lucide-react';
-import { useAuthStore } from '../../store/authStore';
+import { useAuthStore } from '@/features/auth';
 import { userService } from '../../services/userService';
 import { presenceService } from '../../services/presenceService';
 import { Visibility } from '@shared/types';
