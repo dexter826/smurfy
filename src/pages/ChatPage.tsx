@@ -7,7 +7,7 @@ import { useChat } from '../hooks';
 import { useLoadingStore } from '../store/loadingStore';
 import { useAuthStore } from '@/features/auth';
 import { useFriendIds, useBlockedUsers } from '../hooks';
-import { friendService } from '../services/friendService';
+import { friendService } from '@/features/friend';
 import { useConversationMemberSettings } from '../hooks/chat/useConversationMemberSettings';
 import { useCallManager } from '../hooks/chat/useCallManager';
 import { toast } from '../store/toastStore';

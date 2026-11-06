@@ -6,7 +6,7 @@ export * from './profile';
 
 export { useFeed } from './useFeed';
 export { useChat } from './useChat';
-export { useContacts } from './useContacts';
+export { useContacts } from '@/features/friend';
 export { useProfile } from './useProfile';
 export { useUserPosts } from './useUserPosts';
 export { useAdminReports } from './useAdminReports';

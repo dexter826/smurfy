@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { User, UserStatus, FriendRequest, FriendStatus } from '@shared/types';
-import { friendService } from '../../services/friendService';
+import { friendService } from '@/features/friend';
 import { toast } from '../../store/toastStore';
 import { useFriendIds } from '../utils';
 import { usePostStore } from '../../store';

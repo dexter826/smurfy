@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useContactStore } from '../../store/contactStore';
+import { useContactStore } from '@/features/friend';
 
 /**
  * Lấy danh sách ID bạn bè

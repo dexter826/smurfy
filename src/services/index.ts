@@ -1,6 +1,6 @@
 export { authService } from '@/features/auth';
 export { commentService } from './commentService';
-export { friendService } from './friendService';
+export { friendService } from '@/features/friend';
 export { notificationService } from '@/features/notification';
 export { postService } from './postService';
 export { reportService } from './reportService';

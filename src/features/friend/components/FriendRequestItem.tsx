@@ -1,9 +1,9 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Check, X, Clock } from 'lucide-react';
-import { UserAvatar, Button, Skeleton } from '../ui';
+import { UserAvatar, Button, Skeleton } from '@/components/ui';
 import { FriendRequest, User } from '@shared/types';
-import { formatRelativeTime } from '../../utils/dateUtils';
+import { formatRelativeTime } from '@/utils/dateUtils';
 
 interface FriendRequestItemProps {
   request: FriendRequest;

@@ -5,7 +5,7 @@ import { Button } from './Button';
 import { IconButton } from './IconButton';
 import { BlockOptions } from '@shared/types';
 import { useScrollLock } from '../../hooks/utils/useScrollLock';
-import { useContactStore } from '../../store/contactStore';
+import { useContactStore } from '@/features/friend';
 import { AlertTriangle } from 'lucide-react';
 import { isFullyBlocked } from '@/lib/block/blockUtils';
 

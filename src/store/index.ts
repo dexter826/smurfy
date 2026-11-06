@@ -1,7 +1,7 @@
 export { useAuthStore } from '@/features/auth';
 export { useRtdbChatStore } from './rtdbChatStore';
 export { usePostStore } from './posts';
-export { useContactStore } from './contactStore';
+export { useContactStore } from '@/features/friend';
 export { useNotificationStore } from '@/features/notification';
 export { useCommentStore } from './comments';
 export { useReportStore } from './reportStore';

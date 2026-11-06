@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { UserPlus, X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { UserAvatar, Skeleton } from '../ui';
+import { UserAvatar, Skeleton } from '@/components/ui';
 import { User } from '@shared/types';
 import { useAuthStore } from '@/features/auth';
 

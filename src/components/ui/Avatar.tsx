@@ -3,7 +3,7 @@ import { getInitials, getAvatarGradient } from '../../utils';
 import { User, MediaObject } from '@shared/types';
 import { usePresence } from '@/features/presence';
 import { useAuthStore } from '@/features/auth';
-import { useContactStore } from '../../store/contactStore';
+import { useContactStore } from '@/features/friend';
 import { useUserCache } from '../../store/userCacheStore';
 
 

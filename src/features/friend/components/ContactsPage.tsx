@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { UserPlus, Users, Search, Bell, ArrowUpDown, Sparkles, RefreshCw } from 'lucide-react';
-import { useContacts } from '../hooks';
-import { Button, Input, ConfirmDialog, BlockOptionsModal, EmptyState } from '../components/ui';
-import { CONFIRM_MESSAGES, TOAST_MESSAGES } from '../constants';
-import { FriendRequestItem, FriendItem, AddFriendModal, SuggestionItem } from '../components/contacts';
+import { useContacts } from '../hooks/useContacts';
+import { Button, Input, ConfirmDialog, BlockOptionsModal, EmptyState } from '@/components/ui';
+import { CONFIRM_MESSAGES, TOAST_MESSAGES } from '@/constants';
+import { FriendRequestItem, FriendItem, AddFriendModal, SuggestionItem } from '.';
 import { useAuthStore } from '@/features/auth';
-import { toast } from '../store/toastStore';
+import { toast } from '@/store/toastStore';
 import { BlockOptions, User } from '@shared/types';
 
 type Tab = 'all' | 'requests' | 'sent' | 'suggestions';

@@ -3,7 +3,7 @@ import { formatStatusTime } from '../../utils/dateUtils';
 import { usePresence } from '@/features/presence';
 import { useUserCache } from '../../store/userCacheStore';
 
-import { useContactStore } from '../../store/contactStore';
+import { useContactStore } from '@/features/friend';
 
 
 interface UserStatusTextProps {

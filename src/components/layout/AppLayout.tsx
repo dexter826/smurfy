@@ -4,7 +4,7 @@ import { MessageCircle, Users, LayoutGrid, Settings, LogOut, Moon, Sun, Bell, Me
 import { useAuthStore } from '@/features/auth';
 import { useThemeStore } from '../../store/themeStore';
 import { useRtdbChatStore } from '../../store';
-import { useContactStore } from '../../store/contactStore';
+import { useContactStore } from '@/features/friend';
 import { useLoadingStore } from '../../store/loadingStore';
 import { UserAvatar, ConfirmDialog, IconButton, Loading } from '../ui';
 import { ReactionType, Post } from '@shared/types';

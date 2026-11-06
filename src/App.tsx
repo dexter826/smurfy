@@ -13,7 +13,7 @@ import LoginPage from '@/features/auth/components/LoginPage';
 import ChatPage from './pages/ChatPage';
 
 const FeedPage = React.lazy(() => import('./pages/FeedPage'));
-const ContactsPage = React.lazy(() => import('./pages/ContactsPage'));
+const ContactsPage = React.lazy(() => import('@/features/friend/components/ContactsPage'));
 const ProfilePage = React.lazy(() => import('./pages/ProfilePage'));
 const SettingsPage = React.lazy(() => import('@/features/settings/components/SettingsPage'));
 const NotificationsPage = React.lazy(() => import('@/features/notification/components/NotificationsPage'));
@@ -61,7 +61,7 @@ const App: React.FC = () => {
     if (typeof window !== 'undefined') {
       import('./pages/FeedPage').catch(() => {});
       import('./pages/ProfilePage').catch(() => {});
-      import('./pages/ContactsPage').catch(() => {});
+      import('@/features/friend/components/ContactsPage').catch(() => {});
     }
 
     return () => unsubscribeAuth();

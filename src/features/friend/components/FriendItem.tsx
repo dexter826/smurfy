@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { MoreVertical, UserMinus, User as UserIcon, Lock, Ban } from 'lucide-react';
-import { UserAvatar, UserStatusText, IconButton, Dropdown, DropdownItem, Skeleton } from '../ui';
+import { UserAvatar, UserStatusText, IconButton, Dropdown, DropdownItem, Skeleton } from '@/components/ui';
 import { User, UserStatus } from '@shared/types';
 import { useNavigate } from 'react-router-dom';
 

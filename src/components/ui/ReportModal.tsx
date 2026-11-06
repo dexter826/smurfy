@@ -9,7 +9,7 @@ import { Checkbox } from './Checkbox';
 import { ReportReason, ReportType } from '@shared/types';
 import { useReportStore } from '../../store/reportStore';
 import { useAuthStore } from '@/features/auth';
-import { useContactStore } from '../../store/contactStore';
+import { useContactStore } from '@/features/friend';
 import { toast } from '../../store/toastStore';
 import { REPORT_CONFIG, TOAST_MESSAGES } from '../../constants';
 import { reportSchema, ReportFormValues } from '../../utils/validation';

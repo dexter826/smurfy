@@ -5,7 +5,7 @@ import { auth, db } from "@/lib/firebase/config";
 import { User, BlockOptions, UserSettings, Visibility, Generation, MediaObject, UserStatus, UserRole } from "@shared/types";
 import { userService } from "@/services/userService";
 import { authService } from "../services/authService";
-import { friendService } from "@/services/friendService";
+import { friendService } from "@/features/friend";
 import { isFullyBlocked } from "@/lib/block/blockUtils";
 import { collection } from 'firebase/firestore';
 

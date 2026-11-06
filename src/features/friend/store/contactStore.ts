@@ -2,11 +2,11 @@ import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import { User, FriendRequest, FriendRequestStatus } from '@shared/types';
 import { Timestamp } from 'firebase/firestore';
-import { userService } from '../services/userService';
+import { userService } from '@/services/userService';
 import { friendService } from '../services/friendService';
-import { useLoadingStore } from './loadingStore';
+import { useLoadingStore } from '@/store/loadingStore';
 import { useAuthStore } from '@/features/auth';
-import { usePostStore } from './posts';
+import { usePostStore } from '@/store/posts';
 
 interface ContactState {
   friends: User[];
@@ -255,5 +255,5 @@ export const useContactStore = create<ContactState>()(
     }
   )
 );
-import { registerStore } from './storeUtils';
+import { registerStore } from '@/store/storeUtils';
 registerStore(() => useContactStore.getState().reset());

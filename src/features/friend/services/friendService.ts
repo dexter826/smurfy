@@ -17,11 +17,11 @@ import {
 import { httpsCallable } from 'firebase/functions';
 import { db, functions } from '@/lib/firebase/config';
 import { FriendRequest, FriendRequestStatus, User, UserStatus } from '@shared/types';
-import { convertDoc, convertDocs } from '../utils/firebaseUtils';
-import { batchGetUsers } from '../utils/batchUtils';
-import { userService } from './userService';
+import { convertDoc, convertDocs } from '@/utils/firebaseUtils';
+import { batchGetUsers } from '@/utils/batchUtils';
+import { userService } from '@/services/userService';
 import { isFullyBlocked } from '@/lib/block/blockUtils';
-import { useUserCache } from '../store/userCacheStore';
+import { useUserCache } from '@/store/userCacheStore';
 
 /** Dịch vụ quản lý bạn bè */
 export const friendService = {

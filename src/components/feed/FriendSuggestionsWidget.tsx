@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import { Sparkles, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useContacts } from '../../hooks';
-import { SuggestionItem } from '../contacts';
+import { SuggestionItem } from '@/features/friend';
 import { Button } from '../ui';
 
 export const FriendSuggestionsWidget: React.FC = () => {

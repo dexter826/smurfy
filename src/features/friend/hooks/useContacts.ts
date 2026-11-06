@@ -2,14 +2,14 @@ import { useState, useEffect, useCallback, useMemo } from 'react';
 import { User, FriendRequest } from '@shared/types';
 import { useAuthStore } from '@/features/auth';
 import { useContactStore } from '../store/contactStore';
-import { useUserCache } from '../store/userCacheStore';
-import { useRtdbChatStore } from '../store';
-import { useLoadingStore } from '../store/loadingStore';
+import { useUserCache } from '@/store/userCacheStore';
+import { useRtdbChatStore } from '@/store/rtdbChatStore';
+import { useLoadingStore } from '@/store/loadingStore';
 import { friendService } from '../services/friendService';
-import { userService } from '../services/userService';
-import { toast } from '../store/toastStore';
-import { getDirectConversationId } from '../utils/chatUtils';
-import { TOAST_MESSAGES } from '../constants';
+import { userService } from '@/services/userService';
+import { toast } from '@/store/toastStore';
+import { getDirectConversationId } from '@/utils/chatUtils';
+import { TOAST_MESSAGES } from '@/constants';
 
 type TabType = 'all' | 'requests' | 'sent' | 'suggestions';
 

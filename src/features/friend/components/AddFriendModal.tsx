@@ -1,14 +1,14 @@
 import React, { useState, useMemo, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, UserPlus, MessageCircle, User as UserIcon, Clock, Check } from 'lucide-react';
-import { Button, Input, Modal, UserAvatar, EmptyState, Skeleton } from '../ui';
-import { useContactStore } from '../../store/contactStore';
+import { Button, Input, Modal, UserAvatar, EmptyState, Skeleton } from '@/components/ui';
+import { useContactStore } from '../store/contactStore';
 import { useAuthStore } from '@/features/auth';
-import { useLoadingStore } from '../../store/loadingStore';
-import { useRtdbChatStore } from '../../store';
-import { toast } from '../../store/toastStore';
+import { useLoadingStore } from '@/store/loadingStore';
+import { useRtdbChatStore } from '@/store';
+import { toast } from '@/store/toastStore';
 import { User, FriendStatus } from '@shared/types';
-import { TOAST_MESSAGES } from '../../constants';
+import { TOAST_MESSAGES } from '@/constants';
 
 /**
  * Skeleton hiển thị khi đang tìm kiếm người dùng

@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useRtdbChatStore } from '../../store';
 import { useUserCache } from '../../store/userCacheStore';
 import { useAuthStore } from '@/features/auth';
-import { friendService } from '../../services/friendService';
+import { friendService } from '@/features/friend';
 import { userService } from '../../services/userService';
 import { BlockOptions, RtdbConversation, RtdbUserChat, User, UserStatus } from '@shared/types';
 import { getDirectConversationId } from '../../utils/chatUtils';
