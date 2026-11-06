@@ -1,7 +1,7 @@
 import React from 'react';
 import { Ban, Settings2, MessageSquareOff, PhoneOff, EyeOff, Eye } from 'lucide-react';
 import { User, BlockOptions, BlockedUserEntry } from '@shared/types';
-import { UserAvatar, Button, Skeleton, EmptyState } from '../ui';
+import { UserAvatar, Button, Skeleton, EmptyState } from '@/components/ui';
 
 export interface BlockedUserWithOptions {
   user: User;

@@ -1,10 +1,10 @@
 import React, { useCallback } from 'react';
 import { Eye, MessageCircle, Users, Lock, ChevronDown, Globe, CheckCheck, MessageSquareQuote } from 'lucide-react';
 import { useAuthStore } from '@/features/auth';
-import { userService } from '../../services/userService';
+import { userService } from '@/services/userService';
 import { presenceService } from '@/features/presence';
 import { Visibility } from '@shared/types';
-import { Skeleton, Dropdown, DropdownItem } from '../ui';
+import { Skeleton, Dropdown, DropdownItem } from '@/components/ui';
 import SettingItem from './SettingItem';
 import Toggle from './Toggle';
 

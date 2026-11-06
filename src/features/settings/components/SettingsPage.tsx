@@ -1,20 +1,20 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { Ban, Shield, Eye, ChevronLeft, ChevronRight, Settings } from 'lucide-react';
 import { useAuthStore } from '@/features/auth';
-import { useUserCache } from '../store/userCacheStore';
-import { useLoadingStore } from '../store/loadingStore';
+import { useUserCache } from '@/store/userCacheStore';
+import { useLoadingStore } from '@/store/loadingStore';
 import { BlockOptions } from '@shared/types';
-import { usePostStore } from '../store';
-import { ConfirmDialog } from '../components/ui';
-import { CONFIRM_MESSAGES } from '../constants';
-import { userService } from '../services/userService';
-import { toast } from '../store/toastStore';
-import { TOAST_MESSAGES } from '../constants';
-import PrivacySection from '../components/settings/PrivacySection';
-import SecuritySection from '../components/settings/SecuritySection';
-import BlockedUsersSection, { BlockedUserWithOptions } from '../components/settings/BlockedUsersSection';
-import ChangePasswordModal from '../components/settings/ChangePasswordModal';
-import { BlockOptionsModal } from '../components/ui/BlockOptionsModal';
+import { usePostStore } from '@/store';
+import { ConfirmDialog } from '@/components/ui';
+import { CONFIRM_MESSAGES } from '@/constants';
+import { userService } from '@/services/userService';
+import { toast } from '@/store/toastStore';
+import { TOAST_MESSAGES } from '@/constants';
+import PrivacySection from './settings/PrivacySection';
+import SecuritySection from './settings/SecuritySection';
+import BlockedUsersSection, { BlockedUserWithOptions } from './settings/BlockedUsersSection';
+import ChangePasswordModal from './settings/ChangePasswordModal';
+import { BlockOptionsModal } from '@/components/ui/BlockOptionsModal';
 
 type SettingSection = 'privacy' | 'security' | 'blocked';
 

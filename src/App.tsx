@@ -15,7 +15,7 @@ import ChatPage from './pages/ChatPage';
 const FeedPage = React.lazy(() => import('./pages/FeedPage'));
 const ContactsPage = React.lazy(() => import('./pages/ContactsPage'));
 const ProfilePage = React.lazy(() => import('./pages/ProfilePage'));
-const SettingsPage = React.lazy(() => import('./pages/SettingsPage'));
+const SettingsPage = React.lazy(() => import('@/features/settings/components/SettingsPage'));
 const NotificationsPage = React.lazy(() => import('@/features/notification/components/NotificationsPage'));
 const BannedPage = React.lazy(() => import('./pages/BannedPage'));
 const EmailVerificationPage = React.lazy(() => import('@/features/auth/components/EmailVerificationPage'));

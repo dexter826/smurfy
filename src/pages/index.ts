@@ -6,6 +6,5 @@ export { default as ContactsPage } from './ContactsPage';
 export { default as FeedPage } from './FeedPage';
 export { MobileMenuPage } from './MobileMenuPage';
 export { default as ProfilePage } from './ProfilePage';
-export { default as SettingsPage } from './SettingsPage';
 export { default as NotFoundPage } from './NotFoundPage';
 
