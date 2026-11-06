@@ -5,4 +5,4 @@ export { notificationService } from './notificationService';
 export { postService } from './postService';
 export { reportService } from './reportService';
 export { userService } from './userService';
-export { presenceService } from './presenceService';
+export { presenceService } from '@/features/presence';

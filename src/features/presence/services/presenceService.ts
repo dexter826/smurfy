@@ -10,7 +10,7 @@ import {
 import { presenceRef, presencesRef } from '@/lib/firebase/rtdb';
 import { auth } from '@/lib/firebase/config';
 import { RtdbPresence } from '@shared/types';
-import { userService } from './userService';
+import { userService } from '@/services/userService';
 
 export const presenceService = {
     /** Đặt trạng thái online */

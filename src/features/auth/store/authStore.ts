@@ -17,7 +17,7 @@ const DEFAULT_SETTINGS: UserSettings = {
   createdAt: Timestamp.now(),
   updatedAt: Timestamp.now(),
 };
-import { presenceService } from "@/services/presenceService";
+import { presenceService } from "@/features/presence";
 import { resetAllStores } from "@/store/storeUtils";
 import { useUserCache } from "@/store/userCacheStore";
 import { useLoadingStore } from "@/store/loadingStore";

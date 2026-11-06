@@ -7,7 +7,7 @@ import { Loading, ToastContainer, ConnectionStatus, ErrorBoundary, SplashScreen 
 import { ReportModal } from './components/ui/ReportModal';
 import { AdminLayout } from './components/layout/AdminLayout';
 import { ProtectedRoute } from './components/layout/ProtectedRoute';
-import { useSelfPresence } from './hooks/useSelfPresence';
+import { useSelfPresence } from '@/features/presence';
 import { useNotifications } from './hooks/useNotifications';
 import LoginPage from '@/features/auth/components/LoginPage';
 import ChatPage from './pages/ChatPage';

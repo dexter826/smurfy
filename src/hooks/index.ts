@@ -11,7 +11,7 @@ export { useProfile } from './useProfile';
 export { useUserPosts } from './useUserPosts';
 export { useAdminReports } from './useAdminReports';
 export { useLoading } from './useLoading';
-export { usePresence } from './usePresence';
+export { usePresence } from '@/features/presence';
 export { useFilteredReactions } from './useFilteredReactions';
 export { usePostNavigation } from './usePostNavigation';
 export { useLinkPreview } from './useLinkPreview';

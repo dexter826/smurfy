@@ -85,5 +85,5 @@ export const usePresenceStore = create<PresenceState>()((set, get) => ({
   }
 }));
 
-import { registerStore } from './storeUtils';
+import { registerStore } from '@/store/storeUtils';
 registerStore(() => usePresenceStore.getState().reset());

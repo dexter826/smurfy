@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo } from 'react';
 import { getInitials, getAvatarGradient } from '../../utils';
 import { User, MediaObject } from '@shared/types';
-import { usePresence } from '../../hooks/usePresence';
+import { usePresence } from '@/features/presence';
 import { useAuthStore } from '@/features/auth';
 import { useContactStore } from '../../store/contactStore';
 import { useUserCache } from '../../store/userCacheStore';
