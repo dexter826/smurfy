@@ -54,5 +54,5 @@ export const useCallStore = create<CallState>((set) => ({
   /** Đặt lại toàn bộ trạng thái */
   reset: () => set(initialState),
 }));
-import { registerStore } from './storeUtils';
+import { registerStore } from '@/store/storeUtils';
 registerStore(() => useCallStore.getState().reset());

@@ -1,7 +1,7 @@
 import { useRef, useCallback } from 'react';
 
-import connectedSound from '../../assets/sounds/connected.mp3';
-import endedSound from '../../assets/sounds/ended.mp3';
+import connectedSound from '@/assets/sounds/connected.mp3';
+import endedSound from '@/assets/sounds/ended.mp3';
 
 export type CallSoundType = 'connected' | 'ended';
 

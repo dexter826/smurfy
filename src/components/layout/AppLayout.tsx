@@ -19,7 +19,7 @@ import { useNotificationStore } from '@/features/notification';
 import { NotificationDropdown } from '@/features/notification';
 import { useUnreadCount } from '../../hooks/utils/useUnreadCount';
 import { useLogout } from '../../hooks/utils/useLogout';
-import { useCallStore } from '../../store/callStore';
+import { useCallStore } from '@/features/call';
 import { useCallManager } from '@/features/chat';
 import { IncomingCallDialog } from '@/features/chat';
 import { OutgoingCallDialog } from '@/features/chat';

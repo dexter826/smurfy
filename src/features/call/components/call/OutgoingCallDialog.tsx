@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { PhoneOff, PhoneMissed, X } from 'lucide-react';
 import { UserAvatar } from '@/components/ui';
-import { CallEndReason } from '@/store/callStore';
-import waitRingSound from '../../../assets/sounds/wait_ring.mp3';
+import { CallEndReason } from '../../store/callStore';
+import waitRingSound from '@/assets/sounds/wait_ring.mp3';
 
 interface OutgoingCallDialogProps {
   calleeName: string;

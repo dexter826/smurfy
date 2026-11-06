@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { Phone, PhoneOff, Video } from 'lucide-react';
 import { UserAvatar } from '@/components/ui';
-import ringSound from '../../../assets/sounds/ring.mp3';
+import ringSound from '@/assets/sounds/ring.mp3';
 
 interface IncomingCallDialogProps {
   callerName: string;

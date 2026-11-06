@@ -1,7 +1,7 @@
 import { useEffect, useCallback, useRef } from 'react';
-import { useCallStore } from '@/store/callStore';
+import { useCallStore } from '../store/callStore';
 import { useCallSounds } from './useCallSounds';
-import { rtdbCallService } from '../../services/chat/rtdbCallService';
+import { rtdbCallService } from '../services/rtdbCallService';
 import { useRtdbChatStore } from '@/store';
 
 export function useCallManager(currentUserId: string) {
