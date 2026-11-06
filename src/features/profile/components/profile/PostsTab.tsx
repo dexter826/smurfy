@@ -1,9 +1,9 @@
 import React, { useState, useCallback } from 'react';
 import { Post, User, Visibility, MediaObject } from '@shared/types';
-import { PostItem, CreatePost, PostModal } from '../feed';
-import { ConfirmDialog, EmptyState } from '../ui';
-import { usePostStore } from '../../store';
-import { useUserPosts, useIntersectionObserver } from '../../hooks';
+import { PostItem, CreatePost, PostModal } from '@/components/feed';
+import { ConfirmDialog, EmptyState } from '@/components/ui';
+import { usePostStore } from '@/store';
+import { useUserPosts, useIntersectionObserver } from '@/hooks';
 import { FileText } from 'lucide-react';
 
 interface PostsTabProps {

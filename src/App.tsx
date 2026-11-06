@@ -14,7 +14,7 @@ import ChatPage from './pages/ChatPage';
 
 const FeedPage = React.lazy(() => import('./pages/FeedPage'));
 const ContactsPage = React.lazy(() => import('@/features/friend/components/ContactsPage'));
-const ProfilePage = React.lazy(() => import('./pages/ProfilePage'));
+const ProfilePage = React.lazy(() => import('@/features/profile/components/ProfilePage'));
 const SettingsPage = React.lazy(() => import('@/features/settings/components/SettingsPage'));
 const NotificationsPage = React.lazy(() => import('@/features/notification/components/NotificationsPage'));
 const BannedPage = React.lazy(() => import('./pages/BannedPage'));
@@ -60,7 +60,7 @@ const App: React.FC = () => {
     
     if (typeof window !== 'undefined') {
       import('./pages/FeedPage').catch(() => {});
-      import('./pages/ProfilePage').catch(() => {});
+      import('@/features/profile/components/ProfilePage').catch(() => {});
       import('@/features/friend/components/ContactsPage').catch(() => {});
     }
 

@@ -1,10 +1,10 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { User, UserStatus, FriendRequest, FriendStatus } from '@shared/types';
 import { friendService } from '@/features/friend';
-import { toast } from '../../store/toastStore';
-import { useFriendIds } from '../utils';
-import { usePostStore } from '../../store';
-import { TOAST_MESSAGES } from '../../constants';
+import { toast } from '@/store/toastStore';
+import { useFriendIds } from '@/hooks/utils';
+import { usePostStore } from '@/store';
+import { TOAST_MESSAGES } from '@/constants';
 
 interface UseProfileFriendProps {
   currentUser: User | null;

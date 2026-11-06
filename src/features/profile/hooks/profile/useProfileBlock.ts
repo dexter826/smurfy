@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { User, BlockOptions } from '@shared/types';
 import { useAuthStore } from '@/features/auth';
-import { userService } from '../../services/userService';
-import { toast } from '../../store/toastStore';
-import { TOAST_MESSAGES } from '../../constants';
-import { usePostStore } from '../../store';
+import { userService } from '@/services/userService';
+import { toast } from '@/store/toastStore';
+import { TOAST_MESSAGES } from '@/constants';
+import { usePostStore } from '@/store';
 import { doc, onSnapshot } from 'firebase/firestore';
 import { db } from '@/lib/firebase/config';
 

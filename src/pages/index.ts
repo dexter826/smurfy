@@ -4,6 +4,5 @@ export { default as BannedPage } from './BannedPage';
 export { default as ChatPage } from './ChatPage';
 export { default as FeedPage } from './FeedPage';
 export { MobileMenuPage } from './MobileMenuPage';
-export { default as ProfilePage } from './ProfilePage';
 export { default as NotFoundPage } from './NotFoundPage';
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Skeleton } from '../ui/Skeleton';
+import { Skeleton } from '@/components/ui/Skeleton';
 
 export const ProfileSkeleton: React.FC = () => (
   <div className="h-full w-full overflow-y-auto bg-bg-secondary animate-fade-in">

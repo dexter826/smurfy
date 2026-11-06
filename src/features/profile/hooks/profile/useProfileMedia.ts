@@ -1,12 +1,12 @@
 import { useState, useCallback } from 'react';
 import { User, MediaObject, Visibility, PostType } from '@shared/types';
 import { useAuthStore } from '@/features/auth';
-import { userService } from '../../services/userService';
-import { systemPostService } from '../../services/systemPostService';
-import { useUserCache } from '../../store/userCacheStore';
-import { toast } from '../../store/toastStore';
-import { validateFile } from '../../utils';
-import { TOAST_MESSAGES } from '../../constants';
+import { userService } from '@/services/userService';
+import { systemPostService } from '@/services/systemPostService';
+import { useUserCache } from '@/store/userCacheStore';
+import { toast } from '@/store/toastStore';
+import { validateFile } from '@/utils';
+import { TOAST_MESSAGES } from '@/constants';
 
 interface UseProfileMediaProps {
   profile: User | null;

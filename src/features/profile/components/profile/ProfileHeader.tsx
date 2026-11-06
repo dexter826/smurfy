@@ -5,12 +5,12 @@ import {
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { User, ReportType, UserStatus, FriendStatus, Visibility } from '@shared/types';
-import { UserAvatar, Button, Dropdown, DropdownItem, ImageCropper, LazyImage, CircularProgress, CircularProgressOverlay } from '../ui';
-import { toast } from '../../store/toastStore';
+import { UserAvatar, Button, Dropdown, DropdownItem, ImageCropper, LazyImage, CircularProgress, CircularProgressOverlay } from '@/components/ui';
+import { toast } from '@/store/toastStore';
 import { useAuthStore } from '@/features/auth';
-import { useReportStore } from '../../store/reportStore';
+import { useReportStore } from '@/store/reportStore';
 import { BookUser } from 'lucide-react';
-import { validateFile } from '../../utils/uploadUtils';
+import { validateFile } from '@/utils/uploadUtils';
 
 interface ProfileHeaderProps {
   user: User;

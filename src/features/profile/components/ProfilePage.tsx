@@ -1,10 +1,10 @@
 import React, { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '@/features/auth';
-import { Button, ConfirmDialog, BlockOptionsModal } from '../components/ui';
-import { CONFIRM_MESSAGES } from '../constants';
-import { PostModal } from '../components/feed';
-import { usePostStore, useSharePostStore } from '../store';
+import { Button, ConfirmDialog, BlockOptionsModal } from '@/components/ui';
+import { CONFIRM_MESSAGES } from '@/constants';
+import { PostModal } from '@/components/feed';
+import { usePostStore, useSharePostStore } from '@/store';
 import { 
   ProfileHeader, 
   ProfileTabs, 
@@ -14,14 +14,14 @@ import {
   ProfileAboutCard, 
   ProfileMediaPreview,
   ProfileSkeleton
-} from '../components/profile';
+} from './profile';
 import { Lock } from 'lucide-react';
-import { useProfile, usePostNavigation } from '../hooks';
+import { useProfile, usePostNavigation } from '@/hooks';
 import { UserStatus, ReactionType, Visibility, MediaObject, PostType, PostStatus, Post } from '@shared/types';
 
 import { db } from '@/lib/firebase/config';
 import { collection, query, where, orderBy, limit, getDocs } from 'firebase/firestore';
-import { convertDoc } from '../utils/firebaseUtils';
+import { convertDoc } from '@/utils/firebaseUtils';
 
 type ConfirmType = 'unfriend' | 'deleteAvatar' | 'deleteCover';
 

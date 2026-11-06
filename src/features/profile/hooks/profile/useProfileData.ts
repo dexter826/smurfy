@@ -1,11 +1,11 @@
 import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { User, Post, MediaObject } from '@shared/types';
-import { useFriendIds } from '../utils';
-import { userService } from '../../services/userService';
-import { postService } from '../../services/postService';
-import { useUserCache } from '../../store/userCacheStore';
-import { usePostStore } from '../../store';
-import { getSafeMillis } from '../../utils/timestampHelpers';
+import { useFriendIds } from '@/hooks/utils';
+import { userService } from '@/services/userService';
+import { postService } from '@/services/postService';
+import { useUserCache } from '@/store/userCacheStore';
+import { usePostStore } from '@/store';
+import { getSafeMillis } from '@/utils/timestampHelpers';
 
 interface UseProfileDataProps {
   profileUserId: string | undefined;

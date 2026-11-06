@@ -1,6 +1,6 @@
 import React from 'react';
 import { MediaObject } from '@shared/types';
-import { SensitiveMediaGuard, EmptyState, MediaViewer } from '../ui';
+import { SensitiveMediaGuard, EmptyState, MediaViewer } from '@/components/ui';
 import { Image as ImageIcon } from 'lucide-react';
 
 interface ProfileMediaPreviewProps {

@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useCallback, useRef, useMemo } from 'react';
 import { MessageType, MediaObject } from '@shared/types';
-import { postService } from '../../services/postService';
-import { Skeleton, MediaViewer, LazyImage, SensitiveMediaGuard, EmptyState } from '../ui';
+import { postService } from '@/services/postService';
+import { Skeleton, MediaViewer, LazyImage, SensitiveMediaGuard, EmptyState } from '@/components/ui';
 import { Image as ImageIcon, Loader2, Play } from 'lucide-react';
 import { useAuthStore } from '@/features/auth';
-import { useFriendIds } from '../../hooks';
+import { useFriendIds } from '@/hooks';
 import { DocumentSnapshot } from 'firebase/firestore';
 
 const MEDIA_PAGE_SIZE = 15;
