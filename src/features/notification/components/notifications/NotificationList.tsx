@@ -1,9 +1,9 @@
 import React from 'react';
 import { BellOff } from 'lucide-react';
-import { EmptyState } from '../ui';
+import { EmptyState } from '@/components/ui';
 import { NotificationType } from '@shared/types';
 import { useNotificationStore } from '../../store/notificationStore';
-import { useLoadingStore } from '../../store/loadingStore';
+import { useLoadingStore } from '@/store/loadingStore';
 import { NotificationItem } from './NotificationItem';
 import { NotificationSkeleton } from './NotificationSkeleton';
 

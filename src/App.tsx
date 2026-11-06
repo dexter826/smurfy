@@ -8,7 +8,7 @@ import { ReportModal } from './components/ui/ReportModal';
 import { AdminLayout } from './components/layout/AdminLayout';
 import { ProtectedRoute } from './components/layout/ProtectedRoute';
 import { useSelfPresence } from '@/features/presence';
-import { useNotifications } from './hooks/useNotifications';
+import { useNotifications } from '@/features/notification';
 import LoginPage from '@/features/auth/components/LoginPage';
 import ChatPage from './pages/ChatPage';
 
@@ -16,7 +16,7 @@ const FeedPage = React.lazy(() => import('./pages/FeedPage'));
 const ContactsPage = React.lazy(() => import('./pages/ContactsPage'));
 const ProfilePage = React.lazy(() => import('./pages/ProfilePage'));
 const SettingsPage = React.lazy(() => import('./pages/SettingsPage'));
-const NotificationsPage = React.lazy(() => import('./pages/NotificationsPage'));
+const NotificationsPage = React.lazy(() => import('@/features/notification/components/NotificationsPage'));
 const BannedPage = React.lazy(() => import('./pages/BannedPage'));
 const EmailVerificationPage = React.lazy(() => import('@/features/auth/components/EmailVerificationPage'));
 const MobileMenuPage = React.lazy(() => import('./pages/MobileMenuPage'));

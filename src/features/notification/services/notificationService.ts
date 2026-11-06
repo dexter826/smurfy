@@ -19,8 +19,8 @@ import { getMessaging, getToken } from 'firebase/messaging';
 import { db } from '@/lib/firebase/config';
 import type { Notification } from '@shared/types';
 import { NotificationType } from '@shared/types';
-import { getValidatedEnvConfig } from '../utils/validateEnv';
-import { convertDocs } from '../utils/firebaseUtils';
+import { getValidatedEnvConfig } from '@/utils/validateEnv';
+import { convertDocs } from '@/utils/firebaseUtils';
 
 export const notificationService = {
   /** Theo dõi thông báo thời gian thực */

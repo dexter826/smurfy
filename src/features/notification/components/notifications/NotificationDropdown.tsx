@@ -2,10 +2,10 @@ import React, { useRef, useState, useLayoutEffect, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import { Bell } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { useClickOutside } from '../../hooks/utils';
+import { useClickOutside } from '@/hooks/utils';
 import { useNotificationStore } from '../../store/notificationStore';
 import { useAuthStore } from '@/features/auth';
-import { IconButton } from '../ui';
+import { IconButton } from '@/components/ui';
 import { NotificationList } from './NotificationList';
 
 const MENU_WIDTH = 380;

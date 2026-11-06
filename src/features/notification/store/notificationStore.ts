@@ -2,9 +2,9 @@ import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import { Notification } from '@shared/types';
 import { notificationService } from '../services/notificationService';
-import { PAGINATION } from '../constants/appConfig';
-import { useLoadingStore } from './loadingStore';
-import { toast } from './toastStore';
+import { PAGINATION } from '@/constants/appConfig';
+import { useLoadingStore } from '@/store/loadingStore';
+import { toast } from '@/store/toastStore';
 import { NotificationType } from '@shared/types';
 
 interface NotificationState {
@@ -207,5 +207,5 @@ export const useNotificationStore = create<NotificationState>()(
       unreadCount: state.unreadCount
     }),
   }));
-import { registerStore } from './storeUtils';
+import { registerStore } from '@/store/storeUtils';
 registerStore(() => useNotificationStore.getState().reset());

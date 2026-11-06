@@ -1,8 +1,8 @@
 import { useEffect, useRef } from 'react';
 import { notificationService } from '../services/notificationService';
 import { useAuthStore } from '@/features/auth';
-import { useRtdbChatStore } from '../store/rtdbChatStore';
-import { soundManager } from '../services/soundManager';
+import { useRtdbChatStore } from '@/store/rtdbChatStore';
+import { soundManager } from '@/services/soundManager';
 
 export const useNotifications = () => {
     const { user } = useAuthStore();

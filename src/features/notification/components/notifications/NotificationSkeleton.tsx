@@ -1,5 +1,5 @@
 import React from 'react';
-import { Skeleton } from '../ui';
+import { Skeleton } from '@/components/ui';
 
 export const NotificationSkeleton: React.FC = () => (
   <div className="p-2 space-y-1.5">

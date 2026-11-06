@@ -1,13 +1,13 @@
 import React, { useEffect, useCallback } from 'react';
 import { Trash2, Bell, ShieldAlert, Check } from 'lucide-react';
-import { formatRelativeTime, formatDateTime } from '../../utils/dateUtils';
+import { formatRelativeTime, formatDateTime } from '@/utils/dateUtils';
 import { Notification, NotificationType } from '@shared/types';
-import { UserAvatar, Skeleton } from '../ui';
+import { UserAvatar, Skeleton } from '@/components/ui';
 import { notificationService } from '../../services/notificationService';
 import { useNavigate } from 'react-router-dom';
 import { useNotificationStore } from '../../store/notificationStore';
 import { useAuthStore } from '@/features/auth';
-import { useUserCache } from '../../store/userCacheStore';
+import { useUserCache } from '@/store/userCacheStore';
 
 interface NotificationItemProps {
   notification: Notification;
