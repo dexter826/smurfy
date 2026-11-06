@@ -3,7 +3,7 @@ import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { Shield, Users, Flag, LogOut, Moon, Sun, ChevronLeft, LayoutDashboard, ShieldAlert } from 'lucide-react';
 import { useAuthStore } from '@/features/auth';
 import { useThemeStore } from '../../store/themeStore';
-import { ConfirmDialog, UserAvatar } from '../ui';
+import { ConfirmDialog, UserAvatar } from '@/components/ui';
 import { useLogout } from '../../hooks/utils/useLogout';
 
 const navItems = [

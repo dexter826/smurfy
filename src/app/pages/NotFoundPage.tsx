@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Home, ArrowLeft, FileQuestion } from 'lucide-react';
-import { Button } from '../components/ui';
+import { Button } from '@/components/ui';
 
 const NotFoundPage: React.FC = () => {
   const navigate = useNavigate();

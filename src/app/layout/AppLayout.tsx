@@ -6,7 +6,7 @@ import { useThemeStore } from '../../store/themeStore';
 import { useRtdbChatStore } from '../../store';
 import { useContactStore } from '@/features/friend';
 import { useLoadingStore } from '../../store/loadingStore';
-import { UserAvatar, ConfirmDialog, IconButton, Loading } from '../ui';
+import { UserAvatar, ConfirmDialog, IconButton, Loading } from '@/components/ui';
 import { ReactionType, Post } from '@shared/types';
 import { PostViewModal, PostModal } from '@/features/feed';
 import { SharePostModal, JoinGroupModal } from '@/features/chat';

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Lock, Mail, LogOut, AlertCircle, ShieldOff } from 'lucide-react';
 import { useAuthStore } from '@/features/auth';
-import { Button } from '../components/ui';
+import { Button } from '@/components/ui';
 import { notificationService } from '@/features/notification';
 
 const BannedPage: React.FC = () => {

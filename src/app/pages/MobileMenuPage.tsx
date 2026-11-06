@@ -2,9 +2,9 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { User as UserIcon, Settings, Moon, Sun, LogOut, ChevronRight, Shield } from 'lucide-react';
 import { useAuthStore } from '@/features/auth';
-import { useThemeStore } from '../store/themeStore';
-import { UserAvatar, ConfirmDialog } from '../components/ui';
-import { useLogout } from '../hooks/utils/useLogout';
+import { useThemeStore } from '@/store/themeStore';
+import { UserAvatar, ConfirmDialog } from '@/components/ui';
+import { useLogout } from '@/hooks/utils/useLogout';
 
 export const MobileMenuPage: React.FC = () => {
   const navigate = useNavigate();
