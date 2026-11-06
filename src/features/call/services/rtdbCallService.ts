@@ -2,7 +2,7 @@ import { ref, set, get, update, remove, onValue, off, onDisconnect } from 'fireb
 import { doc, getDoc } from 'firebase/firestore';
 import { rtdb, db } from '@/lib/firebase/config';
 import { RtdbCallSignaling } from '@shared/types';
-import { getServerSyncedNow } from '@/features/chat/services/chat/chatTime';
+import { getServerSyncedNow } from '@/features/chat';
 
 export const rtdbCallService = {
     initiateCall: async (

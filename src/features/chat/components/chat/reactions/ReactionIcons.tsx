@@ -1,13 +1,13 @@
 import React from 'react';
 import { ReactionType } from '@shared/types';
 
-import SVGLike from '../../../assets/icons/like.svg?react';
-import SVGLove from '../../../assets/icons/love.svg?react';
-import SVGHaha from '../../../assets/icons/haha.svg?react';
-import SVGWow from '../../../assets/icons/wow.svg?react';
-import SVGSad from '../../../assets/icons/sad.svg?react';
-import SVGAngry from '../../../assets/icons/angry.svg?react';
-import SVGCancel from '../../../assets/icons/cancel.svg?react';
+import SVGLike from '@/assets/icons/like.svg?react';
+import SVGLove from '@/assets/icons/love.svg?react';
+import SVGHaha from '@/assets/icons/haha.svg?react';
+import SVGWow from '@/assets/icons/wow.svg?react';
+import SVGSad from '@/assets/icons/sad.svg?react';
+import SVGAngry from '@/assets/icons/angry.svg?react';
+import SVGCancel from '@/assets/icons/cancel.svg?react';
 
 export interface ReactionIconProps extends React.SVGProps<SVGSVGElement> {
   size?: number | string;

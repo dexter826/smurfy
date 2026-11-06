@@ -7,7 +7,7 @@ import { User, Visibility } from '@shared/types';
 import { isBirthdayToday } from '@/utils/dateUtils';
 import { canViewField } from '@/utils/privacyUtils';
 import { useRtdbChatStore } from '@/features/chat';
-import { rtdbMessageService } from '@/features/chat/services/chat/rtdbMessageService';
+import { rtdbMessageService } from '@/features/chat';
 import { toast } from '@/store/toastStore';
 import { TOAST_MESSAGES } from '@/constants';
 import { Avatar } from '@/components/ui/Avatar';

@@ -9,3 +9,5 @@ export { CallWindow } from '@/features/call';
 export { getReactionIcon, IconCancel } from './components/chat/reactions/ReactionIcons';
 export { useConversationMemberSettings } from './hooks/chat/useConversationMemberSettings';
 export { useChatInput } from './hooks/chat/useChatInput';
+export { rtdbMessageService } from './services/chat/rtdbMessageService';
+export { getServerSyncedNow } from './services/chat/chatTime';
