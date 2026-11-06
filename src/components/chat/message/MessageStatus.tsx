@@ -1,6 +1,6 @@
 import React from 'react';
 import { Check, CheckCheck, AlertCircle } from 'lucide-react';
-import { User } from '../../../../shared/types';
+import { User } from '@shared/types';
 import { Avatar } from '../../ui';
 
 interface MessageStatusProps {

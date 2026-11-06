@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Search } from 'lucide-react';
 import { Modal, Input, Button, EmptyState } from '../../ui';
-import { RtdbMessage } from '../../../../shared/types';
+import { RtdbMessage } from '@shared/types';
 import { useRtdbChatStore } from '../../../store';
 import { useShareTargets } from '../../../hooks/chat';
 import { ShareTargetItem } from './ShareTargetItem';

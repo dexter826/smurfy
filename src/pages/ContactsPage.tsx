@@ -7,7 +7,7 @@ import { CONFIRM_MESSAGES, TOAST_MESSAGES } from '../constants';
 import { FriendRequestItem, FriendItem, AddFriendModal, SuggestionItem } from '../components/contacts';
 import { useAuthStore } from '../store/authStore';
 import { toast } from '../store/toastStore';
-import { BlockOptions, User } from '../../shared/types';
+import { BlockOptions, User } from '@shared/types';
 
 type Tab = 'all' | 'requests' | 'sent' | 'suggestions';
 

@@ -1,6 +1,6 @@
 import { ref, get, update, query, orderByChild, limitToLast } from 'firebase/database';
-import { rtdb } from '../../../firebase/config';
-import { RtdbMessage } from '../../../../shared/types';
+import { rtdb } from '@/lib/firebase/config';
+import { RtdbMessage } from '@shared/types';
 import { userService } from '../../userService';
 import { getRtdbServerTimestamp, getServerSyncedNow } from '../chatTime';
 

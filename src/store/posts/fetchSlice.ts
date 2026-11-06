@@ -4,7 +4,7 @@ import { postService } from '../../services/postService';
 import { PAGINATION } from '../../constants';
 import { useLoadingStore } from '../loadingStore';
 import { getSafeMillis } from '../../utils/timestampHelpers';
-import { Visibility, Post } from '../../../shared/types';
+import { Visibility, Post } from '@shared/types';
 
 export const createFetchSlice: StateCreator<PostStoreState, [], [], any> = (set, get) => ({
   posts: [],

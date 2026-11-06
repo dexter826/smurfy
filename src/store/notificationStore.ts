@@ -1,11 +1,11 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-import { Notification } from '../../shared/types';
+import { Notification } from '@shared/types';
 import { notificationService } from '../services/notificationService';
 import { PAGINATION } from '../constants/appConfig';
 import { useLoadingStore } from './loadingStore';
 import { toast } from './toastStore';
-import { NotificationType } from '../../shared/types';
+import { NotificationType } from '@shared/types';
 
 interface NotificationState {
   notifications: Notification[];

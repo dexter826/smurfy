@@ -1,4 +1,4 @@
-import { Post, Visibility, ReactionType, MediaObject } from '../../../shared/types';
+import { Post, Visibility, ReactionType, MediaObject } from '@shared/types';
 import { DocumentSnapshot } from 'firebase/firestore';
 
 export interface PostState {

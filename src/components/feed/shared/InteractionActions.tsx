@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Heart, MessageCircle, Send } from 'lucide-react';
 import { Button, ReactionSelector, ReactionDisplay } from '../../ui';
-import { ReactionType } from '../../../../shared/types';
+import { ReactionType } from '@shared/types';
 import { REACTION_LABELS } from '../../../constants';
 import { getReactionIcon } from '../../chat/reactions/ReactionIcons';
 import { getReactionColorClass, getReactionBgClass } from '../../../utils';

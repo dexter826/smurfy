@@ -16,9 +16,9 @@ import {
   serverTimestamp
 } from 'firebase/firestore';
 import { getMessaging, getToken } from 'firebase/messaging';
-import { db } from '../firebase/config';
-import type { Notification } from '../../shared/types';
-import { NotificationType } from '../../shared/types';
+import { db } from '@/lib/firebase/config';
+import type { Notification } from '@shared/types';
+import { NotificationType } from '@shared/types';
 import { getValidatedEnvConfig } from '../utils/validateEnv';
 import { convertDocs } from '../utils/firebaseUtils';
 

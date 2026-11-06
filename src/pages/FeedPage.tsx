@@ -5,7 +5,7 @@ import { PostItem, PostModal, CreatePost, FeedSkeleton, FriendSuggestionsWidget,
 import { useAuthStore } from '../store/authStore';
 import { useSharePostStore } from '../store';
 import { useLoadingStore } from '../store/loadingStore';
-import { Visibility, MediaObject, Post } from '../../shared/types';
+import { Visibility, MediaObject, Post } from '@shared/types';
 import { useFeed, usePostNavigation } from '../hooks';
 import { ConfirmDialog, EmptyState } from '../components/ui';
 import { useFriendIds } from '../hooks/utils';

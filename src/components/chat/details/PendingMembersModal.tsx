@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { User, RtdbConversation } from '../../../../shared/types';
+import { User, RtdbConversation } from '@shared/types';
 import { Modal, UserAvatar, ConfirmDialog, Button, EmptyState } from '../../ui';
 import { Check, X, Users } from 'lucide-react';
 import { CONFIRM_MESSAGES } from '../../../constants/confirmMessages';

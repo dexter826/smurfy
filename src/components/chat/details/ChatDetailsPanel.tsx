@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { X, Info, Users, Image, Search } from 'lucide-react';
-import { RtdbConversation, RtdbMessage, RtdbUserChat, User } from '../../../../shared/types';
+import { RtdbConversation, RtdbMessage, RtdbUserChat, User } from '@shared/types';
 import { IconButton } from '../../ui';
 import { ChatDetailsHeader } from './ChatDetailsHeader';
 import { ChatDetailsMemberList } from './ChatDetailsMemberList';

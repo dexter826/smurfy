@@ -1,4 +1,4 @@
-import { BlockOptions, BlockedUserEntry, UserStatus } from '../../shared/types';
+import { BlockOptions, BlockedUserEntry, UserStatus } from '@shared/types';
 
 export const isFullyBlocked = (options?: BlockOptions): boolean => {
   if (!options) return false;

@@ -1,5 +1,5 @@
 import React from 'react';
-import { MediaObject } from '../../../shared/types';
+import { MediaObject } from '@shared/types';
 import { SensitiveMediaGuard, EmptyState, MediaViewer } from '../ui';
 import { Image as ImageIcon } from 'lucide-react';
 

@@ -1,5 +1,5 @@
 import { useEffect, useCallback, RefObject } from 'react';
-import { Post, User, Visibility, ReactionType } from '../../shared/types';
+import { Post, User, Visibility, ReactionType } from '@shared/types';
 import { useAuthStore } from '../store/authStore';
 import { usePostStore } from '../store';
 import { useUserCache } from '../store/userCacheStore';

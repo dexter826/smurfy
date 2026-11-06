@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { Users, Search, Lock, Unlock, Eye } from 'lucide-react';
-import { User, UserStatus } from '../../../shared/types';
+import { User, UserStatus } from '@shared/types';
 import { userService } from '../../services/userService';
-import { functions } from '../../firebase/config';
+import { functions } from '@/lib/firebase/config';
 import { httpsCallable } from 'firebase/functions';
 import { UserAvatar, Skeleton, IconButton, Select, ConfirmDialog, EmptyState } from '../ui';
 import { CONFIRM_MESSAGES, TOAST_MESSAGES } from '../../constants';

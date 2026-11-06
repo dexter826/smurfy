@@ -1,5 +1,5 @@
 import React from 'react';
-import { RtdbMessage, MessageType } from '../../../../shared/types';
+import { RtdbMessage, MessageType } from '@shared/types';
 import { parseSharedPostMessage } from '../../../utils/postShareMessage';
 import { 
   TextMessage, ImageMessage, VideoMessage, GifMessage, 

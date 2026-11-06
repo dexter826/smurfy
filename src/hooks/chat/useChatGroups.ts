@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { MediaObject } from '../../../shared/types';
+import { MediaObject } from '@shared/types';
 import { useRtdbChatStore } from '../../store';
 import { toast } from '../../store/toastStore';
 import { TOAST_MESSAGES } from '../../constants';

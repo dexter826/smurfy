@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-import { User, FriendRequest, FriendRequestStatus } from '../../shared/types';
+import { User, FriendRequest, FriendRequestStatus } from '@shared/types';
 import { Timestamp } from 'firebase/firestore';
 import { userService } from '../services/userService';
 import { friendService } from '../services/friendService';

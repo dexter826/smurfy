@@ -2,7 +2,7 @@ export { useScrollLock } from './useScrollLock';
 export { useMediaQuery, useIsMobile } from './useMediaQuery';
 export { useIntersectionObserver } from './useIntersectionObserver';
 export { useConnectionStatus } from './useConnectionStatus';
-export { useBlockedUsers } from './useBlockedUsers';
+export { useBlockedUsers } from '@/lib/block/useBlockedUsers';
 export { useFriendIds } from './useFriendIds';
 export { useUnreadCount } from './useUnreadCount';
 export { useLogout } from './useLogout';

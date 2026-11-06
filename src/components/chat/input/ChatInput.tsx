@@ -10,7 +10,7 @@ import { useLinkPreview } from '../../../hooks/useLinkPreview';
 import { useChatInput } from '../../../hooks/chat/useChatInput';
 import { insertTextAtCursor } from '../../../utils';
 import { VALIDATION } from '../../../constants';
-import { RtdbMessage, User } from '../../../../shared/types';
+import { RtdbMessage, User } from '@shared/types';
 import { LinkPreviewCard } from '../../shared/LinkPreviewCard';
 import { getMessageDisplayContent } from '../../../utils/chatUtils';
 

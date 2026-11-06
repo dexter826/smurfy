@@ -15,12 +15,12 @@ import {
   arrayRemove
 } from 'firebase/firestore';
 import { httpsCallable } from 'firebase/functions';
-import { db, functions } from '../firebase/config';
-import { FriendRequest, FriendRequestStatus, User, UserStatus } from '../../shared/types';
+import { db, functions } from '@/lib/firebase/config';
+import { FriendRequest, FriendRequestStatus, User, UserStatus } from '@shared/types';
 import { convertDoc, convertDocs } from '../utils/firebaseUtils';
 import { batchGetUsers } from '../utils/batchUtils';
 import { userService } from './userService';
-import { isFullyBlocked } from '../utils/blockUtils';
+import { isFullyBlocked } from '@/lib/block/blockUtils';
 import { useUserCache } from '../store/userCacheStore';
 
 /** Dịch vụ quản lý bạn bè */

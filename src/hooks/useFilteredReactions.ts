@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo, useRef } from 'react';
 import { collection, onSnapshot, query, orderBy } from 'firebase/firestore';
-import { db } from '../firebase/config';
-import { ReactionType } from '../../shared/types';
+import { db } from '@/lib/firebase/config';
+import { ReactionType } from '@shared/types';
 import { useAuthStore } from '../store/authStore';
 import { useReactionStore } from '../store/reactionStore';
 

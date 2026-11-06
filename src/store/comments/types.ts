@@ -1,4 +1,4 @@
-import { Comment, ReactionType, MediaObject } from '../../../shared/types';
+import { Comment, ReactionType, MediaObject } from '@shared/types';
 import { DocumentSnapshot } from 'firebase/firestore';
 
 export interface CommentState {

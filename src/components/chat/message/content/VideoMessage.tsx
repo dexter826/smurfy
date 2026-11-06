@@ -1,5 +1,5 @@
 import React from 'react';
-import { RtdbMessage } from '../../../../../shared/types';
+import { RtdbMessage } from '@shared/types';
 import { LazyVideo, CircularProgressOverlay, SensitiveMediaGuard } from '../../../ui';
 
 interface VideoMessageProps {

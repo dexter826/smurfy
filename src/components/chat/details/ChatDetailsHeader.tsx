@@ -1,5 +1,5 @@
 import React from 'react';
-import { User, UserStatus, RtdbConversation, RtdbUserChat } from '../../../../shared/types';
+import { User, UserStatus, RtdbConversation, RtdbUserChat } from '@shared/types';
 import { UserAvatar, Avatar, UserStatusText, BannedBadge } from '../../ui';
 
 interface ChatDetailsHeaderProps {

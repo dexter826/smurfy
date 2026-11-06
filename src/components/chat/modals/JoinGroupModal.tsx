@@ -1,6 +1,6 @@
 import React from 'react';
 import { Users, ShieldCheck, Clock } from 'lucide-react';
-import { MediaObject } from '../../../../shared/types';
+import { MediaObject } from '@shared/types';
 import { Modal, Button, Avatar } from '../../ui';
 
 interface JoinGroupModalProps {

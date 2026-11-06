@@ -3,7 +3,7 @@ import {
   Pin, VolumeX, Trash2, MoreVertical, Ban, Archive,
   Volume2, User as UserIcon, MessageSquare,
 } from 'lucide-react';
-import { RtdbConversation, RtdbUserChat, ReactionType, UserStatus } from '../../../../shared/types';
+import { RtdbConversation, RtdbUserChat, ReactionType, UserStatus } from '@shared/types';
 import { Dropdown, DropdownItem, ConfirmDialog, UserAvatar, IconButton, BannedBadge } from '../../ui';
 import { useConversationItem } from '../../../hooks/chat/useConversationItem';
 import { useConversationMemberSettings } from '../../../hooks/chat/useConversationMemberSettings';

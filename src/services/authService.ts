@@ -12,7 +12,7 @@ import {
   browserLocalPersistence,
   browserSessionPersistence
 } from 'firebase/auth';
-import { auth } from '../firebase/config';
+import { auth } from '@/lib/firebase/config';
 
 export const authService = {
   /** Đăng nhập hệ thống */

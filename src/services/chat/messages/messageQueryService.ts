@@ -1,6 +1,6 @@
 import { ref, get, query, orderByChild, limitToLast, endBefore, onChildAdded, onChildChanged, onChildRemoved, off } from 'firebase/database';
-import { rtdb } from '../../../firebase/config';
-import { RtdbMessage } from '../../../../shared/types';
+import { rtdb } from '@/lib/firebase/config';
+import { RtdbMessage } from '@shared/types';
 
 export const messageQueryService = {
     subscribeToMessages: (

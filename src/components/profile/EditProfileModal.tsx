@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Timestamp } from 'firebase/firestore';
 import { X } from 'lucide-react';
-import { User, Gender, MaritalStatus, Generation, GENDER_LABELS, MARITAL_STATUS_LABELS } from '../../../shared/types';
+import { User, Gender, MaritalStatus, Generation, GENDER_LABELS, MARITAL_STATUS_LABELS } from '@shared/types';
 import { Button, Input, TextArea, Select, DatePicker, Modal, SearchableSelect } from '../ui';
 import type { SearchableOption } from '../ui/SearchableSelect';
 import { toDate } from '../../utils/dateUtils';
@@ -13,7 +13,7 @@ import { profileSchema, ProfileFormValues } from '../../utils/validation';
 import { calculateGeneration } from '../../utils/userUtils';
 import schoolsData from '../../assets/data/schools.json';
 import ProfilePrivacySelector from './ProfilePrivacySelector';
-import { Visibility, ProfilePrivacy } from '../../../shared/types';
+import { Visibility, ProfilePrivacy } from '@shared/types';
 
 interface EditProfileModalProps {
   user: User;

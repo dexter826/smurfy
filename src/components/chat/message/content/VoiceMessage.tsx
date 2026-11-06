@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import { Pause, Play, Mic } from 'lucide-react';
-import { RtdbMessage } from '../../../../../shared/types';
+import { RtdbMessage } from '@shared/types';
 import { useAudioStore } from '../../../../store/audioStore';
 import { CircularProgress } from '../../../ui';
 

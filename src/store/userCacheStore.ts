@@ -1,4 +1,4 @@
-import { User } from '../../shared/types';
+import { User } from '@shared/types';
 import { PAGINATION } from '../constants';
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';

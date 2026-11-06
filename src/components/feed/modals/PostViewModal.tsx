@@ -5,7 +5,7 @@ import {
   UserAvatar, IconButton, Modal, Dropdown, DropdownItem,
   Skeleton, ReactionDetailsModal, MediaViewer, SensitiveMediaGuard,
 } from '../../ui';
-import { Post, User, ReportType, ReactionType, PostType, Visibility, PostStatus } from '../../../../shared/types';
+import { Post, User, ReportType, ReactionType, PostType, Visibility, PostStatus } from '@shared/types';
 import { CommentSection } from '../comment/CommentSection';
 import { formatRelativeTime, formatDateTime } from '../../../utils/dateUtils';
 import { useReportStore } from '../../../store/reportStore';

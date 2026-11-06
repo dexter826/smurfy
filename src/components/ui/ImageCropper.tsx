@@ -2,7 +2,7 @@ import React, { useState, useCallback, useRef } from 'react';
 import Cropper, { Area } from 'react-easy-crop';
 import { Modal, Button } from './index';
 import { ZoomIn, ZoomOut, RotateCcw, ImagePlus, Globe, Users, Lock, ChevronDown } from 'lucide-react';
-import { Visibility } from '../../../shared/types';
+import { Visibility } from '@shared/types';
 import { Dropdown, DropdownItem } from './index';
 import { getCroppedImg } from '../../utils/imageUtils';
 

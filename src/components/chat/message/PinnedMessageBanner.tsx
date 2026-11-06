@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { Pin, X, ChevronLeft, ChevronRight } from 'lucide-react';
-import { RtdbMessage } from '../../../../shared/types';
+import { RtdbMessage } from '@shared/types';
 import { getMessageDisplayContent } from '../../../utils/chatUtils';
 
 interface PinnedMessageBannerProps {

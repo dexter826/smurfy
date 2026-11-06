@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { MessageSquare } from 'lucide-react';
 import { BlockOptionsModal, ConfirmDialog, EmptyState } from '../components/ui';
-import { User } from '../../shared/types';
+import { User } from '@shared/types';
 import { useChat } from '../hooks';
 import { useLoadingStore } from '../store/loadingStore';
 import { useAuthStore } from '../store/authStore';

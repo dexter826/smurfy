@@ -3,7 +3,7 @@ import { LayoutDashboard, Users, Flag, Clock, AlertTriangle, ChevronRight } from
 import { useNavigate } from 'react-router-dom';
 import { userService } from '../../services/userService';
 import { reportService } from '../../services/reportService';
-import { Report, User, ReportStatus } from '../../../shared/types';
+import { Report, User, ReportStatus } from '@shared/types';
 import { useAuthStore } from '../../store/authStore';
 import { Skeleton, UserAvatar, EmptyState } from '../ui';
 import { formatRelativeTime } from '../../utils/dateUtils';

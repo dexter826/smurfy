@@ -1,6 +1,6 @@
 import { ref, update, push } from 'firebase/database';
-import { rtdb } from '../../../firebase/config';
-import { RtdbMessage, MessageType, SharedPostMessagePayload, CallMessagePayload } from '../../../../shared/types';
+import { rtdb } from '@/lib/firebase/config';
+import { RtdbMessage, MessageType, SharedPostMessagePayload, CallMessagePayload } from '@shared/types';
 import { validateMessageContent, FileValidationError } from '../../../utils/fileValidation';
 import {
     ProgressWithId,

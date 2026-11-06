@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Search, Check, Loader2, UserPlus, Info } from 'lucide-react';
-import { User, RtdbConversation, RtdbUserChat } from '../../../../shared/types';
+import { User, RtdbConversation, RtdbUserChat } from '@shared/types';
 import { friendService } from '../../../services/friendService';
 import { Modal, Input, Button, UserAvatar, EmptyState } from '../../ui';
 import { GROUP_LIMITS } from '../../../constants';

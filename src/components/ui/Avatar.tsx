@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo } from 'react';
 import { getInitials, getAvatarGradient } from '../../utils';
-import { User, MediaObject } from '../../../shared/types';
+import { User, MediaObject } from '@shared/types';
 import { usePresence } from '../../hooks/usePresence';
 import { useAuthStore } from '../../store/authStore';
 import { useContactStore } from '../../store/contactStore';

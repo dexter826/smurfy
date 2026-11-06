@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { RtdbConversation, RtdbUserChat, ReportType, User, UserStatus } from '../../../../shared/types';
+import { RtdbConversation, RtdbUserChat, ReportType, User, UserStatus } from '@shared/types';
 import {
   Bell, BellOff, Pin, PinOff, Trash2, ChevronRight,
   Ban, LogOut, Edit3, User as UserIcon, Flag, Archive as ArchiveIcon,

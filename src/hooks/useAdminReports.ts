@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Report, ReportStatus, ReportType, User, UserRole } from '../../shared/types';
+import { Report, ReportStatus, ReportType, User, UserRole } from '@shared/types';
 import { reportService } from '../services/reportService';
 import { useAuthStore } from '../store/authStore';
 import { useUserCache } from '../store/userCacheStore';

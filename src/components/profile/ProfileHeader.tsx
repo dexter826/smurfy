@@ -4,7 +4,7 @@ import {
   Trash2, Pencil, Settings, MoreHorizontal, Flag, Ban, X, Image as ImageIcon,
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { User, ReportType, UserStatus, FriendStatus, Visibility } from '../../../shared/types';
+import { User, ReportType, UserStatus, FriendStatus, Visibility } from '@shared/types';
 import { UserAvatar, Button, Dropdown, DropdownItem, ImageCropper, LazyImage, CircularProgress, CircularProgressOverlay } from '../ui';
 import { toast } from '../../store/toastStore';
 import { useAuthStore } from '../../store/authStore';

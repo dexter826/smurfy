@@ -7,7 +7,7 @@ import { TOAST_MESSAGES, FILE_LIMITS, TIME_LIMITS, VALIDATION } from '../../cons
 import { validateFile } from '../../utils';
 import { formatMessageForSending } from '../../utils/chatUtils';
 import { FilePreviewItem } from '../../components/chat/input/FilePreview';
-import { User, RtdbMessage } from '../../../shared/types';
+import { User, RtdbMessage } from '@shared/types';
 
 interface UseChatInputProps {
   conversationId?: string;

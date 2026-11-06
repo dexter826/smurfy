@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { ZegoUIKitPrebuilt } from '@zegocloud/zego-uikit-prebuilt';
 import { httpsCallable } from 'firebase/functions';
-import { functions } from '../../../firebase/config';
+import { functions } from '@/lib/firebase/config';
 import { useUserCache } from '../../../store/userCacheStore';
 
 interface CallWindowProps {

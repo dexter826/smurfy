@@ -11,7 +11,7 @@ import { getFunctions, connectFunctionsEmulator } from "firebase/functions";
 import { connectAuthEmulator } from "firebase/auth";
 import { connectFirestoreEmulator } from "firebase/firestore";
 import { connectDatabaseEmulator } from "firebase/database";
-import { getValidatedEnvConfig } from "../utils/validateEnv";
+import { getValidatedEnvConfig } from "@/utils/validateEnv";
 
 const envConfig = getValidatedEnvConfig();
 

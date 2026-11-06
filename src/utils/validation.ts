@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { VALIDATION, GROUP_LIMITS, REPORT_CONFIG, MEDIA_CONSTRAINTS, USER_LIMITS, DATE_CONSTANTS } from '../constants/appConfig';
-import { ReportReason, Visibility, Gender, MaritalStatus, PostType, Generation } from '../../shared/types';
+import { ReportReason, Visibility, Gender, MaritalStatus, PostType, Generation } from '@shared/types';
 
 // Schema cho Đăng nhập
 export const loginSchema = z.object({

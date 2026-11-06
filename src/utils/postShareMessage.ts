@@ -1,4 +1,4 @@
-import { Post, PostType, SharedPostMessagePayload } from '../../shared/types';
+import { Post, PostType, SharedPostMessagePayload } from '@shared/types';
 
 export type SharedPostPayload = SharedPostMessagePayload;
 const SNIPPET_LIMIT = 140;

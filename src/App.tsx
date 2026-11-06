@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { useAuthStore } from './store/authStore';
-import { UserStatus } from '../shared/types';
+import { UserStatus } from '@shared/types';
 import { AppLayout } from './components/layout/AppLayout';
 import { Loading, ToastContainer, ConnectionStatus, ErrorBoundary, SplashScreen } from './components/ui';
 import { ReportModal } from './components/ui/ReportModal';

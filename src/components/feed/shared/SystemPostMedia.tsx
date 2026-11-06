@@ -1,5 +1,5 @@
 import React from 'react';
-import { PostType, MediaObject } from '../../../../shared/types';
+import { PostType, MediaObject } from '@shared/types';
 import { LazyImage } from '../../ui';
 
 interface SystemPostMediaProps {

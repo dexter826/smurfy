@@ -3,7 +3,7 @@ import { X, MessageCircle, ChevronDown, ListFilter } from 'lucide-react';
 import { Button, ConfirmDialog, UploadProgress, Dropdown, DropdownItem, EmptyState } from '../../ui';
 import { CONFIRM_MESSAGES, TOAST_MESSAGES } from '../../../constants';
 import { toast } from '../../../store/toastStore';
-import { Comment, User, ReportType, MediaObject } from '../../../../shared/types';
+import { Comment, User, ReportType, MediaObject } from '@shared/types';
 
 import { useCommentStore } from '../../../store';
 import { useUserCache } from '../../../store/userCacheStore';

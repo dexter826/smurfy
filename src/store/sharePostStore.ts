@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { Post } from '../../shared/types';
+import { Post } from '@shared/types';
 
 interface SharePostState {
   post: Post | null;

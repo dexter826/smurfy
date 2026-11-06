@@ -3,11 +3,11 @@ import { createPortal } from 'react-dom';
 import { Ban, MessageCircle, Phone, EyeOff, X, ChevronDown } from 'lucide-react';
 import { Button } from './Button';
 import { IconButton } from './IconButton';
-import { BlockOptions } from '../../../shared/types';
+import { BlockOptions } from '@shared/types';
 import { useScrollLock } from '../../hooks/utils/useScrollLock';
 import { useContactStore } from '../../store/contactStore';
 import { AlertTriangle } from 'lucide-react';
-import { isFullyBlocked } from '../../utils/blockUtils';
+import { isFullyBlocked } from '@/lib/block/blockUtils';
 
 interface BlockOptionsModalProps {
   isOpen: boolean;

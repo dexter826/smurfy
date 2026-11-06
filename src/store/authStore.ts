@@ -1,12 +1,12 @@
 import { create } from "zustand";
 import { onAuthStateChanged } from "firebase/auth";
 import { onSnapshot, doc, Timestamp } from 'firebase/firestore';
-import { auth, db } from "../firebase/config";
-import { User, BlockOptions, UserSettings, Visibility, Generation, MediaObject, UserStatus, UserRole } from "../../shared/types";
+import { auth, db } from "@/lib/firebase/config";
+import { User, BlockOptions, UserSettings, Visibility, Generation, MediaObject, UserStatus, UserRole } from "@shared/types";
 import { userService } from "../services/userService";
 import { authService } from "../services/authService";
 import { friendService } from "../services/friendService";
-import { isFullyBlocked } from "../utils/blockUtils";
+import { isFullyBlocked } from "@/lib/block/blockUtils";
 import { collection } from 'firebase/firestore';
 
 const DEFAULT_SETTINGS: UserSettings = {

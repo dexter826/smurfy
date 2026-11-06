@@ -18,9 +18,9 @@ import {
   deleteDoc,
   writeBatch
 } from 'firebase/firestore';
-import { db, functions } from '../firebase/config';
+import { db, functions } from '@/lib/firebase/config';
 import { httpsCallable } from 'firebase/functions';
-import { User, MediaObject, UserRole, UserStatus, BlockOptions, BlockedUserEntry, UserSettings, Visibility, PostType, Gender, MaritalStatus, Generation } from '../../shared/types';
+import { User, MediaObject, UserRole, UserStatus, BlockOptions, BlockedUserEntry, UserSettings, Visibility, PostType, Gender, MaritalStatus, Generation } from '@shared/types';
 import { systemPostService } from './systemPostService';
 import { SOCIAL_MESSAGES } from '../constants/socialMessages';
 import { batchGetUsers } from '../utils/batchUtils';

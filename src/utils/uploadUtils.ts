@@ -1,5 +1,5 @@
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
-import { storage } from '../firebase/config';
+import { storage } from '@/lib/firebase/config';
 import { FILE_LIMITS, FileLimitType, TOAST_MESSAGES } from '../constants';
 
 // Kiểm tra dung lượng và loại file hợp lệ

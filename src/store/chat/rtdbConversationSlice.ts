@@ -1,5 +1,5 @@
 import { StateCreator } from 'zustand';
-import { RtdbConversation, RtdbUserChat, User } from '../../../shared/types';
+import { RtdbConversation, RtdbUserChat, User } from '@shared/types';
 import { rtdbConversationService } from '../../services/chat/rtdbConversationService';
 import { friendService } from '../../services/friendService';
 import { useAuthStore } from '../authStore';

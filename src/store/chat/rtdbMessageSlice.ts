@@ -1,7 +1,7 @@
 import { StateCreator } from 'zustand';
 import { ref, onValue, get as dbGet } from 'firebase/database';
-import { rtdb } from '../../firebase/config';
-import { RtdbMessage, MessageType, SharedPostMessagePayload } from '../../../shared/types';
+import { rtdb } from '@/lib/firebase/config';
+import { RtdbMessage, MessageType, SharedPostMessagePayload } from '@shared/types';
 import { rtdbMessageService } from '../../services/chat/messages';
 import { useAuthStore } from '../authStore';
 import type { RtdbChatState } from '../rtdbChatStore';

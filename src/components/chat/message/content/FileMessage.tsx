@@ -1,6 +1,6 @@
 import React from 'react';
 import { FileText, Download, FileVideo, Archive, FileCode, FileType, Paperclip } from 'lucide-react';
-import { RtdbMessage } from '../../../../../shared/types';
+import { RtdbMessage } from '@shared/types';
 import { LazyImage, LazyVideo, CircularProgress, CircularProgressOverlay } from '../../../ui';
 import { downloadFile } from '../../../../utils';
 

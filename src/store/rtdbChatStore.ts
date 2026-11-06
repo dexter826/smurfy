@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-import { RtdbMessage } from '../../shared/types';
+import { RtdbMessage } from '@shared/types';
 import { PAGINATION } from '../constants';
 import {
     createRtdbMessageSlice,

@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { RtdbMessage, User, UserStatus, RtdbConversation, RtdbUserChat } from '../../../shared/types';
+import { RtdbMessage, User, UserStatus, RtdbConversation, RtdbUserChat } from '@shared/types';
 import { UserAvatar, EmptyState } from '../ui';
 import { MessageBubble } from './message/MessageBubble';
 import { useRtdbChatStore } from '../../store';

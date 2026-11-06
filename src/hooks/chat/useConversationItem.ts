@@ -1,7 +1,7 @@
 import { useMemo, useEffect, useState } from 'react';
 import { ref, onValue } from 'firebase/database';
-import { rtdb } from '../../firebase/config';
-import { RtdbConversation, RtdbUserChat, UserStatus, MessageType } from '../../../shared/types';
+import { rtdb } from '@/lib/firebase/config';
+import { RtdbConversation, RtdbUserChat, UserStatus, MessageType } from '@shared/types';
 import { formatChatTime } from '../../utils/dateUtils';
 import { useUserCache } from '../../store/userCacheStore';
 import { useRtdbChatStore } from '../../store';

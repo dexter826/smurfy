@@ -7,7 +7,7 @@ import {
   SensitiveMediaGuard, UploadProgress,
 } from '../../ui';
 import { CommentInput } from './CommentInput';
-import { Comment, User, ReactionType, ReportType, MediaObject, CommentStatus } from '../../../../shared/types';
+import { Comment, User, ReactionType, ReportType, MediaObject, CommentStatus } from '@shared/types';
 import { formatRelativeTime, formatDateTime } from '../../../utils/dateUtils';
 import { TruncatedText } from '../shared';
 import { useCommentStore } from '../../../store';

@@ -14,9 +14,11 @@
     "baseUrl": ".",
     "jsx": "react-jsx",
     "paths": {
+      "@shared/*": ["shared/*"],
       "@/*": ["src/*"]
     },
     "allowImportingTsExtensions": true,
     "noEmit": true
-  }
+  },
+  "exclude": ["functions"]
 }

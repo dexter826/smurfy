@@ -3,7 +3,7 @@ import { Ban, Shield, Eye, ChevronLeft, ChevronRight, Settings } from 'lucide-re
 import { useAuthStore } from '../store/authStore';
 import { useUserCache } from '../store/userCacheStore';
 import { useLoadingStore } from '../store/loadingStore';
-import { BlockOptions } from '../../shared/types';
+import { BlockOptions } from '@shared/types';
 import { usePostStore } from '../store';
 import { ConfirmDialog } from '../components/ui';
 import { CONFIRM_MESSAGES } from '../constants';

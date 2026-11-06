@@ -1,5 +1,5 @@
 import { useMemo, useEffect } from 'react';
-import { User } from '../../../shared/types';
+import { User } from '@shared/types';
 import { useUserCache } from '../../store/userCacheStore';
 
 export function useConversationParticipants(participantIds: string[]): User[] {

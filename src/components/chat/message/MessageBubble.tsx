@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Smile, RefreshCw, AlertCircle, Pin } from 'lucide-react';
-import { RtdbMessage, User, MessageType, UserStatus } from '../../../../shared/types';
+import { RtdbMessage, User, MessageType, UserStatus } from '@shared/types';
 import {
   UserAvatar, ReactionDisplay, ReactionSelector,
   Modal, UserStatusText, ConfirmDialog, MediaViewer, ReactionDetailsModal,

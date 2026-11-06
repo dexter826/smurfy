@@ -1,5 +1,5 @@
 import { ref, set, get } from 'firebase/database';
-import { rtdb } from '../../../firebase/config';
+import { rtdb } from '@/lib/firebase/config';
 
 export const messageReactionService = {
     toggleReaction: async (convId: string, msgId: string, uid: string, emoji: string | 'REMOVE'): Promise<void> => {

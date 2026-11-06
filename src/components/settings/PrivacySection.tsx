@@ -3,7 +3,7 @@ import { Eye, MessageCircle, Users, Lock, ChevronDown, Globe, CheckCheck, Messag
 import { useAuthStore } from '../../store/authStore';
 import { userService } from '../../services/userService';
 import { presenceService } from '../../services/presenceService';
-import { Visibility } from '../../../shared/types';
+import { Visibility } from '@shared/types';
 import { Skeleton, Dropdown, DropdownItem } from '../ui';
 import SettingItem from './SettingItem';
 import Toggle from './Toggle';

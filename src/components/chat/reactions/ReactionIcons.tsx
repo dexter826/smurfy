@@ -1,5 +1,5 @@
 import React from 'react';
-import { ReactionType } from '../../../../shared/types';
+import { ReactionType } from '@shared/types';
 
 import SVGLike from '../../../assets/icons/like.svg?react';
 import SVGLove from '../../../assets/icons/love.svg?react';

@@ -1,4 +1,4 @@
-import { User, Visibility, ProfilePrivacy } from '../../shared/types';
+import { User, Visibility, ProfilePrivacy } from '@shared/types';
 
 /**
  * Kiểm tra quyền xem một trường thông tin

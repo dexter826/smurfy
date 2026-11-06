@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { ChevronRight } from 'lucide-react';
 import { IconButton, LazyImage, SensitiveMediaGuard } from '../../ui';
-import { MediaObject } from '../../../../shared/types';
+import { MediaObject } from '@shared/types';
 
 interface MediaItem {
   url: string;

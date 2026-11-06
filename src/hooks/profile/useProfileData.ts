@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
-import { User, Post, MediaObject } from '../../../shared/types';
+import { User, Post, MediaObject } from '@shared/types';
 import { useFriendIds } from '../utils';
 import { userService } from '../../services/userService';
 import { postService } from '../../services/postService';

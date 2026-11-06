@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { RtdbCallSignaling } from '../../shared/types';
+import { RtdbCallSignaling } from '@shared/types';
 
 export type CallPhase = 'idle' | 'outgoing' | 'incoming' | 'in-call';
 export type CallEndReason = 'rejected' | 'busy' | null;

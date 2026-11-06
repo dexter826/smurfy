@@ -17,9 +17,9 @@ import {
 } from '../components/profile';
 import { Lock } from 'lucide-react';
 import { useProfile, usePostNavigation } from '../hooks';
-import { UserStatus, ReactionType, Visibility, MediaObject, PostType, PostStatus, Post } from '../../shared/types';
+import { UserStatus, ReactionType, Visibility, MediaObject, PostType, PostStatus, Post } from '@shared/types';
 
-import { db } from '../firebase/config';
+import { db } from '@/lib/firebase/config';
 import { collection, query, where, orderBy, limit, getDocs } from 'firebase/firestore';
 import { convertDoc } from '../utils/firebaseUtils';
 

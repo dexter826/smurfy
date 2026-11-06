@@ -1,6 +1,6 @@
 import React from 'react';
 import { PhoneIncoming, Phone, PhoneMissed, Video as VideoIcon } from 'lucide-react';
-import { RtdbMessage, CallMessagePayload } from '../../../../../shared/types';
+import { RtdbMessage, CallMessagePayload } from '@shared/types';
 
 interface CallMessageProps {
   message: { id: string; data: RtdbMessage };

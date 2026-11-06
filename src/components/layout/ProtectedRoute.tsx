@@ -1,7 +1,7 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
 import { useAuthStore } from '../../store/authStore';
-import { UserStatus, UserRole } from '../../../shared/types';
+import { UserStatus, UserRole } from '@shared/types';
 import { Loading } from '../ui';
 
 interface ProtectedRouteProps {

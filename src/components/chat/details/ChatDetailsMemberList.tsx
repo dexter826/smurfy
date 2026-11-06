@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { User, RtdbConversation, RtdbUserChat, UserStatus } from '../../../../shared/types';
+import { User, RtdbConversation, RtdbUserChat, UserStatus } from '@shared/types';
 import {
   UserAvatar, UserStatusText, Dropdown, DropdownItem,
   ConfirmDialog, IconButton,

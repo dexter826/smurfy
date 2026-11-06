@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { Users, Archive } from 'lucide-react';
-import { RtdbConversation, RtdbUserChat, User } from '../../../../shared/types';
+import { RtdbConversation, RtdbUserChat, User } from '@shared/types';
 import { ConversationItem } from './ConversationItem';
 import { SearchResults } from './SearchResults';
 import { Skeleton, EmptyState } from '../../ui';

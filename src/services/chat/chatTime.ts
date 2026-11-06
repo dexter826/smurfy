@@ -1,5 +1,5 @@
 import { onValue, ref, serverTimestamp } from 'firebase/database';
-import { rtdb } from '../../firebase/config';
+import { rtdb } from '@/lib/firebase/config';
 
 let serverOffsetMs = 0;
 let isInitialized = false;

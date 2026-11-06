@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { LogOut, Crown } from 'lucide-react';
-import { RtdbConversation, RtdbUserChat } from '../../../../shared/types';
+import { RtdbConversation, RtdbUserChat } from '@shared/types';
 import { Modal, Button, UserAvatar, Select } from '../../ui';
 import { useConversationParticipants } from '../../../hooks/chat/useConversationParticipants';
 

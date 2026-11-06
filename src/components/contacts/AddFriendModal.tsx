@@ -7,7 +7,7 @@ import { useAuthStore } from '../../store/authStore';
 import { useLoadingStore } from '../../store/loadingStore';
 import { useRtdbChatStore } from '../../store';
 import { toast } from '../../store/toastStore';
-import { User, FriendStatus } from '../../../shared/types';
+import { User, FriendStatus } from '@shared/types';
 import { TOAST_MESSAGES } from '../../constants';
 
 /**

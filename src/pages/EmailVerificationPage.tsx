@@ -6,7 +6,7 @@ import { Mail, RefreshCw, CheckCircle, ArrowLeft, ShieldCheck } from 'lucide-rea
 import { toast } from '../store/toastStore';
 import { TOAST_MESSAGES } from '../constants';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { auth } from '../firebase/config';
+import { auth } from '@/lib/firebase/config';
 import { AuthBrandingPanel } from '../components/layout/AuthBrandingPanel';
 
 const EmailVerificationPage: React.FC = () => {

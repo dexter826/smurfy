@@ -1,6 +1,6 @@
 import { doc, setDoc, collection, Timestamp, query, where, orderBy, limit, getDocs, updateDoc } from 'firebase/firestore';
-import { db } from '../firebase/config';
-import { Post, PostStatus, Visibility, PostType, MediaObject } from '../../shared/types';
+import { db } from '@/lib/firebase/config';
+import { Post, PostStatus, Visibility, PostType, MediaObject } from '@shared/types';
 
 /** Dịch vụ tạo bài viết hệ thống */
 export const systemPostService = {

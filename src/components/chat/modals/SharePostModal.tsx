@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Search, Play } from 'lucide-react';
 import { Modal, Input, Button, UserAvatar, EmptyState } from '../../ui';
-import { Post, Visibility } from '../../../../shared/types';
+import { Post, Visibility } from '@shared/types';
 import { useRtdbChatStore } from '../../../store';
 import { toast } from '../../../store/toastStore';
 import { TOAST_MESSAGES } from '../../../constants/toastMessages';

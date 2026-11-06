@@ -1,7 +1,7 @@
 import { ref, set, get, update, onValue, onChildRemoved, push, query, orderByChild, equalTo, serverTimestamp, remove } from 'firebase/database';
 import { httpsCallable } from 'firebase/functions';
-import { rtdb, functions } from '../../firebase/config';
-import { RtdbConversation, RtdbUserChat } from '../../../shared/types';
+import { rtdb, functions } from '@/lib/firebase/config';
+import { RtdbConversation, RtdbUserChat } from '@shared/types';
 import { TIME_LIMITS } from '../../constants';
 import { getRtdbServerTimestamp, getServerSyncedNow } from './chatTime';
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Check } from 'lucide-react';
 import { UserAvatar } from '../../ui';
-import { User, UserStatus } from '../../../../shared/types';
+import { User, UserStatus } from '@shared/types';
 import { useConversationParticipants } from '../../../hooks/chat/useConversationParticipants';
 import { ShareableEntry } from '../../../hooks/chat/useShareTargets';
 

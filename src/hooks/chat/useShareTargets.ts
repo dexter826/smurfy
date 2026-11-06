@@ -4,7 +4,7 @@ import { useUserCache } from '../../store/userCacheStore';
 import { useAuthStore } from '../../store/authStore';
 import { friendService } from '../../services/friendService';
 import { userService } from '../../services/userService';
-import { BlockOptions, RtdbConversation, RtdbUserChat, User, UserStatus } from '../../../shared/types';
+import { BlockOptions, RtdbConversation, RtdbUserChat, User, UserStatus } from '@shared/types';
 import { getDirectConversationId } from '../../utils/chatUtils';
 import { PAGINATION } from '../../constants';
 

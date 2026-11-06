@@ -1,6 +1,6 @@
 import { ref, set, get, update, push, increment } from 'firebase/database';
-import { rtdb } from '../../../firebase/config';
-import { RtdbMessage, RtdbConversation, MessageType } from '../../../../shared/types';
+import { rtdb } from '@/lib/firebase/config';
+import { RtdbMessage, RtdbConversation, MessageType } from '@shared/types';
 import { TIME_LIMITS } from '../../../constants';
 import { getConversationUpdatePaths, ensureConversationExists } from './messageHelpers';
 import { getRtdbServerTimestamp, getServerSyncedNow } from '../chatTime';

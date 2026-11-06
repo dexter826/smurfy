@@ -7,7 +7,7 @@ import {
 import {
   Report, ReportStatus, ReportType, User, UserStatus,
   Post, Comment, PostStatus, CommentStatus, PostType,
-} from '../../../shared/types';
+} from '@shared/types';
 import { reportService } from '../../services/reportService';
 import { userService } from '../../services/userService';
 import { postService } from '../../services/postService';

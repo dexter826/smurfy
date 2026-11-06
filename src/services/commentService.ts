@@ -19,8 +19,8 @@ import {
   DocumentData,
   onSnapshot
 } from 'firebase/firestore';
-import { db } from '../firebase/config';
-import { Comment, ReactionType, ReactionDoc, CommentStatus, MediaObject, UserStatus } from '../../shared/types'
+import { db } from '@/lib/firebase/config';
+import { Comment, ReactionType, ReactionDoc, CommentStatus, MediaObject, UserStatus } from '@shared/types'
 import { PAGINATION, IMAGE_COMPRESSION, STORAGE_PATHS } from '../constants';
 import { useAuthStore } from '../store/authStore';
 import { batchGetUsers } from '../utils/batchUtils';
@@ -28,7 +28,7 @@ import { compressImage } from '../utils/imageUtils';
 import { uploadWithProgress } from '../utils/uploadUtils';
 import { withRetry } from '../utils/retryUtils';
 import { convertDoc, convertDocs } from '../utils/firebaseUtils';
-import { filterBlockedItems } from '../utils/blockUtils';
+import { filterBlockedItems } from '@/lib/block/blockUtils';
 import {
   validateCommentContent,
   validateImageFile,

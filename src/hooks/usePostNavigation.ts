@@ -1,6 +1,6 @@
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useCallback } from 'react';
-import { Post } from '../../shared/types';
+import { Post } from '@shared/types';
 
 /** Điều hướng và quản lý trạng thái xem chi tiết bài viết */
 export const usePostNavigation = () => {

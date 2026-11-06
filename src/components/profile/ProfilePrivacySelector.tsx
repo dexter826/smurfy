@@ -1,5 +1,5 @@
 import React from 'react';
-import { Visibility } from '../../../shared/types';
+import { Visibility } from '@shared/types';
 import { Globe, Users, Lock } from 'lucide-react';
 
 interface ProfilePrivacySelectorProps {

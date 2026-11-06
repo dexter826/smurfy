@@ -1,7 +1,7 @@
 import React from 'react';
 import { Search, X, Clock } from 'lucide-react';
 import { Skeleton, Avatar, UserAvatar, EmptyState } from '../../ui';
-import { RtdbConversation, User, UserStatus, RtdbUserChat } from '../../../../shared/types';
+import { RtdbConversation, User, UserStatus, RtdbUserChat } from '@shared/types';
 import { useConversationParticipants } from '../../../hooks/chat/useConversationParticipants';
 
 interface SearchResultsProps {

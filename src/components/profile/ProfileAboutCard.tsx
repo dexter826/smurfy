@@ -4,7 +4,7 @@ import {
   Mail, Globe, Users as UsersIcon, Lock, Info
 } from 'lucide-react';
 import { EmptyState } from '../ui';
-import { Gender, MaritalStatus, User, Visibility, GENDER_LABELS, MARITAL_STATUS_LABELS } from '../../../shared/types';
+import { Gender, MaritalStatus, User, Visibility, GENDER_LABELS, MARITAL_STATUS_LABELS } from '@shared/types';
 import { toDate } from '../../utils/dateUtils';
 
 interface ProfileAboutCardProps {

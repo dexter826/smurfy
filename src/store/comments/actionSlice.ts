@@ -2,7 +2,7 @@ import { StateCreator } from 'zustand';
 import { CommentStoreState } from './types';
 import { commentService } from '../../services/commentService';
 import { useReactionStore } from '../reactionStore';
-import { Comment, CommentStatus, MediaObject } from '../../../shared/types';
+import { Comment, CommentStatus, MediaObject } from '@shared/types';
 import { Timestamp } from 'firebase/firestore';
 import { toast } from '../toastStore';
 import { TOAST_MESSAGES } from '../../constants';

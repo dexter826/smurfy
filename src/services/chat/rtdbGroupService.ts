@@ -1,7 +1,7 @@
 import { ref, get } from 'firebase/database';
 import { httpsCallable } from 'firebase/functions';
-import { rtdb, functions } from '../../firebase/config';
-import { RtdbConversation, MediaObject, MemberRole } from '../../../shared/types';
+import { rtdb, functions } from '@/lib/firebase/config';
+import { RtdbConversation, MediaObject, MemberRole } from '@shared/types';
 import { uploadWithProgress, UploadProgress, deleteStorageFile } from '../../utils/uploadUtils';
 import { compressImage } from '../../utils/imageUtils';
 import { IMAGE_COMPRESSION } from '../../constants';

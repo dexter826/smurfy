@@ -1,7 +1,7 @@
 import { ref, set, get, update, remove, onValue, off, onDisconnect } from 'firebase/database';
 import { doc, getDoc } from 'firebase/firestore';
-import { rtdb, db } from '../../firebase/config';
-import { RtdbCallSignaling } from '../../../shared/types';
+import { rtdb, db } from '@/lib/firebase/config';
+import { RtdbCallSignaling } from '@shared/types';
 import { getServerSyncedNow } from './chatTime';
 
 export const rtdbCallService = {

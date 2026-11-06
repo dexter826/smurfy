@@ -1,6 +1,6 @@
 import React, { useMemo, useCallback } from 'react';
 import { Image as ImageIcon } from 'lucide-react';
-import { RtdbMessage } from '../../../../../shared/types';
+import { RtdbMessage } from '@shared/types';
 import { LazyImage, CircularProgressOverlay, SensitiveMediaGuard } from '../../../ui';
 import { MessageTextContent } from './MessageTextContent';
 
