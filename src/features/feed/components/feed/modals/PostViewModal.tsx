@@ -6,7 +6,7 @@ import {
   Skeleton, ReactionDetailsModal, MediaViewer, SensitiveMediaGuard,
 } from '@/components/ui';
 import { Post, User, ReportType, ReactionType, PostType, Visibility, PostStatus } from '@shared/types';
-import { CommentSection } from '../comment/CommentSection';
+import { CommentSection } from '@/features/comment';
 import { formatRelativeTime, formatDateTime } from '@/utils/dateUtils';
 import { useReportStore } from '@/store/reportStore';
 import { useFriendIds, useFilteredReactions } from '@/hooks';

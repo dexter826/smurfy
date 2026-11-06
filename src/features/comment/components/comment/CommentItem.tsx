@@ -9,7 +9,7 @@ import {
 import { CommentInput } from './CommentInput';
 import { Comment, User, ReactionType, ReportType, MediaObject, CommentStatus } from '@shared/types';
 import { formatRelativeTime, formatDateTime } from '@/utils/dateUtils';
-import { TruncatedText } from '../shared';
+import { TruncatedText } from '@/features/feed';
 import { useCommentStore } from '@/store';
 import { useFriendIds, useFilteredReactions } from '@/hooks';
 import { REACTION_LABELS } from '@/constants';

@@ -3,7 +3,7 @@ export { useRtdbChatStore } from './rtdbChatStore';
 export { usePostStore } from '@/features/feed';
 export { useContactStore } from '@/features/friend';
 export { useNotificationStore } from '@/features/notification';
-export { useCommentStore } from './comments';
+export { useCommentStore } from '@/features/comment';
 export { useReportStore } from './reportStore';
 export { useSharePostStore } from '@/features/feed';
 export { useThemeStore } from './themeStore';

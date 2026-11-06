@@ -11,7 +11,7 @@ import {
 import { reportService } from '../../services/reportService';
 import { userService } from '../../services/userService';
 import { postService } from '@/features/feed';
-import { commentService } from '../../services/commentService';
+import { commentService } from '@/features/comment';
 import { Button, UserAvatar, Skeleton, IconButton, ConfirmDialog, MediaViewer, EmptyState } from '../ui';
 import { PostMediaGrid } from '@/features/feed';
 import { REPORT_CONFIG, TOAST_MESSAGES, CONFIRM_MESSAGES } from '../../constants';

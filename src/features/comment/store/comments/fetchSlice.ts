@@ -1,10 +1,10 @@
 import { StateCreator } from 'zustand';
 import { CommentStoreState } from './types';
 import { commentService } from '../../services/commentService';
-import { PAGINATION } from '../../constants';
+import { PAGINATION } from '@/constants';
 import { Comment } from '@shared/types';
 import { DocumentSnapshot } from 'firebase/firestore';
-import { getSafeMillis } from '../../utils/timestampHelpers';
+import { getSafeMillis } from '@/utils/timestampHelpers';
 
 const mergeOptimisticComments = (existing: Comment[], incoming: Comment[], sortOrder: 'asc' | 'desc') => {
   const mergedIds = new Set(incoming.map(c => c.id));

@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { CommentStoreState } from './types';
 import { createFetchSlice } from './fetchSlice';
 import { createActionSlice } from './actionSlice';
-import { registerStore } from '../storeUtils';
+import { registerStore } from '@/store/storeUtils';
 
 export const useCommentStore = create<CommentStoreState>()((...a) => ({
   ...createFetchSlice(...a),

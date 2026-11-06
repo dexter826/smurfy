@@ -1,5 +1,5 @@
 export { authService } from '@/features/auth';
-export { commentService } from './commentService';
+export { commentService } from '@/features/comment';
 export { friendService } from '@/features/friend';
 export { notificationService } from '@/features/notification';
 export { postService } from '@/features/feed';

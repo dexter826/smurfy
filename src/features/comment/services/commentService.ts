@@ -21,19 +21,19 @@ import {
 } from 'firebase/firestore';
 import { db } from '@/lib/firebase/config';
 import { Comment, ReactionType, ReactionDoc, CommentStatus, MediaObject, UserStatus } from '@shared/types'
-import { PAGINATION, IMAGE_COMPRESSION, STORAGE_PATHS } from '../constants';
+import { PAGINATION, IMAGE_COMPRESSION, STORAGE_PATHS } from '@/constants';
 import { useAuthStore } from '@/features/auth';
-import { batchGetUsers } from '../utils/batchUtils';
-import { compressImage } from '../utils/imageUtils';
-import { uploadWithProgress } from '../utils/uploadUtils';
-import { withRetry } from '../utils/retryUtils';
-import { convertDoc, convertDocs } from '../utils/firebaseUtils';
+import { batchGetUsers } from '@/utils/batchUtils';
+import { compressImage } from '@/utils/imageUtils';
+import { uploadWithProgress } from '@/utils/uploadUtils';
+import { withRetry } from '@/utils/retryUtils';
+import { convertDoc, convertDocs } from '@/utils/firebaseUtils';
 import { filterBlockedItems } from '@/lib/block/blockUtils';
 import {
   validateCommentContent,
   validateImageFile,
   FileValidationError
-} from '../utils/fileValidation';
+} from '@/utils/fileValidation';
 
 // Chuyển đổi document sang đối tượng Comment
 const commentConverter = (doc: DocumentSnapshot | QueryDocumentSnapshot<DocumentData>) => convertDoc<Comment>(doc);

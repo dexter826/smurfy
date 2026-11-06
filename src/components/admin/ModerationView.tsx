@@ -9,7 +9,7 @@ import { useUserCache } from '../../store/userCacheStore';
 import { formatRelativeTime } from '../../utils/dateUtils';
 import { toast } from '../../store/toastStore';
 import { postService } from '@/features/feed';
-import { commentService } from '../../services/commentService';
+import { commentService } from '@/features/comment';
 import { getSafeMillis } from '../../utils/timestampHelpers';
 
 const VIOLATION_WINDOW_DAYS = 7;
