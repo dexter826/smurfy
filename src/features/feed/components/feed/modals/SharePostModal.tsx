@@ -6,7 +6,7 @@ import { useRtdbChatStore } from '@/store';
 import { toast } from '@/store/toastStore';
 import { TOAST_MESSAGES } from '@/constants/toastMessages';
 import { buildSharedPostPayload, getPostSnippet, getPreviewMedia } from '../../../utils/postShareMessage';
-import { useShareTargets } from '@/hooks/chat';
+import { useShareTargets } from '@/features/chat';
 import { ShareTargetItem } from './ShareTargetItem';
 
 interface SharePostModalProps {

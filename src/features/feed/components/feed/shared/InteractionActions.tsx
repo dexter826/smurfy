@@ -3,7 +3,7 @@ import { Heart, MessageCircle, Send } from 'lucide-react';
 import { Button, ReactionSelector, ReactionDisplay } from '@/components/ui';
 import { ReactionType } from '@shared/types';
 import { REACTION_LABELS } from '@/constants';
-import { getReactionIcon } from '@/components/chat/reactions/ReactionIcons';
+import { getReactionIcon } from '@/features/chat';
 import { getReactionColorClass, getReactionBgClass } from '@/utils';
 
 interface InteractionActionsProps {

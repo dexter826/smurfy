@@ -10,7 +10,7 @@ import { ProtectedRoute } from './components/layout/ProtectedRoute';
 import { useSelfPresence } from '@/features/presence';
 import { useNotifications } from '@/features/notification';
 import LoginPage from '@/features/auth/components/LoginPage';
-import ChatPage from './pages/ChatPage';
+import ChatPage from '@/features/chat/components/ChatPage';
 
 const FeedPage = React.lazy(() => import('@/features/feed/components/FeedPage'));
 const ContactsPage = React.lazy(() => import('@/features/friend/components/ContactsPage'));
@@ -26,7 +26,7 @@ const AdminDashboardPage = React.lazy(() => import('./pages/AdminDashboardPage')
 const AdminModerationPage = React.lazy(() => import('./pages/AdminModerationPage'));
 const OnboardingPage = React.lazy(() => import('@/features/auth/components/OnboardingPage'));
 const NotFoundPage = React.lazy(() => import('./pages/NotFoundPage'));
-const JoinGroupPage = React.lazy(() => import('./pages/JoinGroupPage'));
+const JoinGroupPage = React.lazy(() => import('@/features/chat/components/JoinGroupPage'));
 
 /** Bảo vệ route khi tài khoản bị khóa. */
 const BannedRoute: React.FC = () => {

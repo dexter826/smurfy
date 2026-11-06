@@ -3,7 +3,7 @@ import { User, FriendRequest } from '@shared/types';
 import { useAuthStore } from '@/features/auth';
 import { useContactStore } from '../store/contactStore';
 import { useUserCache } from '@/store/userCacheStore';
-import { useRtdbChatStore } from '@/store/rtdbChatStore';
+import { useRtdbChatStore } from '@/features/chat';
 import { useLoadingStore } from '@/store/loadingStore';
 import { friendService } from '../services/friendService';
 import { userService } from '@/services/userService';
