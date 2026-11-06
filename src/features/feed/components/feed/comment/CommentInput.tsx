@@ -2,13 +2,13 @@ import React, { useRef, useEffect, useState } from 'react';
 import { Image as ImageIcon, X, Send } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { UserAvatar, IconButton, Button, EmojiPicker } from '../../ui';
-import { validateFile } from '../../../utils';
-import { toast } from '../../../store/toastStore';
-import { commentSchema, CommentFormValues } from '../../../utils/validation';
-import { insertTextAtCursor } from '../../../utils/uiUtils';
-import { useAutoResizeTextarea } from '../../../hooks/utils';
-import { MEDIA_CONSTRAINTS } from '../../../constants';
+import { UserAvatar, IconButton, Button, EmojiPicker } from '@/components/ui';
+import { validateFile } from '@/utils';
+import { toast } from '@/store/toastStore';
+import { commentSchema, CommentFormValues } from '@/utils/validation';
+import { insertTextAtCursor } from '@/utils/uiUtils';
+import { useAutoResizeTextarea } from '@/hooks/utils';
+import { MEDIA_CONSTRAINTS } from '@/constants';
 import { MediaObject } from '@shared/types';
 
 interface CommentInputProps {

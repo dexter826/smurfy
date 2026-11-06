@@ -2,17 +2,17 @@ import React, { useRef, useEffect, useState } from 'react';
 import { X, Image as ImageIcon, Video, Users, Lock, Globe } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { UserAvatar, Button, EmojiPicker, Select, Modal, IconButton, ConfirmDialog } from '../../ui';
-import { toast } from '../../../store/toastStore';
-import { validateFile } from '../../../utils';
+import { UserAvatar, Button, EmojiPicker, Select, Modal, IconButton, ConfirmDialog } from '@/components/ui';
+import { toast } from '@/store/toastStore';
+import { validateFile } from '@/utils';
 import { User, Post, Visibility, MediaObject, PostType } from '@shared/types';
-import { postSchema, PostFormValues } from '../../../utils/validation';
-import { MEDIA_CONSTRAINTS, TOAST_MESSAGES, VALIDATION } from '../../../constants';
-import { insertTextAtCursor } from '../../../utils/uiUtils';
-import { useAutoResizeTextarea } from '../../../hooks/utils';
+import { postSchema, PostFormValues } from '@/utils/validation';
+import { MEDIA_CONSTRAINTS, TOAST_MESSAGES, VALIDATION } from '@/constants';
+import { insertTextAtCursor } from '@/utils/uiUtils';
+import { useAutoResizeTextarea } from '@/hooks/utils';
 import { useAuthStore } from '@/features/auth';
-import { useLinkPreview } from '../../../hooks/useLinkPreview';
-import { LinkPreviewCard } from '../../shared/LinkPreviewCard';
+import { useLinkPreview } from '@/hooks/useLinkPreview';
+import { LinkPreviewCard } from '@/components/shared/LinkPreviewCard';
 
 interface PostModalProps {
   isOpen: boolean;

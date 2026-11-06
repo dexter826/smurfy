@@ -8,7 +8,7 @@ import { UserAvatar, Skeleton, EmptyState, Button, ConfirmDialog, SensitiveMedia
 import { useUserCache } from '../../store/userCacheStore';
 import { formatRelativeTime } from '../../utils/dateUtils';
 import { toast } from '../../store/toastStore';
-import { postService } from '../../services/postService';
+import { postService } from '@/features/feed';
 import { commentService } from '../../services/commentService';
 import { getSafeMillis } from '../../utils/timestampHelpers';
 

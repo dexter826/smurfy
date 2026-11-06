@@ -1,6 +1,6 @@
 import React from 'react';
 import { PostType, MediaObject } from '@shared/types';
-import { LazyImage } from '../../ui';
+import { LazyImage } from '@/components/ui';
 
 interface SystemPostMediaProps {
   type: PostType.AVATAR_UPDATE | PostType.COVER_UPDATE;

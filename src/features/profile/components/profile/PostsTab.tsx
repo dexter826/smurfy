@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { Post, User, Visibility, MediaObject } from '@shared/types';
-import { PostItem, CreatePost, PostModal } from '@/components/feed';
+import { PostItem, CreatePost, PostModal } from '@/features/feed';
 import { ConfirmDialog, EmptyState } from '@/components/ui';
 import { usePostStore } from '@/store';
 import { useUserPosts, useIntersectionObserver } from '@/hooks';

@@ -1,13 +1,13 @@
 import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { Post, User, ReactionType, Visibility } from '@shared/types';
 import { postService } from '../services/postService';
-import { userService } from '../services/userService';
-import { useFriendIds } from './utils';
-import { useUserCache } from '../store/userCacheStore';
-import { usePostStore } from '../store';
-import { useReactionStore } from '../store/reactionStore';
+import { userService } from '@/services/userService';
+import { useFriendIds } from '@/hooks/utils';
+import { useUserCache } from '@/store/userCacheStore';
+import { usePostStore } from '@/store';
+import { useReactionStore } from '@/store/reactionStore';
 import { DocumentSnapshot, Timestamp } from 'firebase/firestore';
-import { getSafeMillis } from '../utils/timestampHelpers';
+import { getSafeMillis } from '@/utils/timestampHelpers';
 
 interface UseUserPostsReturn {
   posts: Post[];

@@ -8,12 +8,12 @@ import { useContactStore } from '@/features/friend';
 import { useLoadingStore } from '../../store/loadingStore';
 import { UserAvatar, ConfirmDialog, IconButton, Loading } from '../ui';
 import { ReactionType, Post } from '@shared/types';
-import { PostViewModal, PostModal } from '../feed';
+import { PostViewModal, PostModal } from '@/features/feed';
 import { SharePostModal, JoinGroupModal } from '../chat';
 import { usePostStore, toast } from '../../store';
 import { usePostNavigation } from '../../hooks/usePostNavigation';
 import { useUserCache } from '../../store/userCacheStore';
-import { postService } from '../../services/postService';
+import { postService } from '@/features/feed';
 import { MediaObject, Visibility } from '@shared/types';
 import { useNotificationStore } from '@/features/notification';
 import { NotificationDropdown } from '@/features/notification';
@@ -26,7 +26,7 @@ import { OutgoingCallDialog } from '../chat/call/OutgoingCallDialog';
 import { CallWindow } from '../chat/call/CallWindow';
 import { CONFIRM_MESSAGES, TOAST_MESSAGES } from '../../constants';
 import { soundManager } from '../../services/soundManager';
-import { useSharePostStore } from '../../store/sharePostStore';
+import { useSharePostStore } from '@/features/feed';
 
 export const AppLayout: React.FC = () => {
   const { user } = useAuthStore();

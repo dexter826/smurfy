@@ -3,8 +3,8 @@ import { persist, createJSONStorage } from 'zustand/middleware';
 import { PostStoreState } from './types';
 import { createFetchSlice } from './fetchSlice';
 import { createActionSlice } from './actionSlice';
-import { PAGINATION } from '../../constants';
-import { registerStore } from '../storeUtils';
+import { PAGINATION } from '@/constants';
+import { registerStore } from '@/store/storeUtils';
 
 export const usePostStore = create<PostStoreState>()(
   persist(

@@ -2,12 +2,12 @@ import React, { useState, useRef } from 'react';
 import { Image as ImageIcon, Video } from 'lucide-react';
 import { PostModal } from './modals/PostModal';
 import { User, Visibility, MediaObject } from '@shared/types';
-import { Avatar, Skeleton } from '../ui';
-import { usePostStore } from '../../store';
+import { Avatar, Skeleton } from '@/components/ui';
+import { usePostStore } from '@/store';
 
-import { toast } from '../../store/toastStore';
-import { validateFile } from '../../utils/uploadUtils';
-import { MEDIA_CONSTRAINTS, TOAST_MESSAGES } from '../../constants';
+import { toast } from '@/store/toastStore';
+import { validateFile } from '@/utils/uploadUtils';
+import { MEDIA_CONSTRAINTS, TOAST_MESSAGES } from '@/constants';
 
 interface CreatePostProps {
   currentUser: User;

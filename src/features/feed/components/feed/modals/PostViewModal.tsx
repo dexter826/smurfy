@@ -4,15 +4,15 @@ import { X, ChevronLeft, ChevronRight, MoreHorizontal, Edit, Trash2, Flag, Play,
 import {
   UserAvatar, IconButton, Modal, Dropdown, DropdownItem,
   Skeleton, ReactionDetailsModal, MediaViewer, SensitiveMediaGuard,
-} from '../../ui';
+} from '@/components/ui';
 import { Post, User, ReportType, ReactionType, PostType, Visibility, PostStatus } from '@shared/types';
 import { CommentSection } from '../comment/CommentSection';
-import { formatRelativeTime, formatDateTime } from '../../../utils/dateUtils';
-import { useReportStore } from '../../../store/reportStore';
-import { useFriendIds, useFilteredReactions } from '../../../hooks';
+import { formatRelativeTime, formatDateTime } from '@/utils/dateUtils';
+import { useReportStore } from '@/store/reportStore';
+import { useFriendIds, useFilteredReactions } from '@/hooks';
 import { VisibilityBadge, TruncatedText, InteractionActions, PostMediaGrid, SystemPostMedia } from '../shared';
-import { LinkPreviewCard } from '../../shared/LinkPreviewCard';
-import { extractFirstUrl } from '../../../services/linkPreviewService';
+import { LinkPreviewCard } from '@/components/shared/LinkPreviewCard';
+import { extractFirstUrl } from '@/services/linkPreviewService';
 
 interface PostViewModalProps {
   post: Post | null;

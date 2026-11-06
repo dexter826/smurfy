@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { User, Post, MediaObject } from '@shared/types';
 import { useFriendIds } from '@/hooks/utils';
 import { userService } from '@/services/userService';
-import { postService } from '@/services/postService';
+import { postService } from '@/features/feed';
 import { useUserCache } from '@/store/userCacheStore';
 import { usePostStore } from '@/store';
 import { getSafeMillis } from '@/utils/timestampHelpers';

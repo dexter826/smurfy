@@ -1,15 +1,15 @@
 import React, { useState, useCallback } from 'react';
 import { MoreHorizontal, Edit, Trash2, Flag } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { formatRelativeTime, formatDateTime } from '../../utils/dateUtils';
-import { UserAvatar, Skeleton, Dropdown, DropdownItem, IconButton, ReactionDetailsModal, UploadProgress } from '../ui';
+import { formatRelativeTime, formatDateTime } from '@/utils/dateUtils';
+import { UserAvatar, Skeleton, Dropdown, DropdownItem, IconButton, ReactionDetailsModal, UploadProgress } from '@/components/ui';
 import { Post, PostStatus, Visibility, PostType, User, ReportType, ReactionType } from '@shared/types';
-import { useReportStore } from '../../store/reportStore';
-import { usePostStore } from '../../store';
-import { useFriendIds, useFilteredReactions } from '../../hooks';
+import { useReportStore } from '@/store/reportStore';
+import { usePostStore } from '@/store';
+import { useFriendIds, useFilteredReactions } from '@/hooks';
 import { VisibilityBadge, TruncatedText, InteractionActions, PostMediaGrid, SystemPostMedia } from './shared';
-import { LinkPreviewCard } from '../shared/LinkPreviewCard';
-import { extractFirstUrl } from '../../services/linkPreviewService';
+import { LinkPreviewCard } from '@/components/shared/LinkPreviewCard';
+import { extractFirstUrl } from '@/services/linkPreviewService';
 
 interface PostItemProps {
   post: Post;

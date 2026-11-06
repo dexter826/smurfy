@@ -18,21 +18,21 @@ import {
 } from 'firebase/firestore';
 import { db } from '@/lib/firebase/config';
 import { Post, Visibility, ReactionType, ReactionDoc, PostStatus, MediaObject, PostType, UserStatus } from '@shared/types'
-import { batchGetUsers } from '../utils/batchUtils';
-import { userService } from './userService';
-import { PAGINATION, IMAGE_COMPRESSION, STORAGE_PATHS } from '../constants';
-import { compressImage, isImageFile } from '../utils/imageUtils';
-import { withRetry } from '../utils/retryUtils';
-import { uploadWithProgress, ProgressCallback, deleteStorageFiles, generateVideoThumbnail } from '../utils/uploadUtils';
-import { convertDoc, convertDocs } from '../utils/firebaseUtils';
-import { getSafeMillis } from '../utils/timestampHelpers';
+import { batchGetUsers } from '@/utils/batchUtils';
+import { userService } from '@/services/userService';
+import { PAGINATION, IMAGE_COMPRESSION, STORAGE_PATHS } from '@/constants';
+import { compressImage, isImageFile } from '@/utils/imageUtils';
+import { withRetry } from '@/utils/retryUtils';
+import { uploadWithProgress, ProgressCallback, deleteStorageFiles, generateVideoThumbnail } from '@/utils/uploadUtils';
+import { convertDoc, convertDocs } from '@/utils/firebaseUtils';
+import { getSafeMillis } from '@/utils/timestampHelpers';
 import { filterBlockedItems } from '@/lib/block/blockUtils';
 import {
   validatePostContent,
   validateImageFile,
   validateVideoFile,
   FileValidationError
-} from '../utils/fileValidation';
+} from '@/utils/fileValidation';
 
 const postConverter = (doc: DocumentSnapshot) => convertDoc<Post>(doc);
 function getVisibilityFilter(isOwner: boolean, isFriend: boolean): Visibility[] {

@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { Play } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { SharedPostPayload } from '../../../../utils/postShareMessage';
+import { SharedPostPayload } from '@/features/feed';
 import { UserAvatar } from '../../../ui';
 
 interface SharedPostMessageProps {

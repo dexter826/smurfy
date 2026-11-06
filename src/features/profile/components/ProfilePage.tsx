@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '@/features/auth';
 import { Button, ConfirmDialog, BlockOptionsModal } from '@/components/ui';
 import { CONFIRM_MESSAGES } from '@/constants';
-import { PostModal } from '@/components/feed';
+import { PostModal } from '@/features/feed';
 import { usePostStore, useSharePostStore } from '@/store';
 import { 
   ProfileHeader, 

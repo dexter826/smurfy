@@ -4,14 +4,14 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useAuthStore } from '@/features/auth';
 import { friendService } from '@/features/friend';
 import { User, Visibility } from '@shared/types';
-import { isBirthdayToday } from '../../utils/dateUtils';
-import { canViewField } from '../../utils/privacyUtils';
-import { useRtdbChatStore } from '../../store/rtdbChatStore';
-import { rtdbMessageService } from '../../services/chat/rtdbMessageService';
-import { toast } from '../../store/toastStore';
-import { TOAST_MESSAGES } from '../../constants';
-import { Avatar } from '../ui/Avatar';
-import { Modal } from '../ui/Modal';
+import { isBirthdayToday } from '@/utils/dateUtils';
+import { canViewField } from '@/utils/privacyUtils';
+import { useRtdbChatStore } from '@/store/rtdbChatStore';
+import { rtdbMessageService } from '@/services/chat/rtdbMessageService';
+import { toast } from '@/store/toastStore';
+import { TOAST_MESSAGES } from '@/constants';
+import { Avatar } from '@/components/ui/Avatar';
+import { Modal } from '@/components/ui/Modal';
 
 const BIRTHDAY_WISHES = [
   "Chúc mừng sinh nhật! 🎂",

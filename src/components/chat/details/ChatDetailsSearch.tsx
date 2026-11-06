@@ -4,7 +4,7 @@ import { Search, X, MessageCircle } from 'lucide-react';
 import { formatTimeOnly } from '../../../utils/dateUtils';
 import { Input, IconButton, EmptyState } from '../../ui';
 import { PAGINATION } from '../../../constants';
-import { parseSharedPostMessage } from '../../../utils/postShareMessage';
+import { parseSharedPostMessage } from '@/features/feed';
 
 interface ChatDetailsSearchProps {
   messages: Array<{ id: string; data: RtdbMessage }>;

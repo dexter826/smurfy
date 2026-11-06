@@ -1,9 +1,9 @@
 import { StateCreator } from 'zustand';
 import { PostStoreState } from './types';
 import { postService } from '../../services/postService';
-import { PAGINATION } from '../../constants';
-import { useLoadingStore } from '../loadingStore';
-import { getSafeMillis } from '../../utils/timestampHelpers';
+import { PAGINATION } from '@/constants';
+import { useLoadingStore } from '@/store/loadingStore';
+import { getSafeMillis } from '@/utils/timestampHelpers';
 import { Visibility, Post } from '@shared/types';
 
 export const createFetchSlice: StateCreator<PostStoreState, [], [], any> = (set, get) => ({

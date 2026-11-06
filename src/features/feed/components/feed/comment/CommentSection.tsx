@@ -1,14 +1,14 @@
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { X, MessageCircle, ChevronDown, ListFilter } from 'lucide-react';
-import { Button, ConfirmDialog, UploadProgress, Dropdown, DropdownItem, EmptyState } from '../../ui';
-import { CONFIRM_MESSAGES, TOAST_MESSAGES } from '../../../constants';
-import { toast } from '../../../store/toastStore';
+import { Button, ConfirmDialog, UploadProgress, Dropdown, DropdownItem, EmptyState } from '@/components/ui';
+import { CONFIRM_MESSAGES, TOAST_MESSAGES } from '@/constants';
+import { toast } from '@/store/toastStore';
 import { Comment, User, ReportType, MediaObject } from '@shared/types';
 
-import { useCommentStore } from '../../../store';
-import { useUserCache } from '../../../store/userCacheStore';
-import { useReportStore } from '../../../store/reportStore';
-import { useFriendIds, useBlockedUsers } from '../../../hooks';
+import { useCommentStore } from '@/store';
+import { useUserCache } from '@/store/userCacheStore';
+import { useReportStore } from '@/store/reportStore';
+import { useFriendIds, useBlockedUsers } from '@/hooks';
 import { CommentSkeleton } from './CommentSkeleton';
 import { CommentInput } from './CommentInput';
 import { CommentItem } from './CommentItem';

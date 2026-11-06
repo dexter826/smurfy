@@ -1,15 +1,15 @@
 import { StateCreator } from 'zustand';
 import { PostStoreState } from './types';
 import { postService } from '../../services/postService';
-import { toast } from '../toastStore';
-import { TOAST_MESSAGES } from '../../constants';
+import { toast } from '@/store/toastStore';
+import { TOAST_MESSAGES } from '@/constants';
 import { Post, PostType, MediaObject, Visibility, PostStatus, ReactionType } from '@shared/types';
 import { Timestamp, onSnapshot, doc } from 'firebase/firestore';
 import { db } from '@/lib/firebase/config';
-import { useLoadingStore } from '../loadingStore';
-import { useReactionStore } from '../reactionStore';
-import { convertDoc } from '../../utils/firebaseUtils';
-import { soundManager } from '../../services/soundManager';
+import { useLoadingStore } from '@/store/loadingStore';
+import { useReactionStore } from '@/store/reactionStore';
+import { convertDoc } from '@/utils/firebaseUtils';
+import { soundManager } from '@/services/soundManager';
 
 export const createActionSlice: StateCreator<PostStoreState, [], [], any> = (set, get) => ({
   /** Tạo bài viết mới */

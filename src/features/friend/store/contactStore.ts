@@ -6,7 +6,7 @@ import { userService } from '@/services/userService';
 import { friendService } from '../services/friendService';
 import { useLoadingStore } from '@/store/loadingStore';
 import { useAuthStore } from '@/features/auth';
-import { usePostStore } from '@/store/posts';
+import { usePostStore } from '@/features/feed';
 
 interface ContactState {
   friends: User[];

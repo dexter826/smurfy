@@ -21,7 +21,7 @@ import { presenceService } from "@/features/presence";
 import { resetAllStores } from "@/store/storeUtils";
 import { useUserCache } from "@/store/userCacheStore";
 import { useLoadingStore } from "@/store/loadingStore";
-import { usePostStore } from "@/store/posts";
+import { usePostStore } from "@/features/feed";
 import { useRtdbChatStore } from "@/store/rtdbChatStore";
 import { getDirectConversationId } from "@/utils/chatUtils";
 

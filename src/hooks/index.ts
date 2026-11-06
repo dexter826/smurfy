@@ -4,11 +4,11 @@ export * from './chat';
 
 export * from '@/features/profile';
 
-export { useFeed } from './useFeed';
+export { useFeed } from '@/features/feed';
 export { useChat } from './useChat';
 export { useContacts } from '@/features/friend';
 export { useProfile } from '@/features/profile';
-export { useUserPosts } from './useUserPosts';
+export { useUserPosts } from '@/features/feed';
 export { useAdminReports } from './useAdminReports';
 export { useLoading } from './useLoading';
 export { usePresence } from '@/features/presence';

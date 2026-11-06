@@ -1,11 +1,11 @@
 export { useAuthStore } from '@/features/auth';
 export { useRtdbChatStore } from './rtdbChatStore';
-export { usePostStore } from './posts';
+export { usePostStore } from '@/features/feed';
 export { useContactStore } from '@/features/friend';
 export { useNotificationStore } from '@/features/notification';
 export { useCommentStore } from './comments';
 export { useReportStore } from './reportStore';
-export { useSharePostStore } from './sharePostStore';
+export { useSharePostStore } from '@/features/feed';
 export { useThemeStore } from './themeStore';
 export { useToastStore, toast } from './toastStore';
 export { useUserCache } from './userCacheStore';

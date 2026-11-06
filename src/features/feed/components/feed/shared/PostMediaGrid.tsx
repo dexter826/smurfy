@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { ChevronRight } from 'lucide-react';
-import { IconButton, LazyImage, SensitiveMediaGuard } from '../../ui';
+import { IconButton, LazyImage, SensitiveMediaGuard } from '@/components/ui';
 import { MediaObject } from '@shared/types';
 
 interface MediaItem {

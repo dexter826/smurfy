@@ -3,13 +3,13 @@ import { StickyNote, Sparkles } from 'lucide-react';
 import { PostItem, PostModal, CreatePost, FeedSkeleton, FriendSuggestionsWidget, BirthdayWidget } from '../components/feed';
 
 import { useAuthStore } from '@/features/auth';
-import { useSharePostStore } from '../store';
-import { useLoadingStore } from '../store/loadingStore';
+import { useSharePostStore } from '@/store';
+import { useLoadingStore } from '@/store/loadingStore';
 import { Visibility, MediaObject, Post } from '@shared/types';
-import { useFeed, usePostNavigation } from '../hooks';
-import { ConfirmDialog, EmptyState } from '../components/ui';
-import { useFriendIds } from '../hooks/utils';
-import { CONFIRM_MESSAGES } from '../constants';
+import { useFeed, usePostNavigation } from '@/hooks';
+import { ConfirmDialog, EmptyState } from '@/components/ui';
+import { useFriendIds } from '@/hooks/utils';
+import { CONFIRM_MESSAGES } from '@/constants';
 
 const FeedPage: React.FC = () => {
   const { user: currentUser } = useAuthStore();

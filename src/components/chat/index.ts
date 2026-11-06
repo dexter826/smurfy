@@ -17,7 +17,7 @@ export { AddMemberModal } from './modals/AddMemberModal';
 export { EditGroupModal } from './modals/EditGroupModal';
 export { TransferAdminModal } from './modals/TransferAdminModal';
 export { ForwardModal } from './modals/ForwardModal';
-export { SharePostModal } from './modals/SharePostModal';
+export { SharePostModal } from '@/features/feed';
 export { JoinGroupModal } from './modals/JoinGroupModal';
 export { QRCodeModal } from './modals/QRCodeModal';
 export * from './MessengerSkeleton';

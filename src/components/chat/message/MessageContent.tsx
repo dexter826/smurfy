@@ -1,6 +1,6 @@
 import React from 'react';
 import { RtdbMessage, MessageType } from '@shared/types';
-import { parseSharedPostMessage } from '../../../utils/postShareMessage';
+import { parseSharedPostMessage } from '@/features/feed';
 import { 
   TextMessage, ImageMessage, VideoMessage, GifMessage, 
   FileMessage, VoiceMessage, CallMessage, RecalledMessage, SharedPostMessage

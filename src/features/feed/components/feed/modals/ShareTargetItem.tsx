@@ -1,9 +1,9 @@
 import React from 'react';
 import { Check } from 'lucide-react';
-import { UserAvatar } from '../../ui';
+import { UserAvatar } from '@/components/ui';
 import { User, UserStatus } from '@shared/types';
-import { useConversationParticipants } from '../../../hooks/chat/useConversationParticipants';
-import { ShareableEntry } from '../../../hooks/chat/useShareTargets';
+import { useConversationParticipants } from '@/hooks/chat/useConversationParticipants';
+import { ShareableEntry } from '@/hooks/chat/useShareTargets';
 
 interface ShareTargetItemProps {
   entry: ShareableEntry;

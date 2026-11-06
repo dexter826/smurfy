@@ -5,15 +5,15 @@ import {
   UserAvatar, LazyImage, Skeleton, ReactionSelector,
   ReactionDisplay, ReactionDetailsModal, Dropdown, DropdownItem,
   SensitiveMediaGuard, UploadProgress,
-} from '../../ui';
+} from '@/components/ui';
 import { CommentInput } from './CommentInput';
 import { Comment, User, ReactionType, ReportType, MediaObject, CommentStatus } from '@shared/types';
-import { formatRelativeTime, formatDateTime } from '../../../utils/dateUtils';
+import { formatRelativeTime, formatDateTime } from '@/utils/dateUtils';
 import { TruncatedText } from '../shared';
-import { useCommentStore } from '../../../store';
-import { useFriendIds, useFilteredReactions } from '../../../hooks';
-import { REACTION_LABELS } from '../../../constants';
-import { getReactionColorClass } from '../../../utils';
+import { useCommentStore } from '@/store';
+import { useFriendIds, useFilteredReactions } from '@/hooks';
+import { REACTION_LABELS } from '@/constants';
+import { getReactionColorClass } from '@/utils';
 
 interface CommentItemProps {
   comment: Comment;

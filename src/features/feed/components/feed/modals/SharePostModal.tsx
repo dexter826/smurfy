@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Search, Play } from 'lucide-react';
-import { Modal, Input, Button, UserAvatar, EmptyState } from '../../ui';
+import { Modal, Input, Button, UserAvatar, EmptyState } from '@/components/ui';
 import { Post, Visibility } from '@shared/types';
-import { useRtdbChatStore } from '../../../store';
-import { toast } from '../../../store/toastStore';
-import { TOAST_MESSAGES } from '../../../constants/toastMessages';
+import { useRtdbChatStore } from '@/store';
+import { toast } from '@/store/toastStore';
+import { TOAST_MESSAGES } from '@/constants/toastMessages';
 import { buildSharedPostPayload, getPostSnippet, getPreviewMedia } from '../../../utils/postShareMessage';
-import { useShareTargets } from '../../../hooks/chat';
+import { useShareTargets } from '@/hooks/chat';
 import { ShareTargetItem } from './ShareTargetItem';
 
 interface SharePostModalProps {

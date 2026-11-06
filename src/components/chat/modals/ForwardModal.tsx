@@ -4,7 +4,7 @@ import { Modal, Input, Button, EmptyState } from '../../ui';
 import { RtdbMessage } from '@shared/types';
 import { useRtdbChatStore } from '../../../store';
 import { useShareTargets } from '../../../hooks/chat';
-import { ShareTargetItem } from './ShareTargetItem';
+import { ShareTargetItem } from '@/features/feed';
 
 interface ForwardModalProps {
   isOpen: boolean;

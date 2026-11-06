@@ -1,11 +1,11 @@
 import { useEffect, useCallback, RefObject } from 'react';
 import { Post, User, Visibility, ReactionType } from '@shared/types';
 import { useAuthStore } from '@/features/auth';
-import { usePostStore } from '../store';
-import { useUserCache } from '../store/userCacheStore';
-import { useIntersectionObserver } from './utils/useIntersectionObserver';
-import { useLoadingStore } from '../store/loadingStore';
-import { useFriendIds } from './utils';
+import { usePostStore } from '@/store';
+import { useUserCache } from '@/store/userCacheStore';
+import { useIntersectionObserver } from '@/hooks/utils/useIntersectionObserver';
+import { useLoadingStore } from '@/store/loadingStore';
+import { useFriendIds } from '@/hooks/utils';
 
 interface UseFeedReturn {
   posts: Post[];
