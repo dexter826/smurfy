@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { ReportType, ReportReason, Report, MediaObject } from '@shared/types';
 import { reportService } from '../services/reportService';
-import { userService } from '../services/userService';
+import { userService } from '@/services/userService';
 import { useAuthStore } from '@/features/auth';
 
 interface ReportState {
@@ -150,5 +150,5 @@ export const useReportStore = create<ReportState>((set, get) => ({
     }
   }
 }));
-import { registerStore } from './storeUtils';
+import { registerStore } from '@/store/storeUtils';
 registerStore(() => useReportStore.getState().reset());

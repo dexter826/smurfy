@@ -8,7 +8,7 @@ import { User, ReportType, UserStatus, FriendStatus, Visibility } from '@shared/
 import { UserAvatar, Button, Dropdown, DropdownItem, ImageCropper, LazyImage, CircularProgress, CircularProgressOverlay } from '@/components/ui';
 import { toast } from '@/store/toastStore';
 import { useAuthStore } from '@/features/auth';
-import { useReportStore } from '@/store/reportStore';
+import { useReportStore } from '@/features/admin';
 import { BookUser } from 'lucide-react';
 import { validateFile } from '@/utils/uploadUtils';
 

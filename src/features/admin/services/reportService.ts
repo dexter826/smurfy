@@ -17,11 +17,11 @@ import {
 import { db, functions } from '@/lib/firebase/config';
 import { httpsCallable } from 'firebase/functions';
 import { Report, ReportType, ReportStatus, MediaObject } from '@shared/types';
-import { PAGINATION, IMAGE_COMPRESSION } from '../constants';
-import { uploadWithProgress, ProgressCallback } from '../utils/uploadUtils';
-import { compressImage } from '../utils/imageUtils';
-import { convertDoc, convertDocs } from '../utils/firebaseUtils';
-import { validateImageFile, FileValidationError } from '../utils/fileValidation';
+import { PAGINATION, IMAGE_COMPRESSION } from '@/constants';
+import { uploadWithProgress, ProgressCallback } from '@/utils/uploadUtils';
+import { compressImage } from '@/utils/imageUtils';
+import { convertDoc, convertDocs } from '@/utils/firebaseUtils';
+import { validateImageFile, FileValidationError } from '@/utils/fileValidation';
 
 export const reportService = {
   /** Tải lên ảnh bằng chứng */

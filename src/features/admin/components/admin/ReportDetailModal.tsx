@@ -9,14 +9,14 @@ import {
   Post, Comment, PostStatus, CommentStatus, PostType,
 } from '@shared/types';
 import { reportService } from '../../services/reportService';
-import { userService } from '../../services/userService';
+import { userService } from '@/services/userService';
 import { postService } from '@/features/feed';
 import { commentService } from '@/features/comment';
-import { Button, UserAvatar, Skeleton, IconButton, ConfirmDialog, MediaViewer, EmptyState } from '../ui';
+import { Button, UserAvatar, Skeleton, IconButton, ConfirmDialog, MediaViewer, EmptyState } from '@/components/ui';
 import { PostMediaGrid } from '@/features/feed';
-import { REPORT_CONFIG, TOAST_MESSAGES, CONFIRM_MESSAGES } from '../../constants';
-import { formatRelativeTime, formatDateTime } from '../../utils/dateUtils';
-import { toast } from '../../store/toastStore';
+import { REPORT_CONFIG, TOAST_MESSAGES, CONFIRM_MESSAGES } from '@/constants';
+import { formatRelativeTime, formatDateTime } from '@/utils/dateUtils';
+import { toast } from '@/store/toastStore';
 import { useAuthStore } from '@/features/auth';
 
 interface ReportDetailModalProps {

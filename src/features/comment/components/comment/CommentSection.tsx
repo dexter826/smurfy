@@ -7,7 +7,7 @@ import { Comment, User, ReportType, MediaObject } from '@shared/types';
 
 import { useCommentStore } from '@/store';
 import { useUserCache } from '@/store/userCacheStore';
-import { useReportStore } from '@/store/reportStore';
+import { useReportStore } from '@/features/admin';
 import { useFriendIds, useBlockedUsers } from '@/hooks';
 import { CommentSkeleton } from './CommentSkeleton';
 import { CommentInput } from './CommentInput';

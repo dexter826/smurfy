@@ -1,12 +1,12 @@
 import React, { useCallback, useState } from 'react';
 import { Flag, Clock, CheckCircle, XCircle, AlertTriangle, FileText, MessageSquare, User as UserIcon, Trash2, Lock, X } from 'lucide-react';
 import { Report, ReportStatus, ReportType } from '@shared/types';
-import { UserAvatar, Skeleton, Select, IconButton, ConfirmDialog, EmptyState } from '../ui';
-import { REPORT_CONFIG, TOAST_MESSAGES, CONFIRM_MESSAGES } from '../../constants';
-import { formatRelativeTime } from '../../utils/dateUtils';
+import { UserAvatar, Skeleton, Select, IconButton, ConfirmDialog, EmptyState } from '@/components/ui';
+import { REPORT_CONFIG, TOAST_MESSAGES, CONFIRM_MESSAGES } from '@/constants';
+import { formatRelativeTime } from '@/utils/dateUtils';
 import { useAdminReports } from '../../hooks/useAdminReports';
 import { reportService } from '../../services/reportService';
-import { toast } from '../../store/toastStore';
+import { toast } from '@/store/toastStore';
 
 type ActionType = 'resolve' | 'reject' | 'ban';
 

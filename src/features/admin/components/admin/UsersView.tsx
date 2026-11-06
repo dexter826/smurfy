@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { Users, Search, Lock, Unlock, Eye } from 'lucide-react';
 import { User, UserStatus } from '@shared/types';
-import { userService } from '../../services/userService';
+import { userService } from '@/services/userService';
 import { functions } from '@/lib/firebase/config';
 import { httpsCallable } from 'firebase/functions';
-import { UserAvatar, Skeleton, IconButton, Select, ConfirmDialog, EmptyState } from '../ui';
-import { CONFIRM_MESSAGES, TOAST_MESSAGES } from '../../constants';
-import { toast } from '../../store/toastStore';
+import { UserAvatar, Skeleton, IconButton, Select, ConfirmDialog, EmptyState } from '@/components/ui';
+import { CONFIRM_MESSAGES, TOAST_MESSAGES } from '@/constants';
+import { toast } from '@/store/toastStore';
 import { useNavigate } from 'react-router-dom';
 
 const STATUS_OPTIONS = [

@@ -8,7 +8,7 @@ import {
 import { Post, User, ReportType, ReactionType, PostType, Visibility, PostStatus } from '@shared/types';
 import { CommentSection } from '@/features/comment';
 import { formatRelativeTime, formatDateTime } from '@/utils/dateUtils';
-import { useReportStore } from '@/store/reportStore';
+import { useReportStore } from '@/features/admin';
 import { useFriendIds, useFilteredReactions } from '@/hooks';
 import { VisibilityBadge, TruncatedText, InteractionActions, PostMediaGrid, SystemPostMedia } from '../shared';
 import { LinkPreviewCard } from '@/components/shared/LinkPreviewCard';

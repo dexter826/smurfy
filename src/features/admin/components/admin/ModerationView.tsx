@@ -4,13 +4,13 @@ import { collection, query, where, onSnapshot } from 'firebase/firestore';
 import { httpsCallable } from 'firebase/functions';
 import { db, functions } from '@/lib/firebase/config';
 import { User, Post, Comment, Report, UserStatus, PostStatus, CommentStatus, ReportStatus, REPORT_REASON_LABELS } from '@shared/types';
-import { UserAvatar, Skeleton, EmptyState, Button, ConfirmDialog, SensitiveMediaGuard, MediaViewer } from '../ui';
-import { useUserCache } from '../../store/userCacheStore';
-import { formatRelativeTime } from '../../utils/dateUtils';
-import { toast } from '../../store/toastStore';
+import { UserAvatar, Skeleton, EmptyState, Button, ConfirmDialog, SensitiveMediaGuard, MediaViewer } from '@/components/ui';
+import { useUserCache } from '@/store/userCacheStore';
+import { formatRelativeTime } from '@/utils/dateUtils';
+import { toast } from '@/store/toastStore';
 import { postService } from '@/features/feed';
 import { commentService } from '@/features/comment';
-import { getSafeMillis } from '../../utils/timestampHelpers';
+import { getSafeMillis } from '@/utils/timestampHelpers';
 
 const VIOLATION_WINDOW_DAYS = 7;
 const BAN_THRESHOLD = 3;

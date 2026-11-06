@@ -20,10 +20,10 @@ const NotificationsPage = React.lazy(() => import('@/features/notification/compo
 const BannedPage = React.lazy(() => import('./pages/BannedPage'));
 const EmailVerificationPage = React.lazy(() => import('@/features/auth/components/EmailVerificationPage'));
 const MobileMenuPage = React.lazy(() => import('./pages/MobileMenuPage'));
-const AdminReportsPage = React.lazy(() => import('./pages/AdminReportsPage'));
-const AdminUsersPage = React.lazy(() => import('./pages/AdminUsersPage'));
-const AdminDashboardPage = React.lazy(() => import('./pages/AdminDashboardPage'));
-const AdminModerationPage = React.lazy(() => import('./pages/AdminModerationPage'));
+const AdminReportsPage = React.lazy(() => import('@/features/admin/components/AdminReportsPage'));
+const AdminUsersPage = React.lazy(() => import('@/features/admin/components/AdminUsersPage'));
+const AdminDashboardPage = React.lazy(() => import('@/features/admin/components/AdminDashboardPage'));
+const AdminModerationPage = React.lazy(() => import('@/features/admin/components/AdminModerationPage'));
 const OnboardingPage = React.lazy(() => import('@/features/auth/components/OnboardingPage'));
 const NotFoundPage = React.lazy(() => import('./pages/NotFoundPage'));
 const JoinGroupPage = React.lazy(() => import('@/features/chat/components/JoinGroupPage'));

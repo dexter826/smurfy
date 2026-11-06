@@ -4,7 +4,7 @@ export { usePostStore } from '@/features/feed';
 export { useContactStore } from '@/features/friend';
 export { useNotificationStore } from '@/features/notification';
 export { useCommentStore } from '@/features/comment';
-export { useReportStore } from './reportStore';
+export { useReportStore } from '@/features/admin';
 export { useSharePostStore } from '@/features/feed';
 export { useThemeStore } from './themeStore';
 export { useToastStore, toast } from './toastStore';

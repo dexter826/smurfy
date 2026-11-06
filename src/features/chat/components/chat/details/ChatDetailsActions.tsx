@@ -7,7 +7,7 @@ import {
   Copy, Check, QrCode,
 } from 'lucide-react';
 import { ConfirmDialog } from '@/components/ui';
-import { useReportStore } from '@/store/reportStore';
+import { useReportStore } from '@/features/admin';
 import { CONFIRM_MESSAGES } from '@/constants/confirmMessages';
 import { useConversationMemberSettings } from '@/features/chat';
 import { QRCodeModal } from '../modals/QRCodeModal';

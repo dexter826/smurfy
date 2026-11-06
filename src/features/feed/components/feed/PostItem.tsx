@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { formatRelativeTime, formatDateTime } from '@/utils/dateUtils';
 import { UserAvatar, Skeleton, Dropdown, DropdownItem, IconButton, ReactionDetailsModal, UploadProgress } from '@/components/ui';
 import { Post, PostStatus, Visibility, PostType, User, ReportType, ReactionType } from '@shared/types';
-import { useReportStore } from '@/store/reportStore';
+import { useReportStore } from '@/features/admin';
 import { usePostStore } from '@/store';
 import { useFriendIds, useFilteredReactions } from '@/hooks';
 import { VisibilityBadge, TruncatedText, InteractionActions, PostMediaGrid, SystemPostMedia } from './shared';

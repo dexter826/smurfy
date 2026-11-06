@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { LayoutDashboard, Users, Flag, Clock, AlertTriangle, ChevronRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { userService } from '../../services/userService';
+import { userService } from '@/services/userService';
 import { reportService } from '../../services/reportService';
 import { Report, User, ReportStatus } from '@shared/types';
 import { useAuthStore } from '@/features/auth';
-import { Skeleton, UserAvatar, EmptyState } from '../ui';
-import { formatRelativeTime } from '../../utils/dateUtils';
-import { REPORT_CONFIG } from '../../constants';
-import { useUserCache } from '../../store/userCacheStore';
+import { Skeleton, UserAvatar, EmptyState } from '@/components/ui';
+import { formatRelativeTime } from '@/utils/dateUtils';
+import { REPORT_CONFIG } from '@/constants';
+import { useUserCache } from '@/store/userCacheStore';
 
 /** Card hiển thị thông số thống kê */
 const StatCard: React.FC<{ label: string; value: number | string; color: string; icon: React.ReactNode }> = ({ label, value, color, icon }) => (
