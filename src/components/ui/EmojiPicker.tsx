@@ -1,11 +1,11 @@
 import React, { useState, useRef, useLayoutEffect } from 'react';
 import { createPortal } from 'react-dom';
-import { useClickOutside } from '../../hooks/utils';
+import { useClickOutside } from '@/hooks/utils';
 import EmojiPickerReact, { EmojiClickData, Theme } from 'emoji-picker-react';
 import { Smile } from 'lucide-react';
 import { IconButton } from './IconButton';
-import { useThemeStore } from '../../store/themeStore';
-import { useIsMobile } from '../../hooks/utils/useMediaQuery';
+import { useThemeStore } from '@/store/themeStore';
+import { useIsMobile } from '@/hooks/utils/useMediaQuery';
 
 interface EmojiPickerProps {
   onEmojiSelect: (emoji: string) => void;

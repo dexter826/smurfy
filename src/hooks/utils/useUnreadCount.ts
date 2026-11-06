@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useRtdbChatStore } from '../../store';
+import { useRtdbChatStore } from '@/store';
 import { useAuthStore } from '@/features/auth';
 
 /**

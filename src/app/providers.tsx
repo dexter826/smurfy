@@ -2,8 +2,7 @@ import React from 'react';
 import { BrowserRouter, useLocation } from 'react-router-dom';
 import { useAuthStore } from '@/features/auth';
 import { useSelfPresence } from '@/features/presence';
-import { ConnectionStatus, ErrorBoundary, ToastContainer } from '@/components/ui';
-import { ReportModal } from '@/components/ui/ReportModal';
+import { ConnectionStatus, ErrorBoundary, ToastContainer, ReportModal } from '@/components/ui';
 
 /** Quản lý trạng thái hiện diện. */
 const GlobalPresenceManager: React.FC = () => {

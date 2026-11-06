@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { ChevronLeft, ChevronRight, X, Play, Pause } from 'lucide-react';
-import { useScrollLock } from '../../hooks/utils/useScrollLock';
+import { useScrollLock } from '@/hooks/utils/useScrollLock';
 import { SensitiveMediaGuard } from './SensitiveMediaGuard';
 
 interface MediaItem {

@@ -1,9 +1,9 @@
 import React, { useRef, useEffect } from 'react';
 import { ReactionType } from '@shared/types';
 import { IconCancel } from '@/features/chat';
-import { REACTIONS } from '../../constants';
+import { REACTIONS } from '@/constants';
 import { getReactionIcon } from '@/features/chat';
-import { soundManager } from '../../services/soundManager';
+import { soundManager } from '@/services/soundManager';
 interface ReactionSelectorProps {
   onSelect: (emoji: ReactionType | 'REMOVE') => void;
   onClose?: () => void;

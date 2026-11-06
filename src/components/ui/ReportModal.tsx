@@ -10,10 +10,10 @@ import { ReportReason, ReportType } from '@shared/types';
 import { useReportStore } from '@/features/admin';
 import { useAuthStore } from '@/features/auth';
 import { useContactStore } from '@/features/friend';
-import { toast } from '../../store/toastStore';
-import { REPORT_CONFIG, TOAST_MESSAGES } from '../../constants';
-import { reportSchema, ReportFormValues } from '../../utils/validation';
-import { validateFile } from '../../utils/uploadUtils';
+import { toast } from '@/store/toastStore';
+import { REPORT_CONFIG, TOAST_MESSAGES } from '@/constants';
+import { reportSchema, ReportFormValues } from '@/utils/validation';
+import { validateFile } from '@/utils/uploadUtils';
 import { reportService } from '@/features/admin';
 
 export const ReportModal: React.FC = () => {

@@ -1,10 +1,10 @@
 import React, { useEffect, useMemo } from 'react';
-import { getInitials, getAvatarGradient } from '../../utils';
+import { getInitials, getAvatarGradient } from '@/utils';
 import { User, MediaObject } from '@shared/types';
 import { usePresence } from '@/features/presence';
 import { useAuthStore } from '@/features/auth';
 import { useContactStore } from '@/features/friend';
-import { useUserCache } from '../../store/userCacheStore';
+import { useUserCache } from '@/store/userCacheStore';
 
 
 export interface AvatarProps {

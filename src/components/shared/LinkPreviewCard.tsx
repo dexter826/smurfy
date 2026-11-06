@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ExternalLink, X } from 'lucide-react';
-import { fetchLinkPreview, LinkPreviewData } from '../../services/linkPreviewService';
+import { fetchLinkPreview, LinkPreviewData } from '@/services/linkPreviewService';
 
 interface LinkPreviewCardProps {
     url: string;
