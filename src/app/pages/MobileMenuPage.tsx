@@ -77,8 +77,6 @@ export const MobileMenuPage: React.FC = () => {
           </div>
         </button>
 
-
-
         <div className="h-2" />
 
         {/* Logout */}
@@ -123,7 +121,9 @@ const MenuItem: React.FC<MenuItemProps> = ({ icon, iconBg, label, description, o
     onClick={onClick}
     className="w-full flex items-center gap-3.5 p-3.5 min-h-[64px] rounded-xl bg-surface hover:bg-hover active:bg-active transition-all duration-200 border border-border group"
   >
-    <div className={`w-10 h-10 flex items-center justify-center rounded-full flex-shrink-0 ${iconBg}`}>
+    <div
+      className={`w-10 h-10 flex items-center justify-center rounded-full flex-shrink-0 ${iconBg}`}
+    >
       {icon}
     </div>
     <div className="flex-1 text-left min-w-0">

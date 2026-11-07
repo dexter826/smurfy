@@ -15,15 +15,20 @@ interface TransferAdminModalProps {
 
 /** Modal chuyển quyền trưởng nhóm chat */
 export const TransferAdminModal: React.FC<TransferAdminModalProps> = ({
-  open, conversation, currentUserId, mode = 'transfer_and_leave', onOpenChange, onConfirm,
+  open,
+  conversation,
+  currentUserId,
+  mode = 'transfer_and_leave',
+  onOpenChange,
+  onConfirm,
 }) => {
   const [selectedId, setSelectedId] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const participants = useConversationParticipants(Object.keys(conversation.data.members));
-  const otherMembers = participants.filter(p => p.id !== currentUserId);
-  const options = otherMembers.map(m => ({ value: m.id, label: m.fullName }));
-  const selectedMember = otherMembers.find(m => m.id === selectedId);
+  const otherMembers = participants.filter((p) => p.id !== currentUserId);
+  const options = otherMembers.map((m) => ({ value: m.id, label: m.fullName }));
+  const selectedMember = otherMembers.find((m) => m.id === selectedId);
 
   const isTransferOnly = mode === 'transfer_only';
 
@@ -33,8 +38,11 @@ export const TransferAdminModal: React.FC<TransferAdminModalProps> = ({
     try {
       await onConfirm(selectedId);
       onOpenChange();
-    } catch { /* silent */ }
-    finally { setIsSubmitting(false); }
+    } catch {
+      /* silent */
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -45,7 +53,9 @@ export const TransferAdminModal: React.FC<TransferAdminModalProps> = ({
       size="sm"
       footer={
         <div className="flex gap-3">
-          <Button variant="secondary" onClick={onOpenChange}>Hủy</Button>
+          <Button variant="secondary" onClick={onOpenChange}>
+            Hủy
+          </Button>
           <Button
             variant="danger"
             onClick={handleConfirm}
@@ -68,8 +78,7 @@ export const TransferAdminModal: React.FC<TransferAdminModalProps> = ({
             <p className="text-sm text-secondary mt-1 leading-relaxed">
               {isTransferOnly
                 ? 'Chọn thành viên để chuyển quyền trưởng nhóm. Bạn sẽ trở thành Admin sau khi chuyển.'
-                : 'Vui lòng chọn một thành viên khác làm trưởng nhóm trước khi rời khỏi nhóm này.'
-              }
+                : 'Vui lòng chọn một thành viên khác làm trưởng nhóm trước khi rời khỏi nhóm này.'}
             </p>
           </div>
         </div>

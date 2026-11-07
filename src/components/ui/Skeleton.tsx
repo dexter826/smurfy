@@ -1,5 +1,8 @@
 import React from 'react';
-import SkeletonLib, { SkeletonProps as SkeletonLibProps, SkeletonTheme } from 'react-loading-skeleton';
+import SkeletonLib, {
+  SkeletonProps as SkeletonLibProps,
+  SkeletonTheme,
+} from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 
 interface SkeletonProps extends SkeletonLibProps {
@@ -13,6 +16,8 @@ export const SkeletonProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   </SkeletonTheme>
 );
 
-export const Skeleton: React.FC<SkeletonProps> = ({ className = '', variant = 'rect', ...props }) => (
-  <SkeletonLib circle={variant === 'circle'} className={className} {...props} />
-);
+export const Skeleton: React.FC<SkeletonProps> = ({
+  className = '',
+  variant = 'rect',
+  ...props
+}) => <SkeletonLib circle={variant === 'circle'} className={className} {...props} />;

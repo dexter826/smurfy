@@ -17,7 +17,7 @@ export const PinnedMessageBanner: React.FC<PinnedMessageBannerProps> = ({
   pinnedMessagesDetails,
   currentUserId,
   onUnpin,
-  onGoToMessage
+  onGoToMessage,
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -26,7 +26,7 @@ export const PinnedMessageBanner: React.FC<PinnedMessageBannerProps> = ({
       .map(([id, meta]) => ({
         id,
         meta,
-        details: pinnedMessagesDetails[id]
+        details: pinnedMessagesDetails[id],
       }))
       .filter(({ details }) => {
         if (!details) return false;
@@ -51,22 +51,22 @@ export const PinnedMessageBanner: React.FC<PinnedMessageBannerProps> = ({
 
   const handlePrev = (e: React.MouseEvent) => {
     e.stopPropagation();
-    setCurrentIndex(prev => (prev === 0 ? activePins.length - 1 : prev - 1));
+    setCurrentIndex((prev) => (prev === 0 ? activePins.length - 1 : prev - 1));
   };
 
   const handleNext = (e: React.MouseEvent) => {
     e.stopPropagation();
-    setCurrentIndex(prev => (prev === activePins.length - 1 ? 0 : prev + 1));
+    setCurrentIndex((prev) => (prev === activePins.length - 1 ? 0 : prev + 1));
   };
 
   return (
     <div className="flex items-center justify-between px-3 md:px-4 h-10 bg-surface border-b border-border transition-theme z-20">
-      <div 
+      <div
         className="flex items-center gap-2 min-w-0 flex-1 cursor-pointer hover:opacity-85 active:opacity-75 transition-opacity"
         onClick={() => onGoToMessage(msgId)}
       >
         <Pin size={13} className="text-danger flex-shrink-0" />
-        
+
         {activePins.length > 1 && (
           <span className="text-[10px] text-muted bg-surface-sunken px-1.5 py-0.5 rounded font-medium select-none flex-shrink-0">
             {activeIndex + 1}/{activePins.length}

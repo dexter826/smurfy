@@ -10,8 +10,12 @@ const FeedPage = React.lazy(() => import('@/features/feed/components/FeedPage'))
 const ContactsPage = React.lazy(() => import('@/features/friend/components/ContactsPage'));
 const ProfilePage = React.lazy(() => import('@/features/profile/components/ProfilePage'));
 const SettingsPage = React.lazy(() => import('@/features/settings/components/SettingsPage'));
-const NotificationsPage = React.lazy(() => import('@/features/notification/components/NotificationsPage'));
-const EmailVerificationPage = React.lazy(() => import('@/features/auth/components/EmailVerificationPage'));
+const NotificationsPage = React.lazy(
+  () => import('@/features/notification/components/NotificationsPage'),
+);
+const EmailVerificationPage = React.lazy(
+  () => import('@/features/auth/components/EmailVerificationPage'),
+);
 const MobileMenuPage = React.lazy(() => import('./pages/MobileMenuPage'));
 const OnboardingPage = React.lazy(() => import('@/features/auth/components/OnboardingPage'));
 const NotFoundPage = React.lazy(() => import('./pages/NotFoundPage'));
@@ -23,11 +27,14 @@ const AppRoutes: React.FC = () => (
     <Routes>
       <Route path="/login" element={<LoginPage />} />
 
-      <Route path="/" element={
-        <ProtectedRoute>
-          <AppLayout />
-        </ProtectedRoute>
-      }>
+      <Route
+        path="/"
+        element={
+          <ProtectedRoute>
+            <AppLayout />
+          </ProtectedRoute>
+        }
+      >
         <Route index element={<ChatPage />} />
         <Route path="feed" element={<FeedPage />} />
         <Route path="contacts" element={<ContactsPage />} />

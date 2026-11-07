@@ -20,76 +20,93 @@ export const useProfileMedia = ({
   profile,
   setProfile,
   isOwnProfile,
-  currentUser
+  currentUser,
 }: UseProfileMediaProps) => {
   const [uploadingType, setUploadingType] = useState<'avatar' | 'cover' | null>(null);
   const [uploadProgress, setUploadProgress] = useState(0);
 
-  const handleAvatarChange = useCallback(async (file: File, visibility: Visibility) => {
-    if (!profile || !isOwnProfile) return;
-    const validation = validateFile(file, 'AVATAR');
-    if (!validation.isValid) {
-      if (validation.error) toast.error(validation.error);
-      return;
-    }
-
-    setUploadingType('avatar');
-    setUploadProgress(0);
-    try {
-      const newAvatarMedia = await userService.uploadAvatar(profile.id, file, visibility, (p) => {
-        setUploadProgress(p.progress);
-      });
-      const updatedProfile = { ...profile, avatar: newAvatarMedia };
-      setProfile(updatedProfile);
-      useUserCache.getState().setUser(updatedProfile);
-
-      if (currentUser) {
-        useAuthStore.getState().updateAvatar(newAvatarMedia);
+  const handleAvatarChange = useCallback(
+    async (file: File, visibility: Visibility) => {
+      if (!profile || !isOwnProfile) return;
+      const validation = validateFile(file, 'AVATAR');
+      if (!validation.isValid) {
+        if (validation.error) toast.error(validation.error);
+        return;
       }
 
-      toast.success(TOAST_MESSAGES.MEDIA.UPDATE_AVATAR_SUCCESS);
-    } catch (error) {
-      console.error("Lỗi upload avatar", error);
-      toast.error(TOAST_MESSAGES.MEDIA.UPLOAD_AVATAR_FAILED);
-    } finally {
-      setUploadingType(null);
+      setUploadingType('avatar');
       setUploadProgress(0);
-    }
-  }, [profile, isOwnProfile, currentUser, setProfile]);
+      try {
+        const newAvatarMedia = await userService.uploadAvatar(profile.id, file, visibility, (p) => {
+          setUploadProgress(p.progress);
+        });
+        const updatedProfile = { ...profile, avatar: newAvatarMedia };
+        setProfile(updatedProfile);
+        useUserCache.getState().setUser(updatedProfile);
 
-  const handleCoverChange = useCallback(async (file: File, visibility: Visibility) => {
-    if (!profile || !isOwnProfile) return;
-    const validation = validateFile(file, 'COVER');
-    if (!validation.isValid) {
-      if (validation.error) toast.error(validation.error);
-      return;
-    }
+        if (currentUser) {
+          useAuthStore.getState().updateAvatar(newAvatarMedia);
+        }
 
-    setUploadingType('cover');
-    setUploadProgress(0);
-    try {
-      const newCoverMedia = await userService.uploadCoverImage(profile.id, file, visibility, (p) => {
-        setUploadProgress(p.progress);
-      });
-      const updatedProfile = { ...profile, cover: newCoverMedia };
-      setProfile(updatedProfile);
-      useUserCache.getState().setUser(updatedProfile);
+        toast.success(TOAST_MESSAGES.MEDIA.UPDATE_AVATAR_SUCCESS);
+      } catch (error) {
+        console.error('Lỗi upload avatar', error);
+        toast.error(TOAST_MESSAGES.MEDIA.UPLOAD_AVATAR_FAILED);
+      } finally {
+        setUploadingType(null);
+        setUploadProgress(0);
+      }
+    },
+    [profile, isOwnProfile, currentUser, setProfile],
+  );
 
-      toast.success(TOAST_MESSAGES.MEDIA.UPDATE_COVER_SUCCESS);
-    } catch (error) {
-      console.error("Lỗi upload cover", error);
-      toast.error(TOAST_MESSAGES.MEDIA.UPLOAD_COVER_FAILED);
-    } finally {
-      setUploadingType(null);
+  const handleCoverChange = useCallback(
+    async (file: File, visibility: Visibility) => {
+      if (!profile || !isOwnProfile) return;
+      const validation = validateFile(file, 'COVER');
+      if (!validation.isValid) {
+        if (validation.error) toast.error(validation.error);
+        return;
+      }
+
+      setUploadingType('cover');
       setUploadProgress(0);
-    }
-  }, [profile, isOwnProfile, setProfile]);
+      try {
+        const newCoverMedia = await userService.uploadCoverImage(
+          profile.id,
+          file,
+          visibility,
+          (p) => {
+            setUploadProgress(p.progress);
+          },
+        );
+        const updatedProfile = { ...profile, cover: newCoverMedia };
+        setProfile(updatedProfile);
+        useUserCache.getState().setUser(updatedProfile);
+
+        toast.success(TOAST_MESSAGES.MEDIA.UPDATE_COVER_SUCCESS);
+      } catch (error) {
+        console.error('Lỗi upload cover', error);
+        toast.error(TOAST_MESSAGES.MEDIA.UPLOAD_COVER_FAILED);
+      } finally {
+        setUploadingType(null);
+        setUploadProgress(0);
+      }
+    },
+    [profile, isOwnProfile, setProfile],
+  );
 
   const handleAvatarDelete = useCallback(async () => {
     if (!profile || !isOwnProfile) return;
     setUploadingType('avatar');
     try {
-      const emptyAvatar: MediaObject = { url: '', fileName: '', mimeType: '', size: 0, isSensitive: false };
+      const emptyAvatar: MediaObject = {
+        url: '',
+        fileName: '',
+        mimeType: '',
+        size: 0,
+        isSensitive: false,
+      };
       await userService.updateProfile(profile.id, { avatar: emptyAvatar });
       await systemPostService.deleteLatestProfileUpdatePost(profile.id, PostType.AVATAR_UPDATE);
       const updatedProfile = { ...profile, avatar: emptyAvatar };
@@ -111,7 +128,13 @@ export const useProfileMedia = ({
     if (!profile || !isOwnProfile) return;
     setUploadingType('cover');
     try {
-      const emptyCover: MediaObject = { url: '', fileName: '', mimeType: '', size: 0, isSensitive: false };
+      const emptyCover: MediaObject = {
+        url: '',
+        fileName: '',
+        mimeType: '',
+        size: 0,
+        isSensitive: false,
+      };
       await userService.updateProfile(profile.id, { cover: emptyCover });
       await systemPostService.deleteLatestProfileUpdatePost(profile.id, PostType.COVER_UPDATE);
       const updatedProfile = { ...profile, cover: emptyCover };

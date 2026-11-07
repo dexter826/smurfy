@@ -54,7 +54,7 @@ export const QRCodeModal: React.FC<QRCodeModalProps> = ({
         ctx.fillStyle = '#ffffff';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         ctx.drawImage(img, 20, 20);
-        
+
         const pngFile = canvas.toDataURL('image/png');
         const downloadLink = document.createElement('a');
         downloadLink.download = `smurf-qr-${Date.now()}.png`;
@@ -88,34 +88,18 @@ export const QRCodeModal: React.FC<QRCodeModalProps> = ({
   );
 
   return (
-    <Modal
-      open={open}
-      onOpenChange={onOpenChange}
-      title={title}
-      size="sm"
-      footer={renderFooter}
-    >
+    <Modal open={open} onOpenChange={onOpenChange} title={title} size="sm" footer={renderFooter}>
       <div className="flex flex-col items-center py-5 space-y-5">
         {/* QR Code Container */}
         <div className="bg-white p-4 rounded-2xl shadow-sm border border-border overflow-hidden">
-          <QRCodeSVG
-            ref={qrRef}
-            value={value}
-            size={180}
-            level="M"
-            includeMargin={false}
-          />
+          <QRCodeSVG ref={qrRef} value={value} size={180} level="M" includeMargin={false} />
         </div>
 
         <div className="text-center space-y-1 px-6">
           {avatarName && (
-            <h3 className="text-base font-bold text-foreground line-clamp-1">
-              {avatarName}
-            </h3>
+            <h3 className="text-base font-bold text-foreground line-clamp-1">{avatarName}</h3>
           )}
-          <p className="text-[11px] text-muted leading-relaxed max-w-[220px]">
-            {subtitle}
-          </p>
+          <p className="text-[11px] text-muted leading-relaxed max-w-[220px]">{subtitle}</p>
         </div>
       </div>
     </Modal>

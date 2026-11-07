@@ -12,12 +12,18 @@ interface SharedPostMessageProps {
 }
 
 export const SharedPostMessage: React.FC<SharedPostMessageProps> = ({
-  payload, isMe, isEdited, hasReactions,
+  payload,
+  isMe,
+  isEdited,
+  hasReactions,
 }) => {
   const navigate = useNavigate();
 
   const handleOpenPost = useCallback(() => {
-    if (payload.postId) { navigate(`?post=${payload.postId}`); return; }
+    if (payload.postId) {
+      navigate(`?post=${payload.postId}`);
+      return;
+    }
     window.open(payload.url, '_blank', 'noopener,noreferrer');
   }, [navigate, payload.postId, payload.url]);
 
@@ -25,12 +31,18 @@ export const SharedPostMessage: React.FC<SharedPostMessageProps> = ({
     <div className="flex flex-col min-w-0 w-[260px] max-w-full">
       <button
         type="button"
-        onClick={(e) => { e.stopPropagation(); handleOpenPost(); }}
+        onClick={(e) => {
+          e.stopPropagation();
+          handleOpenPost();
+        }}
         className={`w-full text-left transition-all duration-200 active:scale-[0.98] focus-visible:outline-none`}
       >
         {/* Media preview */}
         {payload.previewMediaUrl && (
-          <div className="relative w-full bg-black/5 dark:bg-white/5 overflow-hidden rounded-lg mb-2" style={{ aspectRatio: '4/3', maxHeight: 160 }}>
+          <div
+            className="relative w-full bg-black/5 dark:bg-white/5 overflow-hidden rounded-lg mb-2"
+            style={{ aspectRatio: '4/3', maxHeight: 160 }}
+          >
             <img
               src={payload.previewMediaUrl}
               alt=""
@@ -58,7 +70,9 @@ export const SharedPostMessage: React.FC<SharedPostMessageProps> = ({
               showStatus={false}
               showBorder={false}
             />
-            <p className="text-[11px] font-semibold text-foreground truncate">{payload.authorName}</p>
+            <p className="text-[11px] font-semibold text-foreground truncate">
+              {payload.authorName}
+            </p>
           </div>
 
           {/* Snippet */}
@@ -68,14 +82,14 @@ export const SharedPostMessage: React.FC<SharedPostMessageProps> = ({
 
           {/* Footer */}
           <div className="mt-1.5 flex items-center justify-between">
-            <span className="text-[10px] font-semibold text-primary hover:underline">Xem bài viết</span>
+            <span className="text-[10px] font-semibold text-primary hover:underline">
+              Xem bài viết
+            </span>
           </div>
         </div>
       </button>
 
-      {isEdited && (
-        <span className="mt-1 text-[10px] italic text-muted">(đã chỉnh sửa)</span>
-      )}
+      {isEdited && <span className="mt-1 text-[10px] italic text-muted">(đã chỉnh sửa)</span>}
     </div>
   );
 };

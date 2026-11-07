@@ -32,11 +32,7 @@ import { userService } from '@/services/userService';
 import { PAGINATION, IMAGE_COMPRESSION, STORAGE_PATHS } from '@/constants';
 import { compressImage, isImageFile } from '@/utils/imageUtils';
 import { withRetry } from '@/utils/retryUtils';
-import {
-  uploadWithProgress,
-  ProgressCallback,
-  deleteStorageFiles,
-} from '@/utils/uploadUtils';
+import { uploadWithProgress, ProgressCallback, deleteStorageFiles } from '@/utils/uploadUtils';
 import { convertDoc, convertDocs } from '@/utils/firebaseUtils';
 import { getSafeMillis } from '@/utils/timestampHelpers';
 import { filterBlockedItems } from '@/lib/block/blockUtils';
@@ -196,7 +192,6 @@ export const postService = {
 
       const user = await userService.getUserById(userId);
 
-
       if (userId !== currentUserId) {
         const blockSnap = await getDoc(doc(db, 'users', userId, 'blockedUsers', currentUserId));
         if (blockSnap.exists() && blockSnap.data().blockViewMyActivity === true) {
@@ -266,8 +261,6 @@ export const postService = {
       const user = await userService.getUserById(userId);
       const currentUser = await userService.getUserById(currentUserId);
       if (isCancelled) return;
-
-
 
       if (userId !== currentUserId) {
         const blockedByTarget = await getDoc(
@@ -536,8 +529,6 @@ export const postService = {
       return null;
     }
   },
-
-
 
   /** Tải lên ảnh cho bài viết */
   uploadPostMedia: async (

@@ -19,10 +19,18 @@ interface ConversationHeaderProps {
 
 /** Header danh sách hội thoại */
 export const ConversationHeader: React.FC<ConversationHeaderProps> = ({
-  searchTerm, onSearchChange, onClearSearch,
-  isSearchFocused, onSearchFocus, onCancelSearch,
-  onNewGroup, onNewChat, viewMode, onViewModeChange,
-  archivedCount, onMarkAllRead,
+  searchTerm,
+  onSearchChange,
+  onClearSearch,
+  isSearchFocused,
+  onSearchFocus,
+  onCancelSearch,
+  onNewGroup,
+  onNewChat,
+  viewMode,
+  onViewModeChange,
+  archivedCount,
+  onMarkAllRead,
 }) => (
   <div className="flex-shrink-0 px-3 h-16 flex items-center border-b border-border gap-1.5 bg-surface">
     {/* Search Input */}

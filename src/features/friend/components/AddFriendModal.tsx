@@ -37,12 +37,17 @@ export const AddFriendModal: React.FC<AddFriendModalProps> = ({ open, onOpenChan
   const navigate = useNavigate();
   const { user: currentUser } = useAuthStore();
   const {
-    searchUsers, clearSearchResults, friends,
-    sentRequests, receivedRequests,
-    sendFriendRequest, cancelFriendRequest, acceptFriendRequest,
+    searchUsers,
+    clearSearchResults,
+    friends,
+    sentRequests,
+    receivedRequests,
+    sendFriendRequest,
+    cancelFriendRequest,
+    acceptFriendRequest,
   } = useContactStore();
   const { getOrCreateConversation } = useRtdbChatStore();
-  const isLoading = useLoadingStore(state => state.loadingStates['contacts.search']);
+  const isLoading = useLoadingStore((state) => state.loadingStates['contacts.search']);
 
   const [searchTerm, setSearchTerm] = useState('');
   const [foundUser, setFoundUser] = useState<User | null>(null);
@@ -52,9 +57,10 @@ export const AddFriendModal: React.FC<AddFriendModalProps> = ({ open, onOpenChan
   // Xác định trạng thái quan hệ giữa người dùng hiện tại và người dùng tìm thấy
   const relationship = useMemo(() => {
     if (!foundUser || !currentUser) return FriendStatus.NOT_FRIEND;
-    if (friends.some(f => f.id === foundUser.id)) return FriendStatus.FRIEND;
-    if (sentRequests.find(r => r.receiverId === foundUser.id)) return FriendStatus.PENDING_SENT;
-    if (receivedRequests.find(r => r.senderId === foundUser.id)) return FriendStatus.PENDING_RECEIVED;
+    if (friends.some((f) => f.id === foundUser.id)) return FriendStatus.FRIEND;
+    if (sentRequests.find((r) => r.receiverId === foundUser.id)) return FriendStatus.PENDING_SENT;
+    if (receivedRequests.find((r) => r.senderId === foundUser.id))
+      return FriendStatus.PENDING_RECEIVED;
     return FriendStatus.NOT_FRIEND;
   }, [foundUser, currentUser, friends, sentRequests, receivedRequests]);
 
@@ -77,44 +83,51 @@ export const AddFriendModal: React.FC<AddFriendModalProps> = ({ open, onOpenChan
 
   const withLoading = async (fn: () => Promise<void>) => {
     setActionLoading(true);
-    try { await fn(); } finally { setActionLoading(false); }
+    try {
+      await fn();
+    } finally {
+      setActionLoading(false);
+    }
   };
 
-  const handleAddFriend = () => withLoading(async () => {
-    if (!foundUser || !currentUser) return;
-    try {
-      await sendFriendRequest(currentUser.id, foundUser.id);
-      toast.success(TOAST_MESSAGES.FRIEND.SEND_SUCCESS);
-    } catch (error: any) {
-      toast.error(TOAST_MESSAGES.FRIEND.ACTION_FAILED(error.message));
-    }
-  });
-
-  const handleCancelRequest = () => withLoading(async () => {
-    if (!foundUser || !currentUser) return;
-    const request = sentRequests.find(r => r.receiverId === foundUser.id);
-    if (request) {
+  const handleAddFriend = () =>
+    withLoading(async () => {
+      if (!foundUser || !currentUser) return;
       try {
-        await cancelFriendRequest(request.id);
-        toast.success(TOAST_MESSAGES.FRIEND.CANCEL_SUCCESS);
+        await sendFriendRequest(currentUser.id, foundUser.id);
+        toast.success(TOAST_MESSAGES.FRIEND.SEND_SUCCESS);
       } catch (error: any) {
         toast.error(TOAST_MESSAGES.FRIEND.ACTION_FAILED(error.message));
       }
-    }
-  });
+    });
 
-  const handleAcceptRequest = () => withLoading(async () => {
-    if (!foundUser || !currentUser) return;
-    const request = receivedRequests.find(r => r.senderId === foundUser.id);
-    if (request) {
-      try {
-        await acceptFriendRequest(request.id, request.senderId, currentUser.id);
-        toast.success(TOAST_MESSAGES.FRIEND.ACCEPT_SUCCESS);
-      } catch (error: any) {
-        toast.error(TOAST_MESSAGES.FRIEND.ACTION_FAILED(error.message));
+  const handleCancelRequest = () =>
+    withLoading(async () => {
+      if (!foundUser || !currentUser) return;
+      const request = sentRequests.find((r) => r.receiverId === foundUser.id);
+      if (request) {
+        try {
+          await cancelFriendRequest(request.id);
+          toast.success(TOAST_MESSAGES.FRIEND.CANCEL_SUCCESS);
+        } catch (error: any) {
+          toast.error(TOAST_MESSAGES.FRIEND.ACTION_FAILED(error.message));
+        }
       }
-    }
-  });
+    });
+
+  const handleAcceptRequest = () =>
+    withLoading(async () => {
+      if (!foundUser || !currentUser) return;
+      const request = receivedRequests.find((r) => r.senderId === foundUser.id);
+      if (request) {
+        try {
+          await acceptFriendRequest(request.id, request.senderId, currentUser.id);
+          toast.success(TOAST_MESSAGES.FRIEND.ACCEPT_SUCCESS);
+        } catch (error: any) {
+          toast.error(TOAST_MESSAGES.FRIEND.ACTION_FAILED(error.message));
+        }
+      }
+    });
 
   const handleMessage = () => {
     if (!foundUser || !currentUser) return;
@@ -138,19 +151,13 @@ export const AddFriendModal: React.FC<AddFriendModalProps> = ({ open, onOpenChan
    */
   const renderResultContent = () => {
     if (isLoading) return <SearchResultSkeleton />;
-    
+
     if (foundUser) {
       return (
         <div className="w-full flex flex-col items-center animate-fade-in gap-5">
-          <UserAvatar
-            userId={foundUser.id}
-            size="xl"
-            className="ring-2 ring-surface shadow-lg"
-          />
+          <UserAvatar userId={foundUser.id} size="xl" className="ring-2 ring-surface shadow-lg" />
           <div className="text-center">
-            <h3 className="text-lg font-semibold text-foreground mb-0.5">
-              {foundUser.fullName}
-            </h3>
+            <h3 className="text-lg font-semibold text-foreground mb-0.5">{foundUser.fullName}</h3>
             <p className="text-xs text-muted">{foundUser.email}</p>
             {foundUser.bio && (
               <p className="text-xs text-secondary mt-2 max-w-xs mx-auto line-clamp-2 italic">
@@ -197,11 +204,7 @@ export const AddFriendModal: React.FC<AddFriendModalProps> = ({ open, onOpenChan
               </Button>
             )}
 
-            <Button
-              variant="secondary"
-              icon={<MessageCircle size={16} />}
-              onClick={handleMessage}
-            >
+            <Button variant="secondary" icon={<MessageCircle size={16} />} onClick={handleMessage}>
               Nhắn tin
             </Button>
 
@@ -240,7 +243,13 @@ export const AddFriendModal: React.FC<AddFriendModalProps> = ({ open, onOpenChan
   };
 
   return (
-    <Modal open={open} onOpenChange={handleClose} title="Tìm kiếm người dùng" size="md" fullScreen="mobile">
+    <Modal
+      open={open}
+      onOpenChange={handleClose}
+      title="Tìm kiếm người dùng"
+      size="md"
+      fullScreen="mobile"
+    >
       <div className="space-y-5">
         <div className="flex gap-2">
           <Input
@@ -255,17 +264,18 @@ export const AddFriendModal: React.FC<AddFriendModalProps> = ({ open, onOpenChan
             }}
             onKeyDown={(e: React.KeyboardEvent) => e.key === 'Enter' && handleSearch()}
           />
-          <Button
-            onClick={handleSearch}
-            disabled={isLoading || !searchTerm.trim()}
-          >
+          <Button onClick={handleSearch} disabled={isLoading || !searchTerm.trim()}>
             Tìm
           </Button>
         </div>
 
-        <div className={`min-h-[220px] flex flex-col items-center justify-center rounded-2xl p-6 transition-all duration-300 ${
-          foundUser ? 'bg-surface border border-border shadow-sm' : 'border border-dashed border-border bg-background/40'
-        }`}>
+        <div
+          className={`min-h-[220px] flex flex-col items-center justify-center rounded-2xl p-6 transition-all duration-300 ${
+            foundUser
+              ? 'bg-surface border border-border shadow-sm'
+              : 'border border-dashed border-border bg-background/40'
+          }`}
+        >
           {renderResultContent()}
         </div>
       </div>

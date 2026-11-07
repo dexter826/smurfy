@@ -15,14 +15,15 @@ const ReactionDisplayInner: React.FC<ReactionDisplayProps> = ({
   reactionCount = 0,
   className = '',
   onClick,
-  variant = 'sm'
+  variant = 'sm',
 }) => {
-  const sortedEmojis = useMemo(() =>
-    Object.entries(reactionSummary)
-      .sort(([, a], [, b]) => b - a)
-      .map(([emoji]) => emoji)
-      .slice(0, 3),
-    [reactionSummary]
+  const sortedEmojis = useMemo(
+    () =>
+      Object.entries(reactionSummary)
+        .sort(([, a], [, b]) => b - a)
+        .map(([emoji]) => emoji)
+        .slice(0, 3),
+    [reactionSummary],
   );
 
   if (reactionCount === 0) return null;
@@ -31,15 +32,18 @@ const ReactionDisplayInner: React.FC<ReactionDisplayProps> = ({
   const isXS = variant === 'xs';
   const isMD = variant === 'md';
 
-  const iconSize = isXS ? 14 : (isMD ? 18 : 16);
-  const fontSize = isXS ? 'text-xs' : (isMD ? 'text-xs' : 'text-xs');
+  const iconSize = isXS ? 14 : isMD ? 18 : 16;
+  const fontSize = isXS ? 'text-xs' : isMD ? 'text-xs' : 'text-xs';
 
   return (
     <div
-      className={`flex items-center gap-1 select-none transition-all duration-200 ${isMinimal
-        ? (onClick ? 'cursor-pointer hover:opacity-80' : 'cursor-default')
-        : `px-1.5 py-0.5 bg-background rounded-full border border-border shadow-sm cursor-pointer hover:bg-hover hover:border-primary/30`
-        } overflow-visible ${className}`}
+      className={`flex items-center gap-1 select-none transition-all duration-200 ${
+        isMinimal
+          ? onClick
+            ? 'cursor-pointer hover:opacity-80'
+            : 'cursor-default'
+          : `px-1.5 py-0.5 bg-background rounded-full border border-border shadow-sm cursor-pointer hover:bg-hover hover:border-primary/30`
+      } overflow-visible ${className}`}
       onClick={(e) => {
         if (!onClick) return;
         e.stopPropagation();
@@ -53,13 +57,11 @@ const ReactionDisplayInner: React.FC<ReactionDisplayProps> = ({
             style={{ zIndex: 10 - index }}
             className="flex-shrink-0 flex items-center justify-center bg-background rounded-full ring-1 ring-background"
           >
-            {getReactionIcon(emoji as ReactionType, "overflow-visible", iconSize)}
+            {getReactionIcon(emoji as ReactionType, 'overflow-visible', iconSize)}
           </div>
         ))}
       </div>
-      <span className={`${fontSize} text-secondary font-semibold ml-0.5`}>
-        {reactionCount}
-      </span>
+      <span className={`${fontSize} text-secondary font-semibold ml-0.5`}>{reactionCount}</span>
     </div>
   );
 };

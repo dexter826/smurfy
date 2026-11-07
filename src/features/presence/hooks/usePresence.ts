@@ -3,9 +3,9 @@ import { usePresenceStore } from '../store/presenceStore';
 
 /** Theo dõi trạng thái hoạt động của người dùng */
 export const usePresence = (userId: string | undefined, initialStatus?: 'active' | 'banned') => {
-  const subscribe = usePresenceStore(state => state.subscribe);
-  const unsubscribe = usePresenceStore(state => state.unsubscribe);
-  const presence = usePresenceStore(state => userId ? state.presenceMap[userId] || null : null);
+  const subscribe = usePresenceStore((state) => state.subscribe);
+  const unsubscribe = usePresenceStore((state) => state.unsubscribe);
+  const presence = usePresenceStore((state) => (userId ? state.presenceMap[userId] || null : null));
 
   useEffect(() => {
     if (!userId) return;

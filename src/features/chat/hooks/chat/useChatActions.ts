@@ -11,7 +11,7 @@ interface UseChatActionsProps {
 export const useChatActions = ({
   selectedConversationId,
   currentUserId,
-  selectConversation
+  selectConversation,
 }: UseChatActionsProps) => {
   const {
     togglePin,
@@ -22,36 +22,51 @@ export const useChatActions = ({
     markAllAsRead,
   } = useRtdbChatStore();
 
-  const handlePin = useCallback(async (id: string, pinned: boolean) => {
-    if (!currentUserId) return;
-    await togglePin(id, currentUserId, pinned);
-  }, [togglePin, currentUserId]);
+  const handlePin = useCallback(
+    async (id: string, pinned: boolean) => {
+      if (!currentUserId) return;
+      await togglePin(id, currentUserId, pinned);
+    },
+    [togglePin, currentUserId],
+  );
 
-  const handleMute = useCallback(async (id: string, muted: boolean) => {
-    if (!currentUserId) return;
-    await toggleMute(id, currentUserId, muted);
-  }, [toggleMute, currentUserId]);
+  const handleMute = useCallback(
+    async (id: string, muted: boolean) => {
+      if (!currentUserId) return;
+      await toggleMute(id, currentUserId, muted);
+    },
+    [toggleMute, currentUserId],
+  );
 
-  const handleDelete = useCallback(async (id: string) => {
-    if (!currentUserId) return;
-    await deleteConversation(id, currentUserId);
-    if (selectedConversationId === id) {
-      selectConversation(null);
-    }
-  }, [deleteConversation, currentUserId, selectedConversationId, selectConversation]);
+  const handleDelete = useCallback(
+    async (id: string) => {
+      if (!currentUserId) return;
+      await deleteConversation(id, currentUserId);
+      if (selectedConversationId === id) {
+        selectConversation(null);
+      }
+    },
+    [deleteConversation, currentUserId, selectedConversationId, selectConversation],
+  );
 
-  const handleArchive = useCallback(async (id: string, archived: boolean) => {
-    if (!currentUserId) return;
-    await toggleArchive(id, currentUserId, archived);
-    if (archived && selectedConversationId === id) {
-      selectConversation(null);
-    }
-  }, [toggleArchive, currentUserId, selectedConversationId, selectConversation]);
+  const handleArchive = useCallback(
+    async (id: string, archived: boolean) => {
+      if (!currentUserId) return;
+      await toggleArchive(id, currentUserId, archived);
+      if (archived && selectedConversationId === id) {
+        selectConversation(null);
+      }
+    },
+    [toggleArchive, currentUserId, selectedConversationId, selectConversation],
+  );
 
-  const handleMarkUnread = useCallback(async (id: string, markedUnread: boolean) => {
-    if (!currentUserId) return;
-    await toggleMarkUnread(id, currentUserId, markedUnread);
-  }, [toggleMarkUnread, currentUserId]);
+  const handleMarkUnread = useCallback(
+    async (id: string, markedUnread: boolean) => {
+      if (!currentUserId) return;
+      await toggleMarkUnread(id, currentUserId, markedUnread);
+    },
+    [toggleMarkUnread, currentUserId],
+  );
 
   const handleMarkAllRead = useCallback(async () => {
     if (currentUserId) await markAllAsRead(currentUserId);

@@ -11,7 +11,13 @@ interface SettingItemProps {
 }
 
 const SettingItem: React.FC<SettingItemProps> = ({
-  icon, title, description, action, onClick, className = '', disabled = false,
+  icon,
+  title,
+  description,
+  action,
+  onClick,
+  className = '',
+  disabled = false,
 }) => {
   const isClickable = !!onClick && !disabled;
 

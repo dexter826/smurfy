@@ -12,9 +12,9 @@ export { messageQueryService } from './messageQueryService';
 export type { ProgressWithId } from './messageHelpers';
 
 export const rtdbMessageService = {
-    ...messageSendService,
-    ...messageStatusService,
-    ...messageActionService,
-    ...messageReactionService,
-    ...messageQueryService
+  ...messageSendService,
+  ...messageStatusService,
+  ...messageActionService,
+  ...messageReactionService,
+  ...messageQueryService,
 };

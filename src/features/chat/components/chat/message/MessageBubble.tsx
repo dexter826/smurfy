@@ -91,9 +91,7 @@ const MessageBubbleInner: React.FC<MessageBubbleProps> = ({
   useClickOutside([containerRef], () => setShowActions(false), showActions);
 
   const isMedia = useMemo(
-    () =>
-      message.data.type === MessageType.IMAGE ||
-      message.data.type === MessageType.GIF,
+    () => message.data.type === MessageType.IMAGE || message.data.type === MessageType.GIF,
     [message.data.type],
   );
 
@@ -386,7 +384,7 @@ const MessageBubbleInner: React.FC<MessageBubbleProps> = ({
                   setShowActions(false);
                 }}
                 isBlocked={isBlocked}
-                
+
                 isPinned={isPinned}
                 onPin={onPin}
                 onUnpin={onUnpin}

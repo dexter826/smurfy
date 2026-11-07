@@ -1,7 +1,14 @@
 import React, { useState, useMemo } from 'react';
 import {
-  Pin, VolumeX, Trash2, MoreVertical, Ban, Archive,
-  Volume2, User as UserIcon, MessageSquare,
+  Pin,
+  VolumeX,
+  Trash2,
+  MoreVertical,
+  Ban,
+  Archive,
+  Volume2,
+  User as UserIcon,
+  MessageSquare,
 } from 'lucide-react';
 import { RtdbConversation, RtdbUserChat, ReactionType, UserStatus } from '@shared/types';
 import { Dropdown, DropdownItem, AlertDialog, UserAvatar, IconButton } from '@/components/ui';
@@ -63,9 +70,19 @@ const renderMessagePreview = (preview: string): React.ReactNode => {
 
 /** Item hiển thị một hội thoại trong danh sách */
 const ConversationItemInner: React.FC<ConversationItemProps> = ({
-  conversation, isActive, currentUserId, currentUserFriendIds = [],
-  showMessageRequestBadge = false, onClick,
-  onPin, onMute, onDelete, onBlock, onArchive, onMarkUnread, onViewProfile,
+  conversation,
+  isActive,
+  currentUserId,
+  currentUserFriendIds = [],
+  showMessageRequestBadge = false,
+  onClick,
+  onPin,
+  onMute,
+  onDelete,
+  onBlock,
+  onArchive,
+  onMarkUnread,
+  onViewProfile,
 }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
@@ -74,25 +91,38 @@ const ConversationItemInner: React.FC<ConversationItemProps> = ({
     const typing = conversation.data.typing || {};
     const now = Date.now();
     return Object.entries(typing)
-      .filter(([uid, timestamp]) => uid !== currentUserId && (now - (timestamp as number)) < TIME_LIMITS.TYPING_TIMEOUT)
+      .filter(
+        ([uid, timestamp]) =>
+          uid !== currentUserId && now - (timestamp as number) < TIME_LIMITS.TYPING_TIMEOUT,
+      )
       .map(([uid]) => uid);
   }, [conversation.data.typing, currentUserId]);
-  const draft = useRtdbChatStore(state => state.draftMessages[conversation.id] ?? '');
+  const draft = useRtdbChatStore((state) => state.draftMessages[conversation.id] ?? '');
   const memberSettings = useConversationMemberSettings(conversation.id, currentUserId);
 
   const {
-    partner, participants, isDataMissing, chatInfo,
-    isMessageRequest, isUnread, unreadCount,
-    lastMessagePreview, isLastMessageMine, readers,
-    isLastMessageRead, isLastMessageDelivered, displayTime,
+    partner,
+    participants,
+    isDataMissing,
+    chatInfo,
+    isMessageRequest,
+    isUnread,
+    unreadCount,
+    lastMessagePreview,
+    isLastMessageMine,
+    readers,
+    isLastMessageRead,
+    isLastMessageDelivered,
+    displayTime,
   } = useConversationItem({ conversation, currentUserId, isActive, currentUserFriendIds });
 
   const typingText = useMemo(() => {
-    const active = typingUsers.filter(id => id !== currentUserId);
+    const active = typingUsers.filter((id) => id !== currentUserId);
     if (active.length === 0) return null;
-    const objs = active.map(uid => participants.find(p => p.id === uid)).filter(Boolean);
+    const objs = active.map((uid) => participants.find((p) => p.id === uid)).filter(Boolean);
     if (objs.length === 1) return `${getLastName(objs[0]?.fullName) || 'Ai đó'} đang soạn...`;
-    if (objs.length === 2) return `${getLastName(objs[0]?.fullName)} và ${getLastName(objs[1]?.fullName)} đang soạn...`;
+    if (objs.length === 2)
+      return `${getLastName(objs[0]?.fullName)} và ${getLastName(objs[1]?.fullName)} đang soạn...`;
     return `${getLastName(objs[0]?.fullName)} và ${objs.length - 1} người khác đang soạn...`;
   }, [typingUsers, participants, currentUserId]);
 
@@ -127,18 +157,18 @@ const ConversationItemInner: React.FC<ConversationItemProps> = ({
         {/* Name Row */}
         <div className="flex items-center justify-between mb-0.5">
           <div className="flex items-center gap-1.5 min-w-0 flex-1">
-            <h3 className={`text-sm truncate ${isUnread ? 'font-semibold text-foreground' : 'font-medium text-secondary'}`}>
+            <h3
+              className={`text-sm truncate ${isUnread ? 'font-semibold text-foreground' : 'font-medium text-secondary'}`}
+            >
               {chatInfo.name}
             </h3>
 
-            {memberSettings?.isPinned && (
-              <Pin size={12} className="text-primary flex-shrink-0" />
-            )}
-            {memberSettings?.isMuted && (
-              <VolumeX size={12} className="text-muted flex-shrink-0" />
-            )}
+            {memberSettings?.isPinned && <Pin size={12} className="text-primary flex-shrink-0" />}
+            {memberSettings?.isMuted && <VolumeX size={12} className="text-muted flex-shrink-0" />}
           </div>
-          <span className={`text-xs flex-shrink-0 ml-2 ${isMenuOpen ? 'md:hidden' : 'md:group-hover:hidden'} ${isUnread ? 'font-semibold text-primary' : 'text-muted'}`}>
+          <span
+            className={`text-xs flex-shrink-0 ml-2 ${isMenuOpen ? 'md:hidden' : 'md:group-hover:hidden'} ${isUnread ? 'font-semibold text-primary' : 'text-muted'}`}
+          >
             {displayTime}
           </span>
         </div>
@@ -184,7 +214,9 @@ const ConversationItemInner: React.FC<ConversationItemProps> = ({
       </div>
 
       {/* Context Menu */}
-      <div className={`md:absolute md:top-2 md:right-2 flex-shrink-0 transition-all duration-200 ${isMenuOpen ? 'opacity-100 md:z-10' : 'opacity-100 md:opacity-0 md:group-hover:opacity-100'}`}>
+      <div
+        className={`md:absolute md:top-2 md:right-2 flex-shrink-0 transition-all duration-200 ${isMenuOpen ? 'opacity-100 md:z-10' : 'opacity-100 md:opacity-0 md:group-hover:opacity-100'}`}
+      >
         <Dropdown
           open={isMenuOpen}
           onOpenChange={setIsMenuOpen}
@@ -236,7 +268,10 @@ const ConversationItemInner: React.FC<ConversationItemProps> = ({
               icon={<Ban size={14} />}
               label="Quản lý chặn"
               variant="danger"
-              onClick={() => { onBlock(partner!.id, partner!.fullName); setIsMenuOpen(false); }}
+              onClick={() => {
+                onBlock(partner!.id, partner!.fullName);
+                setIsMenuOpen(false);
+              }}
             />
           )}
           {onDelete && (
@@ -285,7 +320,8 @@ export const ConversationItem = Object.assign(
     return (
       prev.isActive === next.isActive &&
       prev.conversation.id === next.conversation.id &&
-      prev.conversation.data.lastMessage?.messageId === next.conversation.data.lastMessage?.messageId &&
+      prev.conversation.data.lastMessage?.messageId ===
+        next.conversation.data.lastMessage?.messageId &&
       prev.conversation.data.updatedAt === next.conversation.data.updatedAt &&
       prev.conversation.userChat.updatedAt === next.conversation.userChat.updatedAt &&
       prev.currentUserId === next.currentUserId &&
@@ -295,8 +331,9 @@ export const ConversationItem = Object.assign(
       prevMemberKeys === nextMemberKeys &&
       lastMessageEqual &&
       prevFriendIds === nextFriendIds &&
-      JSON.stringify(prev.conversation.data.typing) === JSON.stringify(next.conversation.data.typing)
+      JSON.stringify(prev.conversation.data.typing) ===
+        JSON.stringify(next.conversation.data.typing)
     );
   }),
-  { Skeleton: ConversationItemSkeleton }
+  { Skeleton: ConversationItemSkeleton },
 );

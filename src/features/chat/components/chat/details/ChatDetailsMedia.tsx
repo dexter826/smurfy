@@ -23,7 +23,7 @@ const ChatDetailsMediaInner: React.FC<ChatDetailsMediaProps> = ({ messages, onMe
 
   const sortedMessages = useMemo(
     () => [...messages].sort((a, b) => b.data.createdAt - a.data.createdAt),
-    [messages]
+    [messages],
   );
 
   const mediaItems = useMemo(() => {
@@ -77,8 +77,8 @@ const ChatDetailsMediaInner: React.FC<ChatDetailsMediaProps> = ({ messages, onMe
   }, [sortedMessages]);
 
   const imageViewerItems = useMemo(
-    () => mediaItems.images.map(i => ({ type: 'image' as const, url: i.media.url })),
-    [mediaItems.images]
+    () => mediaItems.images.map((i) => ({ type: 'image' as const, url: i.media.url })),
+    [mediaItems.images],
   );
 
   const tabs: { id: MediaTab; label: string; icon: React.ReactNode }[] = [
@@ -89,9 +89,15 @@ const ChatDetailsMediaInner: React.FC<ChatDetailsMediaProps> = ({ messages, onMe
   const renderContent = () => {
     switch (activeTab) {
       case 'images':
-        if (mediaItems.images.length === 0) return (
-          <EmptyState title="Chưa có ảnh" description="Chưa có ảnh nào được chia sẻ" size="sm" className="py-12" />
-        );
+        if (mediaItems.images.length === 0)
+          return (
+            <EmptyState
+              title="Chưa có ảnh"
+              description="Chưa có ảnh nào được chia sẻ"
+              size="sm"
+              className="py-12"
+            />
+          );
         return (
           <div className="grid grid-cols-3 gap-0.5 p-0.5">
             {mediaItems.images.map((item, index) => (
@@ -113,9 +119,15 @@ const ChatDetailsMediaInner: React.FC<ChatDetailsMediaProps> = ({ messages, onMe
         );
 
       case 'links':
-        if (mediaItems.links.length === 0) return (
-          <EmptyState title="Chưa có liên kết" description="Chưa có liên kết nào được chia sẻ" size="sm" className="py-12" />
-        );
+        if (mediaItems.links.length === 0)
+          return (
+            <EmptyState
+              title="Chưa có liên kết"
+              description="Chưa có liên kết nào được chia sẻ"
+              size="sm"
+              className="py-12"
+            />
+          );
         return (
           <div className="space-y-0.5 p-2">
             {mediaItems.links.map((item) => (
@@ -135,9 +147,7 @@ const ChatDetailsMediaInner: React.FC<ChatDetailsMediaProps> = ({ messages, onMe
                     <p className="text-sm font-medium text-foreground truncate">
                       {item.title || 'Liên kết'}
                     </p>
-                    <p className="text-xs text-muted truncate max-w-[200px]">
-                      {item.url}
-                    </p>
+                    <p className="text-xs text-muted truncate max-w-[200px]">{item.url}</p>
                   </div>
                 </button>
                 <a
@@ -176,15 +186,13 @@ const ChatDetailsMediaInner: React.FC<ChatDetailsMediaProps> = ({ messages, onMe
         ))}
       </div>
 
-      <div className="flex-1 overflow-y-auto scroll-hide min-h-0">
-        {renderContent()}
-      </div>
+      <div className="flex-1 overflow-y-auto scroll-hide min-h-0">{renderContent()}</div>
 
       <MediaViewer
         media={viewer.items}
         initialIndex={viewer.index}
         open={viewer.open}
-        onOpenChange={() => setViewer(v => ({ ...v, open: false }))}
+        onOpenChange={() => setViewer((v) => ({ ...v, open: false }))}
       />
     </div>
   );

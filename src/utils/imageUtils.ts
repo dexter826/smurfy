@@ -9,7 +9,7 @@ const AVATAR_GRADIENTS = [
   ['#56CCF2', '#2F80ED'],
   ['#B122E5', '#FF63DE'],
   ['#00B09B', '#96C93D'],
-  ['#642B73', '#C6426E']
+  ['#642B73', '#C6426E'],
 ] as const;
 
 // Lấy chữ cái đầu (tối đa 2)
@@ -32,7 +32,6 @@ export const getAvatarGradient = (seed: string): string => {
   return `linear-gradient(135deg, ${c1}, ${c2})`;
 };
 
-
 interface CompressionOptions {
   maxSizeMB?: number;
   maxWidthOrHeight?: number;
@@ -42,12 +41,12 @@ interface CompressionOptions {
 // Nén ảnh, bỏ qua nếu đã nhỏ hơn limit
 export const compressImage = async (
   file: File,
-  options: CompressionOptions = IMAGE_COMPRESSION.POST
+  options: CompressionOptions = IMAGE_COMPRESSION.POST,
 ): Promise<File> => {
-  const { 
-    maxSizeMB = IMAGE_COMPRESSION.POST.maxSizeMB, 
-    maxWidthOrHeight = IMAGE_COMPRESSION.POST.maxWidthOrHeight, 
-    quality = 0.8 
+  const {
+    maxSizeMB = IMAGE_COMPRESSION.POST.maxSizeMB,
+    maxWidthOrHeight = IMAGE_COMPRESSION.POST.maxWidthOrHeight,
+    quality = 0.8,
   } = options;
 
   // Bỏ qua nếu đã đủ nhỏ
@@ -89,7 +88,7 @@ export const compressImage = async (
           }
         },
         'image/jpeg',
-        quality
+        quality,
       );
     };
 
@@ -100,7 +99,6 @@ export const compressImage = async (
     img.src = objectUrl;
   });
 };
-
 
 // Kiểm tra file ảnh
 export const isImageFile = (file: File): boolean => {
@@ -126,7 +124,7 @@ interface CropArea {
 export async function getCroppedImg(
   imageSrc: string,
   pixelCrop: CropArea,
-  rotation = 0
+  rotation = 0,
 ): Promise<Blob> {
   const image = await createImage(imageSrc);
   const canvas = document.createElement('canvas');
@@ -146,11 +144,7 @@ export async function getCroppedImg(
   ctx.rotate((rotation * Math.PI) / 180);
   ctx.translate(-safeArea / 2, -safeArea / 2);
 
-  ctx.drawImage(
-    image,
-    safeArea / 2 - image.width * 0.5,
-    safeArea / 2 - image.height * 0.5
-  );
+  ctx.drawImage(image, safeArea / 2 - image.width * 0.5, safeArea / 2 - image.height * 0.5);
 
   const data = ctx.getImageData(0, 0, safeArea, safeArea);
 
@@ -160,7 +154,7 @@ export async function getCroppedImg(
   ctx.putImageData(
     data,
     Math.round(0 - safeArea / 2 + image.width * 0.5 - pixelCrop.x),
-    Math.round(0 - safeArea / 2 + image.height * 0.5 - pixelCrop.y)
+    Math.round(0 - safeArea / 2 + image.height * 0.5 - pixelCrop.y),
   );
 
   return new Promise((resolve, reject) => {
@@ -173,7 +167,7 @@ export async function getCroppedImg(
         }
       },
       'image/jpeg',
-      0.95
+      0.95,
     );
   });
 }

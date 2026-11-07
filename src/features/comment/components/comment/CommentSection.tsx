@@ -1,6 +1,13 @@
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { X, MessageCircle, ChevronDown, ListFilter } from 'lucide-react';
-import { Button, AlertDialog, UploadProgress, Dropdown, DropdownItem, EmptyState } from '@/components/ui';
+import {
+  Button,
+  AlertDialog,
+  UploadProgress,
+  Dropdown,
+  DropdownItem,
+  EmptyState,
+} from '@/components/ui';
 import { CONFIRM_MESSAGES, TOAST_MESSAGES } from '@/constants';
 import { toast } from '@/store/toastStore';
 import { Comment, User, MediaObject } from '@shared/types';
@@ -27,23 +34,44 @@ interface CommentSectionProps {
 }
 
 export const CommentSection: React.FC<CommentSectionProps> = ({
-  postId, currentUser, header, className = '',
-  variant = 'default', autoFocus = false,
-  onProfileClick, postOwnerId, totalCommentCount = 0,
-  readonly = false, readonlyMessage,
+  postId,
+  currentUser,
+  header,
+  className = '',
+  variant = 'default',
+  autoFocus = false,
+  onProfileClick,
+  postOwnerId,
+  totalCommentCount = 0,
+  readonly = false,
+  readonlyMessage,
 }) => {
   const {
-    rootComments, replies, hasMoreRoot, hasMoreReply, isLoadingPost,
-    fetchRootComments, fetchReplies, subscribeToComments, subscribeToReplies,
-    createComment, updateComment, deleteComment,
-    getFilteredRootComments, getFilteredReplies,
-    rootSortOrder, setRootSortOrder
+    rootComments,
+    replies,
+    hasMoreRoot,
+    hasMoreReply,
+    isLoadingPost,
+    fetchRootComments,
+    fetchReplies,
+    subscribeToComments,
+    subscribeToReplies,
+    createComment,
+    updateComment,
+    deleteComment,
+    getFilteredRootComments,
+    getFilteredReplies,
+    rootSortOrder,
+    setRootSortOrder,
   } = useCommentStore();
 
   const { users, fetchUsers } = useUserCache();
   const friendIds = useFriendIds();
   const { hiddenActivityUserIds: rawHiddenActivityUserIds } = useBlockedUsers();
-  const hiddenActivityUserIds = useMemo(() => rawHiddenActivityUserIds, [rawHiddenActivityUserIds.join(',')]);
+  const hiddenActivityUserIds = useMemo(
+    () => rawHiddenActivityUserIds,
+    [rawHiddenActivityUserIds.join(',')],
+  );
   const friendIdsKey = useMemo(() => friendIds, [friendIds.join(',')]);
 
   const [isLoadingReplyMap, setIsLoadingReplyMap] = useState<Record<string, boolean>>({});
@@ -60,15 +88,25 @@ export const CommentSection: React.FC<CommentSectionProps> = ({
   const currentHasMoreRoot = hasMoreRoot[postId] ?? false;
   const isLoading = isLoadingPost(postId);
 
-  const { visibleComments: filteredRootComments, hiddenCount: rootHiddenCount } = useMemo(() =>
-    getFilteredRootComments(postId, postOwnerId || '', currentUser.id, friendIdsKey),
-    [getFilteredRootComments, postId, postOwnerId, currentUser.id, friendIdsKey, currentRootComments]
+  const { visibleComments: filteredRootComments, hiddenCount: rootHiddenCount } = useMemo(
+    () => getFilteredRootComments(postId, postOwnerId || '', currentUser.id, friendIdsKey),
+    [
+      getFilteredRootComments,
+      postId,
+      postOwnerId,
+      currentUser.id,
+      friendIdsKey,
+      currentRootComments,
+    ],
   );
 
   useEffect(() => {
     if (activeInputId && activeInputId !== 'root' && commentRefs.current[activeInputId]) {
       setTimeout(() => {
-        commentRefs.current[activeInputId]?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        commentRefs.current[activeInputId]?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'nearest',
+        });
       }, 100);
     }
   }, [activeInputId]);
@@ -76,32 +114,36 @@ export const CommentSection: React.FC<CommentSectionProps> = ({
   useEffect(() => {
     resetInput();
     return () => {
-      Object.values(replySubscriptionsRef.current).forEach(unsub => unsub?.());
+      Object.values(replySubscriptionsRef.current).forEach((unsub) => unsub?.());
       replySubscriptionsRef.current = {};
     };
   }, [postId]);
 
   useEffect(() => {
     const unsubscribe = subscribeToComments(postId, hiddenActivityUserIds);
-    return () => { if (typeof unsubscribe === 'function') unsubscribe(); };
+    return () => {
+      if (typeof unsubscribe === 'function') unsubscribe();
+    };
   }, [postId, hiddenActivityUserIds, subscribeToComments, rootSortOrder[postId]]);
 
   useEffect(() => {
     if (currentRootComments.length === 0) return;
-    const userIds = [...new Set(currentRootComments.map(c => c.authorId))];
+    const userIds = [...new Set(currentRootComments.map((c) => c.authorId))];
     fetchUsers(userIds);
   }, [currentRootComments, fetchUsers]);
 
   useEffect(() => {
     const postReplies = replies[postId] || {};
-    const allReplyUserIds = Object.values(postReplies).flat().map(r => r.authorId);
+    const allReplyUserIds = Object.values(postReplies)
+      .flat()
+      .map((r) => r.authorId);
     const unique = [...new Set(allReplyUserIds)];
     if (unique.length > 0) fetchUsers(unique);
   }, [replies, postId, fetchUsers]);
 
   const loadReplies = async (parentId: string) => {
     if (isLoadingReplyMap[parentId]) return;
-    setIsLoadingReplyMap(prev => ({ ...prev, [parentId]: true }));
+    setIsLoadingReplyMap((prev) => ({ ...prev, [parentId]: true }));
     try {
       if (replySubscriptionsRef.current[parentId]) {
         await fetchReplies(postId, parentId, hiddenActivityUserIds, true);
@@ -110,41 +152,68 @@ export const CommentSection: React.FC<CommentSectionProps> = ({
         replySubscriptionsRef.current[parentId] = unsub;
       }
     } finally {
-      setIsLoadingReplyMap(prev => ({ ...prev, [parentId]: false }));
+      setIsLoadingReplyMap((prev) => ({ ...prev, [parentId]: false }));
     }
   };
 
   const handleReplyClick = useCallback((comment: Comment) => {
-    setReplyingTo(comment); setEditingComment(null);
-    setActiveInputId(comment.id); setInputMode('reply');
+    setReplyingTo(comment);
+    setEditingComment(null);
+    setActiveInputId(comment.id);
+    setInputMode('reply');
   }, []);
 
   const handleEditClick = useCallback((comment: Comment) => {
-    setEditingComment(comment); setReplyingTo(null);
-    setActiveInputId(comment.id); setInputMode('edit');
+    setEditingComment(comment);
+    setReplyingTo(null);
+    setActiveInputId(comment.id);
+    setInputMode('edit');
   }, []);
 
   const resetInput = useCallback(() => {
-    setReplyingTo(null); setEditingComment(null);
-    setActiveInputId('root'); setInputMode('comment');
+    setReplyingTo(null);
+    setEditingComment(null);
+    setActiveInputId('root');
+    setInputMode('comment');
   }, []);
 
-  const handleCommentSubmit = useCallback(async (content: string, image?: MediaObject | File) => {
-    if (inputMode === 'edit' && editingComment) {
-      updateComment(
-        postId, editingComment.id, content,
-        editingComment.parentId, editingComment.replyToUserId,
-        editingComment.replyToId, image
-      );
-    } else {
-      const parentId = replyingTo ? (replyingTo.parentId || replyingTo.id) : null;
-      createComment(
-        postId, currentUser.id, content,
-        parentId, replyingTo?.authorId, replyingTo?.id, image
-      );
-    }
-    resetInput();
-  }, [inputMode, editingComment, replyingTo, postId, currentUser.id, updateComment, createComment, resetInput]);
+  const handleCommentSubmit = useCallback(
+    async (content: string, image?: MediaObject | File) => {
+      if (inputMode === 'edit' && editingComment) {
+        updateComment(
+          postId,
+          editingComment.id,
+          content,
+          editingComment.parentId,
+          editingComment.replyToUserId,
+          editingComment.replyToId,
+          image,
+        );
+      } else {
+        const parentId = replyingTo ? replyingTo.parentId || replyingTo.id : null;
+        createComment(
+          postId,
+          currentUser.id,
+          content,
+          parentId,
+          replyingTo?.authorId,
+          replyingTo?.id,
+          image,
+        );
+      }
+      resetInput();
+    },
+    [
+      inputMode,
+      editingComment,
+      replyingTo,
+      postId,
+      currentUser.id,
+      updateComment,
+      createComment,
+      resetInput,
+    ],
+  );
 
   const handleDeleteConfirm = useCallback(async () => {
     if (!commentToDelete) return;
@@ -157,21 +226,32 @@ export const CommentSection: React.FC<CommentSectionProps> = ({
     }
   }, [commentToDelete, postId, currentUser.id, deleteComment]);
 
-
-
   const hasAnyHidden = useMemo(() => {
     if (rootHiddenCount > 0) return true;
-    return filteredRootComments.some(root => {
+    return filteredRootComments.some((root) => {
       const { hiddenCount } = getFilteredReplies(
-        postId, root.id, postOwnerId || '', currentUser.id, friendIdsKey
+        postId,
+        root.id,
+        postOwnerId || '',
+        currentUser.id,
+        friendIdsKey,
       );
       return hiddenCount > 0;
     });
-  }, [rootHiddenCount, filteredRootComments, getFilteredReplies, postId, postOwnerId, currentUser.id, friendIdsKey]);
+  }, [
+    rootHiddenCount,
+    filteredRootComments,
+    getFilteredReplies,
+    postId,
+    postOwnerId,
+    currentUser.id,
+    friendIdsKey,
+  ]);
 
   return (
-    <div className={`flex flex-col min-h-0 transition-all duration-200 ${className} ${!header ? 'border-t border-border' : 'h-full bg-surface'}`}>
-
+    <div
+      className={`flex flex-col min-h-0 transition-all duration-200 ${className} ${!header ? 'border-t border-border' : 'h-full bg-surface'}`}
+    >
       {/* Scrollable comment list */}
       <div className="flex-1 overflow-y-auto scroll-hide">
         {header && <div className="bg-surface">{header}</div>}
@@ -183,7 +263,9 @@ export const CommentSection: React.FC<CommentSectionProps> = ({
               trigger={
                 <button className="flex items-center gap-1 text-[11px] font-semibold text-muted transition-colors duration-200">
                   <span>Sắp xếp:</span>
-                  <span className="text-secondary">{rootSortOrder[postId] === 'asc' ? 'Cũ nhất' : 'Mới nhất'}</span>
+                  <span className="text-secondary">
+                    {rootSortOrder[postId] === 'asc' ? 'Cũ nhất' : 'Mới nhất'}
+                  </span>
                   <ChevronDown size={12} />
                 </button>
               }
@@ -208,14 +290,18 @@ export const CommentSection: React.FC<CommentSectionProps> = ({
             </div>
           ) : filteredRootComments.length === 0 ? (
             !readonly ? (
-                <EmptyState
-                  icon={MessageCircle}
-                  title={hasAnyHidden ? `Có ${totalCommentCount} bình luận (Bị giới hạn)` : 'Chưa có bình luận nào'}
-                  size="sm"
-                  className="py-10"
-                />
+              <EmptyState
+                icon={MessageCircle}
+                title={
+                  hasAnyHidden
+                    ? `Có ${totalCommentCount} bình luận (Bị giới hạn)`
+                    : 'Chưa có bình luận nào'
+                }
+                size="sm"
+                className="py-10"
+              />
             ) : (
-              readonlyMessage !== "" && (
+              readonlyMessage !== '' && (
                 <EmptyState
                   title={readonlyMessage || 'Tính năng này bị hạn chế'}
                   size="sm"
@@ -228,15 +314,23 @@ export const CommentSection: React.FC<CommentSectionProps> = ({
               {rootHiddenCount > 0 && (
                 <div className="mx-4 my-2 py-2 border-b border-border/30 text-center">
                   <p className="text-xs text-muted italic">
-                    Có {totalCommentCount} bình luận. {readonly 
-                      ? (readonlyMessage === "" ? "" : (readonlyMessage || 'Bạn không thể tương tác với bài viết này.')) 
+                    Có {totalCommentCount} bình luận.{' '}
+                    {readonly
+                      ? readonlyMessage === ''
+                        ? ''
+                        : readonlyMessage || 'Bạn không thể tương tác với bài viết này.'
                       : 'Một số bình luận có thể bị giới hạn theo quyền riêng tư.'}
                   </p>
                 </div>
               )}
 
-              {filteredRootComments.map(comment => (
-                <div key={comment.id} ref={el => { commentRefs.current[comment.id] = el; }}>
+              {filteredRootComments.map((comment) => (
+                <div
+                  key={comment.id}
+                  ref={(el) => {
+                    commentRefs.current[comment.id] = el;
+                  }}
+                >
                   <CommentItem
                     comment={comment}
                     postId={postId}
@@ -283,9 +377,10 @@ export const CommentSection: React.FC<CommentSectionProps> = ({
       {!readonly && (
         <div
           className={`flex-shrink-0 sticky bottom-0 bg-surface border-t border-border
-            ${variant === 'cinema'
-              ? 'p-4 md:p-5 bg-surface/95 backdrop-blur-md shadow-md'
-              : 'p-3 md:p-4'
+            ${
+              variant === 'cinema'
+                ? 'p-4 md:p-5 bg-surface/95 backdrop-blur-md shadow-md'
+                : 'p-3 md:p-4'
             }
             pb-[calc(12px+env(safe-area-inset-bottom))] md:pb-4`}
           style={{ zIndex: 'var(--z-sticky)' }}
@@ -306,12 +401,14 @@ export const CommentSection: React.FC<CommentSectionProps> = ({
             </div>
           )}
 
-
-
           {/* Root comment input */}
           {activeInputId === 'root' && (
             <CommentInput
-              user={{ id: currentUser.id, fullName: currentUser.fullName, avatar: currentUser.avatar }}
+              user={{
+                id: currentUser.id,
+                fullName: currentUser.fullName,
+                avatar: currentUser.avatar,
+              }}
               onSubmit={handleCommentSubmit}
               autoFocus={autoFocus}
               placeholder="Nhập bình luận..."
@@ -326,8 +423,7 @@ export const CommentSection: React.FC<CommentSectionProps> = ({
         onConfirm={handleDeleteConfirm}
         title={CONFIRM_MESSAGES.FEED.DELETE_COMMENT.TITLE}
         message={CONFIRM_MESSAGES.FEED.DELETE_COMMENT.MESSAGE(
-          !!commentToDelete?.replyCount ||
-          !!(replies[postId]?.[commentToDelete?.id || '']?.length)
+          !!commentToDelete?.replyCount || !!replies[postId]?.[commentToDelete?.id || '']?.length,
         )}
         confirmLabel={CONFIRM_MESSAGES.FEED.DELETE_COMMENT.CONFIRM}
         variant="danger"

@@ -3,8 +3,23 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Timestamp } from 'firebase/firestore';
 import { X } from 'lucide-react';
-import { User, Gender, MaritalStatus, Generation, GENDER_LABELS, MARITAL_STATUS_LABELS } from '@shared/types';
-import { Button, Input, TextArea, Select, DatePicker, Modal, SearchableSelect } from '@/components/ui';
+import {
+  User,
+  Gender,
+  MaritalStatus,
+  Generation,
+  GENDER_LABELS,
+  MARITAL_STATUS_LABELS,
+} from '@shared/types';
+import {
+  Button,
+  Input,
+  TextArea,
+  Select,
+  DatePicker,
+  Modal,
+  SearchableSelect,
+} from '@/components/ui';
 import type { SearchableOption } from '@/components/ui/SearchableSelect';
 import { toDate } from '@/utils/dateUtils';
 import { toast } from '@/store/toastStore';
@@ -186,11 +201,9 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
         <ProfilePrivacySelector
           value={formData.profilePrivacy?.[privacyKey] || Visibility.FRIENDS}
           onChange={(val) =>
-            setValue(
-              'profilePrivacy',
-              { ...formData.profilePrivacy, [privacyKey]: val } as any,
-              { shouldDirty: true },
-            )
+            setValue('profilePrivacy', { ...formData.profilePrivacy, [privacyKey]: val } as any, {
+              shouldDirty: true,
+            })
           }
         />
       </div>
@@ -280,11 +293,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
           </div>
 
           <div>
-            <FieldWrapper
-              label="Giới tính"
-              privacyKey="gender"
-              error={errors.gender?.message}
-            >
+            <FieldWrapper label="Giới tính" privacyKey="gender" error={errors.gender?.message}>
               <Select
                 value={formData.gender || ''}
                 onChange={(val) => setValue('gender', val as Gender, { shouldDirty: true })}
@@ -297,11 +306,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
           </div>
 
           <div>
-            <FieldWrapper
-              label="Ngày sinh"
-              privacyKey="dob"
-              error={errors.dob?.message}
-            >
+            <FieldWrapper label="Ngày sinh" privacyKey="dob" error={errors.dob?.message}>
               <DatePicker
                 value={formData.dob}
                 onChange={(ts) => {
@@ -326,7 +331,9 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
             >
               <Select
                 value={formData.maritalStatus || ''}
-                onChange={(val) => setValue('maritalStatus', val as MaritalStatus, { shouldDirty: true })}
+                onChange={(val) =>
+                  setValue('maritalStatus', val as MaritalStatus, { shouldDirty: true })
+                }
                 options={MARITAL_STATUS_OPTIONS}
                 placeholder="Chọn tình trạng"
                 error={errors.maritalStatus?.message}

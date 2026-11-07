@@ -11,14 +11,7 @@ import {
   ReactionDetailsModal,
   UploadProgress,
 } from '@/components/ui';
-import {
-  Post,
-  PostStatus,
-  Visibility,
-  PostType,
-  User,
-  ReactionType,
-} from '@shared/types';
+import { Post, PostStatus, Visibility, PostType, User, ReactionType } from '@shared/types';
 import { usePostStore } from '@/store';
 import { useFriendIds, useFilteredReactions } from '@/hooks';
 import {

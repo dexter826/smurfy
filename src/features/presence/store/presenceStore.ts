@@ -31,10 +31,10 @@ export const usePresenceStore = create<PresenceState>()((set, get) => ({
     }
 
     const unsub = presenceService.subscribeToPresence(userId, (presence) => {
-      set(state => {
+      set((state) => {
         if (presence) {
           return {
-            presenceMap: { ...state.presenceMap, [userId]: presence }
+            presenceMap: { ...state.presenceMap, [userId]: presence },
           };
         } else {
           const { [userId]: _, ...rest } = state.presenceMap;
@@ -45,7 +45,7 @@ export const usePresenceStore = create<PresenceState>()((set, get) => ({
 
     set({
       subscriberCounts: { ...subscriberCounts, [userId]: 1 },
-      unsubscribes: { ...unsubscribes, [userId]: unsub }
+      unsubscribes: { ...unsubscribes, [userId]: unsub },
     });
   },
 
@@ -80,9 +80,9 @@ export const usePresenceStore = create<PresenceState>()((set, get) => ({
   /** Đặt lại toàn bộ trạng thái */
   reset: () => {
     const { unsubscribes } = get();
-    Object.values(unsubscribes).forEach(unsub => unsub());
+    Object.values(unsubscribes).forEach((unsub) => unsub());
     set({ presenceMap: {}, subscriberCounts: {}, unsubscribes: {} });
-  }
+  },
 }));
 
 import { registerStore } from '@/store/storeUtils';

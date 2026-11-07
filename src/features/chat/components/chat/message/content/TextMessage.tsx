@@ -13,11 +13,5 @@ interface TextMessageProps {
 export const TextMessage: React.FC<TextMessageProps> = ({ message, isMe }) => {
   const { content, isEdited } = message.data;
 
-  return (
-    <MessageTextContent 
-      content={content} 
-      isMe={isMe} 
-      isEdited={!!isEdited} 
-    />
-  );
+  return <MessageTextContent content={content} isMe={isMe} isEdited={!!isEdited} />;
 };

@@ -20,12 +20,11 @@ export const useProfileFriend = ({
   profile,
   profileUserId,
   isOwnProfile,
-  loadProfile
+  loadProfile,
 }: UseProfileFriendProps) => {
   const [friendStatus, setFriendStatus] = useState<FriendStatus>(FriendStatus.NOT_FRIEND);
   const [pendingRequestId, setPendingRequestId] = useState<string | undefined>();
   const friendIds = useFriendIds();
-
 
   const sentRequestRef = useRef<FriendRequest | null>(null);
   const receivedRequestRef = useRef<FriendRequest | null>(null);
@@ -53,15 +52,17 @@ export const useProfileFriend = ({
     };
 
     const unsubscribeSent = friendService.subscribeToSentRequests(currentUser.id, (requests) => {
-      sentRequestRef.current = requests.find(r => r.receiverId === profileUserId) || null;
+      sentRequestRef.current = requests.find((r) => r.receiverId === profileUserId) || null;
       updateStatus();
     });
 
-    const unsubscribeReceived = friendService.subscribeToReceivedRequests(currentUser.id, (requests) => {
-      receivedRequestRef.current = requests.find(r => r.senderId === profileUserId) || null;
-      updateStatus();
-    });
-
+    const unsubscribeReceived = friendService.subscribeToReceivedRequests(
+      currentUser.id,
+      (requests) => {
+        receivedRequestRef.current = requests.find((r) => r.senderId === profileUserId) || null;
+        updateStatus();
+      },
+    );
 
     updateStatus();
 

@@ -5,15 +5,15 @@ import { Button, AlertDialog, BlockOptionsModal } from '@/components/ui';
 import { CONFIRM_MESSAGES } from '@/constants';
 import { PostModal } from '@/features/feed';
 import { usePostStore, useSharePostStore } from '@/store';
-import { 
-  ProfileHeader, 
-  ProfileTabs, 
-  EditProfileModal, 
-  PostsTab, 
-  PhotosTab, 
-  ProfileAboutCard, 
+import {
+  ProfileHeader,
+  ProfileTabs,
+  EditProfileModal,
+  PostsTab,
+  PhotosTab,
+  ProfileAboutCard,
   ProfileMediaPreview,
-  ProfileSkeleton
+  ProfileSkeleton,
 } from './profile';
 import { useProfile, usePostNavigation } from '@/hooks';
 import { ReactionType, Visibility, MediaObject, PostType, PostStatus, Post } from '@shared/types';
@@ -29,17 +29,37 @@ const ProfilePage: React.FC = () => {
   const { user: currentUser } = useAuthStore();
   const { reactToPost, updatePost, deletePost, posts } = usePostStore();
   const { viewPost } = usePostNavigation();
-  const openSharePost = useSharePostStore(state => state.openSharePost);
+  const openSharePost = useSharePostStore((state) => state.openSharePost);
 
   const {
-    profile, latestMedia, loading, uploadingType, uploadProgress,
-    isOwnProfile, friendStatus, canViewContent, activeTab, setActiveTab,
-    handleMessage, handleFriendAction, confirmUnfriend,
-    handleSaveProfile, handleAvatarChange, handleCoverChange,
-    handleAvatarDelete, handleCoverDelete,
-    isBlockedByMe, isBlockedByPartner, isMessageBlockedByPartner, currentBlockOptions,
-    isBlockModalOpen, handleOpenBlockModal, handleApplyBlock,
-    handleUnblockUser, confirmUnblock, closeBlockModal
+    profile,
+    latestMedia,
+    loading,
+    uploadingType,
+    uploadProgress,
+    isOwnProfile,
+    friendStatus,
+    canViewContent,
+    activeTab,
+    setActiveTab,
+    handleMessage,
+    handleFriendAction,
+    confirmUnfriend,
+    handleSaveProfile,
+    handleAvatarChange,
+    handleCoverChange,
+    handleAvatarDelete,
+    handleCoverDelete,
+    isBlockedByMe,
+    isBlockedByPartner,
+    isMessageBlockedByPartner,
+    currentBlockOptions,
+    isBlockModalOpen,
+    handleOpenBlockModal,
+    handleApplyBlock,
+    handleUnblockUser,
+    confirmUnblock,
+    closeBlockModal,
   } = useProfile();
 
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -47,7 +67,12 @@ const ProfilePage: React.FC = () => {
   const [showEditModal, setShowEditModal] = useState<string | null>(null);
   const [postToDelete, setPostToDelete] = useState<string | null>(null);
 
-  const handleEditPost = (content: string, media: MediaObject[], visibility: Visibility, pendingFiles?: File[]) => {
+  const handleEditPost = (
+    content: string,
+    media: MediaObject[],
+    visibility: Visibility,
+    pendingFiles?: File[],
+  ) => {
     if (!showEditModal) return;
     updatePost(showEditModal, content, media, visibility, pendingFiles);
   };
@@ -67,7 +92,7 @@ const ProfilePage: React.FC = () => {
         where('type', '==', type),
         where('status', '==', PostStatus.ACTIVE),
         orderBy('createdAt', 'desc'),
-        limit(1)
+        limit(1),
       );
       const snap = await getDocs(q);
       if (!snap.empty) {
@@ -78,20 +103,24 @@ const ProfilePage: React.FC = () => {
     }
   };
 
-
-
-  const handleOpenShareModal = useCallback((post: Post, authorName: string) => {
-    openSharePost(post, authorName);
-  }, [openSharePost]);
+  const handleOpenShareModal = useCallback(
+    (post: Post, authorName: string) => {
+      openSharePost(post, authorName);
+    },
+    [openSharePost],
+  );
 
   const onFriendActionClick = async () => {
     const { needConfirm } = await handleFriendAction();
     if (needConfirm) setConfirmType('unfriend');
   };
 
-  const handlePostReact = useCallback((postId: string, reaction: ReactionType | 'REMOVE') => {
-    if (currentUser) reactToPost(postId, currentUser.id, reaction);
-  }, [currentUser, reactToPost]);
+  const handlePostReact = useCallback(
+    (postId: string, reaction: ReactionType | 'REMOVE') => {
+      if (currentUser) reactToPost(postId, currentUser.id, reaction);
+    },
+    [currentUser, reactToPost],
+  );
 
   const confirmActions: Record<ConfirmType, () => Promise<void>> = {
     unfriend: confirmUnfriend,
@@ -99,7 +128,10 @@ const ProfilePage: React.FC = () => {
     deleteCover: handleCoverDelete,
   };
 
-  const confirmConfig: Record<ConfirmType, { title: string; message: string; confirmLabel: string }> = {
+  const confirmConfig: Record<
+    ConfirmType,
+    { title: string; message: string; confirmLabel: string }
+  > = {
     unfriend: {
       title: CONFIRM_MESSAGES.FRIEND.UNFRIEND.TITLE,
       message: CONFIRM_MESSAGES.FRIEND.UNFRIEND.MESSAGE(profile?.fullName || ''),
@@ -140,12 +172,14 @@ const ProfilePage: React.FC = () => {
           isMessageBlockedByPartner={isMessageBlockedByPartner}
           uploadingType={uploadingType}
           uploadProgress={uploadProgress}
-          onAvatarClick={profile.avatar?.url ? () => handleMediaClick(PostType.AVATAR_UPDATE) : undefined}
-          onCoverClick={profile.cover?.url ? () => handleMediaClick(PostType.COVER_UPDATE) : undefined}
+          onAvatarClick={
+            profile.avatar?.url ? () => handleMediaClick(PostType.AVATAR_UPDATE) : undefined
+          }
+          onCoverClick={
+            profile.cover?.url ? () => handleMediaClick(PostType.COVER_UPDATE) : undefined
+          }
         />
-        {canViewContent && (
-          <ProfileTabs activeTab={activeTab} onTabChange={setActiveTab} />
-        )}
+        {canViewContent && <ProfileTabs activeTab={activeTab} onTabChange={setActiveTab} />}
       </div>
 
       {canViewContent && (
@@ -155,10 +189,10 @@ const ProfilePage: React.FC = () => {
               {/* ── Left sidebar ── */}
               <div className="w-full md:w-[320px] lg:w-[360px] flex-shrink-0 space-y-4">
                 <ProfileAboutCard profile={profile} isOwnProfile={isOwnProfile} />
-                <ProfileMediaPreview 
-                  media={latestMedia} 
-                  isBlocked={isBlockedByPartner || !!currentBlockOptions?.hideTheirActivity} 
-                  onSeeAll={() => setActiveTab('media')} 
+                <ProfileMediaPreview
+                  media={latestMedia}
+                  isBlocked={isBlockedByPartner || !!currentBlockOptions?.hideTheirActivity}
+                  onSeeAll={() => setActiveTab('media')}
                 />
               </div>
 
@@ -168,7 +202,9 @@ const ProfilePage: React.FC = () => {
                   userId={profile.id}
                   currentUser={currentUser}
                   onViewPost={viewPost}
-                  isViewActivityBlocked={isBlockedByPartner || !!currentBlockOptions?.hideTheirActivity}
+                  isViewActivityBlocked={
+                    isBlockedByPartner || !!currentBlockOptions?.hideTheirActivity
+                  }
                   onSharePost={handleOpenShareModal}
                 />
               </div>
@@ -178,7 +214,9 @@ const ProfilePage: React.FC = () => {
               {activeTab === 'media' && (
                 <PhotosTab
                   userId={profile.id}
-                  isViewActivityBlocked={isBlockedByPartner || !!currentBlockOptions?.hideTheirActivity}
+                  isViewActivityBlocked={
+                    isBlockedByPartner || !!currentBlockOptions?.hideTheirActivity
+                  }
                 />
               )}
             </div>
@@ -198,7 +236,7 @@ const ProfilePage: React.FC = () => {
           open={!!showEditModal}
           onOpenChange={() => setShowEditModal(null)}
           currentUser={currentUser}
-          initialPost={posts.find(p => p.id === showEditModal) || undefined}
+          initialPost={posts.find((p) => p.id === showEditModal) || undefined}
           onSubmit={handleEditPost}
         />
       )}
@@ -217,7 +255,10 @@ const ProfilePage: React.FC = () => {
         <AlertDialog
           open
           onOpenChange={() => setConfirmType(null)}
-          onConfirm={async () => { await confirmActions[confirmType](); setConfirmType(null); }}
+          onConfirm={async () => {
+            await confirmActions[confirmType]();
+            setConfirmType(null);
+          }}
           title={confirmConfig[confirmType].title}
           message={confirmConfig[confirmType].message}
           confirmLabel={confirmConfig[confirmType].confirmLabel}
@@ -234,7 +275,6 @@ const ProfilePage: React.FC = () => {
         onUnblock={confirmUnblock}
         onOpenChange={closeBlockModal}
       />
-
     </div>
   );
 };

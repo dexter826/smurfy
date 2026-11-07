@@ -2,12 +2,24 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { User, RtdbConversation, RtdbUserChat, UserStatus } from '@shared/types';
 import {
-  UserAvatar, UserStatusText, Dropdown, DropdownItem,
-  AlertDialog, IconButton,
+  UserAvatar,
+  UserStatusText,
+  Dropdown,
+  DropdownItem,
+  AlertDialog,
+  IconButton,
 } from '@/components/ui';
 import {
-  Crown, Shield, UserPlus, MoreVertical,
-  UserMinus, ShieldPlus, ShieldMinus, Lock, Users, ChevronRight,
+  Crown,
+  Shield,
+  UserPlus,
+  MoreVertical,
+  UserMinus,
+  ShieldPlus,
+  ShieldMinus,
+  Lock,
+  Users,
+  ChevronRight,
 } from 'lucide-react';
 import { CONFIRM_MESSAGES } from '@/constants/confirmMessages';
 import { PendingMembersModal } from './PendingMembersModal';
@@ -28,10 +40,17 @@ interface ChatDetailsMemberListProps {
 
 /** Danh sách thành viên trong nhóm chat */
 export const ChatDetailsMemberList: React.FC<ChatDetailsMemberListProps> = ({
-  conversation, currentUserId, participants, usersMap,
-  onMemberClick, onAddMember, onRemoveMember,
-  onPromoteToAdmin, onDemoteFromAdmin,
-  onApproveMembers, onRejectMembers,
+  conversation,
+  currentUserId,
+  participants,
+  usersMap,
+  onMemberClick,
+  onAddMember,
+  onRemoveMember,
+  onPromoteToAdmin,
+  onDemoteFromAdmin,
+  onApproveMembers,
+  onRejectMembers,
 }) => {
   const navigate = useNavigate();
   const [menuOpenId, setMenuOpenId] = useState<string | null>(null);
@@ -63,7 +82,6 @@ export const ChatDetailsMemberList: React.FC<ChatDetailsMemberListProps> = ({
     return true;
   };
 
-
   return (
     <div className="py-3">
       {canManageMembers && pendingEntries.length > 0 && (
@@ -78,7 +96,10 @@ export const ChatDetailsMemberList: React.FC<ChatDetailsMemberListProps> = ({
             <p className="text-sm font-bold text-primary">Phê duyệt thành viên</p>
             <p className="text-xs text-primary/70">{pendingEntries.length} người đang chờ duyệt</p>
           </div>
-          <ChevronRight size={18} className="text-primary/40 group-hover:translate-x-0.5 transition-transform" />
+          <ChevronRight
+            size={18}
+            className="text-primary/40 group-hover:translate-x-0.5 transition-transform"
+          />
         </button>
       )}
 
@@ -127,13 +148,15 @@ export const ChatDetailsMemberList: React.FC<ChatDetailsMemberListProps> = ({
                   <div className="flex items-center gap-1.5 flex-wrap">
                     <span className="text-sm font-medium text-foreground truncate">
                       {member.fullName}
-                      {isCurrentUser && (
-                        <span className="text-muted font-normal"> (Bạn)</span>
-                      )}
+                      {isCurrentUser && <span className="text-muted font-normal"> (Bạn)</span>}
                     </span>
 
                     {role === 'creator' && (
-                      <Crown size={13} className="text-warning flex-shrink-0" aria-label="Trưởng nhóm" />
+                      <Crown
+                        size={13}
+                        className="text-warning flex-shrink-0"
+                        aria-label="Trưởng nhóm"
+                      />
                     )}
                     {role === 'admin' && (
                       <Shield size={13} className="text-info flex-shrink-0" aria-label="Admin" />
@@ -173,14 +196,20 @@ export const ChatDetailsMemberList: React.FC<ChatDetailsMemberListProps> = ({
                     <DropdownItem
                       icon={<ShieldPlus size={14} />}
                       label="Thăng làm Admin"
-                      onClick={() => { onPromoteToAdmin(member.id); setMenuOpenId(null); }}
+                      onClick={() => {
+                        onPromoteToAdmin(member.id);
+                        setMenuOpenId(null);
+                      }}
                     />
                   )}
                   {!isBanned && role === 'admin' && isCurrentUserCreator && onDemoteFromAdmin && (
                     <DropdownItem
                       icon={<ShieldMinus size={14} />}
                       label="Hạ quyền Admin"
-                      onClick={() => { onDemoteFromAdmin(member.id); setMenuOpenId(null); }}
+                      onClick={() => {
+                        onDemoteFromAdmin(member.id);
+                        setMenuOpenId(null);
+                      }}
                     />
                   )}
                   {onRemoveMember && (
@@ -188,7 +217,10 @@ export const ChatDetailsMemberList: React.FC<ChatDetailsMemberListProps> = ({
                       icon={<UserMinus size={14} />}
                       label="Xóa khỏi nhóm"
                       variant="danger"
-                      onClick={() => { setConfirmRemove(member.id); setMenuOpenId(null); }}
+                      onClick={() => {
+                        setConfirmRemove(member.id);
+                        setMenuOpenId(null);
+                      }}
                     />
                   )}
                 </Dropdown>
@@ -212,7 +244,10 @@ export const ChatDetailsMemberList: React.FC<ChatDetailsMemberListProps> = ({
       <AlertDialog
         open={!!confirmRemove}
         onOpenChange={() => setConfirmRemove(null)}
-        onConfirm={() => { if (confirmRemove) onRemoveMember?.(confirmRemove); setConfirmRemove(null); }}
+        onConfirm={() => {
+          if (confirmRemove) onRemoveMember?.(confirmRemove);
+          setConfirmRemove(null);
+        }}
         title="Xóa thành viên"
         message="Bạn có chắc chắn muốn xóa thành viên này khỏi nhóm?"
         confirmLabel="Xóa ngay"

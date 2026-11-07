@@ -1,4 +1,11 @@
-import { format, formatDistanceToNow, isYesterday, isToday, differenceInDays, getYear } from 'date-fns';
+import {
+  format,
+  formatDistanceToNow,
+  isYesterday,
+  isToday,
+  differenceInDays,
+  getYear,
+} from 'date-fns';
 import { vi } from 'date-fns/locale';
 import { Timestamp } from 'firebase/firestore';
 
@@ -53,10 +60,7 @@ export const formatRelativeTime = (date: DateLike): string => {
   const timeStr = formatDistanceToNow(d, { locale: vi });
 
   // Chuẩn hóa thành cụm từ ngắn gọn
-  return timeStr
-    .replace('khoảng ', '')
-    .replace('một ', '1 ')
-    .replace('dưới 1 phút', 'Vừa xong');
+  return timeStr.replace('khoảng ', '').replace('một ', '1 ').replace('dưới 1 phút', 'Vừa xong');
 };
 
 // Định dạng thời gian hội thoại
@@ -122,7 +126,7 @@ export const isBirthdayToday = (date: DateLike): boolean => {
 
   // Xử lý trường hợp đặc biệt: sinh ngày 29/02
   if (birthMonth === 1 && birthDate === 29) {
-    const isLeapYear = (year: number) => (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0);
+    const isLeapYear = (year: number) => (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
     if (!isLeapYear(now.getFullYear())) {
       // Nếu không phải năm nhuận, coi sinh nhật là ngày 28/02
       return currentMonth === 1 && currentDate === 28;

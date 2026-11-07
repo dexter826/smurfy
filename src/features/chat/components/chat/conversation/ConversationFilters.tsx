@@ -12,7 +12,10 @@ interface ConversationFiltersProps {
 
 /** Bộ lọc danh sách hội thoại */
 export const ConversationFilters: React.FC<ConversationFiltersProps> = ({
-  activeFilter, onFilterChange, onMarkAllRead, badges = {},
+  activeFilter,
+  onFilterChange,
+  onMarkAllRead,
+  badges = {},
 }) => {
   const filters: { id: FilterType; label: string; badge?: number }[] = [
     { id: 'all', label: 'Chính', badge: badges.all },
@@ -30,15 +33,18 @@ export const ConversationFilters: React.FC<ConversationFiltersProps> = ({
               key={filter.id}
               onClick={() => onFilterChange(filter.id)}
               className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all duration-200 outline-none
-              ${isActive
+              ${
+                isActive
                   ? 'bg-primary/10 text-primary'
                   : 'text-muted hover:text-secondary hover:bg-hover'
-                }`}
+              }`}
             >
               {filter.label}
               {filter.badge != null && filter.badge > 0 && (
-                <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[18px] flex items-center justify-center leading-none
-                ${isActive ? 'bg-primary text-white' : 'bg-danger text-white'}`}>
+                <span
+                  className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[18px] flex items-center justify-center leading-none
+                ${isActive ? 'bg-primary text-white' : 'bg-danger text-white'}`}
+                >
                   {filter.badge > 99 ? '99+' : filter.badge}
                 </span>
               )}

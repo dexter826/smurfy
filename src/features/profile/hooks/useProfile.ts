@@ -20,7 +20,7 @@ export const useProfile = () => {
   const { userId } = useParams<{ userId?: string }>();
   const navigate = useNavigate();
   const { user: currentUser } = useAuthStore();
-  const profileUserId = (userId === 'me' || !userId) ? currentUser?.id : userId;
+  const profileUserId = userId === 'me' || !userId ? currentUser?.id : userId;
   const [activeTab, setActiveTab] = useState<TabType>('posts');
 
   const data = useProfileData({ profileUserId, currentUser: currentUser ?? null });
@@ -50,50 +50,53 @@ export const useProfile = () => {
   });
   const canViewContent = true;
 
-
   const maskedProfile = useMemo(() => {
     if (!profile || !currentUser) return profile;
     return getMaskedProfile(
       profile,
       currentUser.id,
       friendStatus === FriendStatus.FRIEND,
-      profile.profilePrivacy
+      profile.profilePrivacy,
     );
   }, [profile, currentUser, friendStatus]);
 
-  const handleMessage = useCallback(async (bypassSettingsCheck: boolean = false) => {
-    if (!currentUser || !profile) return;
+  const handleMessage = useCallback(
+    async (bypassSettingsCheck: boolean = false) => {
+      if (!currentUser || !profile) return;
 
-    if (block.isMessageBlockedByPartner) {
-      toast.error(TOAST_MESSAGES.CHAT.BLOCKED_USER);
-      return;
-    }
-
-
-    try {
-      const convId = getDirectConversationId(currentUser.id, profile.id);
-      navigate(`/?conv=${convId}`);
-    } catch (error: any) {
-      console.error('[handleMessage] Lỗi:', error);
-      toast.error(TOAST_MESSAGES.CHAT.INIT_FAILED);
-    }
-  }, [currentUser, profile, navigate, block.isMessageBlockedByPartner]);
-
-
-  const handleSaveProfile = useCallback(async (data: Partial<User>) => {
-    if (!profile) return;
-    try {
-      const updated = await userService.updateProfile(profile.id, data);
-      setProfile(updated);
-      useUserCache.getState().setUser(updated);
-      if (isOwnProfile && currentUser) {
-        useAuthStore.getState().updateUserProfile(data);
+      if (block.isMessageBlockedByPartner) {
+        toast.error(TOAST_MESSAGES.CHAT.BLOCKED_USER);
+        return;
       }
-    } catch (error) {
-      console.error("Lỗi cập nhật profile", error);
-      throw error;
-    }
-  }, [profile, isOwnProfile, currentUser, setProfile]);
+
+      try {
+        const convId = getDirectConversationId(currentUser.id, profile.id);
+        navigate(`/?conv=${convId}`);
+      } catch (error: any) {
+        console.error('[handleMessage] Lỗi:', error);
+        toast.error(TOAST_MESSAGES.CHAT.INIT_FAILED);
+      }
+    },
+    [currentUser, profile, navigate, block.isMessageBlockedByPartner],
+  );
+
+  const handleSaveProfile = useCallback(
+    async (data: Partial<User>) => {
+      if (!profile) return;
+      try {
+        const updated = await userService.updateProfile(profile.id, data);
+        setProfile(updated);
+        useUserCache.getState().setUser(updated);
+        if (isOwnProfile && currentUser) {
+          useAuthStore.getState().updateUserProfile(data);
+        }
+      } catch (error) {
+        console.error('Lỗi cập nhật profile', error);
+        throw error;
+      }
+    },
+    [profile, isOwnProfile, currentUser, setProfile],
+  );
 
   return {
     currentUser,

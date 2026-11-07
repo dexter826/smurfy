@@ -9,7 +9,7 @@ interface UseChatMessagesProps {
 /** Gửi và quản lý các loại tin nhắn trong hội thoại */
 export const useChatMessages = ({
   selectedConversationId,
-  currentUserId
+  currentUserId,
 }: UseChatMessagesProps) => {
   const {
     sendTextMessage,
@@ -23,65 +23,88 @@ export const useChatMessages = ({
     unpinMessage,
   } = useRtdbChatStore();
 
-  const handleSendText = useCallback(async (
-    text: string,
-    mentions?: string[],
-    replyToId?: string
-  ) => {
-    if (!selectedConversationId || !currentUserId) return;
-    await sendTextMessage(selectedConversationId, currentUserId, text, mentions, replyToId);
-  }, [selectedConversationId, currentUserId, sendTextMessage]);
+  const handleSendText = useCallback(
+    async (text: string, mentions?: string[], replyToId?: string) => {
+      if (!selectedConversationId || !currentUserId) return;
+      await sendTextMessage(selectedConversationId, currentUserId, text, mentions, replyToId);
+    },
+    [selectedConversationId, currentUserId, sendTextMessage],
+  );
 
-  const handleSendImage = useCallback(async (files: File[], options?: { content?: string; mentions?: string[]; replyToId?: string }) => {
-    if (!selectedConversationId || !currentUserId) return;
-    await sendImageMessage(selectedConversationId, currentUserId, files, options);
-  }, [selectedConversationId, currentUserId, sendImageMessage]);
+  const handleSendImage = useCallback(
+    async (
+      files: File[],
+      options?: { content?: string; mentions?: string[]; replyToId?: string },
+    ) => {
+      if (!selectedConversationId || !currentUserId) return;
+      await sendImageMessage(selectedConversationId, currentUserId, files, options);
+    },
+    [selectedConversationId, currentUserId, sendImageMessage],
+  );
 
-  const handleSendGif = useCallback(async (url: string, replyToId?: string) => {
-    if (!selectedConversationId || !currentUserId) return;
-    await sendGifMessage(selectedConversationId, currentUserId, url, replyToId);
-  }, [selectedConversationId, currentUserId, sendGifMessage]);
+  const handleSendGif = useCallback(
+    async (url: string, replyToId?: string) => {
+      if (!selectedConversationId || !currentUserId) return;
+      await sendGifMessage(selectedConversationId, currentUserId, url, replyToId);
+    },
+    [selectedConversationId, currentUserId, sendGifMessage],
+  );
 
-  const handleEditMessage = useCallback(async (
-    messageId: string,
-    newContent: string
-  ) => {
-    if (!selectedConversationId) return;
-    await editMessage(selectedConversationId, messageId, newContent);
-  }, [selectedConversationId, editMessage]);
+  const handleEditMessage = useCallback(
+    async (messageId: string, newContent: string) => {
+      if (!selectedConversationId) return;
+      await editMessage(selectedConversationId, messageId, newContent);
+    },
+    [selectedConversationId, editMessage],
+  );
 
-  const handleRecallMessage = useCallback(async (messageId: string) => {
-    if (!selectedConversationId) return;
-    await recallMessage(selectedConversationId, messageId);
-  }, [selectedConversationId, recallMessage]);
+  const handleRecallMessage = useCallback(
+    async (messageId: string) => {
+      if (!selectedConversationId) return;
+      await recallMessage(selectedConversationId, messageId);
+    },
+    [selectedConversationId, recallMessage],
+  );
 
-  const handleDeleteForMe = useCallback(async (messageId: string) => {
-    if (!selectedConversationId || !currentUserId) return;
-    await deleteMessageForMe(selectedConversationId, messageId, currentUserId);
-  }, [selectedConversationId, currentUserId, deleteMessageForMe]);
+  const handleDeleteForMe = useCallback(
+    async (messageId: string) => {
+      if (!selectedConversationId || !currentUserId) return;
+      await deleteMessageForMe(selectedConversationId, messageId, currentUserId);
+    },
+    [selectedConversationId, currentUserId, deleteMessageForMe],
+  );
 
-  const forwardMessage = useCallback(async (
-    conversationId: string,
-    message: any
-  ) => {
-    if (!currentUserId) return;
-    await storeForwardMessage(conversationId, currentUserId, message);
-  }, [currentUserId, storeForwardMessage]);
+  const forwardMessage = useCallback(
+    async (conversationId: string, message: any) => {
+      if (!currentUserId) return;
+      await storeForwardMessage(conversationId, currentUserId, message);
+    },
+    [currentUserId, storeForwardMessage],
+  );
 
-  const replyToMessage = useCallback(async (text: string, replyToId: string) => {
-    if (!selectedConversationId || !currentUserId) return;
-    await sendTextMessage(selectedConversationId, currentUserId, text, undefined, replyToId);
-  }, [selectedConversationId, currentUserId, sendTextMessage]);
+  const replyToMessage = useCallback(
+    async (text: string, replyToId: string) => {
+      if (!selectedConversationId || !currentUserId) return;
+      await sendTextMessage(selectedConversationId, currentUserId, text, undefined, replyToId);
+    },
+    [selectedConversationId, currentUserId, sendTextMessage],
+  );
 
-  const handlePinMessage = useCallback(async (messageId: string) => {
-    if (!selectedConversationId) return;
-    await pinMessage(selectedConversationId, messageId);
-  }, [selectedConversationId, pinMessage]);
+  const handlePinMessage = useCallback(
+    async (messageId: string) => {
+      if (!selectedConversationId) return;
+      await pinMessage(selectedConversationId, messageId);
+    },
+    [selectedConversationId, pinMessage],
+  );
 
-  const handleUnpinMessage = useCallback(async (messageId: string) => {
-    if (!selectedConversationId) return;
-    await unpinMessage(selectedConversationId, messageId);
-  }, [selectedConversationId, unpinMessage]);
+  const handleUnpinMessage = useCallback(
+    async (messageId: string) => {
+      if (!selectedConversationId) return;
+      await unpinMessage(selectedConversationId, messageId);
+    },
+    [selectedConversationId, unpinMessage],
+  );
 
   return {
     handleSendText,

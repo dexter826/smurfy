@@ -8,7 +8,7 @@ import AppRoutes from './app/router';
 /** Gốc ứng dụng điều phối Splash và cây route. */
 const App: React.FC = () => {
   const { isInitialized } = useAuthStore();
-  const initializeAuth = useAuthStore(state => state.initialize);
+  const initializeAuth = useAuthStore((state) => state.initialize);
   const [showSplash, setShowSplash] = useState(true);
 
   useEffect(() => {

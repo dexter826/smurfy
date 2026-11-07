@@ -19,12 +19,7 @@ export const ContactsSidebar: React.FC<ContactsSidebarProps> = ({
   return (
     <aside className="hidden md:flex flex-col w-[280px] lg:w-[320px] border-r border-border bg-surface flex-shrink-0">
       <div className="p-4 border-b border-border">
-        <Button
-          fullWidth
-          icon={<UserPlus size={17} />}
-          onClick={onOpenAddModal}
-          variant="primary"
-        >
+        <Button fullWidth icon={<UserPlus size={17} />} onClick={onOpenAddModal} variant="primary">
           Thêm bạn bè
         </Button>
       </div>
@@ -46,7 +41,9 @@ export const ContactsSidebar: React.FC<ContactsSidebarProps> = ({
                     : 'text-secondary hover:bg-hover hover:text-foreground'
                 }`}
             >
-              <span className={`flex-shrink-0 transition-colors ${isActive ? 'text-primary' : 'text-muted'}`}>
+              <span
+                className={`flex-shrink-0 transition-colors ${isActive ? 'text-primary' : 'text-muted'}`}
+              >
                 {icon}
               </span>
               <span className="flex-1 text-left truncate">{label}</span>

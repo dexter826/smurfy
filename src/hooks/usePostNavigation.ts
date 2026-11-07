@@ -7,13 +7,16 @@ export const usePostNavigation = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const viewPost = useCallback((post: Post) => {
-    const searchParams = new URLSearchParams(location.search);
-    if (searchParams.get('post') === post.id) return;
+  const viewPost = useCallback(
+    (post: Post) => {
+      const searchParams = new URLSearchParams(location.search);
+      if (searchParams.get('post') === post.id) return;
 
-    searchParams.set('post', post.id);
-    navigate(`${location.pathname}?${searchParams.toString()}`);
-  }, [navigate, location.pathname, location.search]);
+      searchParams.set('post', post.id);
+      navigate(`${location.pathname}?${searchParams.toString()}`);
+    },
+    [navigate, location.pathname, location.search],
+  );
 
   const closePost = useCallback(() => {
     const searchParams = new URLSearchParams(location.search);

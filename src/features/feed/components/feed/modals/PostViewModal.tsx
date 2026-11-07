@@ -23,14 +23,7 @@ import {
   ReactionDetailsModal,
   MediaViewer,
 } from '@/components/ui';
-import {
-  Post,
-  User,
-  ReactionType,
-  PostType,
-  Visibility,
-  PostStatus,
-} from '@shared/types';
+import { Post, User, ReactionType, PostType, Visibility, PostStatus } from '@shared/types';
 import { CommentSection } from '@/features/comment';
 import { formatRelativeTime, formatDateTime } from '@/utils/dateUtils';
 import { useFriendIds, useFilteredReactions } from '@/hooks';
@@ -96,8 +89,7 @@ export const PostViewModal: React.FC<PostViewModalProps> = ({
     }
   }, [open, post?.id]);
 
-  useEffect(() => {
-  }, [activeMediaIndex]);
+  useEffect(() => {}, [activeMediaIndex]);
 
   const allMedia = useMemo(() => {
     if (!post) return [];
@@ -288,24 +280,24 @@ export const PostViewModal: React.FC<PostViewModalProps> = ({
 
           <div className="flex items-center gap-0.5 shrink-0 ml-auto">
             {isOwner && !isDeleted && (
-                <Dropdown
-                  trigger={
-                    <IconButton icon={<MoreHorizontal size={18} />} size="sm" variant="ghost" />
-                  }
-                >
-                  <DropdownItem
-                    icon={<Edit size={15} />}
-                    label={isSystemPost ? 'Chỉnh sửa quyền riêng tư' : 'Chỉnh sửa bài viết'}
-                    onClick={() => onEdit?.(post.id)}
-                  />
-                  <DropdownItem
-                    icon={<Trash2 size={15} />}
-                    label="Xóa bài viết"
-                    variant="danger"
-                    onClick={() => onDelete?.(post.id)}
-                  />
-                </Dropdown>
-              )}
+              <Dropdown
+                trigger={
+                  <IconButton icon={<MoreHorizontal size={18} />} size="sm" variant="ghost" />
+                }
+              >
+                <DropdownItem
+                  icon={<Edit size={15} />}
+                  label={isSystemPost ? 'Chỉnh sửa quyền riêng tư' : 'Chỉnh sửa bài viết'}
+                  onClick={() => onEdit?.(post.id)}
+                />
+                <DropdownItem
+                  icon={<Trash2 size={15} />}
+                  label="Xóa bài viết"
+                  variant="danger"
+                  onClick={() => onDelete?.(post.id)}
+                />
+              </Dropdown>
+            )}
             <IconButton icon={<X size={18} />} onClick={onOpenChange} variant="ghost" size="sm" />
           </div>
         </div>

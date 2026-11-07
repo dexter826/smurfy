@@ -19,9 +19,7 @@ type MediaItem = {
   thumbnailUrl?: string;
 };
 
-const PhotosTabInner: React.FC<PhotosTabProps> = ({
-  userId, isViewActivityBlocked = false,
-}) => {
+const PhotosTabInner: React.FC<PhotosTabProps> = ({ userId, isViewActivityBlocked = false }) => {
   const [realtimeMedia, setRealtimeMedia] = useState<MediaItem[]>([]);
   const [historyMedia, setHistoryMedia] = useState<MediaItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -33,43 +31,56 @@ const PhotosTabInner: React.FC<PhotosTabProps> = ({
   const lastDocRef = useRef<DocumentSnapshot | null>(null);
   const observerRef = useRef<HTMLDivElement>(null);
 
-  const extractMedia = useCallback((posts: { media?: MediaObject[] }[]): MediaItem[] =>
-    posts.flatMap(post =>
-      (post.media || []).map(m => ({
-        url: m.url,
-        thumbnailUrl: m.thumbnailUrl,
-      }))
-    ), []);
+  const extractMedia = useCallback(
+    (posts: { media?: MediaObject[] }[]): MediaItem[] =>
+      posts.flatMap((post) =>
+        (post.media || []).map((m) => ({
+          url: m.url,
+          thumbnailUrl: m.thumbnailUrl,
+        })),
+      ),
+    [],
+  );
 
-  const loadMedia = useCallback(async (isLoadMore = false) => {
-    if (!currentUser) return;
-    if (isLoadMore) setLoadingMore(true);
-    else setLoading(true);
-    try {
-      const { posts, lastDoc } = await postService.getUserPosts(
-        userId, currentUser.id, friendIds, MEDIA_PAGE_SIZE,
-        isLoadMore ? lastDocRef.current ?? undefined : undefined
-      );
-      lastDocRef.current = lastDoc;
-      setHasMore(posts.length === MEDIA_PAGE_SIZE && !!lastDoc);
-      const newMedia = extractMedia(posts);
-      if (isLoadMore) {
-        setHistoryMedia(prev => [...prev, ...newMedia]);
-      } else {
-        setRealtimeMedia(newMedia);
-        setHistoryMedia([]);
+  const loadMedia = useCallback(
+    async (isLoadMore = false) => {
+      if (!currentUser) return;
+      if (isLoadMore) setLoadingMore(true);
+      else setLoading(true);
+      try {
+        const { posts, lastDoc } = await postService.getUserPosts(
+          userId,
+          currentUser.id,
+          friendIds,
+          MEDIA_PAGE_SIZE,
+          isLoadMore ? (lastDocRef.current ?? undefined) : undefined,
+        );
+        lastDocRef.current = lastDoc;
+        setHasMore(posts.length === MEDIA_PAGE_SIZE && !!lastDoc);
+        const newMedia = extractMedia(posts);
+        if (isLoadMore) {
+          setHistoryMedia((prev) => [...prev, ...newMedia]);
+        } else {
+          setRealtimeMedia(newMedia);
+          setHistoryMedia([]);
+        }
+      } catch {
+        // silent
+      } finally {
+        setLoading(false);
+        setLoadingMore(false);
       }
-    } catch {
-      // silent
-    } finally {
-      setLoading(false);
-      setLoadingMore(false);
-    }
-  }, [userId, currentUser, friendIds, extractMedia]);
+    },
+    [userId, currentUser, friendIds, extractMedia],
+  );
 
   useEffect(() => {
     if (isViewActivityBlocked) {
-      setLoading(false); setRealtimeMedia([]); setHistoryMedia([]); setHasMore(false); return;
+      setLoading(false);
+      setRealtimeMedia([]);
+      setHistoryMedia([]);
+      setHasMore(false);
+      return;
     }
 
     lastDocRef.current = null;
@@ -85,7 +96,8 @@ const PhotosTabInner: React.FC<PhotosTabProps> = ({
       friendIds,
       (action) => {
         if (action === 'add' || action === 'update' || action === 'remove') {
-          postService.getUserPosts(userId, currentUser?.id || '', friendIds, MEDIA_PAGE_SIZE)
+          postService
+            .getUserPosts(userId, currentUser?.id || '', friendIds, MEDIA_PAGE_SIZE)
             .then(({ posts: latestPosts, lastDoc }) => {
               setRealtimeMedia(extractMedia(latestPosts));
               if (historyMedia.length === 0) {
@@ -95,7 +107,7 @@ const PhotosTabInner: React.FC<PhotosTabProps> = ({
             });
         }
       },
-      MEDIA_PAGE_SIZE
+      MEDIA_PAGE_SIZE,
     );
 
     return () => unsubscribe();
@@ -104,7 +116,7 @@ const PhotosTabInner: React.FC<PhotosTabProps> = ({
   const media = useMemo(() => {
     const combined = [...realtimeMedia, ...historyMedia];
     const seen = new Set();
-    return combined.filter(item => {
+    return combined.filter((item) => {
       if (seen.has(item.url)) return false;
       seen.add(item.url);
       return true;
@@ -114,30 +126,28 @@ const PhotosTabInner: React.FC<PhotosTabProps> = ({
   useEffect(() => {
     if (!observerRef.current || !hasMore || loading) return;
     const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting && !loadingMore) loadMedia(true); },
-      { rootMargin: '200px' }
+      ([entry]) => {
+        if (entry.isIntersecting && !loadingMore) loadMedia(true);
+      },
+      { rootMargin: '200px' },
     );
     observer.observe(observerRef.current);
     return () => observer.disconnect();
   }, [hasMore, loading, loadingMore, loadMedia]);
 
-  const mediaViewerItems = useMemo(() =>
-    media.map(m => ({
-      type: 'image' as const,
-      url: m.url,
-    })), [media]);
+  const mediaViewerItems = useMemo(
+    () =>
+      media.map((m) => ({
+        type: 'image' as const,
+        url: m.url,
+      })),
+    [media],
+  );
 
   if (loading && !isViewActivityBlocked) return <PhotosTabSkeleton />;
 
   if (media.length === 0 || isViewActivityBlocked) {
-    return (
-      <EmptyState
-        icon={ImageIcon}
-        title="Chưa có ảnh nào"
-        variant="boxed"
-        size="md"
-      />
-    );
+    return <EmptyState icon={ImageIcon} title="Chưa có ảnh nào" variant="boxed" size="md" />;
   }
 
   return (
@@ -147,7 +157,8 @@ const PhotosTabInner: React.FC<PhotosTabProps> = ({
           <h3 className="font-semibold text-base text-foreground">
             Ảnh
             <span className="text-muted font-normal ml-1.5 text-sm">
-              ({media.length}{hasMore ? '+' : ''})
+              ({media.length}
+              {hasMore ? '+' : ''})
             </span>
           </h3>
         </div>

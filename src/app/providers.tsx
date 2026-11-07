@@ -2,12 +2,7 @@ import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { useAuthStore } from '@/features/auth';
 import { useSelfPresence } from '@/features/presence';
-import {
-  ConnectionStatus,
-  ErrorBoundary,
-  ToastContainer,
-  TooltipProvider,
-} from '@/components/ui';
+import { ConnectionStatus, ErrorBoundary, ToastContainer, TooltipProvider } from '@/components/ui';
 
 const GlobalPresenceManager: React.FC = () => {
   const { user } = useAuthStore();

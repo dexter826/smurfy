@@ -8,14 +8,21 @@ interface ProfileMediaPreviewProps {
   onSeeAll: () => void;
 }
 
-export const ProfileMediaPreview: React.FC<ProfileMediaPreviewProps> = ({ media, isBlocked, onSeeAll }) => {
+export const ProfileMediaPreview: React.FC<ProfileMediaPreviewProps> = ({
+  media,
+  isBlocked,
+  onSeeAll,
+}) => {
   const [selectedIndex, setSelectedIndex] = React.useState(-1);
 
-  const mediaViewerItems = React.useMemo(() => 
-    media.map(m => ({
-      url: m.url,
-      type: 'image' as const,
-    })), [media]);
+  const mediaViewerItems = React.useMemo(
+    () =>
+      media.map((m) => ({
+        url: m.url,
+        type: 'image' as const,
+      })),
+    [media],
+  );
 
   return (
     <div className="bg-surface rounded-2xl border border-border p-4 hidden md:block">
@@ -38,18 +45,15 @@ export const ProfileMediaPreview: React.FC<ProfileMediaPreviewProps> = ({ media,
               onClick={() => setSelectedIndex(idx)}
             >
               <img
-                src={item.url} alt=""
+                src={item.url}
+                alt=""
                 className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
               />
             </div>
           ))}
         </div>
       ) : (
-        <EmptyState
-          title="Chưa có ảnh nào"
-          size="sm"
-          className="py-4"
-        />
+        <EmptyState title="Chưa có ảnh nào" size="sm" className="py-4" />
       )}
 
       <MediaViewer

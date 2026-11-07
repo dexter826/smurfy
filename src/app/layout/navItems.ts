@@ -1,9 +1,4 @@
-import {
-  MessageCircle,
-  LayoutGrid,
-  Users,
-  Settings,
-} from 'lucide-react';
+import { MessageCircle, LayoutGrid, Users, Settings } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 
 export interface TopNavItem {

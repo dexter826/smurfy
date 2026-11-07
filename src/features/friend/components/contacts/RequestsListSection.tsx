@@ -50,8 +50,8 @@ export const RequestsListSection: React.FC<RequestsListSectionProps> = ({
           searchTerm
             ? 'Không tìm thấy lời mời nào khớp với từ khóa tìm kiếm.'
             : isReceived
-            ? 'Hiện tại bạn không có lời mời kết bạn mới nào.'
-            : 'Bạn chưa gửi lời mời kết bạn nào.'
+              ? 'Hiện tại bạn không có lời mời kết bạn mới nào.'
+              : 'Bạn chưa gửi lời mời kết bạn nào.'
         }
         className="py-20"
       />

@@ -13,9 +13,9 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ isReady, onFinish })
 
   useEffect(() => {
     fetch('/static/animations/splash.json')
-      .then(res => res.json())
-      .then(data => setAnimationData(data))
-      .catch(err => console.error('Lỗi tải splash animation:', err));
+      .then((res) => res.json())
+      .then((data) => setAnimationData(data))
+      .catch((err) => console.error('Lỗi tải splash animation:', err));
 
     const timer = setTimeout(() => {
       setIsMinTimeElapsed(true);
@@ -41,7 +41,9 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ isReady, onFinish })
       }`}
     >
       <img src="/logo.svg" alt="Smurfy" className="h-28 w-28 object-contain" />
-      <h1 className="font-display font-extrabold text-3xl text-foreground mt-4 tracking-tight">Smurfy</h1>
+      <h1 className="font-display font-extrabold text-3xl text-foreground mt-4 tracking-tight">
+        Smurfy
+      </h1>
       <div className="w-24 h-1.5 mt-8 overflow-hidden rounded-full bg-surface-sunken">
         <div className="h-full w-1/2 rounded-full bg-primary animate-shimmer" />
       </div>

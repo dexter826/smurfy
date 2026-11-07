@@ -9,12 +9,17 @@ import { IconButton } from '@/components/ui';
 const NotificationsPage: React.FC = () => {
   const navigate = useNavigate();
   const { user } = useAuthStore();
-  const { notifications, unreadCount, markAllAsRead, clearAllNotifications, currentLimit, loadMore } =
-    useNotificationStore();
+  const {
+    notifications,
+    unreadCount,
+    markAllAsRead,
+    clearAllNotifications,
+    currentLimit,
+    loadMore,
+  } = useNotificationStore();
 
   return (
     <div className="flex flex-col h-full overflow-hidden">
-
       {/* ── Header ── */}
       <header className="flex-shrink-0 flex items-center justify-between px-4 h-16 border-b border-border bg-surface">
         <div className="flex items-center gap-2">
@@ -27,7 +32,9 @@ const NotificationsPage: React.FC = () => {
           <div>
             <h1 className="text-base font-semibold text-foreground leading-tight">Thông báo</h1>
             {unreadCount > 0 && (
-              <p className="text-xs text-primary font-medium leading-tight">{unreadCount} thông báo mới</p>
+              <p className="text-xs text-primary font-medium leading-tight">
+                {unreadCount} thông báo mới
+              </p>
             )}
           </div>
         </div>

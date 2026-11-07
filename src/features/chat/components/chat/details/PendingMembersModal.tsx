@@ -107,13 +107,19 @@ export const PendingMembersModal: React.FC<PendingMembersModalProps> = ({
                     key={uid}
                     className="flex items-center gap-3 px-4 py-3.5 hover:bg-hover transition-colors border-b border-border last:border-0"
                   >
-                    <UserAvatar userId={uid} src={user?.avatar?.url} name={user?.fullName} size="md" />
+                    <UserAvatar
+                      userId={uid}
+                      src={user?.avatar?.url}
+                      name={user?.fullName}
+                      size="md"
+                    />
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-semibold text-foreground truncate">
                         {user?.fullName || 'Người dùng'}
                       </p>
                       <p className="text-xs text-muted truncate mt-0.5">
-                        Được mời bởi <span className="text-secondary font-medium">{inviterName}</span>
+                        Được mời bởi{' '}
+                        <span className="text-secondary font-medium">{inviterName}</span>
                       </p>
                     </div>
                     <div className="flex items-center gap-2">
@@ -156,7 +162,7 @@ export const PendingMembersModal: React.FC<PendingMembersModalProps> = ({
         onConfirm={handleRejectSingle}
         title={CONFIRM_MESSAGES.CHAT.REJECT_MEMBER.TITLE}
         message={CONFIRM_MESSAGES.CHAT.REJECT_MEMBER.MESSAGE(
-          confirmReject ? (usersMap[confirmReject]?.fullName || 'người dùng này') : ''
+          confirmReject ? usersMap[confirmReject]?.fullName || 'người dùng này' : '',
         )}
         confirmLabel={CONFIRM_MESSAGES.CHAT.REJECT_MEMBER.CONFIRM}
         variant="danger"

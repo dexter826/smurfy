@@ -9,57 +9,60 @@ export const useFilteredReactions = (
   sourceId: string,
   sourceType: 'post' | 'comment',
   authorId: string,
-  initialCount?: number
+  initialCount?: number,
 ) => {
-  const currentUser = useAuthStore(state => state.user);
+  const currentUser = useAuthStore((state) => state.user);
   const [reactionsMap, setReactionsMap] = useState<Record<string, ReactionType>>({});
   const [isLoading, setIsLoading] = useState(true);
 
-  const optimisticReaction = useReactionStore(state => state.optimisticReactions[sourceId]);
-  const clearOptimisticReaction = useReactionStore(state => state.clearOptimisticReaction);
+  const optimisticReaction = useReactionStore((state) => state.optimisticReactions[sourceId]);
+  const clearOptimisticReaction = useReactionStore((state) => state.clearOptimisticReaction);
 
   const prevOptimisticRef = useRef<ReactionType | null | undefined>(undefined);
 
   useEffect(() => {
     if (!sourceId || !currentUser) return;
 
-    const colPath = sourceType === 'post'
-      ? `posts/${sourceId}/reactions`
-      : `comments/${sourceId}/reactions`;
+    const colPath =
+      sourceType === 'post' ? `posts/${sourceId}/reactions` : `comments/${sourceId}/reactions`;
 
     const q = query(collection(db, colPath), orderBy('createdAt', 'desc'));
 
     setIsLoading(true);
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const map: Record<string, ReactionType> = {};
-      snapshot.forEach(doc => {
-        map[doc.id] = doc.data().type as ReactionType;
-      });
-      setReactionsMap(map);
-      setIsLoading(false);
+    const unsubscribe = onSnapshot(
+      q,
+      (snapshot) => {
+        const map: Record<string, ReactionType> = {};
+        snapshot.forEach((doc) => {
+          map[doc.id] = doc.data().type as ReactionType;
+        });
+        setReactionsMap(map);
+        setIsLoading(false);
 
-      if (optimisticReaction !== undefined && currentUser?.id) {
-        const firestoreReaction = map[currentUser.id];
-        const prevOptimistic = prevOptimisticRef.current;
+        if (optimisticReaction !== undefined && currentUser?.id) {
+          const firestoreReaction = map[currentUser.id];
+          const prevOptimistic = prevOptimisticRef.current;
 
-        const isSynced =
-          (optimisticReaction === null && !firestoreReaction) ||
-          (optimisticReaction && firestoreReaction === optimisticReaction);
+          const isSynced =
+            (optimisticReaction === null && !firestoreReaction) ||
+            (optimisticReaction && firestoreReaction === optimisticReaction);
 
-        if (isSynced && prevOptimistic === optimisticReaction) {
-          setTimeout(() => {
-            clearOptimisticReaction(sourceId);
-          }, 150);
+          if (isSynced && prevOptimistic === optimisticReaction) {
+            setTimeout(() => {
+              clearOptimisticReaction(sourceId);
+            }, 150);
+          }
         }
-      }
 
-      prevOptimisticRef.current = optimisticReaction;
-    }, (error) => {
-      if (error.code !== 'permission-denied') {
-        console.error(`Error subscribing to reactions for ${sourceId}:`, error);
-      }
-      setIsLoading(false);
-    });
+        prevOptimisticRef.current = optimisticReaction;
+      },
+      (error) => {
+        if (error.code !== 'permission-denied') {
+          console.error(`Error subscribing to reactions for ${sourceId}:`, error);
+        }
+        setIsLoading(false);
+      },
+    );
 
     return () => unsubscribe();
   }, [sourceId, sourceType, currentUser?.id, optimisticReaction, clearOptimisticReaction]);
@@ -82,7 +85,7 @@ export const useFilteredReactions = (
       }
     }
 
-    Object.values(tempMap).forEach(type => {
+    Object.values(tempMap).forEach((type) => {
       summary[type] = (summary[type] || 0) + 1;
       count++;
     });
@@ -94,9 +97,16 @@ export const useFilteredReactions = (
       filteredSummary: summary,
       filteredCount: finalCount,
       isReacted,
-      currentUserReaction: effectiveUserReaction
+      currentUserReaction: effectiveUserReaction,
     };
   }, [reactionsMap, initialCount, currentUser?.id, optimisticReaction]);
 
-  return { filteredSummary, filteredCount, reactionsMap, isLoaded: !isLoading, isReacted, currentUserReaction };
+  return {
+    filteredSummary,
+    filteredCount,
+    reactionsMap,
+    isLoaded: !isLoading,
+    isReacted,
+    currentUserReaction,
+  };
 };

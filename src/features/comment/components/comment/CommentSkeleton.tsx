@@ -6,13 +6,14 @@ interface CommentSkeletonProps {
   depth?: number;
 }
 
-export const CommentSkeleton: React.FC<CommentSkeletonProps> = ({
-  count = 3,
-  depth = 0,
-}) => (
+export const CommentSkeleton: React.FC<CommentSkeletonProps> = ({ count = 3, depth = 0 }) => (
   <div className={`space-y-4 ${depth > 0 ? 'ml-9 mt-2' : ''}`}>
     {Array.from({ length: count }).map((_, i) => (
-      <div key={i} className="flex gap-2.5 animate-fade-in" style={{ animationDelay: `${i * 60}ms` }}>
+      <div
+        key={i}
+        className="flex gap-2.5 animate-fade-in"
+        style={{ animationDelay: `${i * 60}ms` }}
+      >
         {/* Avatar */}
         <Skeleton
           variant="circle"

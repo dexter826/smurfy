@@ -23,37 +23,44 @@ const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({ open, onOpenC
   const { logout } = useAuthStore();
   const navigate = useNavigate();
 
-  const { register, handleSubmit, formState: { errors, isDirty, isValid } } = useForm<ChangePasswordFormValues>({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isDirty, isValid },
+  } = useForm<ChangePasswordFormValues>({
     resolver: zodResolver(changePasswordSchema),
     defaultValues: { currentPassword: '', newPassword: '', confirmPassword: '' },
   });
 
-  const toggleVisibility = useCallback(() => setShowPasswords(v => !v), []);
+  const toggleVisibility = useCallback(() => setShowPasswords((v) => !v), []);
 
-  const onSubmit = useCallback(async (data: ChangePasswordFormValues) => {
-    setError(null);
-    setIsLoading(true);
-    try {
-      await authService.reauthenticate(data.currentPassword);
-      await authService.changePassword(data.newPassword);
-      setSuccess(true);
-      toast.success(TOAST_MESSAGES.AUTH.CHANGE_PASSWORD_SUCCESS);
-      setTimeout(async () => {
-        await logout();
-        onOpenChange();
-        navigate('/login');
-      }, 2000);
-    } catch (err: unknown) {
-      const code = (err as { code?: string }).code;
-      setError(
-        code === 'auth/wrong-password'
-          ? 'Mật khẩu hiện tại không chính xác.'
-          : 'Có lỗi xảy ra. Vui lòng thử lại sau.'
-      );
-    } finally {
-      setIsLoading(false);
-    }
-  }, [logout, onOpenChange, navigate]);
+  const onSubmit = useCallback(
+    async (data: ChangePasswordFormValues) => {
+      setError(null);
+      setIsLoading(true);
+      try {
+        await authService.reauthenticate(data.currentPassword);
+        await authService.changePassword(data.newPassword);
+        setSuccess(true);
+        toast.success(TOAST_MESSAGES.AUTH.CHANGE_PASSWORD_SUCCESS);
+        setTimeout(async () => {
+          await logout();
+          onOpenChange();
+          navigate('/login');
+        }, 2000);
+      } catch (err: unknown) {
+        const code = (err as { code?: string }).code;
+        setError(
+          code === 'auth/wrong-password'
+            ? 'Mật khẩu hiện tại không chính xác.'
+            : 'Có lỗi xảy ra. Vui lòng thử lại sau.',
+        );
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [logout, onOpenChange, navigate],
+  );
 
   if (!open) return null;
 
@@ -80,7 +87,12 @@ const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({ open, onOpenC
       fullScreen="mobile"
       footer={
         <div className="flex gap-3 w-full">
-          <Button variant="secondary" onClick={onOpenChange} disabled={isLoading} className="flex-1">
+          <Button
+            variant="secondary"
+            onClick={onOpenChange}
+            disabled={isLoading}
+            className="flex-1"
+          >
             Hủy
           </Button>
           <Button

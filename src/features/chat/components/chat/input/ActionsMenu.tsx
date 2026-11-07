@@ -10,13 +10,14 @@ interface ActionsMenuProps {
 }
 
 /** Menu các hành động đính kèm tin nhắn */
-export const ActionsMenu: React.FC<ActionsMenuProps> = ({
-  open, onToggle, onAction, disabled,
-}) => (
+export const ActionsMenu: React.FC<ActionsMenuProps> = ({ open, onToggle, onAction, disabled }) => (
   <div className="relative flex-shrink-0">
     <IconButton
       type="button"
-      onClick={(e) => { e.stopPropagation(); onToggle(); }}
+      onClick={(e) => {
+        e.stopPropagation();
+        onToggle();
+      }}
       className={`transition-all duration-200 ${open ? 'rotate-45' : ''}`}
       variant={open ? 'primary' : 'ghost'}
       icon={<Plus size={18} />}

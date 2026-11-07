@@ -26,10 +26,23 @@ interface MessageListProps {
 
 /** Danh sách tin nhắn trong hội thoại */
 const MessageListInner: React.FC<MessageListProps> = ({
-  messages, currentUserId, usersMap, conversation, participants,
-  lastReadByMap, onRecall, onDeleteForMe, onForward, onReply, onEdit,
-  chatName, avatarSrc, partner,
-  isBlocked = false, onContentLoad, onMarkAsRead,
+  messages,
+  currentUserId,
+  usersMap,
+  conversation,
+  participants,
+  lastReadByMap,
+  onRecall,
+  onDeleteForMe,
+  onForward,
+  onReply,
+  onEdit,
+  chatName,
+  avatarSrc,
+  partner,
+  isBlocked = false,
+  onContentLoad,
+  onMarkAsRead,
 }) => {
   const { pinMessage, unpinMessage } = useRtdbChatStore();
   const groupedMessages = useMemo(() => {
@@ -37,7 +50,7 @@ const MessageListInner: React.FC<MessageListProps> = ({
     let currentDate = '';
 
     const visible = messages.filter(
-      msg => !msg.data.deletedBy || !msg.data.deletedBy[currentUserId]
+      (msg) => !msg.data.deletedBy || !msg.data.deletedBy[currentUserId],
     );
 
     visible.forEach((msg) => {
@@ -56,7 +69,7 @@ const MessageListInner: React.FC<MessageListProps> = ({
   const shouldShowAvatar = (
     msg: { id: string; data: RtdbMessage },
     index: number,
-    dayMessages: Array<{ id: string; data: RtdbMessage }>
+    dayMessages: Array<{ id: string; data: RtdbMessage }>,
   ): boolean => {
     if (msg.data.senderId === currentUserId) return false;
     if (index === dayMessages.length - 1) return true;
@@ -66,7 +79,7 @@ const MessageListInner: React.FC<MessageListProps> = ({
   const shouldShowName = (
     msg: { id: string; data: RtdbMessage },
     index: number,
-    dayMessages: Array<{ id: string; data: RtdbMessage }>
+    dayMessages: Array<{ id: string; data: RtdbMessage }>,
   ): boolean => {
     if (!conversation.data.isGroup) return false;
     if (msg.data.senderId === currentUserId) return false;
@@ -80,7 +93,7 @@ const MessageListInner: React.FC<MessageListProps> = ({
       <EmptyState
         icon={
           <UserAvatar
-            userId={conversation.data.isGroup ? '' : partner?.id ?? ''}
+            userId={conversation.data.isGroup ? '' : (partner?.id ?? '')}
             src={avatarSrc}
             name={chatName}
             size="xl"

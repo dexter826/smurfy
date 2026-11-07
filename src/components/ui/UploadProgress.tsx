@@ -15,11 +15,17 @@ interface UploadProgressProps {
  * Component hiển thị tiến trình tải lên kèm metadata.
  */
 export const UploadProgress: React.FC<UploadProgressProps> = ({
-  progress, bytesTransferred, totalBytes, fileName, className = '', variant = 'default',
+  progress,
+  bytesTransferred,
+  totalBytes,
+  fileName,
+  className = '',
+  variant = 'default',
 }) => {
-  const metadata = bytesTransferred !== undefined && totalBytes !== undefined && progress < 100
-    ? `${formatBytes(bytesTransferred)} / ${formatBytes(totalBytes)}`
-    : undefined;
+  const metadata =
+    bytesTransferred !== undefined && totalBytes !== undefined && progress < 100
+      ? `${formatBytes(bytesTransferred)} / ${formatBytes(totalBytes)}`
+      : undefined;
 
   return (
     <ProgressBar

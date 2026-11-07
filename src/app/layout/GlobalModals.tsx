@@ -5,10 +5,7 @@ import { ReactionType, MediaObject, Visibility } from '@shared/types';
 import { useAuthStore } from '@/features/auth';
 import { useContactStore } from '@/features/friend';
 import { PostViewModal, PostModal } from '@/features/feed';
-import {
-  SharePostModal,
-  JoinGroupModal,
-} from '@/features/chat';
+import { SharePostModal, JoinGroupModal } from '@/features/chat';
 import { usePostStore, toast, useLoadingStore, useRtdbChatStore } from '../../store';
 import { usePostNavigation } from '../../hooks/usePostNavigation';
 import { useUserCache } from '../../store/userCacheStore';

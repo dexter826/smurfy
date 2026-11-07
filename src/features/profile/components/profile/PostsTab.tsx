@@ -15,42 +15,58 @@ interface PostsTabProps {
 }
 
 export const PostsTab: React.FC<PostsTabProps> = ({
-  userId, currentUser, onViewPost, isViewActivityBlocked = false, onSharePost,
+  userId,
+  currentUser,
+  onViewPost,
+  isViewActivityBlocked = false,
+  onSharePost,
 }) => {
   const [postToDelete, setPostToDelete] = useState<string | null>(null);
   const [showEditModal, setShowEditModal] = useState<string | null>(null);
 
   const {
-    posts, loading, loadingMore, hasMore, users,
-    handleLoadMore, handleReact, handleDelete: performDelete, handleUpdate: performUpdate,
+    posts,
+    loading,
+    loadingMore,
+    hasMore,
+    users,
+    handleLoadMore,
+    handleReact,
+    handleDelete: performDelete,
+    handleUpdate: performUpdate,
   } = useUserPosts(userId, currentUser);
 
   const observerRef = useIntersectionObserver(handleLoadMore, {
     enabled: hasMore && !loading && !loadingMore,
   });
 
-  const handleEditPost = useCallback(async (
-    content: string,
-    media: MediaObject[],
-    visibility: Visibility,
-    pendingFiles?: File[]
-  ) => {
-    if (!showEditModal) return;
-    await performUpdate(showEditModal, content, media, visibility, pendingFiles);
-    setShowEditModal(null);
-  }, [showEditModal, performUpdate]);
+  const handleEditPost = useCallback(
+    async (
+      content: string,
+      media: MediaObject[],
+      visibility: Visibility,
+      pendingFiles?: File[],
+    ) => {
+      if (!showEditModal) return;
+      await performUpdate(showEditModal, content, media, visibility, pendingFiles);
+      setShowEditModal(null);
+    },
+    [showEditModal, performUpdate],
+  );
 
   const handleDelete = async () => {
     if (!postToDelete) return;
-    const post = posts.find(p => p.id === postToDelete);
-    await performDelete(postToDelete, post?.media?.map(m => m.url) || []);
+    const post = posts.find((p) => p.id === postToDelete);
+    await performDelete(postToDelete, post?.media?.map((m) => m.url) || []);
     setPostToDelete(null);
   };
 
   if (loading && !isViewActivityBlocked) {
     return (
       <div className="space-y-3 md:space-y-4">
-        {[...Array(3)].map((_, i) => <PostItem.Skeleton key={i} />)}
+        {[...Array(3)].map((_, i) => (
+          <PostItem.Skeleton key={i} />
+        ))}
       </div>
     );
   }
@@ -60,12 +76,7 @@ export const PostsTab: React.FC<PostsTabProps> = ({
       {userId === currentUser.id && <CreatePost currentUser={currentUser} />}
 
       {isViewActivityBlocked || posts.length === 0 ? (
-        <EmptyState
-          icon={FileText}
-          title="Chưa có bài viết nào"
-          variant="boxed"
-          size="md"
-        />
+        <EmptyState icon={FileText} title="Chưa có bài viết nào" variant="boxed" size="md" />
       ) : (
         <>
           {posts.map((post) => (
@@ -84,7 +95,9 @@ export const PostsTab: React.FC<PostsTabProps> = ({
           <div ref={observerRef} className="h-4 w-full" />
           {loadingMore && (
             <div className="space-y-3 md:space-y-4 mt-2">
-              {[...Array(2)].map((_, i) => <PostItem.Skeleton key={`more-${i}`} />)}
+              {[...Array(2)].map((_, i) => (
+                <PostItem.Skeleton key={`more-${i}`} />
+              ))}
             </div>
           )}
         </>
@@ -94,7 +107,7 @@ export const PostsTab: React.FC<PostsTabProps> = ({
         open={!!showEditModal}
         onOpenChange={() => setShowEditModal(null)}
         currentUser={currentUser}
-        initialPost={posts.find(p => p.id === showEditModal)}
+        initialPost={posts.find((p) => p.id === showEditModal)}
         onSubmit={handleEditPost}
       />
 

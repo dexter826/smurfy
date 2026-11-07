@@ -35,21 +35,22 @@ export const useChatBlock = ({
   const [isLoadingSettings, setIsLoadingSettings] = useState(true);
   const { settings, blockedUsers: myBlockedUsers } = useAuthStore();
 
-  const myBlockOptions = useMemo(() =>
-    partnerId ? myBlockedUsers[partnerId] : undefined,
-    [partnerId, myBlockedUsers]
+  const myBlockOptions = useMemo(
+    () => (partnerId ? myBlockedUsers[partnerId] : undefined),
+    [partnerId, myBlockedUsers],
   );
 
   const isBlockedByMe = !!myBlockOptions?.blockMessages;
   const isMessageBlockedByMe = !!myBlockOptions?.blockMessages;
   const isCallBlockedByMe = !!myBlockOptions?.blockCalls;
-  const isFullyBlockedByMe = !!myBlockOptions && 
-    myBlockOptions.blockMessages && 
-    myBlockOptions.blockCalls && 
-    myBlockOptions.blockViewMyActivity && 
+  const isFullyBlockedByMe =
+    !!myBlockOptions &&
+    myBlockOptions.blockMessages &&
+    myBlockOptions.blockCalls &&
+    myBlockOptions.blockViewMyActivity &&
     myBlockOptions.hideTheirActivity;
 
-  const isBlocked = isMessageBlockedByMe || isMessageBlockedByPartner ;
+  const isBlocked = isMessageBlockedByMe || isMessageBlockedByPartner;
   const shouldShowBlockBanner = !!myBlockOptions;
 
   useEffect(() => {
@@ -96,18 +97,22 @@ export const useChatBlock = ({
     }
 
     const settingsRef = doc(db, 'users', partnerId, 'private', 'settings');
-    const unsub = onSnapshot(settingsRef, (snap) => {
-      if (snap.exists()) {
-        const data = snap.data() as UserSettings;
-        setIsPartnerBlockingStrangers(data.allowMessagesFromStrangers === false);
-      } else {
+    const unsub = onSnapshot(
+      settingsRef,
+      (snap) => {
+        if (snap.exists()) {
+          const data = snap.data() as UserSettings;
+          setIsPartnerBlockingStrangers(data.allowMessagesFromStrangers === false);
+        } else {
+          setIsPartnerBlockingStrangers(false);
+        }
+        setIsLoadingSettings(false);
+      },
+      () => {
         setIsPartnerBlockingStrangers(false);
-      }
-      setIsLoadingSettings(false);
-    }, () => {
-      setIsPartnerBlockingStrangers(false);
-      setIsLoadingSettings(false);
-    });
+        setIsLoadingSettings(false);
+      },
+    );
 
     return () => unsub();
   }, [partnerId, isGroup, isFriend, currentUser]);
@@ -115,25 +120,32 @@ export const useChatBlock = ({
   const { blockedMessage } = useMemo(() => {
     if (!isGroup && partnerId) {
       const currentStatus = partnerStatus || partner?.status || usersMap[partnerId]?.status;
-      if (isMessageBlockedByMe) return { blockedMessage: 'Bạn đã chặn liên lạc với người này. Bỏ chặn để gửi tin nhắn.' };
-      if (isMessageBlockedByPartner) return { blockedMessage: 'Không thể gửi tin nhắn cho người dùng này.' };
-      
+      if (isMessageBlockedByMe)
+        return { blockedMessage: 'Bạn đã chặn liên lạc với người này. Bỏ chặn để gửi tin nhắn.' };
+      if (isMessageBlockedByPartner)
+        return { blockedMessage: 'Không thể gửi tin nhắn cho người dùng này.' };
+
       if (!isFriend) {
         if (isPartnerBlockingStrangers) {
           let canBypass = false;
           let hasTalked = false;
-          
-          if (conversation && conversation.lastMessageAt && partnerId && conversation.lastMessageAt[partnerId]) {
+
+          if (
+            conversation &&
+            conversation.lastMessageAt &&
+            partnerId &&
+            conversation.lastMessageAt[partnerId]
+          ) {
             hasTalked = true;
             const lastTimePartnerSent = conversation.lastMessageAt[partnerId];
             if (Date.now() - lastTimePartnerSent < 24 * 60 * 60 * 1000) {
               canBypass = true;
             }
           }
-          
+
           if (!canBypass) {
             return {
-              blockedMessage: hasTalked 
+              blockedMessage: hasTalked
                 ? 'Cuộc trò chuyện đã quá 24h. Người này không nhận tin nhắn từ người lạ.'
                 : 'Người dùng này không nhận tin nhắn từ người lạ.',
             };
@@ -142,43 +154,64 @@ export const useChatBlock = ({
       }
     }
     return { blockedMessage: undefined };
-  }, [isGroup, partnerId, partnerStatus, partner, usersMap, isMessageBlockedByMe, isMessageBlockedByPartner, isFriend, isPartnerBlockingStrangers, conversation, currentUser]);
+  }, [
+    isGroup,
+    partnerId,
+    partnerStatus,
+    partner,
+    usersMap,
+    isMessageBlockedByMe,
+    isMessageBlockedByPartner,
+    isFriend,
+    isPartnerBlockingStrangers,
+    conversation,
+    currentUser,
+  ]);
 
-  const handleUnblock = useCallback(async (targetIdOverride?: string) => {
-    const finalTargetId = targetIdOverride || partnerId;
-    if (!finalTargetId || !currentUser) return;
-    try {
-      await useAuthStore.getState().updateBlockEntry('remove', finalTargetId);
-      usePostStore.getState().refreshFeed(currentUser.id);
-      toast.success(TOAST_MESSAGES.BLOCK.UNBLOCK_SUCCESS);
-    } catch {
-      toast.error(TOAST_MESSAGES.BLOCK.UNBLOCK_FAILED);
-    }
-  }, [partnerId, currentUser]);
+  const handleUnblock = useCallback(
+    async (targetIdOverride?: string) => {
+      const finalTargetId = targetIdOverride || partnerId;
+      if (!finalTargetId || !currentUser) return;
+      try {
+        await useAuthStore.getState().updateBlockEntry('remove', finalTargetId);
+        usePostStore.getState().refreshFeed(currentUser.id);
+        toast.success(TOAST_MESSAGES.BLOCK.UNBLOCK_SUCCESS);
+      } catch {
+        toast.error(TOAST_MESSAGES.BLOCK.UNBLOCK_FAILED);
+      }
+    },
+    [partnerId, currentUser],
+  );
 
-  const handleApplyBlock = useCallback(async (options: BlockOptions, targetIdOverride?: string) => {
-    const finalTargetId = targetIdOverride || partnerId;
-    if (!finalTargetId || !currentUser) return;
+  const handleApplyBlock = useCallback(
+    async (options: BlockOptions, targetIdOverride?: string) => {
+      const finalTargetId = targetIdOverride || partnerId;
+      if (!finalTargetId || !currentUser) return;
 
-    const hasAnyOption = options.blockMessages || options.blockCalls
-      || options.blockViewMyActivity || options.hideTheirActivity;
+      const hasAnyOption =
+        options.blockMessages ||
+        options.blockCalls ||
+        options.blockViewMyActivity ||
+        options.hideTheirActivity;
 
-    if (!hasAnyOption) {
-      return handleUnblock(finalTargetId);
-    }
-
-    try {
-      await useAuthStore.getState().updateBlockEntry('add', finalTargetId, options);
-
-      if (options.hideTheirActivity) {
-        usePostStore.getState().filterPostsByAuthor(finalTargetId);
+      if (!hasAnyOption) {
+        return handleUnblock(finalTargetId);
       }
 
-      toast.success(TOAST_MESSAGES.BLOCK.BLOCK_SUCCESS);
-    } catch {
-      toast.error(TOAST_MESSAGES.BLOCK.BLOCK_FAILED);
-    }
-  }, [partnerId, currentUser, handleUnblock]);
+      try {
+        await useAuthStore.getState().updateBlockEntry('add', finalTargetId, options);
+
+        if (options.hideTheirActivity) {
+          usePostStore.getState().filterPostsByAuthor(finalTargetId);
+        }
+
+        toast.success(TOAST_MESSAGES.BLOCK.BLOCK_SUCCESS);
+      } catch {
+        toast.error(TOAST_MESSAGES.BLOCK.BLOCK_FAILED);
+      }
+    },
+    [partnerId, currentUser, handleUnblock],
+  );
 
   return {
     isBlocked,

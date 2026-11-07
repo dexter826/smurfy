@@ -331,10 +331,10 @@ export const PostModal: React.FC<PostModalProps> = ({
                         ${isLarge ? 'col-span-2 aspect-video' : 'aspect-square md:aspect-video'}`}
                     >
                       <img
-                          src={item.url}
-                          alt=""
-                          className={`w-full h-full object-cover transition-opacity duration-200 ${isSubmitting && item.isPending ? 'opacity-50' : ''}`}
-                        />
+                        src={item.url}
+                        alt=""
+                        className={`w-full h-full object-cover transition-opacity duration-200 ${isSubmitting && item.isPending ? 'opacity-50' : ''}`}
+                      />
 
                       {!isSubmitting && !isSystemPost && (
                         <button

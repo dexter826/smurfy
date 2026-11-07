@@ -1,10 +1,29 @@
 import React, { useState } from 'react';
 import { RtdbConversation, RtdbUserChat, User, UserStatus } from '@shared/types';
 import {
-  Bell, BellOff, Pin, PinOff, Trash2, ChevronRight,
-  Ban, LogOut, Edit3, User as UserIcon, Flag, Archive as ArchiveIcon,
-  Crown, Shield, ToggleLeft, ToggleRight, ShieldCheck, Search, Link2, RotateCcw,
-  Copy, Check, QrCode,
+  Bell,
+  BellOff,
+  Pin,
+  PinOff,
+  Trash2,
+  ChevronRight,
+  Ban,
+  LogOut,
+  Edit3,
+  User as UserIcon,
+  Flag,
+  Archive as ArchiveIcon,
+  Crown,
+  Shield,
+  ToggleLeft,
+  ToggleRight,
+  ShieldCheck,
+  Search,
+  Link2,
+  RotateCcw,
+  Copy,
+  Check,
+  QrCode,
 } from 'lucide-react';
 import { AlertDialog } from '@/components/ui';
 import { CONFIRM_MESSAGES } from '@/constants/confirmMessages';
@@ -38,22 +57,24 @@ const QuickActionButton: React.FC<{
   active?: boolean;
   danger?: boolean;
 }> = ({ icon, label, onClick, active, danger }) => (
-  <button
-    onClick={onClick}
-    className="flex flex-col items-center gap-1.5 group outline-none"
-  >
-    <div className={`
+  <button onClick={onClick} className="flex flex-col items-center gap-1.5 group outline-none">
+    <div
+      className={`
       w-11 h-11 rounded-xl flex items-center justify-center transition-all duration-200
-      ${danger
-        ? 'bg-danger/10 text-danger hover:bg-danger hover:text-white'
-        : active
-          ? 'bg-primary/10 text-primary'
-          : 'bg-background text-secondary hover:bg-active hover:text-foreground border border-transparent'
+      ${
+        danger
+          ? 'bg-danger/10 text-danger hover:bg-danger hover:text-white'
+          : active
+            ? 'bg-primary/10 text-primary'
+            : 'bg-background text-secondary hover:bg-active hover:text-foreground border border-transparent'
       }
-    `}>
+    `}
+    >
       {icon}
     </div>
-    <span className={`text-[10px] font-semibold transition-colors ${danger ? 'text-danger' : active ? 'text-primary' : 'text-muted group-hover:text-foreground'}`}>
+    <span
+      className={`text-[10px] font-semibold transition-colors ${danger ? 'text-danger' : active ? 'text-primary' : 'text-muted group-hover:text-foreground'}`}
+    >
       {label}
     </span>
   </button>
@@ -61,10 +82,22 @@ const QuickActionButton: React.FC<{
 
 /** Hành động và cài đặt hội thoại. */
 export const ChatDetailsActions: React.FC<ChatDetailsActionsProps> = ({
-  conversation, currentUserId, partner,
-  onToggleMute, onTogglePin, onToggleBlock, onToggleArchive,
-  onDelete, onLeaveGroup, onEditGroup, onViewProfile,
-  onTransferCreator, onToggleApprovalMode, onSetTab, onCopyInviteLink, onResetInviteLink,
+  conversation,
+  currentUserId,
+  partner,
+  onToggleMute,
+  onTogglePin,
+  onToggleBlock,
+  onToggleArchive,
+  onDelete,
+  onLeaveGroup,
+  onEditGroup,
+  onViewProfile,
+  onTransferCreator,
+  onToggleApprovalMode,
+  onSetTab,
+  onCopyInviteLink,
+  onResetInviteLink,
 }) => {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [showLeaveConfirm, setShowLeaveConfirm] = useState(false);
@@ -148,11 +181,7 @@ export const ChatDetailsActions: React.FC<ChatDetailsActionsProps> = ({
           />
         )}
         {isGroup && (
-          <QuickActionButton
-            icon={<Edit3 size={18} />}
-            label="Sửa nhóm"
-            onClick={onEditGroup}
-          />
+          <QuickActionButton icon={<Edit3 size={18} />} label="Sửa nhóm" onClick={onEditGroup} />
         )}
       </div>
 
@@ -170,14 +199,20 @@ export const ChatDetailsActions: React.FC<ChatDetailsActionsProps> = ({
                 <ShieldCheck size={18} />
               </div>
               <div className="flex flex-col">
-                <span className="text-sm font-semibold text-foreground leading-tight">Phê duyệt thành viên</span>
+                <span className="text-sm font-semibold text-foreground leading-tight">
+                  Phê duyệt thành viên
+                </span>
                 <span className="text-[10px] text-muted">Kiểm soát người mới</span>
               </div>
             </div>
-            <div className={`w-9 h-5 rounded-full transition-all duration-300 relative flex items-center px-1
-              ${approvalMode ? 'bg-primary border border-primary' : 'bg-surface-sunken border border-border'}`}>
-              <div className={`w-3 h-3 bg-white rounded-full shadow-sm transition-all duration-300
-                ${approvalMode ? 'translate-x-4' : 'translate-x-0'}`} />
+            <div
+              className={`w-9 h-5 rounded-full transition-all duration-300 relative flex items-center px-1
+              ${approvalMode ? 'bg-primary border border-primary' : 'bg-surface-sunken border border-border'}`}
+            >
+              <div
+                className={`w-3 h-3 bg-white rounded-full shadow-sm transition-all duration-300
+                ${approvalMode ? 'translate-x-4' : 'translate-x-0'}`}
+              />
             </div>
           </div>
         )}
@@ -191,10 +226,12 @@ export const ChatDetailsActions: React.FC<ChatDetailsActionsProps> = ({
                   <Link2 size={18} />
                 </div>
                 <div className="flex flex-col min-w-0">
-                  <span className="text-sm font-semibold text-foreground leading-tight">Link tham gia</span>
+                  <span className="text-sm font-semibold text-foreground leading-tight">
+                    Link tham gia
+                  </span>
                   <span className="text-[10px] text-primary truncate">
-                    {conversation.data.inviteLink 
-                      ? `${window.location.origin}/join/${conversation.data.inviteLink}` 
+                    {conversation.data.inviteLink
+                      ? `${window.location.origin}/join/${conversation.data.inviteLink}`
                       : 'Chưa có link mời'}
                   </span>
                 </div>
@@ -236,7 +273,9 @@ export const ChatDetailsActions: React.FC<ChatDetailsActionsProps> = ({
                 <div className="w-8 h-8 rounded-full bg-warning/10 flex items-center justify-center text-warning transition-colors">
                   <Crown size={16} />
                 </div>
-                <span className="text-sm font-semibold text-warning leading-tight">Chuyển quyền trưởng nhóm</span>
+                <span className="text-sm font-semibold text-warning leading-tight">
+                  Chuyển quyền trưởng nhóm
+                </span>
               </div>
               <ChevronRight size={14} className="text-muted" />
             </button>
@@ -253,7 +292,6 @@ export const ChatDetailsActions: React.FC<ChatDetailsActionsProps> = ({
                 </div>
                 <span className="text-sm font-semibold">Quản lý chặn</span>
               </button>
-              
             </>
           )}
 
@@ -276,7 +314,9 @@ export const ChatDetailsActions: React.FC<ChatDetailsActionsProps> = ({
             <div className="w-8 h-8 rounded-full bg-danger/10 flex items-center justify-center text-danger transition-colors">
               <Trash2 size={16} />
             </div>
-            <span className="text-sm font-semibold">{isDisbandAction ? 'Giải tán nhóm' : 'Xóa cuộc trò chuyện'}</span>
+            <span className="text-sm font-semibold">
+              {isDisbandAction ? 'Giải tán nhóm' : 'Xóa cuộc trò chuyện'}
+            </span>
           </button>
         </div>
       </div>
@@ -285,15 +325,21 @@ export const ChatDetailsActions: React.FC<ChatDetailsActionsProps> = ({
         open={showDeleteConfirm}
         onOpenChange={() => setShowDeleteConfirm(false)}
         onConfirm={() => onDelete?.()}
-        title={isDisbandAction
-          ? CONFIRM_MESSAGES.CHAT.DISBAND_GROUP.TITLE
-          : CONFIRM_MESSAGES.CHAT.DELETE_CONVERSATION.TITLE}
-        message={isDisbandAction
-          ? CONFIRM_MESSAGES.CHAT.DISBAND_GROUP.MESSAGE
-          : CONFIRM_MESSAGES.CHAT.DELETE_CONVERSATION.MESSAGE}
-        confirmLabel={isDisbandAction
-          ? CONFIRM_MESSAGES.CHAT.DISBAND_GROUP.CONFIRM
-          : CONFIRM_MESSAGES.CHAT.DELETE_CONVERSATION.CONFIRM}
+        title={
+          isDisbandAction
+            ? CONFIRM_MESSAGES.CHAT.DISBAND_GROUP.TITLE
+            : CONFIRM_MESSAGES.CHAT.DELETE_CONVERSATION.TITLE
+        }
+        message={
+          isDisbandAction
+            ? CONFIRM_MESSAGES.CHAT.DISBAND_GROUP.MESSAGE
+            : CONFIRM_MESSAGES.CHAT.DELETE_CONVERSATION.MESSAGE
+        }
+        confirmLabel={
+          isDisbandAction
+            ? CONFIRM_MESSAGES.CHAT.DISBAND_GROUP.CONFIRM
+            : CONFIRM_MESSAGES.CHAT.DELETE_CONVERSATION.CONFIRM
+        }
         variant="danger"
       />
 
@@ -310,7 +356,10 @@ export const ChatDetailsActions: React.FC<ChatDetailsActionsProps> = ({
       <AlertDialog
         open={showApprovalOffConfirm}
         onOpenChange={() => setShowApprovalOffConfirm(false)}
-        onConfirm={() => { onToggleApprovalMode?.(false); setShowApprovalOffConfirm(false); }}
+        onConfirm={() => {
+          onToggleApprovalMode?.(false);
+          setShowApprovalOffConfirm(false);
+        }}
         title={CONFIRM_MESSAGES.CHAT.TOGGLE_APPROVAL_OFF.TITLE}
         message={CONFIRM_MESSAGES.CHAT.TOGGLE_APPROVAL_OFF.MESSAGE}
         confirmLabel={CONFIRM_MESSAGES.CHAT.TOGGLE_APPROVAL_OFF.CONFIRM}
@@ -320,7 +369,10 @@ export const ChatDetailsActions: React.FC<ChatDetailsActionsProps> = ({
       <AlertDialog
         open={showTransferConfirm}
         onOpenChange={() => setShowTransferConfirm(false)}
-        onConfirm={() => { onTransferCreator?.(); setShowTransferConfirm(false); }}
+        onConfirm={() => {
+          onTransferCreator?.();
+          setShowTransferConfirm(false);
+        }}
         title={CONFIRM_MESSAGES.CHAT.TRANSFER_CREATOR.TITLE}
         message={CONFIRM_MESSAGES.CHAT.TRANSFER_CREATOR.MESSAGE}
         confirmLabel={CONFIRM_MESSAGES.CHAT.TRANSFER_CREATOR.CONFIRM}
@@ -340,7 +392,11 @@ export const ChatDetailsActions: React.FC<ChatDetailsActionsProps> = ({
       <QRCodeModal
         open={showQRCode}
         onOpenChange={() => setShowQRCode(false)}
-        value={conversation.data.inviteLink ? `${window.location.origin}/join/${conversation.data.inviteLink}` : ''}
+        value={
+          conversation.data.inviteLink
+            ? `${window.location.origin}/join/${conversation.data.inviteLink}`
+            : ''
+        }
         avatarSrc={conversation.data.avatar}
         avatarName={conversation.data.name}
       />

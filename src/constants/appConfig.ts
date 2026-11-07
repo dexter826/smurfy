@@ -96,11 +96,11 @@ export const STORAGE_PATHS = {
 
 /** Giới hạn kích thước tệp tải lên */
 export const FILE_LIMITS = {
-  IMAGE: 5 * 1024 * 1024,      // 5MB — avatars, comment images
-  VIDEO: 50 * 1024 * 1024,     // 50MB — post videos
-  FILE: 10 * 1024 * 1024,      // 10MB — chat files
-  AVATAR: 5 * 1024 * 1024,     // 5MB
-  COVER: 10 * 1024 * 1024,     // 10MB
+  IMAGE: 5 * 1024 * 1024, // 5MB — avatars, comment images
+  VIDEO: 50 * 1024 * 1024, // 50MB — post videos
+  FILE: 10 * 1024 * 1024, // 10MB — chat files
+  AVATAR: 5 * 1024 * 1024, // 5MB
+  COVER: 10 * 1024 * 1024, // 10MB
   CHAT_MAX_FILES: 10,
 } as const;
 
@@ -122,17 +122,26 @@ export const REPORT_CONFIG = {
   MAX_IMAGES_PER_REPORT: 5,
   REASONS: {
     spam: { label: 'Spam', description: 'Tin rác, quảng cáo không mong muốn' },
-    harassment: { label: 'Quấy rối & Bạo lực', description: 'Bắt nạt, đe dọa hoặc nội dung bạo lực' },
-    hate_speech: { label: 'Ngôn từ thù ghét', description: 'Phân biệt chủng tộc, giới tính, thù địch' },
+    harassment: {
+      label: 'Quấy rối & Bạo lực',
+      description: 'Bắt nạt, đe dọa hoặc nội dung bạo lực',
+    },
+    hate_speech: {
+      label: 'Ngôn từ thù ghét',
+      description: 'Phân biệt chủng tộc, giới tính, thù địch',
+    },
     sensitive: { label: 'Nội dung nhạy cảm', description: 'Hình ảnh/video khiêu dâm, người lớn' },
-    scam_impersonation: { label: 'Lừa đảo & Giả mạo', description: 'Chiếm đoạt tài sản hoặc mạo danh người khác' },
-    other: { label: 'Khác', description: 'Lý do khác' }
+    scam_impersonation: {
+      label: 'Lừa đảo & Giả mạo',
+      description: 'Chiếm đoạt tài sản hoặc mạo danh người khác',
+    },
+    other: { label: 'Khác', description: 'Lý do khác' },
   },
   TYPE_LABELS: {
     post: 'Bài viết',
     comment: 'Bình luận',
-    user: 'Người dùng'
-  }
+    user: 'Người dùng',
+  },
 } as const;
 
 /** Các loại cảm xúc trong hệ thống */
@@ -142,7 +151,7 @@ export const REACTIONS = [
   ReactionType.HAHA,
   ReactionType.WOW,
   ReactionType.SAD,
-  ReactionType.ANGRY
+  ReactionType.ANGRY,
 ] as const;
 
 export const REACTION_LABELS: Record<ReactionType, string> = {
@@ -151,7 +160,7 @@ export const REACTION_LABELS: Record<ReactionType, string> = {
   [ReactionType.HAHA]: 'Haha',
   [ReactionType.WOW]: 'Wow',
   [ReactionType.SAD]: 'Buồn',
-  [ReactionType.ANGRY]: 'Phẫn nộ'
+  [ReactionType.ANGRY]: 'Phẫn nộ',
 };
 
 /** Các địa chỉ kết nối API ngoại vi */
@@ -170,7 +179,22 @@ export const GIPHY_CONFIG = {
 } as const;
 
 export const INTEREST_SUGGESTIONS = [
-  'Du lịch', 'Âm nhạc', 'Thể thao', 'Đọc sách', 'Gaming', 'Nấu ăn',
-  'Nhiếp ảnh', 'Phim ảnh', 'Fitness', 'Nghệ thuật', 'Công nghệ', 'Thời trang',
-  'Yoga', 'Cà phê', 'Bóng đá', 'Bơi lội', 'Vẽ tranh', 'Karaoke',
+  'Du lịch',
+  'Âm nhạc',
+  'Thể thao',
+  'Đọc sách',
+  'Gaming',
+  'Nấu ăn',
+  'Nhiếp ảnh',
+  'Phim ảnh',
+  'Fitness',
+  'Nghệ thuật',
+  'Công nghệ',
+  'Thời trang',
+  'Yoga',
+  'Cà phê',
+  'Bóng đá',
+  'Bơi lội',
+  'Vẽ tranh',
+  'Karaoke',
 ];

@@ -24,10 +24,21 @@ interface MessageActionsProps {
 
 /** Các thao tác với tin nhắn */
 export const MessageActions: React.FC<MessageActionsProps> = ({
-  message, isMe, canEdit, showMenu, setShowMenu,
-  onReply, onForward, onEdit, setShowRecallConfirm,
-  onDeleteForMe, isBlocked,
-  showActions = false, isPinned = false, onPin, onUnpin,
+  message,
+  isMe,
+  canEdit,
+  showMenu,
+  setShowMenu,
+  onReply,
+  onForward,
+  onEdit,
+  setShowRecallConfirm,
+  onDeleteForMe,
+  isBlocked,
+  showActions = false,
+  isPinned = false,
+  onPin,
+  onUnpin,
 }) => {
   const isInteractionDisabled = isBlocked;
 
@@ -35,7 +46,7 @@ export const MessageActions: React.FC<MessageActionsProps> = ({
     <div
       className={`
         absolute top-0 transition-opacity duration-200 flex items-center gap-0.5
-        ${(showMenu || showActions) ? 'opacity-100' : 'opacity-0 group-hover/message:opacity-100'}
+        ${showMenu || showActions ? 'opacity-100' : 'opacity-0 group-hover/message:opacity-100'}
         ${isMe ? 'right-full mr-1.5' : 'left-full ml-1.5'}
       `}
     >
@@ -61,57 +72,72 @@ export const MessageActions: React.FC<MessageActionsProps> = ({
           />
         }
       >
-          <>
-            {!isInteractionDisabled && (
-              <DropdownItem
-                icon={<Reply size={14} />}
-                label="Trả lời"
-                className="md:hidden"
-                onClick={() => { onReply?.(message); setShowMenu(false); }}
-              />
-            )}
-            {!isInteractionDisabled && (
-              <DropdownItem
-                icon={<Forward size={14} />}
-                label="Chuyển tiếp"
-                onClick={() => { onForward?.(message); setShowMenu(false); }}
-              />
-            )}
-            {!isInteractionDisabled && canEdit && (
-              <DropdownItem
-                icon={<Edit2 size={14} />}
-                label="Chỉnh sửa"
-                onClick={() => { onEdit?.(message); setShowMenu(false); }}
-              />
-            )}
-            {!isInteractionDisabled && (
-              <DropdownItem
-                icon={<Pin size={14} />}
-                label={isPinned ? "Bỏ ghim" : "Ghim tin nhắn"}
-                onClick={() => {
-                  if (isPinned) {
-                    onUnpin?.(message);
-                  } else {
-                    onPin?.(message);
-                  }
-                  setShowMenu(false);
-                }}
-              />
-            )}
-            {!isInteractionDisabled && isMe && (
-              <DropdownItem
-                icon={<RotateCcw size={14} className="text-warning" />}
-                label="Thu hồi"
-                className="!text-warning hover:!text-warning"
-                onClick={() => { setShowRecallConfirm(true); setShowMenu(false); }}
-              />
-            )}
-          </>
+        <>
+          {!isInteractionDisabled && (
+            <DropdownItem
+              icon={<Reply size={14} />}
+              label="Trả lời"
+              className="md:hidden"
+              onClick={() => {
+                onReply?.(message);
+                setShowMenu(false);
+              }}
+            />
+          )}
+          {!isInteractionDisabled && (
+            <DropdownItem
+              icon={<Forward size={14} />}
+              label="Chuyển tiếp"
+              onClick={() => {
+                onForward?.(message);
+                setShowMenu(false);
+              }}
+            />
+          )}
+          {!isInteractionDisabled && canEdit && (
+            <DropdownItem
+              icon={<Edit2 size={14} />}
+              label="Chỉnh sửa"
+              onClick={() => {
+                onEdit?.(message);
+                setShowMenu(false);
+              }}
+            />
+          )}
+          {!isInteractionDisabled && (
+            <DropdownItem
+              icon={<Pin size={14} />}
+              label={isPinned ? 'Bỏ ghim' : 'Ghim tin nhắn'}
+              onClick={() => {
+                if (isPinned) {
+                  onUnpin?.(message);
+                } else {
+                  onPin?.(message);
+                }
+                setShowMenu(false);
+              }}
+            />
+          )}
+          {!isInteractionDisabled && isMe && (
+            <DropdownItem
+              icon={<RotateCcw size={14} className="text-warning" />}
+              label="Thu hồi"
+              className="!text-warning hover:!text-warning"
+              onClick={() => {
+                setShowRecallConfirm(true);
+                setShowMenu(false);
+              }}
+            />
+          )}
+        </>
         <DropdownItem
           icon={<Trash2 size={14} />}
           label="Xóa phía tôi"
           variant="danger"
-          onClick={() => { onDeleteForMe?.(message.id); setShowMenu(false); }}
+          onClick={() => {
+            onDeleteForMe?.(message.id);
+            setShowMenu(false);
+          }}
         />
       </Dropdown>
     </div>

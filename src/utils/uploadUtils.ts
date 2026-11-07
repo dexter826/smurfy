@@ -1,27 +1,36 @@
 import { FILE_LIMITS, FileLimitType, TOAST_MESSAGES } from '../constants';
 
 // Kiểm tra dung lượng và loại file hợp lệ
-export const validateFile = (file: File, type: FileLimitType): { isValid: boolean; error?: string } => {
+export const validateFile = (
+  file: File,
+  type: FileLimitType,
+): { isValid: boolean; error?: string } => {
   const limit = FILE_LIMITS[type] || 5 * 1024 * 1024;
-  
+
   // Chỉ chấp nhận hình ảnh
   const isImage = file.type.startsWith('image/');
   if (!isImage) {
     return {
       isValid: false,
-      error: TOAST_MESSAGES.MEDIA.INVALID_FILE
+      error: TOAST_MESSAGES.MEDIA.INVALID_FILE,
     };
   }
 
   // Kiểm tra dung lượng
   if (file.size > limit) {
     const mbLimit = limit / (1024 * 1024);
-    const labels: Record<string, string> = { IMAGE: 'Ảnh', AVATAR: 'Ảnh đại diện', COVER: 'Ảnh bìa', FILE: 'Ảnh', VIDEO: 'Ảnh' };
+    const labels: Record<string, string> = {
+      IMAGE: 'Ảnh',
+      AVATAR: 'Ảnh đại diện',
+      COVER: 'Ảnh bìa',
+      FILE: 'Ảnh',
+      VIDEO: 'Ảnh',
+    };
     const typeLabel = labels[type] || 'Ảnh';
-      
+
     return {
       isValid: false,
-      error: TOAST_MESSAGES.MEDIA.FILE_TOO_LARGE(mbLimit, typeLabel)
+      error: TOAST_MESSAGES.MEDIA.FILE_TOO_LARGE(mbLimit, typeLabel),
     };
   }
   return { isValid: true };
@@ -31,7 +40,7 @@ export interface UploadProgress {
   progress: number;
   bytesTransferred: number;
   totalBytes: number;
-  state: "running" | "paused" | "success" | "error" | "canceled";
+  state: 'running' | 'paused' | 'success' | 'error' | 'canceled';
 }
 
 export type ProgressCallback = (progress: UploadProgress) => void;
@@ -127,9 +136,9 @@ export const deleteStorageFile = async (_url: string): Promise<void> => {};
 export const deleteStorageFiles = async (_urls: string[]): Promise<void[]> => [];
 
 export const formatBytes = (bytes: number): string => {
-  if (bytes === 0) return "0 B";
+  if (bytes === 0) return '0 B';
   const k = 1024;
-  const sizes = ["B", "KB", "MB", "GB"];
+  const sizes = ['B', 'KB', 'MB', 'GB'];
   const i = Math.floor(Math.log(bytes) / Math.log(k));
   return `${parseFloat((bytes / Math.pow(k, i)).toFixed(1))} ${sizes[i]}`;
 };

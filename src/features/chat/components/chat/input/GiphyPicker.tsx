@@ -51,7 +51,7 @@ export const GiphyPicker: React.FC<GiphyPickerProps> = ({ onSelect, onOpenChange
     try {
       const response = await fetch(`${GIPHY_CONFIG.BASE_URL}/${endpoint}?${params}`);
       const result = await response.json();
-      
+
       if (response.ok) {
         setGifs(result.data);
       } else {
@@ -79,7 +79,10 @@ export const GiphyPicker: React.FC<GiphyPickerProps> = ({ onSelect, onOpenChange
   };
 
   return (
-    <div className="flex flex-col w-full max-w-sm bg-surface border border-border rounded-xl shadow-xl overflow-hidden animate-fade-in" style={{ height: '400px' }}>
+    <div
+      className="flex flex-col w-full max-w-sm bg-surface border border-border rounded-xl shadow-xl overflow-hidden animate-fade-in"
+      style={{ height: '400px' }}
+    >
       {/* Header */}
       <div className="flex items-center gap-2 p-3 border-b border-border bg-background/30">
         <div className="relative flex-1">
@@ -117,15 +120,11 @@ export const GiphyPicker: React.FC<GiphyPickerProps> = ({ onSelect, onOpenChange
             size="sm"
             action={{
               label: 'Thử lại',
-              onClick: () => fetchGifs(searchQuery)
+              onClick: () => fetchGifs(searchQuery),
             }}
           />
         ) : gifs.length === 0 ? (
-          <EmptyState
-            icon={Search}
-            title="Không tìm thấy GIF"
-            size="sm"
-          />
+          <EmptyState icon={Search} title="Không tìm thấy GIF" size="sm" />
         ) : (
           <div>
             {!searchQuery && (

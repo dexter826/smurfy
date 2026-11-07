@@ -6,7 +6,7 @@ import { User, Visibility, ProfilePrivacy } from '@shared/types';
 export const canViewField = (
   fieldVisibility: Visibility,
   isOwner: boolean,
-  isFriend: boolean
+  isFriend: boolean,
 ): boolean => {
   if (isOwner) return true;
   if (fieldVisibility === Visibility.PUBLIC) return true;
@@ -21,7 +21,7 @@ export const getMaskedProfile = (
   profile: User,
   currentUserId: string,
   isFriend: boolean,
-  privacySettings?: ProfilePrivacy
+  privacySettings?: ProfilePrivacy,
 ): User => {
   const isOwner = profile.id === currentUserId;
   if (!privacySettings) return profile;
@@ -29,7 +29,12 @@ export const getMaskedProfile = (
   const maskedProfile = { ...profile };
 
   const privacyFields: (keyof ProfilePrivacy)[] = [
-    'email', 'dob', 'gender', 'location', 'school', 'maritalStatus'
+    'email',
+    'dob',
+    'gender',
+    'location',
+    'school',
+    'maritalStatus',
   ];
 
   privacyFields.forEach((field) => {
@@ -45,4 +50,4 @@ export const getMaskedProfile = (
   }
 
   return maskedProfile;
-}
+};

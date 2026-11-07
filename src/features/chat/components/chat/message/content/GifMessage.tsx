@@ -12,12 +12,12 @@ interface GifMessageProps {
  */
 export const GifMessage: React.FC<GifMessageProps> = ({ message, onLoad }) => {
   const gifUrl = message.data.content;
-  
+
   return (
     <div className="rounded-xl overflow-hidden max-w-[320px] max-h-[420px] shadow-md bg-background border border-border animate-fade-in hover:shadow-lg transition-shadow duration-300 w-fit">
-      <LazyImage 
-        src={gifUrl} 
-        alt="GIF" 
+      <LazyImage
+        src={gifUrl}
+        alt="GIF"
         className="max-w-full max-h-[420px] object-contain"
         wrapperClassName="w-full h-full"
         onLoad={onLoad}

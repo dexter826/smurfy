@@ -20,17 +20,32 @@ const BLOCK_TAG_MAP: {
   label: string;
   color: string;
 }[] = [
-    { key: 'blockMessages', icon: <MessageSquareOff size={10} />, label: 'Chặn tin nhắn', color: 'text-danger bg-danger/10 border-danger/20' },
-    { key: 'blockViewMyActivity', icon: <Eye size={10} />, label: 'Ẩn bài của tôi', color: 'text-warning bg-warning/10 border-warning/20' },
-    { key: 'hideTheirActivity', icon: <EyeOff size={10} />, label: 'Ẩn bài của họ', color: 'text-warning bg-warning/10 border-warning/20 opacity-90' },
-  ];
+  {
+    key: 'blockMessages',
+    icon: <MessageSquareOff size={10} />,
+    label: 'Chặn tin nhắn',
+    color: 'text-danger bg-danger/10 border-danger/20',
+  },
+  {
+    key: 'blockViewMyActivity',
+    icon: <Eye size={10} />,
+    label: 'Ẩn bài của tôi',
+    color: 'text-warning bg-warning/10 border-warning/20',
+  },
+  {
+    key: 'hideTheirActivity',
+    icon: <EyeOff size={10} />,
+    label: 'Ẩn bài của họ',
+    color: 'text-warning bg-warning/10 border-warning/20 opacity-90',
+  },
+];
 
 const BlockOptionTags: React.FC<{ options: BlockOptions }> = React.memo(({ options }) => {
-  const active = BLOCK_TAG_MAP.filter(t => options[t.key]);
+  const active = BLOCK_TAG_MAP.filter((t) => options[t.key]);
   if (active.length === 0) return null;
   return (
     <div className="flex gap-1.5 flex-wrap mt-1.5">
-      {active.map(t => (
+      {active.map((t) => (
         <span
           key={t.key}
           className={`inline-flex items-center gap-1 text-[10px] font-semibold px-2 py-0.5 rounded-full border ${t.color}`}
@@ -44,13 +59,18 @@ const BlockOptionTags: React.FC<{ options: BlockOptions }> = React.memo(({ optio
 });
 
 const BlockedUsersSection: React.FC<BlockedUsersSectionProps> = ({
-  isLoading, blockedList, onManageBlock,
+  isLoading,
+  blockedList,
+  onManageBlock,
 }) => {
   if (isLoading) {
     return (
       <div className="space-y-2.5 animate-fade-in">
         {[...Array(3)].map((_, i) => (
-          <div key={i} className="flex items-center gap-3.5 p-4 bg-surface rounded-2xl border border-border">
+          <div
+            key={i}
+            className="flex items-center gap-3.5 p-4 bg-surface rounded-2xl border border-border"
+          >
             <Skeleton variant="circle" width={44} height={44} />
             <div className="flex-1 space-y-1.5">
               <Skeleton width="40%" height={14} />
@@ -64,14 +84,7 @@ const BlockedUsersSection: React.FC<BlockedUsersSectionProps> = ({
   }
 
   if (blockedList.length === 0) {
-    return (
-      <EmptyState
-        icon={Ban}
-        title="Chưa chặn người dùng nào"
-        size="md"
-        className="py-14"
-      />
-    );
+    return <EmptyState icon={Ban} title="Chưa chặn người dùng nào" size="md" className="py-14" />;
   }
 
   return (
@@ -89,9 +102,7 @@ const BlockedUsersSection: React.FC<BlockedUsersSectionProps> = ({
             size="md"
           />
           <div className="flex-1 min-w-0">
-            <h3 className="text-sm font-semibold text-foreground truncate">
-              {item.user.fullName}
-            </h3>
+            <h3 className="text-sm font-semibold text-foreground truncate">{item.user.fullName}</h3>
             <BlockOptionTags options={item.options} />
           </div>
           <Button

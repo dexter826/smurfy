@@ -1,7 +1,7 @@
-export * from "./appConfig";
+export * from './appConfig';
 
-export * from "./confirmMessages";
+export * from './confirmMessages';
 
-export * from "./toastMessages";
+export * from './toastMessages';
 
-export * from "./socialMessages";
+export * from './socialMessages';

@@ -47,7 +47,12 @@ export const ProfileSkeleton: React.FC = () => (
             <Skeleton width={100} height={20} />
             {[...Array(3)].map((_, i) => (
               <div key={i} className="flex gap-3 items-center">
-                <Skeleton variant="rect" width={32} height={32} className="rounded-lg flex-shrink-0" />
+                <Skeleton
+                  variant="rect"
+                  width={32}
+                  height={32}
+                  className="rounded-lg flex-shrink-0"
+                />
                 <Skeleton width="65%" height={14} />
               </div>
             ))}

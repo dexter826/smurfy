@@ -5,7 +5,6 @@ import { ConversationItem } from './conversation/ConversationItem';
 /** Skeleton hiển thị cho toàn bộ trang Messenger */
 export const MessengerSkeleton: React.FC = () => (
   <div className="flex h-full w-full bg-surface overflow-hidden">
-
     {/* Sidebar Skeleton */}
     <div className="flex flex-col w-full md:w-[300px] lg:w-[360px] border-r border-border flex-shrink-0">
       {/* Header */}
@@ -58,7 +57,11 @@ export const MessengerSkeleton: React.FC = () => (
         </div>
         <div className="flex flex-col items-end gap-1.5 max-w-[70%] ml-auto">
           <Skeleton height={44} width={220} className="rounded-xl rounded-br-sm bg-primary/15" />
-          <Skeleton height={120} width={220} className="rounded-xl rounded-br-sm bg-primary/15 opacity-70" />
+          <Skeleton
+            height={120}
+            width={220}
+            className="rounded-xl rounded-br-sm bg-primary/15 opacity-70"
+          />
         </div>
         <div className="flex items-end gap-2 max-w-[70%]">
           <Skeleton variant="circle" width={30} height={30} className="flex-shrink-0 mb-0.5" />

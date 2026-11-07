@@ -15,7 +15,10 @@ interface UseChatInputProps {
   onTyping: (isTyping: boolean) => void;
   disabled?: boolean;
   onSendText: (text: string, mentions?: string[], replyToId?: string) => void;
-  onSendImages: (files: File[], options?: { content?: string; mentions?: string[]; replyToId?: string }) => Promise<void>;
+  onSendImages: (
+    files: File[],
+    options?: { content?: string; mentions?: string[]; replyToId?: string },
+  ) => Promise<void>;
   onEditMessage?: (text: string) => Promise<void>;
   onCancelAction: () => void;
   participants?: User[];
@@ -40,7 +43,7 @@ export const useChatInput = ({
   const { saveDraft, clearDraft, draftMessages } = useRtdbChatStore();
 
   const [inputText, setInputText] = useState(() =>
-    conversationId ? (draftMessages[conversationId] ?? '') : ''
+    conversationId ? (draftMessages[conversationId] ?? '') : '',
   );
   const [activeMentions, setActiveMentions] = useState<{ id: string; name: string }[]>([]);
   const [selectedFiles, setSelectedFiles] = useState<FilePreviewItem[]>([]);
@@ -52,33 +55,41 @@ export const useChatInput = ({
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  
+
   const typingTimeoutRef = useRef<NodeJS.Timeout>(undefined);
   const draftTimeoutRef = useRef<NodeJS.Timeout>(undefined);
   const isCurrentlyTypingRef = useRef(false);
 
-  
-
-  const mentionsProps = useMentions({ 
-    inputText, setInputText, participants, currentUserId, isGroup, inputRef 
+  const mentionsProps = useMentions({
+    inputText,
+    setInputText,
+    participants,
+    currentUserId,
+    isGroup,
+    inputRef,
   });
 
-  const onSelectMention = useCallback((user: User) => {
-    const userSelected = mentionsProps.handleSelectMention(user);
-    if (userSelected) {
-      setActiveMentions(prev =>
-        prev.find(m => m.id === userSelected.id)
-          ? prev
-          : [...prev, { id: userSelected.id, name: userSelected.fullName }]
-      );
-    }
-  }, [mentionsProps.handleSelectMention]);
+  const onSelectMention = useCallback(
+    (user: User) => {
+      const userSelected = mentionsProps.handleSelectMention(user);
+      if (userSelected) {
+        setActiveMentions((prev) =>
+          prev.find((m) => m.id === userSelected.id)
+            ? prev
+            : [...prev, { id: userSelected.id, name: userSelected.fullName }],
+        );
+      }
+    },
+    [mentionsProps.handleSelectMention],
+  );
 
   useEffect(() => {
     if (editingMessage) {
       setInputText(editingMessage.data.content);
     } else {
-      setInputText(conversationId ? (useRtdbChatStore.getState().draftMessages[conversationId] ?? '') : '');
+      setInputText(
+        conversationId ? (useRtdbChatStore.getState().draftMessages[conversationId] ?? '') : '',
+      );
     }
   }, [editingMessage, conversationId]);
 
@@ -86,7 +97,9 @@ export const useChatInput = ({
     return () => {
       if (typingTimeoutRef.current) clearTimeout(typingTimeoutRef.current);
       if (draftTimeoutRef.current) clearTimeout(draftTimeoutRef.current);
-      selectedFiles.forEach(f => { if (f.preview) URL.revokeObjectURL(f.preview); });
+      selectedFiles.forEach((f) => {
+        if (f.preview) URL.revokeObjectURL(f.preview);
+      });
     };
   }, []);
 
@@ -96,7 +109,7 @@ export const useChatInput = ({
     const namesInText: string[] = [];
     let match;
     while ((match = mentionRegex.exec(inputText)) !== null) namesInText.push(match[1]);
-    return activeMentions.filter(m => namesInText.includes(m.name));
+    return activeMentions.filter((m) => namesInText.includes(m.name));
   }, [inputText, activeMentions]);
 
   useEffect(() => {
@@ -134,35 +147,42 @@ export const useChatInput = ({
     mentionsProps.handleInputChange(text, e.target.selectionStart);
   };
 
-  const processFiles = useCallback((files: File[]) => {
-    if (files.length === 0) return;
+  const processFiles = useCallback(
+    (files: File[]) => {
+      if (files.length === 0) return;
 
-    if (selectedFiles.length + files.length > FILE_LIMITS.CHAT_MAX_FILES) {
-      toast.error(TOAST_MESSAGES.CHAT.FILE_LIMIT(FILE_LIMITS.CHAT_MAX_FILES));
-      return;
-    }
+      if (selectedFiles.length + files.length > FILE_LIMITS.CHAT_MAX_FILES) {
+        toast.error(TOAST_MESSAGES.CHAT.FILE_LIMIT(FILE_LIMITS.CHAT_MAX_FILES));
+        return;
+      }
 
-    const newFiles: FilePreviewItem[] = [];
-    files.forEach(file => {
-      let fileType: 'image' | 'video' | 'file' = 'file';
-      if (file.type.startsWith('image/')) fileType = 'image';
-      else if (file.type.startsWith('video/')) fileType = 'video';
+      const newFiles: FilePreviewItem[] = [];
+      files.forEach((file) => {
+        let fileType: 'image' | 'video' | 'file' = 'file';
+        if (file.type.startsWith('image/')) fileType = 'image';
+        else if (file.type.startsWith('video/')) fileType = 'video';
 
-      const limitType = fileType === 'image' ? 'IMAGE' : fileType === 'video' ? 'VIDEO' : 'FILE';
-      const validation = validateFile(file, limitType);
-      if (!validation.isValid) { if (validation.error) toast.error(validation.error); return; }
+        const limitType = fileType === 'image' ? 'IMAGE' : fileType === 'video' ? 'VIDEO' : 'FILE';
+        const validation = validateFile(file, limitType);
+        if (!validation.isValid) {
+          if (validation.error) toast.error(validation.error);
+          return;
+        }
 
-      const preview = (fileType === 'image' || fileType === 'video')
-        ? URL.createObjectURL(file)
-        : undefined;
-      newFiles.push({
-        id: `${file.name}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-        file, preview, type: fileType,
+        const preview =
+          fileType === 'image' || fileType === 'video' ? URL.createObjectURL(file) : undefined;
+        newFiles.push({
+          id: `${file.name}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+          file,
+          preview,
+          type: fileType,
+        });
       });
-    });
 
-    setSelectedFiles(prev => [...prev, ...newFiles]);
-  }, [selectedFiles]);
+      setSelectedFiles((prev) => [...prev, ...newFiles]);
+    },
+    [selectedFiles],
+  );
 
   useEffect(() => {
     const handleDropFiles = (e: Event) => {
@@ -194,7 +214,7 @@ export const useChatInput = ({
   };
 
   const removeFile = (index: number) => {
-    setSelectedFiles(prev => {
+    setSelectedFiles((prev) => {
       const next = [...prev];
       const removed = next.splice(index, 1)[0];
       if (removed.preview) URL.revokeObjectURL(removed.preview);
@@ -203,11 +223,11 @@ export const useChatInput = ({
   };
 
   const clearAllFiles = () => {
-    selectedFiles.forEach(f => { if (f.preview) URL.revokeObjectURL(f.preview); });
+    selectedFiles.forEach((f) => {
+      if (f.preview) URL.revokeObjectURL(f.preview);
+    });
     setSelectedFiles([]);
   };
-
-  
 
   const handleSubmit = async (e?: React.FormEvent) => {
     e?.preventDefault();
@@ -217,7 +237,7 @@ export const useChatInput = ({
     onTyping(false);
 
     try {
-      const imageFiles = selectedFiles.filter(f => f.type === 'image');
+      const imageFiles = selectedFiles.filter((f) => f.type === 'image');
       const canCombineText = imageFiles.length === 1 && inputText.trim();
       let textSentWithImages = false;
 
@@ -232,11 +252,18 @@ export const useChatInput = ({
           textSentWithImages = true;
         }
 
-        onSendImages(imageFiles.map(f => f.file), {
-          replyToId: replyingTo?.id,
-          content: textSentWithImages ? combinedContent : undefined,
-          mentions: textSentWithImages ? (combinedMentions.length > 0 ? combinedMentions : undefined) : undefined
-        }).catch(() => toast.error(TOAST_MESSAGES.CHAT.SEND_FAILED));
+        onSendImages(
+          imageFiles.map((f) => f.file),
+          {
+            replyToId: replyingTo?.id,
+            content: textSentWithImages ? combinedContent : undefined,
+            mentions: textSentWithImages
+              ? combinedMentions.length > 0
+                ? combinedMentions
+                : undefined
+              : undefined,
+          },
+        ).catch(() => toast.error(TOAST_MESSAGES.CHAT.SEND_FAILED));
       }
 
       if (inputText.trim() && !textSentWithImages) {
@@ -245,12 +272,15 @@ export const useChatInput = ({
             await onEditMessage?.(inputText.trim());
           }
         } else {
-          const { content: finalContent, mentions } = formatMessageForSending(inputText.trim(), activeMentions);
-          
+          const { content: finalContent, mentions } = formatMessageForSending(
+            inputText.trim(),
+            activeMentions,
+          );
+
           await onSendText(
             finalContent,
             mentions.length > 0 ? mentions : undefined,
-            replyingTo?.id
+            replyingTo?.id,
           );
         }
       }
@@ -288,8 +318,8 @@ export const useChatInput = ({
         const name = mentionMatch[1];
         const newText = text.substring(0, cursor - deleteLength) + text.substring(cursor);
         setInputText(newText);
-        setActiveMentions(prev =>
-          prev.filter(m => m.name !== name || newText.includes(`@${m.name}\u200B`))
+        setActiveMentions((prev) =>
+          prev.filter((m) => m.name !== name || newText.includes(`@${m.name}\u200B`)),
         );
         setTimeout(() => {
           if (inputRef.current) {
@@ -301,9 +331,9 @@ export const useChatInput = ({
       }
     }
 
-    if (e.key === 'Enter' && !e.shiftKey) { 
-      e.preventDefault(); 
-      handleSubmit(); 
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleSubmit();
     }
   };
 

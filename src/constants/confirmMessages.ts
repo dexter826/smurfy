@@ -16,7 +16,8 @@ export const CONFIRM_MESSAGES = {
   MEDIA: {
     DELETE_AVATAR: {
       TITLE: 'Xóa ảnh đại diện',
-      MESSAGE: 'Bạn có chắc chắn muốn xóa ảnh đại diện hiện tại? Bạn sẽ quay về sử dụng ảnh mặc định.',
+      MESSAGE:
+        'Bạn có chắc chắn muốn xóa ảnh đại diện hiện tại? Bạn sẽ quay về sử dụng ảnh mặc định.',
       CONFIRM: 'Xóa ngay',
     },
     DELETE_COVER: {
@@ -33,9 +34,10 @@ export const CONFIRM_MESSAGES = {
     },
     DELETE_COMMENT: {
       TITLE: 'Xóa bình luận',
-      MESSAGE: (hasReplies: boolean) => hasReplies
-        ? 'Xóa bình luận này sẽ mất hết các câu trả lời liên quan. Bạn có chắc chắn?'
-        : 'Bạn có chắc chắn muốn xóa bình luận này?',
+      MESSAGE: (hasReplies: boolean) =>
+        hasReplies
+          ? 'Xóa bình luận này sẽ mất hết các câu trả lời liên quan. Bạn có chắc chắn?'
+          : 'Bạn có chắc chắn muốn xóa bình luận này?',
       CONFIRM: 'Xóa',
     },
   },
@@ -57,7 +59,8 @@ export const CONFIRM_MESSAGES = {
     },
     BAN_USER: {
       TITLE: 'Khóa tài khoản',
-      MESSAGE: 'Tài khoản người dùng sẽ bị KHÓA và đăng xuất khỏi mọi thiết bị. Hành động này rất nghiêm trọng.',
+      MESSAGE:
+        'Tài khoản người dùng sẽ bị KHÓA và đăng xuất khỏi mọi thiết bị. Hành động này rất nghiêm trọng.',
       CONFIRM: 'Khóa ngay',
     },
     UNBAN_USER: {
@@ -71,7 +74,7 @@ export const CONFIRM_MESSAGES = {
       TITLE: 'Đăng xuất',
       MESSAGE: 'Bạn có chắc chắn muốn đăng xuất khỏi phiên làm việc này?',
       CONFIRM: 'Đăng xuất',
-    }
+    },
   },
   CHAT: {
     DELETE_CONVERSATION: {
@@ -86,7 +89,8 @@ export const CONFIRM_MESSAGES = {
     },
     DISBAND_GROUP: {
       TITLE: 'Giải tán nhóm',
-      MESSAGE: 'Bạn có chắc chắn muốn giải tán nhóm này? Tất cả tin nhắn và thành viên sẽ bị xóa vĩnh viễn.',
+      MESSAGE:
+        'Bạn có chắc chắn muốn giải tán nhóm này? Tất cả tin nhắn và thành viên sẽ bị xóa vĩnh viễn.',
       CONFIRM: 'Xóa ngay',
     },
     TOGGLE_APPROVAL_ON: {
@@ -101,7 +105,8 @@ export const CONFIRM_MESSAGES = {
     },
     TRANSFER_CREATOR: {
       TITLE: 'Chuyển quyền trưởng nhóm',
-      MESSAGE: 'Bạn sẽ trở thành Admin và không còn là Trưởng nhóm nữa. Hành động này không thể hoàn tác.',
+      MESSAGE:
+        'Bạn sẽ trở thành Admin và không còn là Trưởng nhóm nữa. Hành động này không thể hoàn tác.',
       CONFIRM: 'Chuyển quyền',
     },
     APPROVE_ALL_PENDING: {
@@ -114,5 +119,5 @@ export const CONFIRM_MESSAGES = {
       MESSAGE: (name: string) => `Từ chối không cho ${name} vào nhóm?`,
       CONFIRM: 'Từ chối',
     },
-  }
+  },
 };

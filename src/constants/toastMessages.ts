@@ -22,8 +22,9 @@ export const TOAST_MESSAGES = {
       EMAIL_ALREADY_IN_USE: 'Email này đã được sử dụng',
       WEAK_PASSWORD: 'Mật khẩu quá yếu',
       USER_DISABLED: 'Tài khoản đã bị khóa',
-      EMAIL_NOT_VERIFIED: 'Email chưa được xác thực. Vui lòng kiểm tra hộp thư hoặc gửi lại email xác thực',
-    }
+      EMAIL_NOT_VERIFIED:
+        'Email chưa được xác thực. Vui lòng kiểm tra hộp thư hoặc gửi lại email xác thực',
+    },
   },
 
   FEED: {
@@ -31,8 +32,10 @@ export const TOAST_MESSAGES = {
     UPDATE_SUCCESS: 'Đã cập nhật bài viết',
     DELETE_SUCCESS: 'Đã xóa bài viết',
     LOAD_FAILED: 'Không thể tải danh sách bài viết',
-    CREATE_FAILED: (detail?: string) => detail ? `Lỗi đăng bài: ${detail}` : 'Không thể đăng bài viết',
-    UPDATE_FAILED: (detail?: string) => detail ? `Lỗi cập nhật: ${detail}` : 'Không thể cập nhật bài viết',
+    CREATE_FAILED: (detail?: string) =>
+      detail ? `Lỗi đăng bài: ${detail}` : 'Không thể đăng bài viết',
+    UPDATE_FAILED: (detail?: string) =>
+      detail ? `Lỗi cập nhật: ${detail}` : 'Không thể cập nhật bài viết',
     DELETE_FAILED: 'Không thể xóa bài viết',
     DELETE_COMMENT_SUCCESS: 'Đã xóa bình luận',
     DELETE_COMMENT_FAILED: 'Không thể xóa bình luận',
@@ -131,8 +134,10 @@ export const TOAST_MESSAGES = {
   },
 
   COMMENT: {
-    CREATE_FAILED: (detail?: string) => detail ? `Lỗi bình luận: ${detail}` : 'Không thể gửi bình luận',
-    UPDATE_FAILED: (detail?: string) => detail ? `Lỗi cập nhật: ${detail}` : 'Không thể cập nhật bình luận',
+    CREATE_FAILED: (detail?: string) =>
+      detail ? `Lỗi bình luận: ${detail}` : 'Không thể gửi bình luận',
+    UPDATE_FAILED: (detail?: string) =>
+      detail ? `Lỗi cập nhật: ${detail}` : 'Không thể cập nhật bình luận',
   },
 
   GROUP: {

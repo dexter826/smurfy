@@ -1,6 +1,13 @@
 import React, { useCallback } from 'react';
 import { MoreVertical, UserMinus, User as UserIcon, Lock, Ban } from 'lucide-react';
-import { UserAvatar, UserStatusText, IconButton, Dropdown, DropdownItem, Skeleton } from '@/components/ui';
+import {
+  UserAvatar,
+  UserStatusText,
+  IconButton,
+  Dropdown,
+  DropdownItem,
+  Skeleton,
+} from '@/components/ui';
 import { User, UserStatus } from '@shared/types';
 import { useNavigate } from 'react-router-dom';
 
@@ -44,16 +51,9 @@ const FriendItemInner: React.FC<FriendItemProps> = ({
         <UserAvatar userId={friend.id} size="md" />
         <div className="min-w-0">
           <div className="flex items-center gap-1.5 flex-wrap">
-            <h3 className="text-sm font-semibold text-foreground truncate">
-              {friend.fullName}
-            </h3>
-            
+            <h3 className="text-sm font-semibold text-foreground truncate">{friend.fullName}</h3>
           </div>
-          <UserStatusText
-              userId={friend.id}
-              className="text-xs"
-              initialStatus={friend.status}
-            />
+          <UserStatusText userId={friend.id} className="text-xs" initialStatus={friend.status} />
         </div>
       </div>
 
@@ -103,7 +103,6 @@ const FriendItemSkeleton: React.FC = () => (
   </div>
 );
 
-export const FriendItem = Object.assign(
-  React.memo(FriendItemInner),
-  { Skeleton: FriendItemSkeleton }
-) as React.FC<FriendItemProps> & { Skeleton: React.FC };
+export const FriendItem = Object.assign(React.memo(FriendItemInner), {
+  Skeleton: FriendItemSkeleton,
+}) as React.FC<FriendItemProps> & { Skeleton: React.FC };

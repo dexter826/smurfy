@@ -27,7 +27,9 @@ export const ReactionDetailsModal: React.FC<ReactionDetailsModalProps> = ({
   const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<'ALL' | ReactionType>('ALL');
   // Map {userId: reactionType} — cho cả 2 mode
-  const [reactions, setReactions] = useState<Record<string, string | ReactionType>>(reactionsProp ?? {});
+  const [reactions, setReactions] = useState<Record<string, string | ReactionType>>(
+    reactionsProp ?? {},
+  );
 
   // Tải từ subcollection khi POST/COMMENT context
   useEffect(() => {
@@ -41,14 +43,15 @@ export const ReactionDetailsModal: React.FC<ReactionDetailsModalProps> = ({
 
     // Chỉ truy vấn Firestore nếu là Post/Comment và có sourceId
     if (sourceId && sourceType && (sourceType === 'post' || sourceType === 'comment')) {
-      const colPath = sourceType === 'post'
-        ? `posts/${sourceId}/reactions`
-        : `comments/${sourceId}/reactions`;
+      const colPath =
+        sourceType === 'post' ? `posts/${sourceId}/reactions` : `comments/${sourceId}/reactions`;
 
       getDocs(collection(db, colPath))
-        .then(snap => {
+        .then((snap) => {
           const map: Record<string, string> = {};
-          snap.forEach(d => { map[d.id] = d.data().type; });
+          snap.forEach((d) => {
+            map[d.id] = d.data().type;
+          });
           setReactions(map);
         })
         .catch((err) => {
@@ -97,21 +100,15 @@ export const ReactionDetailsModal: React.FC<ReactionDetailsModalProps> = ({
       .map(([userId, type]) => ({
         user: usersMap[userId],
         type: type as ReactionType,
-        userId
+        userId,
       }))
-      .filter(item => !!item.user);
+      .filter((item) => !!item.user);
 
-    return list.filter(item => activeTab === 'ALL' || item.type === activeTab);
+    return list.filter((item) => activeTab === 'ALL' || item.type === activeTab);
   }, [usersMap, reactionEntries, activeTab]);
 
   return (
-    <Modal
-      open={open}
-      onOpenChange={onOpenChange}
-      title="Cảm xúc"
-      size="sm"
-      bodyClassName="!p-0"
-    >
+    <Modal open={open} onOpenChange={onOpenChange} title="Cảm xúc" size="sm" bodyClassName="!p-0">
       <div className="flex flex-col h-[500px] max-h-[70vh]">
         {/* Tabs */}
         {tabs.length > 1 && (
@@ -120,16 +117,17 @@ export const ReactionDetailsModal: React.FC<ReactionDetailsModalProps> = ({
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab as 'ALL' | ReactionType)}
-                className={`py-3 px-1 border-b-2 transition-all duration-200 text-sm font-semibold whitespace-nowrap flex items-center gap-1.5 ${activeTab === tab
-                  ? 'border-primary text-primary'
-                  : 'border-transparent text-secondary hover:text-foreground'
-                  }`}
+                className={`py-3 px-1 border-b-2 transition-all duration-200 text-sm font-semibold whitespace-nowrap flex items-center gap-1.5 ${
+                  activeTab === tab
+                    ? 'border-primary text-primary'
+                    : 'border-transparent text-secondary hover:text-foreground'
+                }`}
               >
                 {tab === 'ALL' ? (
                   'Tất cả'
                 ) : (
                   <>
-                    {getReactionIcon(tab as ReactionType, "", 16)}
+                    {getReactionIcon(tab as ReactionType, '', 16)}
                     <span>{reactionCounts[tab]}</span>
                   </>
                 )}
@@ -141,7 +139,7 @@ export const ReactionDetailsModal: React.FC<ReactionDetailsModalProps> = ({
         <div className="flex-1 overflow-y-auto scroll-hide p-2">
           {isLoading ? (
             <div className="space-y-4 p-2">
-              {[1, 2, 3, 4].map(i => (
+              {[1, 2, 3, 4].map((i) => (
                 <div key={i} className="flex items-center gap-3">
                   <Skeleton variant="circle" width={40} height={40} />
                   <Skeleton variant="line" width={150} height={16} />
@@ -165,7 +163,7 @@ export const ReactionDetailsModal: React.FC<ReactionDetailsModalProps> = ({
                         showStatus={false}
                       />
                       <div className="absolute -bottom-1 -right-1 bg-surface rounded-full p-0.5 shadow-sm border border-border">
-                        {getReactionIcon(type, "", 14)}
+                        {getReactionIcon(type, '', 14)}
                       </div>
                     </div>
                     <div>
@@ -178,11 +176,7 @@ export const ReactionDetailsModal: React.FC<ReactionDetailsModalProps> = ({
               ))}
             </div>
           ) : (
-            <EmptyState
-              title="Không có cảm xúc nào"
-              size="sm"
-              className="h-full"
-            />
+            <EmptyState title="Không có cảm xúc nào" size="sm" className="h-full" />
           )}
         </div>
       </div>

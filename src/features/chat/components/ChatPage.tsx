@@ -127,8 +127,6 @@ const ChatPage: React.FC = () => {
     modal.closeBlockModal();
   };
 
-
-
   if (!currentUser) return <MessengerSkeleton />;
 
   const handleSendFriendRequest = async (userId: string) => {

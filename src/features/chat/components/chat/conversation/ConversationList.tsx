@@ -43,169 +43,205 @@ interface ConversationListProps {
 }
 
 /** Danh sách các cuộc hội thoại */
-export const ConversationList = React.memo<ConversationListProps>(({
-  conversations, selectedId, currentUserId,
-  currentUserFriendIds = [],
-  isLoading, onSelectConversation, onSearch,
-  onPin, onMute, onDelete, onBlock, onArchive, onMarkUnread,
-  onViewProfile, onNewChat, onNewGroup,
-  viewMode = 'normal', archivedCount = 0, onViewModeChange,
-  isSearchFocused = false, onSearchFocus, onSelectUser,
-  searchResults = { conversations: [], users: [] },
-  searchHistory = [], onRemoveFromHistory, onClearHistory, onMarkAllRead,
-}) => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [activeFilter, setActiveFilter] = useState<FilterType>('all');
+export const ConversationList = React.memo<ConversationListProps>(
+  ({
+    conversations,
+    selectedId,
+    currentUserId,
+    currentUserFriendIds = [],
+    isLoading,
+    onSelectConversation,
+    onSearch,
+    onPin,
+    onMute,
+    onDelete,
+    onBlock,
+    onArchive,
+    onMarkUnread,
+    onViewProfile,
+    onNewChat,
+    onNewGroup,
+    viewMode = 'normal',
+    archivedCount = 0,
+    onViewModeChange,
+    isSearchFocused = false,
+    onSearchFocus,
+    onSelectUser,
+    searchResults = { conversations: [], users: [] },
+    searchHistory = [],
+    onRemoveFromHistory,
+    onClearHistory,
+    onMarkAllRead,
+  }) => {
+    const [searchTerm, setSearchTerm] = useState('');
+    const [activeFilter, setActiveFilter] = useState<FilterType>('all');
 
-  const { 
-    friendConversations, 
-    requestConversations, 
-    displayConversations,
-    strangerUnreadCount
-  } = useConversationGroups({
-    conversations, currentUserId, currentUserFriendIds,
-    viewMode: (viewMode || 'normal') as 'normal' | 'archived',
-    activeFilter,
-  });
+    const { friendConversations, requestConversations, displayConversations, strangerUnreadCount } =
+      useConversationGroups({
+        conversations,
+        currentUserId,
+        currentUserFriendIds,
+        viewMode: (viewMode || 'normal') as 'normal' | 'archived',
+        activeFilter,
+      });
 
-  const filterBadges = {
-    stranger: strangerUnreadCount > 0 ? strangerUnreadCount : undefined
-  };
+    const filterBadges = {
+      stranger: strangerUnreadCount > 0 ? strangerUnreadCount : undefined,
+    };
 
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setSearchTerm(value);
-    onSearch(value);
-  };
+    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const value = e.target.value;
+      setSearchTerm(value);
+      onSearch(value);
+    };
 
-  const handleCancelSearch = () => {
-    setSearchTerm('');
-    onSearch('');
-    onSearchFocus?.(false);
-  };
+    const handleCancelSearch = () => {
+      setSearchTerm('');
+      onSearch('');
+      onSearchFocus?.(false);
+    };
 
-  const renderConversationItem = useCallback((
-    conversation: { id: string; data: RtdbConversation; userChat: RtdbUserChat }
-  ) => {
-    const participantIds = Object.keys(conversation.data.members);
-    const partnerId = conversation.data.isGroup
-      ? null
-      : participantIds.find(id => id !== currentUserId);
+    const renderConversationItem = useCallback(
+      (conversation: { id: string; data: RtdbConversation; userChat: RtdbUserChat }) => {
+        const participantIds = Object.keys(conversation.data.members);
+        const partnerId = conversation.data.isGroup
+          ? null
+          : participantIds.find((id) => id !== currentUserId);
+
+        return (
+          <ConversationItem
+            key={conversation.id}
+            conversation={conversation}
+            isActive={conversation.id === selectedId}
+            currentUserId={currentUserId}
+            currentUserFriendIds={currentUserFriendIds}
+            showMessageRequestBadge={false}
+            onClick={() => onSelectConversation(conversation.id)}
+            onPin={onPin}
+            onMute={onMute}
+            onDelete={() => onDelete(conversation.id)}
+            onBlock={partnerId && onBlock ? onBlock : undefined}
+            onArchive={onArchive}
+            onMarkUnread={onMarkUnread}
+            onViewProfile={partnerId && onViewProfile ? () => onViewProfile(partnerId) : undefined}
+          />
+        );
+      },
+      [
+        currentUserId,
+        selectedId,
+        currentUserFriendIds,
+        onSelectConversation,
+        onPin,
+        onMute,
+        onDelete,
+        onBlock,
+        onArchive,
+        onMarkUnread,
+        onViewProfile,
+      ],
+    );
 
     return (
-      <ConversationItem
-        key={conversation.id}
-        conversation={conversation}
-        isActive={conversation.id === selectedId}
-        currentUserId={currentUserId}
-        currentUserFriendIds={currentUserFriendIds}
-        showMessageRequestBadge={false}
-        onClick={() => onSelectConversation(conversation.id)}
-        onPin={onPin}
-        onMute={onMute}
-        onDelete={() => onDelete(conversation.id)}
-        onBlock={partnerId && onBlock ? onBlock : undefined}
-        onArchive={onArchive}
-        onMarkUnread={onMarkUnread}
-        onViewProfile={partnerId && onViewProfile ? () => onViewProfile(partnerId) : undefined}
-      />
-    );
-  }, [
-    currentUserId, selectedId, currentUserFriendIds,
-    onSelectConversation, onPin, onMute, onDelete,
-    onBlock, onArchive, onMarkUnread, onViewProfile,
-  ]);
+      <div className="flex flex-col h-full w-full bg-surface border-r border-border transition-theme">
+        <ConversationHeader
+          searchTerm={searchTerm}
+          onSearchChange={handleSearchChange}
+          onClearSearch={() => {
+            setSearchTerm('');
+            onSearch('');
+          }}
+          isSearchFocused={isSearchFocused}
+          onSearchFocus={(focused) => onSearchFocus?.(focused)}
+          onCancelSearch={handleCancelSearch}
+          onNewGroup={onNewGroup}
+          onNewChat={onNewChat}
+          viewMode={viewMode || 'normal'}
+          onViewModeChange={onViewModeChange}
+          archivedCount={archivedCount}
+          onMarkAllRead={onMarkAllRead}
+        />
 
-  return (
-    <div className="flex flex-col h-full w-full bg-surface border-r border-border transition-theme">
-      <ConversationHeader
-        searchTerm={searchTerm}
-        onSearchChange={handleSearchChange}
-        onClearSearch={() => { setSearchTerm(''); onSearch(''); }}
-        isSearchFocused={isSearchFocused}
-        onSearchFocus={(focused) => onSearchFocus?.(focused)}
-        onCancelSearch={handleCancelSearch}
-        onNewGroup={onNewGroup}
-        onNewChat={onNewChat}
-        viewMode={viewMode || 'normal'}
-        onViewModeChange={onViewModeChange}
-        archivedCount={archivedCount}
-        onMarkAllRead={onMarkAllRead}
-      />
+        {/* Filter Bar Or Archive Label */}
+        {!isSearchFocused &&
+          !searchTerm &&
+          (viewMode === 'normal' ? (
+            <ConversationFilters
+              activeFilter={activeFilter}
+              onFilterChange={setActiveFilter}
+              onMarkAllRead={onMarkAllRead}
+              badges={filterBadges}
+            />
+          ) : (
+            <div className="flex-shrink-0 flex items-center px-4 h-10 bg-background border-b border-border">
+              <span className="text-xs font-semibold text-secondary flex items-center gap-2">
+                <Archive size={14} />
+                Hội thoại đã lưu trữ
+              </span>
+            </div>
+          ))}
 
-      {/* Filter Bar Or Archive Label */}
-      {!isSearchFocused && !searchTerm && (
-        viewMode === 'normal' ? (
-          <ConversationFilters
-            activeFilter={activeFilter}
-            onFilterChange={setActiveFilter}
-            onMarkAllRead={onMarkAllRead}
-            badges={filterBadges}
-          />
-        ) : (
-          <div className="flex-shrink-0 flex items-center px-4 h-10 bg-background border-b border-border">
-            <span className="text-xs font-semibold text-secondary flex items-center gap-2">
-              <Archive size={14} />
-              Hội thoại đã lưu trữ
-            </span>
-          </div>
-        )
-      )}
-
-      <div className="flex-1 overflow-y-auto scroll-hide">
-        {isLoading && conversations.length === 0 ? (
-          <div className="p-1 pt-2">
-            {[...Array(6)].map((_, i) => (
-              <ConversationItem.Skeleton key={i} />
-            ))}
-          </div>
-        ) : isSearchFocused ? (
-          <SearchResults
-            searchTerm={searchTerm}
-            results={searchResults}
-            currentUserId={currentUserId}
-            selectedId={selectedId}
-            history={searchHistory}
-            onSelectConversation={(id) => {
-              setSearchTerm('');
-              onSearch('');
-              onSelectConversation(id);
-              onSearchFocus?.(false);
-            }}
-            onSelectUser={(user) => {
-              setSearchTerm('');
-              onSearch('');
-              onSelectUser?.(user);
-              onSearchFocus?.(false);
-            }}
-            onRemoveFromHistory={onRemoveFromHistory}
-            onClearHistory={onClearHistory}
-            isLoading={isLoading && searchTerm !== ''}
-            conversations={conversations}
-          />
-        ) : (friendConversations.length === 0 && requestConversations.length === 0) ? (
-          <EmptyState
-            icon={Users}
-            title={searchTerm ? 'Không tìm thấy' : 'Chưa có cuộc trò chuyện'}
-            description={searchTerm ? 'Thử tìm kiếm với từ khóa khác' : 'Bắt đầu trò chuyện với bạn bè'}
-            size="md"
-            className="h-full px-8"
-          />
-        ) : (
-          <div className="py-1">
-            {displayConversations.length === 0 ? (
-              <EmptyState
-                icon={Users}
-                title={activeFilter === 'stranger' ? 'Không có tin nhắn chờ' : 'Không có cuộc trò chuyện'}
-                size="sm"
-                className="mt-8 px-8"
-              />
-            ) : (
-              displayConversations.map(renderConversationItem)
-            )}
-          </div>
-        )}
+        <div className="flex-1 overflow-y-auto scroll-hide">
+          {isLoading && conversations.length === 0 ? (
+            <div className="p-1 pt-2">
+              {[...Array(6)].map((_, i) => (
+                <ConversationItem.Skeleton key={i} />
+              ))}
+            </div>
+          ) : isSearchFocused ? (
+            <SearchResults
+              searchTerm={searchTerm}
+              results={searchResults}
+              currentUserId={currentUserId}
+              selectedId={selectedId}
+              history={searchHistory}
+              onSelectConversation={(id) => {
+                setSearchTerm('');
+                onSearch('');
+                onSelectConversation(id);
+                onSearchFocus?.(false);
+              }}
+              onSelectUser={(user) => {
+                setSearchTerm('');
+                onSearch('');
+                onSelectUser?.(user);
+                onSearchFocus?.(false);
+              }}
+              onRemoveFromHistory={onRemoveFromHistory}
+              onClearHistory={onClearHistory}
+              isLoading={isLoading && searchTerm !== ''}
+              conversations={conversations}
+            />
+          ) : friendConversations.length === 0 && requestConversations.length === 0 ? (
+            <EmptyState
+              icon={Users}
+              title={searchTerm ? 'Không tìm thấy' : 'Chưa có cuộc trò chuyện'}
+              description={
+                searchTerm ? 'Thử tìm kiếm với từ khóa khác' : 'Bắt đầu trò chuyện với bạn bè'
+              }
+              size="md"
+              className="h-full px-8"
+            />
+          ) : (
+            <div className="py-1">
+              {displayConversations.length === 0 ? (
+                <EmptyState
+                  icon={Users}
+                  title={
+                    activeFilter === 'stranger'
+                      ? 'Không có tin nhắn chờ'
+                      : 'Không có cuộc trò chuyện'
+                  }
+                  size="sm"
+                  className="mt-8 px-8"
+                />
+              ) : (
+                displayConversations.map(renderConversationItem)
+              )}
+            </div>
+          )}
+        </div>
       </div>
-    </div>
-  );
-});
+    );
+  },
+);

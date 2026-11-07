@@ -5,7 +5,7 @@ import { useAuthStore } from '@/features/auth';
  * Hook xử lý logout
  */
 export const useLogout = () => {
-  const logout = useAuthStore(state => state.logout);
+  const logout = useAuthStore((state) => state.logout);
   const navigate = useNavigate();
 
   return async () => {

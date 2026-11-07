@@ -13,7 +13,7 @@ import {
   limit,
   arrayUnion,
   deleteDoc,
-  serverTimestamp
+  serverTimestamp,
 } from 'firebase/firestore';
 import { getMessaging, getToken } from 'firebase/messaging';
 import { db } from '@/lib/firebase/config';
@@ -28,7 +28,7 @@ export const notificationService = {
     receiverId: string,
     actorId: string,
     type: NotificationType,
-    data?: Notification['data']
+    data?: Notification['data'],
   ): Promise<void> => {
     try {
       if (!receiverId || !actorId || receiverId === actorId) return;
@@ -41,26 +41,25 @@ export const notificationService = {
         data: data || {},
         isRead: false,
         createdAt: serverTimestamp(),
-        updatedAt: serverTimestamp()
+        updatedAt: serverTimestamp(),
       });
     } catch (err) {
       console.error('Lỗi createInAppNotification:', err);
     }
   },
 
-
   /** Theo dõi thông báo thời gian thực */
   subscribeToNotifications: (
     userId: string,
     callback: (notifications: Notification[]) => void,
     limitCount: number = 20,
-    onError?: (error: unknown) => void
+    onError?: (error: unknown) => void,
   ) => {
     const q = query(
       collection(db, 'notifications'),
       where('receiverId', '==', userId),
       orderBy('createdAt', 'desc'),
-      limit(limitCount)
+      limit(limitCount),
     );
 
     return onSnapshot(
@@ -71,7 +70,7 @@ export const notificationService = {
       (error) => {
         console.error('Lỗi subscribeToNotifications:', error);
         onError?.(error);
-      }
+      },
     );
   },
 
@@ -81,7 +80,7 @@ export const notificationService = {
       const docRef = doc(db, 'notifications', notificationId);
       await updateDoc(docRef, {
         isRead: true,
-        updatedAt: serverTimestamp()
+        updatedAt: serverTimestamp(),
       });
     } catch (err) {
       console.error('Lỗi markAsRead:', err);
@@ -99,16 +98,16 @@ export const notificationService = {
           collection(db, 'notifications'),
           where('receiverId', '==', userId),
           where('isRead', '==', false),
-          limit(CHUNK_SIZE)
+          limit(CHUNK_SIZE),
         );
         const snapshot = await getDocs(q);
         if (snapshot.empty) break;
 
         const batch = writeBatch(db);
-        snapshot.docs.forEach(doc => {
+        snapshot.docs.forEach((doc) => {
           batch.update(doc.ref, {
             isRead: true,
-            updatedAt: serverTimestamp()
+            updatedAt: serverTimestamp(),
           });
         });
         await batch.commit();
@@ -139,13 +138,13 @@ export const notificationService = {
         const q = query(
           collection(db, 'notifications'),
           where('receiverId', '==', userId),
-          limit(CHUNK_SIZE)
+          limit(CHUNK_SIZE),
         );
         const snapshot = await getDocs(q);
         if (snapshot.empty) break;
 
         const batch = writeBatch(db);
-        snapshot.docs.forEach(doc => batch.delete(doc.ref));
+        snapshot.docs.forEach((doc) => batch.delete(doc.ref));
         await batch.commit();
 
         hasMore = snapshot.size === CHUNK_SIZE;
@@ -155,10 +154,6 @@ export const notificationService = {
       throw error;
     }
   },
-
-  
-
-  
 
   /** Lấy nội dung hiển thị thông báo */
   getNotificationText: (notification: Notification): string => {
@@ -174,10 +169,9 @@ export const notificationService = {
       case NotificationType.FRIEND_ACCEPT:
         return `đã chấp nhận lời mời kết bạn.`;
       case NotificationType.SYSTEM:
-        return notification.data.contentSnippet || "Thông báo hệ thống mới.";
+        return notification.data.contentSnippet || 'Thông báo hệ thống mới.';
       default:
-        return "Thông báo mới.";
+        return 'Thông báo mới.';
     }
   },
-
 };

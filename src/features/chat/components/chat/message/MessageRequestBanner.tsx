@@ -16,14 +16,22 @@ interface MessageRequestBannerProps {
 
 /** Banner thông báo tin nhắn từ người lạ */
 export const MessageRequestBanner: React.FC<MessageRequestBannerProps> = ({
-  partnerName, friendRequestStatus = 'none',
-  onAddFriend, onAcceptFriend, onDeclineFriend, onCancelFriend, onBlock,
+  partnerName,
+  friendRequestStatus = 'none',
+  onAddFriend,
+  onAcceptFriend,
+  onDeclineFriend,
+  onCancelFriend,
+  onBlock,
 }) => {
   const getMessage = () => {
     switch (friendRequestStatus) {
-      case 'sent': return `Đang chờ ${partnerName} chấp nhận kết bạn`;
-      case 'received': return `${partnerName} đã gửi lời mời kết bạn`;
-      default: return `${partnerName} chưa có trong danh sách bạn bè`;
+      case 'sent':
+        return `Đang chờ ${partnerName} chấp nhận kết bạn`;
+      case 'received':
+        return `${partnerName} đã gửi lời mời kết bạn`;
+      default:
+        return `${partnerName} chưa có trong danh sách bạn bè`;
     }
   };
 

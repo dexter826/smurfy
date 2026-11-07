@@ -72,69 +72,69 @@ const EmailVerificationPage: React.FC = () => {
 
       <main className="flex-1 overflow-y-auto flex flex-col animate-fade-in">
         <div className="w-full max-w-[480px] mx-auto flex flex-col flex-1 p-6">
-            {/* Header */}
-            <div className="mb-4">
-              <h1 className="text-2xl font-bold text-foreground mb-1">Xác thực email</h1>
-              <p className="text-sm text-secondary leading-relaxed">
-                Chúng tôi đã gửi link xác thực đến email của bạn. Vui lòng kiểm tra hộp thư để tiếp
-                tục.
-              </p>
-            </div>
+          {/* Header */}
+          <div className="mb-4">
+            <h1 className="text-2xl font-bold text-foreground mb-1">Xác thực email</h1>
+            <p className="text-sm text-secondary leading-relaxed">
+              Chúng tôi đã gửi link xác thực đến email của bạn. Vui lòng kiểm tra hộp thư để tiếp
+              tục.
+            </p>
+          </div>
 
-            {/* Steps hint */}
-            <div className="bg-background rounded-md p-4 mb-6 border border-border space-y-3">
-              {[
-                { step: '1', text: 'Mở email từ Smurfy trong hộp thư của bạn' },
-                { step: '2', text: 'Nhấn vào link xác thực trong email' },
-                { step: '3', text: 'Quay lại đây và nhấn "Đã xác thực email"' },
-              ].map(({ step, text }) => (
-                <div key={step} className="flex items-center gap-3">
-                  <div className="w-6 h-6 rounded-full bg-primary-soft text-primary-strong flex items-center justify-center flex-shrink-0">
-                    <span className="text-xs font-bold">{step}</span>
-                  </div>
-                  <p className="text-sm text-secondary">{text}</p>
+          {/* Steps hint */}
+          <div className="bg-background rounded-md p-4 mb-6 border border-border space-y-3">
+            {[
+              { step: '1', text: 'Mở email từ Smurfy trong hộp thư của bạn' },
+              { step: '2', text: 'Nhấn vào link xác thực trong email' },
+              { step: '3', text: 'Quay lại đây và nhấn "Đã xác thực email"' },
+            ].map(({ step, text }) => (
+              <div key={step} className="flex items-center gap-3">
+                <div className="w-6 h-6 rounded-full bg-primary-soft text-primary-strong flex items-center justify-center flex-shrink-0">
+                  <span className="text-xs font-bold">{step}</span>
                 </div>
-              ))}
-            </div>
+                <p className="text-sm text-secondary">{text}</p>
+              </div>
+            ))}
+          </div>
 
-            {/* Actions */}
-            <div className="space-y-3">
-              <Button
-                fullWidth
-                size="lg"
-                onClick={handleCheckStatus}
-                isLoading={isChecking || isLoading}
-                icon={<ShieldCheck size={18} />}
-                className="mt-1"
-              >
-                Đã xác thực email
-              </Button>
+          {/* Actions */}
+          <div className="space-y-3">
+            <Button
+              fullWidth
+              size="lg"
+              onClick={handleCheckStatus}
+              isLoading={isChecking || isLoading}
+              icon={<ShieldCheck size={18} />}
+              className="mt-1"
+            >
+              Đã xác thực email
+            </Button>
 
-              <Button
-                variant="secondary"
-                fullWidth
-                size="lg"
-                onClick={handleResend}
-                disabled={isLoading}
-                icon={<RefreshCw size={17} />}
-              >
-                Gửi lại email xác thực
-              </Button>
-            </div>
+            <Button
+              variant="secondary"
+              fullWidth
+              size="lg"
+              onClick={handleResend}
+              disabled={isLoading}
+              icon={<RefreshCw size={17} />}
+            >
+              Gửi lại email xác thực
+            </Button>
+          </div>
 
-            {/* Back to login */}
-            <div className="pt-6 mt-8 border-t border-border">
-              <button
-                onClick={handleLogout}
-                className="group flex items-center gap-2 text-sm font-medium text-muted hover:text-primary transition-colors duration-200"
-              >
-                <ArrowLeft
-                  size={15}
-                  className="group-hover:-translate-x-0.5 transition-transform duration-200"
-                />
-                Quay lại Đăng nhập
-              </button>
-            </div>
+          {/* Back to login */}
+          <div className="pt-6 mt-8 border-t border-border">
+            <button
+              onClick={handleLogout}
+              className="group flex items-center gap-2 text-sm font-medium text-muted hover:text-primary transition-colors duration-200"
+            >
+              <ArrowLeft
+                size={15}
+                className="group-hover:-translate-x-0.5 transition-transform duration-200"
+              />
+              Quay lại Đăng nhập
+            </button>
+          </div>
         </div>
       </main>
     </div>

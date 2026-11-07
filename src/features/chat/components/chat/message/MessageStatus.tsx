@@ -13,7 +13,11 @@ interface MessageStatusProps {
 
 /** Hiển thị trạng thái của tin nhắn (đã gửi, đã nhận, lỗi) */
 export const MessageStatus: React.FC<MessageStatusProps> = ({
-  isMine, isRead, isDelivered, isFailed, readers,
+  isMine,
+  isRead,
+  isDelivered,
+  isFailed,
+  readers,
 }) => {
   if (!isMine) return null;
 
@@ -25,19 +29,12 @@ export const MessageStatus: React.FC<MessageStatusProps> = ({
     return (
       <div className="flex items-center gap-0.5">
         <div className="flex -space-x-1">
-          {readers.slice(0, 3).map(user => (
-            <Avatar
-              key={user.id}
-              src={user.avatar?.url}
-              name={user.fullName}
-              size="2xs"
-            />
+          {readers.slice(0, 3).map((user) => (
+            <Avatar key={user.id} src={user.avatar?.url} name={user.fullName} size="2xs" />
           ))}
         </div>
         {readers.length > 3 && (
-          <span className="text-[10px] text-muted font-semibold ml-0.5">
-            +{readers.length - 3}
-          </span>
+          <span className="text-[10px] text-muted font-semibold ml-0.5">+{readers.length - 3}</span>
         )}
       </div>
     );

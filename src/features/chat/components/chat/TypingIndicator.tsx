@@ -10,9 +10,11 @@ interface TypingIndicatorProps {
 
 /** Chỉ báo đang soạn tin nhắn */
 export const TypingIndicator: React.FC<TypingIndicatorProps> = ({
-  typingUsers, currentUserId, usersMap,
+  typingUsers,
+  currentUserId,
+  usersMap,
 }) => {
-  const active = typingUsers.filter(uid => uid !== currentUserId);
+  const active = typingUsers.filter((uid) => uid !== currentUserId);
   if (active.length === 0) return null;
 
   const name = (uid: string) => getLastName(usersMap[uid]?.fullName) || 'Người dùng';

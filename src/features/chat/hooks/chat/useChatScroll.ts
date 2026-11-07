@@ -18,18 +18,20 @@ export const useChatScroll = ({
   isLoading,
   hasMoreMessages,
   isLoadingMore,
-  onLoadMore
+  onLoadMore,
 }: UseChatScrollProps) => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const [shouldAutoScroll, setShouldAutoScroll] = useState(true);
   const [unreadCount, setUnreadCount] = useState(0);
   const prevMessagesLength = useRef(messages.length);
-  const prevLastMessageId = useRef<string | null>(messages.length > 0 ? messages[messages.length - 1].id : null);
+  const prevLastMessageId = useRef<string | null>(
+    messages.length > 0 ? messages[messages.length - 1].id : null,
+  );
   const scrollHeightBeforeLoad = useRef(0);
   const loadMoreTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-/** Tự động cuộn xuống tin nhắn mới nhất */
+  /** Tự động cuộn xuống tin nhắn mới nhất */
   const scrollToBottom = useCallback((behavior: ScrollBehavior = 'instant') => {
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior });
@@ -70,15 +72,15 @@ export const useChatScroll = ({
         if (isMyMessage || shouldAutoScroll) {
           scrollToBottom('smooth');
         } else {
-          setUnreadCount(prev => prev + 1);
+          setUnreadCount((prev) => prev + 1);
         }
       } else if (messagesContainerRef.current) {
-
         const currentScrollHeight = messagesContainerRef.current.scrollHeight;
-        messagesContainerRef.current.scrollTop = currentScrollHeight - scrollHeightBeforeLoad.current;
+        messagesContainerRef.current.scrollTop =
+          currentScrollHeight - scrollHeightBeforeLoad.current;
       }
     }
-    
+
     prevMessagesLength.current = messages.length;
     prevLastMessageId.current = messages.length > 0 ? messages[messages.length - 1].id : null;
   }, [messages, shouldAutoScroll, scrollToBottom, currentUserId]);
@@ -87,10 +89,10 @@ export const useChatScroll = ({
     if (!messagesContainerRef.current) return;
 
     const { scrollTop, scrollHeight, clientHeight } = messagesContainerRef.current;
-    
+
     const isAtBottom = scrollHeight - scrollTop - clientHeight < 100;
     setShouldAutoScroll(isAtBottom);
-    
+
     if (isAtBottom) {
       setUnreadCount(0);
     }
@@ -121,9 +123,6 @@ export const useChatScroll = ({
     handleScroll,
     scrollToBottom,
     shouldAutoScroll,
-    unreadCount
+    unreadCount,
   };
 };
-
-
-

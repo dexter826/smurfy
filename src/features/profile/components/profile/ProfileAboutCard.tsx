@@ -1,10 +1,25 @@
 import React from 'react';
-import { 
-  Cake, MapPin, GraduationCap, Heart, CalendarDays, 
-  Mail, Globe, Users as UsersIcon, Lock, Info
+import {
+  Cake,
+  MapPin,
+  GraduationCap,
+  Heart,
+  CalendarDays,
+  Mail,
+  Globe,
+  Users as UsersIcon,
+  Lock,
+  Info,
 } from 'lucide-react';
 import { EmptyState } from '@/components/ui';
-import { Gender, MaritalStatus, User, Visibility, GENDER_LABELS, MARITAL_STATUS_LABELS } from '@shared/types';
+import {
+  Gender,
+  MaritalStatus,
+  User,
+  Visibility,
+  GENDER_LABELS,
+  MARITAL_STATUS_LABELS,
+} from '@shared/types';
 import { toDate } from '@/utils/dateUtils';
 
 interface ProfileAboutCardProps {
@@ -13,16 +28,25 @@ interface ProfileAboutCardProps {
 }
 
 export const ProfileAboutCard: React.FC<ProfileAboutCardProps> = ({ profile, isOwnProfile }) => {
-  const hasDetails = profile.email || profile.gender || profile.dob || profile.location || profile.school || 
-                     profile.maritalStatus || profile.createdAt || 
-                     (profile.interests && profile.interests.length > 0);
+  const hasDetails =
+    profile.email ||
+    profile.gender ||
+    profile.dob ||
+    profile.location ||
+    profile.school ||
+    profile.maritalStatus ||
+    profile.createdAt ||
+    (profile.interests && profile.interests.length > 0);
 
   const PrivacyIcon = ({ field }: { field: string }) => {
     if (!isOwnProfile || !profile.profilePrivacy) return null;
     const visibility = (profile.profilePrivacy as any)[field] as Visibility;
-    
+
     return (
-      <div className="ml-auto text-muted opacity-40 hover:opacity-100 transition-opacity cursor-help" title={`Quyền riêng tư: ${visibility === Visibility.PUBLIC ? 'Công khai' : visibility === Visibility.FRIENDS ? 'Bạn bè' : 'Chỉ mình tôi'}`}>
+      <div
+        className="ml-auto text-muted opacity-40 hover:opacity-100 transition-opacity cursor-help"
+        title={`Quyền riêng tư: ${visibility === Visibility.PUBLIC ? 'Công khai' : visibility === Visibility.FRIENDS ? 'Bạn bè' : 'Chỉ mình tôi'}`}
+      >
         {visibility === Visibility.PUBLIC && <Globe size={12} />}
         {visibility === Visibility.FRIENDS && <UsersIcon size={12} />}
         {visibility === Visibility.PRIVATE && <Lock size={12} />}
@@ -78,10 +102,7 @@ export const ProfileAboutCard: React.FC<ProfileAboutCardProps> = ({ profile, isO
                 <Mail size={15} />
               </div>
               <span className="flex-1 truncate">
-                Email{' '}
-                <strong className="text-foreground font-medium">
-                  {profile.email}
-                </strong>
+                Email <strong className="text-foreground font-medium">{profile.email}</strong>
               </span>
               <PrivacyIcon field="email" />
             </div>
@@ -93,10 +114,7 @@ export const ProfileAboutCard: React.FC<ProfileAboutCardProps> = ({ profile, isO
                 <MapPin size={15} />
               </div>
               <span className="flex-1">
-                Đến từ{' '}
-                <strong className="text-foreground font-medium">
-                  {profile.location}
-                </strong>
+                Đến từ <strong className="text-foreground font-medium">{profile.location}</strong>
               </span>
               <PrivacyIcon field="location" />
             </div>
@@ -108,7 +126,8 @@ export const ProfileAboutCard: React.FC<ProfileAboutCardProps> = ({ profile, isO
                 <GraduationCap size={15} />
               </div>
               <span className="flex-1">
-                Từng học tại <strong className="text-foreground font-medium">{profile.school}</strong>
+                Từng học tại{' '}
+                <strong className="text-foreground font-medium">{profile.school}</strong>
               </span>
               <PrivacyIcon field="school" />
             </div>
@@ -137,7 +156,11 @@ export const ProfileAboutCard: React.FC<ProfileAboutCardProps> = ({ profile, isO
               <span>
                 Tham gia từ{' '}
                 <strong className="text-foreground font-medium">
-                  Tháng {toDate(profile.createdAt)?.toLocaleDateString('vi-VN', { month: 'numeric', year: 'numeric' })}
+                  Tháng{' '}
+                  {toDate(profile.createdAt)?.toLocaleDateString('vi-VN', {
+                    month: 'numeric',
+                    year: 'numeric',
+                  })}
                 </strong>
               </span>
             </div>
@@ -145,10 +168,15 @@ export const ProfileAboutCard: React.FC<ProfileAboutCardProps> = ({ profile, isO
 
           {profile.interests && profile.interests.length > 0 && (
             <div className="pt-3 mt-3 border-t border-border/60">
-              <h4 className="text-xs font-semibold text-muted uppercase tracking-wider mb-2.5 ml-1">Sở thích</h4>
+              <h4 className="text-xs font-semibold text-muted uppercase tracking-wider mb-2.5 ml-1">
+                Sở thích
+              </h4>
               <div className="flex flex-wrap gap-1.5">
-                {profile.interests.map(tag => (
-                  <span key={tag} className="px-2.5 py-1 text-xs font-medium rounded-full bg-primary/10 text-primary border border-primary/20">
+                {profile.interests.map((tag) => (
+                  <span
+                    key={tag}
+                    className="px-2.5 py-1 text-xs font-medium rounded-full bg-primary/10 text-primary border border-primary/20"
+                  >
                     {tag}
                   </span>
                 ))}
@@ -157,11 +185,7 @@ export const ProfileAboutCard: React.FC<ProfileAboutCardProps> = ({ profile, isO
           )}
         </div>
       ) : (
-        <EmptyState
-          title="Chưa có thông tin giới thiệu"
-          size="sm"
-          className="py-4"
-        />
+        <EmptyState title="Chưa có thông tin giới thiệu" size="sm" className="py-4" />
       )}
     </div>
   );

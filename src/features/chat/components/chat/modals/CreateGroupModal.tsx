@@ -5,7 +5,15 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { User, Visibility } from '@shared/types';
 import { friendService } from '@/features/friend';
 import { useAuthStore } from '@/features/auth';
-import { Modal, Input, Button, Avatar, UserAvatar, IconButton, ImageCropper } from '@/components/ui';
+import {
+  Modal,
+  Input,
+  Button,
+  Avatar,
+  UserAvatar,
+  IconButton,
+  ImageCropper,
+} from '@/components/ui';
 import { groupSchema, GroupFormValues } from '@/utils/validation';
 import { validateFile } from '@/utils';
 import { toast } from '@/store/toastStore';
@@ -20,7 +28,10 @@ interface CreateGroupModalProps {
 
 /** Modal tạo nhóm chat mới */
 export const CreateGroupModal: React.FC<CreateGroupModalProps> = ({
-  open, currentUserId, onOpenChange, onCreateGroup,
+  open,
+  currentUserId,
+  onOpenChange,
+  onCreateGroup,
 }) => {
   const [step, setStep] = useState<'select' | 'details'>('select');
   const [searchTerm, setSearchTerm] = useState('');
@@ -33,7 +44,11 @@ export const CreateGroupModal: React.FC<CreateGroupModalProps> = ({
   const fileInputRef = React.useRef<HTMLInputElement>(null);
 
   const {
-    register, handleSubmit, setValue, watch, reset,
+    register,
+    handleSubmit,
+    setValue,
+    watch,
+    reset,
     formState: { errors, isSubmitting },
   } = useForm<GroupFormValues>({
     resolver: zodResolver(groupSchema),
@@ -50,9 +65,10 @@ export const CreateGroupModal: React.FC<CreateGroupModalProps> = ({
     setPendingFile(null);
     reset({ name: '', memberIds: [] });
     setIsLoading(true);
-    friendService.getAllFriends(currentUserId)
+    friendService
+      .getAllFriends(currentUserId)
       .then(setFriends)
-      .catch(() => { })
+      .catch(() => {})
       .finally(() => setIsLoading(false));
   }, [open, reset]);
 
@@ -60,7 +76,10 @@ export const CreateGroupModal: React.FC<CreateGroupModalProps> = ({
     const file = e.target.files?.[0];
     if (file) {
       const validation = validateFile(file, 'AVATAR');
-      if (!validation.isValid) { if (validation.error) toast.error(validation.error); return; }
+      if (!validation.isValid) {
+        if (validation.error) toast.error(validation.error);
+        return;
+      }
       setCropImage(URL.createObjectURL(file));
       setShowCropper(true);
     }
@@ -90,19 +109,19 @@ export const CreateGroupModal: React.FC<CreateGroupModalProps> = ({
     setValue(
       'memberIds',
       currentIds.includes(userId)
-        ? currentIds.filter(id => id !== userId)
+        ? currentIds.filter((id) => id !== userId)
         : [...currentIds, userId],
-      { shouldValidate: step === 'select' }
+      { shouldValidate: step === 'select' },
     );
   };
 
   const handleNext = () => {
     if (formData.memberIds.length < GROUP_LIMITS.MIN_MEMBERS) return;
     const { user: currentUser } = useAuthStore.getState();
-    const selectedFriends = friends.filter(f => formData.memberIds.includes(f.id));
+    const selectedFriends = friends.filter((f) => formData.memberIds.includes(f.id));
     const allNames = [
       currentUser?.fullName.split(' ')[0] || 'Bạn',
-      ...selectedFriends.map(f => f.fullName.split(' ')[0]),
+      ...selectedFriends.map((f) => f.fullName.split(' ')[0]),
     ];
     setValue('name', allNames.join(', '));
     setStep('details');
@@ -118,8 +137,8 @@ export const CreateGroupModal: React.FC<CreateGroupModalProps> = ({
     }
   };
 
-  const filteredFriends = friends.filter(f =>
-    f.fullName.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredFriends = friends.filter((f) =>
+    f.fullName.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   /* Step 1: Select Members */
@@ -138,9 +157,7 @@ export const CreateGroupModal: React.FC<CreateGroupModalProps> = ({
         <span className="text-secondary font-medium">
           Đã chọn: <span className="text-primary">{formData.memberIds.length}</span> thành viên
         </span>
-        <span className="text-muted">
-          Tối đa {GROUP_LIMITS.MAX_MEMBERS} người
-        </span>
+        <span className="text-muted">Tối đa {GROUP_LIMITS.MAX_MEMBERS} người</span>
       </div>
 
       {/* Friend List */}
@@ -154,7 +171,7 @@ export const CreateGroupModal: React.FC<CreateGroupModalProps> = ({
             {searchTerm ? 'Không tìm thấy bạn bè' : 'Bạn chưa có bạn bè nào'}
           </div>
         ) : (
-          filteredFriends.map(friend => {
+          filteredFriends.map((friend) => {
             const isSelected = formData.memberIds.includes(friend.id);
             return (
               <div
@@ -178,9 +195,7 @@ export const CreateGroupModal: React.FC<CreateGroupModalProps> = ({
         )}
       </div>
 
-      {errors.memberIds && (
-        <p className="text-xs text-danger">{errors.memberIds.message}</p>
-      )}
+      {errors.memberIds && <p className="text-xs text-danger">{errors.memberIds.message}</p>}
     </div>
   );
 
@@ -194,10 +209,11 @@ export const CreateGroupModal: React.FC<CreateGroupModalProps> = ({
         <div className="flex flex-col items-center">
           <div className="relative">
             <div className="w-20 h-20 rounded-full overflow-hidden bg-primary/10 flex items-center justify-center">
-              {previewUrl
-                ? <img src={previewUrl} alt="Preview" className="w-full h-full object-cover" />
-                : <Users size={30} className="text-primary" />
-              }
+              {previewUrl ? (
+                <img src={previewUrl} alt="Preview" className="w-full h-full object-cover" />
+              ) : (
+                <Users size={30} className="text-primary" />
+              )}
             </div>
             <button
               type="button"
@@ -206,7 +222,13 @@ export const CreateGroupModal: React.FC<CreateGroupModalProps> = ({
             >
               <Camera size={13} className="text-white" />
             </button>
-            <input ref={fileInputRef} type="file" accept="image/*" onChange={handleFileSelect} className="hidden" />
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              onChange={handleFileSelect}
+              className="hidden"
+            />
           </div>
           <p className="text-xs text-muted mt-2">
             Nhóm với {totalMembers} thành viên (bao gồm bạn)
@@ -239,8 +261,8 @@ export const CreateGroupModal: React.FC<CreateGroupModalProps> = ({
                   </div>
                 </div>
               )}
-              {formData.memberIds.slice(0, 7).map(id => {
-                const friend = friends.find(f => f.id === id);
+              {formData.memberIds.slice(0, 7).map((id) => {
+                const friend = friends.find((f) => f.id === id);
                 return (
                   <div key={id} className="relative inline-block rounded-full ring-2 ring-surface">
                     <Avatar src={friend?.avatar?.url} name={friend?.fullName || ''} size="sm" />

@@ -4,349 +4,348 @@
 import { Timestamp } from 'firebase/firestore';
 
 export enum UserStatus {
-    ACTIVE = "active",
+  ACTIVE = 'active',
 }
 
 export enum Gender {
-    MALE = "male",
-    FEMALE = "female",
+  MALE = 'male',
+  FEMALE = 'female',
 }
 
 export const GENDER_LABELS: Record<Gender, string> = {
-    [Gender.MALE]: 'Nam',
-    [Gender.FEMALE]: 'Nữ',
+  [Gender.MALE]: 'Nam',
+  [Gender.FEMALE]: 'Nữ',
 };
 
 export enum Visibility {
-    FRIENDS = "friends",
-    PUBLIC = "public",
-    PRIVATE = "private",
+  FRIENDS = 'friends',
+  PUBLIC = 'public',
+  PRIVATE = 'private',
 }
 
 export enum FriendRequestStatus {
-    PENDING = "pending",
-    ACCEPTED = "accepted",
-    REJECTED = "rejected",
+  PENDING = 'pending',
+  ACCEPTED = 'accepted',
+  REJECTED = 'rejected',
 }
 
 export enum ReactionType {
-    LIKE = "like",
-    LOVE = "love",
-    HAHA = "haha",
-    WOW = "wow",
-    SAD = "sad",
-    ANGRY = "angry",
+  LIKE = 'like',
+  LOVE = 'love',
+  HAHA = 'haha',
+  WOW = 'wow',
+  SAD = 'sad',
+  ANGRY = 'angry',
 }
 
 export enum MessageType {
-    TEXT = "text",
-    SHARE_POST = "share_post",
-    IMAGE = "image",
-    SYSTEM = "system",
-    GIF = "gif",
+  TEXT = 'text',
+  SHARE_POST = 'share_post',
+  IMAGE = 'image',
+  SYSTEM = 'system',
+  GIF = 'gif',
 }
 
 export enum NotificationType {
-    REACTION = "reaction",
-    COMMENT = "comment",
-    FRIEND_REQUEST = "friend_request",
-    SYSTEM = "system",
-    CHAT = "chat",
-    MENTION = "mention",
-    FRIEND_ACCEPT = "friend_accept",
+  REACTION = 'reaction',
+  COMMENT = 'comment',
+  FRIEND_REQUEST = 'friend_request',
+  SYSTEM = 'system',
+  CHAT = 'chat',
+  MENTION = 'mention',
+  FRIEND_ACCEPT = 'friend_accept',
 }
 
 export enum PostStatus {
-    ACTIVE = "active",
-    DELETED = "deleted",
-    PENDING = "pending",
-    POLICY_VIOLATION = "policy_violation",
+  ACTIVE = 'active',
+  DELETED = 'deleted',
+  PENDING = 'pending',
+  POLICY_VIOLATION = 'policy_violation',
 }
 
 export enum PostType {
-    REGULAR = "regular",
-    AVATAR_UPDATE = "avatar_update",
-    COVER_UPDATE = "cover_update",
+  REGULAR = 'regular',
+  AVATAR_UPDATE = 'avatar_update',
+  COVER_UPDATE = 'cover_update',
 }
 
 export enum CommentStatus {
-    ACTIVE = "active",
-    DELETED = "deleted",
-    PENDING = "pending",
-    POLICY_VIOLATION = "policy_violation",
+  ACTIVE = 'active',
+  DELETED = 'deleted',
+  PENDING = 'pending',
+  POLICY_VIOLATION = 'policy_violation',
 }
 
 export enum UserRole {
-    USER = "user",
+  USER = 'user',
 }
 
 export enum MaritalStatus {
-    NONE = "none",
-    SINGLE = "single",
-    MARRIED = "married",
-    DIVORCED = "divorced",
-    WIDOWED = "widowed",
-    OTHER = "other",
+  NONE = 'none',
+  SINGLE = 'single',
+  MARRIED = 'married',
+  DIVORCED = 'divorced',
+  WIDOWED = 'widowed',
+  OTHER = 'other',
 }
 
 export const MARITAL_STATUS_LABELS: Record<MaritalStatus, string> = {
-    [MaritalStatus.NONE]: 'Không tiết lộ',
-    [MaritalStatus.SINGLE]: 'Độc thân',
-    [MaritalStatus.MARRIED]: 'Đã kết hôn',
-    [MaritalStatus.DIVORCED]: 'Đã ly hôn',
-    [MaritalStatus.WIDOWED]: 'Góa',
-    [MaritalStatus.OTHER]: 'Phức tạp',
+  [MaritalStatus.NONE]: 'Không tiết lộ',
+  [MaritalStatus.SINGLE]: 'Độc thân',
+  [MaritalStatus.MARRIED]: 'Đã kết hôn',
+  [MaritalStatus.DIVORCED]: 'Đã ly hôn',
+  [MaritalStatus.WIDOWED]: 'Góa',
+  [MaritalStatus.OTHER]: 'Phức tạp',
 };
 
 export enum Generation {
-    UNKNOWN = "",
-    ALPHA = "Gen Alpha",
-    Z = "Gen Z",
-    MILLENNIALS = "Millennials",
-    X = "Gen X",
-    BOOMERS = "Baby Boomers",
+  UNKNOWN = '',
+  ALPHA = 'Gen Alpha',
+  Z = 'Gen Z',
+  MILLENNIALS = 'Millennials',
+  X = 'Gen X',
+  BOOMERS = 'Baby Boomers',
 }
 
 export enum FriendStatus {
-    NOT_FRIEND = "not_friend",
-    PENDING_SENT = "pending_sent",
-    PENDING_RECEIVED = "pending_received",
-    FRIEND = "friend",
+  NOT_FRIEND = 'not_friend',
+  PENDING_SENT = 'pending_sent',
+  PENDING_RECEIVED = 'pending_received',
+  FRIEND = 'friend',
 }
 
 // ========== SHARED TYPES ==========
 
-export type MemberRole = "admin" | "member";
-export type ThemeMode = "light" | "dark";
+export type MemberRole = 'admin' | 'member';
+export type ThemeMode = 'light' | 'dark';
 
 // ========== SHARED INTERFACES ==========
 
 export interface NotificationPayload {
-    postId?: string;
-    commentId?: string;
-    friendRequestId?: string;
-    contentSnippet?: string;
+  postId?: string;
+  commentId?: string;
+  friendRequestId?: string;
+  contentSnippet?: string;
 }
 
 // ========== BASE ENTITIES ==========
 
 export interface BaseEntity {
-    id: string;
-    createdAt: Timestamp;
+  id: string;
+  createdAt: Timestamp;
 }
 
 export interface SoftDeletableEntity {
-    deletedAt?: Timestamp;
-    deletedBy?: string;
+  deletedAt?: Timestamp;
+  deletedBy?: string;
 }
 
 // ========== MEDIA OBJECT ==========
 
 export interface MediaObject {
-    url: string;
-    fileName: string;
-    mimeType: string;
-    size: number;
-    thumbnailUrl?: string;
-    isSensitive: boolean;
-    isModerated?: boolean;
-    moderationReason?: string;
+  url: string;
+  fileName: string;
+  mimeType: string;
+  size: number;
+  thumbnailUrl?: string;
+  isSensitive: boolean;
+  isModerated?: boolean;
+  moderationReason?: string;
 }
 
 // ========== USER SETTINGS ==========
 
 export interface UserSettings {
-    showOnlineStatus: boolean;
-    showReadReceipts: boolean;
-    allowMessagesFromStrangers: boolean;
-    defaultPostVisibility: Visibility;
-    createdAt: Timestamp;
-    updatedAt: Timestamp;
+  showOnlineStatus: boolean;
+  showReadReceipts: boolean;
+  allowMessagesFromStrangers: boolean;
+  defaultPostVisibility: Visibility;
+  createdAt: Timestamp;
+  updatedAt: Timestamp;
 }
 
 export interface ProfilePrivacy {
-    email: Visibility;
-    dob: Visibility;
-    gender: Visibility;
-    location: Visibility;
-    school: Visibility;
-    maritalStatus: Visibility;
+  email: Visibility;
+  dob: Visibility;
+  gender: Visibility;
+  location: Visibility;
+  school: Visibility;
+  maritalStatus: Visibility;
 }
 
 // ========== CORE INTERFACES ==========
 
 export interface User extends BaseEntity {
-    fullName: string;
-    avatar?: MediaObject;
-    email: string;
-    location?: string;
-    gender?: Gender;
-    dob?: Timestamp;
-    status: UserStatus;
-    role: UserRole;
-    bio?: string;
-    cover?: MediaObject;
-    updatedAt: Timestamp;
-    deletedAt?: Timestamp;
-    userVector?: number[];
-    suggestedFriends?: Array<{ id: string; mutualCount: number }>;
-    suggestionsLastUpdated?: Timestamp;
-    school?: string;
-    maritalStatus?: MaritalStatus;
-    interests?: string[];
-    generation?: Generation;
-    profilePrivacy?: ProfilePrivacy;
+  fullName: string;
+  avatar?: MediaObject;
+  email: string;
+  location?: string;
+  gender?: Gender;
+  dob?: Timestamp;
+  status: UserStatus;
+  role: UserRole;
+  bio?: string;
+  cover?: MediaObject;
+  updatedAt: Timestamp;
+  deletedAt?: Timestamp;
+  userVector?: number[];
+  suggestedFriends?: Array<{ id: string; mutualCount: number }>;
+  suggestionsLastUpdated?: Timestamp;
+  school?: string;
+  maritalStatus?: MaritalStatus;
+  interests?: string[];
+  generation?: Generation;
+  profilePrivacy?: ProfilePrivacy;
 }
 
 export interface FriendRequest extends BaseEntity {
-    senderId: string;
-    receiverId: string;
-    status: FriendRequestStatus;
-    updatedAt: Timestamp;
+  senderId: string;
+  receiverId: string;
+  status: FriendRequestStatus;
+  updatedAt: Timestamp;
 }
 
 // ========== RTDB CHAT INTERFACES ==========
 
 export interface RtdbConversation {
-    isGroup: boolean;
-    name?: string;
-    avatar?: MediaObject;
-    creatorId: string;
-    inviteLink?: string;
-    members: Record<string, MemberRole>;
-    typing?: Record<string, number>;
-    lastMessage?: {
-        senderId: string;
-        content: string;
-        type: MessageType;
-        timestamp: number;
-        messageId?: string;
-        readBy?: Record<string, number>;
-        deliveredTo?: Record<string, number>;
-    };
-    lastMessageAt?: Record<string, number>;
-    createdAt: number;
-    updatedAt: number;
-    isDisbanded?: boolean;
-    joinApprovalMode?: boolean;
-    pendingMembers?: Record<string, { addedBy: string; timestamp: number }>;
-    pinnedMessages?: Record<string, { pinnedBy: string; pinnedAt: number }>;
+  isGroup: boolean;
+  name?: string;
+  avatar?: MediaObject;
+  creatorId: string;
+  inviteLink?: string;
+  members: Record<string, MemberRole>;
+  typing?: Record<string, number>;
+  lastMessage?: {
+    senderId: string;
+    content: string;
+    type: MessageType;
+    timestamp: number;
+    messageId?: string;
+    readBy?: Record<string, number>;
+    deliveredTo?: Record<string, number>;
+  };
+  lastMessageAt?: Record<string, number>;
+  createdAt: number;
+  updatedAt: number;
+  isDisbanded?: boolean;
+  joinApprovalMode?: boolean;
+  pendingMembers?: Record<string, { addedBy: string; timestamp: number }>;
+  pinnedMessages?: Record<string, { pinnedBy: string; pinnedAt: number }>;
 }
 
 export interface RtdbUserChat {
-    isPinned: boolean;
-    isMuted: boolean;
-    isArchived: boolean;
-    unreadCount: number;
-    lastReadMsgId?: string | null;
-    lastMsgTimestamp: number;
-    clearedAt: number;
-    createdAt: number;
-    updatedAt: number;
+  isPinned: boolean;
+  isMuted: boolean;
+  isArchived: boolean;
+  unreadCount: number;
+  lastReadMsgId?: string | null;
+  lastMsgTimestamp: number;
+  clearedAt: number;
+  createdAt: number;
+  updatedAt: number;
 }
 
 export interface CallMessagePayload {
-    callType: 'voice' | 'video';
-    status: 'started' | 'ended' | 'missed' | 'rejected';
-    duration?: number;
+  callType: 'voice' | 'video';
+  status: 'started' | 'ended' | 'missed' | 'rejected';
+  duration?: number;
 }
 
 export interface SharedPostMessagePayload {
-    postId: string;
-    authorId: string;
-    authorName: string;
-    snippet: string;
-    url: string;
-    previewMediaUrl?: string;
-    previewMediaType?: 'image' | 'video';
+  postId: string;
+  authorId: string;
+  authorName: string;
+  snippet: string;
+  url: string;
+  previewMediaUrl?: string;
+  previewMediaType?: 'image' | 'video';
 }
 
 export interface RtdbMessage {
-    senderId: string;
-    type: MessageType;
-    content: string;
-    media?: MediaObject[];
-    mentions?: string[];
-    isForwarded?: boolean;
-    replyToId?: string;
-    isEdited?: boolean;
-    isRecalled?: boolean;
-    deletedBy?: Record<string, true>;
-    readBy?: Record<string, number>;
-    deliveredTo?: Record<string, number>;
-    reactions?: Record<string, string>;
-    createdAt: number;
-    updatedAt: number;
+  senderId: string;
+  type: MessageType;
+  content: string;
+  media?: MediaObject[];
+  mentions?: string[];
+  isForwarded?: boolean;
+  replyToId?: string;
+  isEdited?: boolean;
+  isRecalled?: boolean;
+  deletedBy?: Record<string, true>;
+  readBy?: Record<string, number>;
+  deliveredTo?: Record<string, number>;
+  reactions?: Record<string, string>;
+  createdAt: number;
+  updatedAt: number;
 }
 
 export interface RtdbPresence {
-    isOnline: boolean;
-    lastSeen: number;
-    createdAt: number;
-    updatedAt: number;
+  isOnline: boolean;
+  lastSeen: number;
+  createdAt: number;
+  updatedAt: number;
 }
 
 // ========== POSTS & COMMENTS ==========
 
 export interface Comment extends BaseEntity, SoftDeletableEntity {
-    postId: string;
-    authorId: string;
-    parentId?: string;
-    replyToUserId?: string;
-    replyToId?: string;
-    content: string;
-    status: CommentStatus;
-    image?: MediaObject;
-    replyCount?: number;
-    reactionCount?: number;
-    moderationReason?: string;
-    updatedAt: Timestamp;
+  postId: string;
+  authorId: string;
+  parentId?: string;
+  replyToUserId?: string;
+  replyToId?: string;
+  content: string;
+  status: CommentStatus;
+  image?: MediaObject;
+  replyCount?: number;
+  reactionCount?: number;
+  moderationReason?: string;
+  updatedAt: Timestamp;
 }
 
 // ========== REACTION INTERFACES ==========
 
 export interface ReactionDoc {
-    type: ReactionType;
-    createdAt: Timestamp;
-    updatedAt: Timestamp;
+  type: ReactionType;
+  createdAt: Timestamp;
+  updatedAt: Timestamp;
 }
 
 export interface Post extends BaseEntity, SoftDeletableEntity {
-    authorId: string;
-    type: PostType;
-    content: string;
-    status: PostStatus;
-    media?: MediaObject[];
-    commentCount: number;
-    reactionCount?: number;
-    visibility: Visibility;
-    moderationReason?: string;
-    updatedAt: Timestamp;
+  authorId: string;
+  type: PostType;
+  content: string;
+  status: PostStatus;
+  media?: MediaObject[];
+  commentCount: number;
+  reactionCount?: number;
+  visibility: Visibility;
+  moderationReason?: string;
+  updatedAt: Timestamp;
 }
 
 // ========== NOTIFICATIONS & REPORTS ==========
 
 export interface Notification extends BaseEntity {
-    receiverId: string;
-    actorId: string;
-    type: NotificationType;
-    data: NotificationPayload;
-    isRead: boolean;
-    updatedAt: Timestamp;
+  receiverId: string;
+  actorId: string;
+  type: NotificationType;
+  data: NotificationPayload;
+  isRead: boolean;
+  updatedAt: Timestamp;
 }
 
 // ========== BLOCK OPTIONS ==========
 
 export interface BlockOptions {
-    blockMessages: boolean;
-    blockCalls: boolean;
-    blockViewMyActivity: boolean;
-    hideTheirActivity: boolean;
+  blockMessages: boolean;
+  blockCalls: boolean;
+  blockViewMyActivity: boolean;
+  hideTheirActivity: boolean;
 }
 
 export interface BlockedUserEntry extends BlockOptions {
-    blockedUid: string;
-    createdAt: Timestamp;
-    updatedAt: Timestamp;
+  blockedUid: string;
+  createdAt: Timestamp;
+  updatedAt: Timestamp;
 }
-

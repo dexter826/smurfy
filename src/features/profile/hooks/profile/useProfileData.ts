@@ -24,20 +24,20 @@ export const useProfileData = ({ profileUserId, currentUser }: UseProfileDataPro
 
   const lastIdRef = useRef<string | undefined>(undefined);
 
-  const allStorePosts = usePostStore(state => state.posts);
+  const allStorePosts = usePostStore((state) => state.posts);
 
   const latestMedia = useMemo(() => {
     if (!profileUserId) return [];
 
-    const storeMediaPosts = allStorePosts.filter(p =>
-      p.authorId === profileUserId && p.media && p.media.length > 0
+    const storeMediaPosts = allStorePosts.filter(
+      (p) => p.authorId === profileUserId && p.media && p.media.length > 0,
     );
 
     const combinedPosts = [...storeMediaPosts, ...dbPosts];
 
     const mediaMap = new Map<string, MediaObject>();
-    combinedPosts.forEach(post => {
-      post.media?.forEach(m => {
+    combinedPosts.forEach((post) => {
+      post.media?.forEach((m) => {
         if (m.url && !mediaMap.has(m.url)) {
           mediaMap.set(m.url, m);
         }
@@ -47,25 +47,30 @@ export const useProfileData = ({ profileUserId, currentUser }: UseProfileDataPro
     return Array.from(mediaMap.values()).slice(0, 6);
   }, [allStorePosts, dbPosts, profileUserId]);
 
-  const loadProfile = useCallback(async (isInitial = false) => {
-    if (!profileUserId) return;
+  const loadProfile = useCallback(
+    async (isInitial = false) => {
+      if (!profileUserId) return;
 
-    const isDifferentUser = lastIdRef.current !== profileUserId;
-    if (isInitial && isDifferentUser) {
-      setLoading(true);
-    }
-
-    lastIdRef.current = profileUserId;
-    try {
-      await userService.getUserById(profileUserId).then(userData => setProfile(userData || null));
-    } catch (error) {
-      console.error("Lỗi load profile", error);
-    } finally {
+      const isDifferentUser = lastIdRef.current !== profileUserId;
       if (isInitial && isDifferentUser) {
-        setLoading(false);
+        setLoading(true);
       }
-    }
-  }, [profileUserId, currentUser?.id, rawFriendIds]);
+
+      lastIdRef.current = profileUserId;
+      try {
+        await userService
+          .getUserById(profileUserId)
+          .then((userData) => setProfile(userData || null));
+      } catch (error) {
+        console.error('Lỗi load profile', error);
+      } finally {
+        if (isInitial && isDifferentUser) {
+          setLoading(false);
+        }
+      }
+    },
+    [profileUserId, currentUser?.id, rawFriendIds],
+  );
 
   useEffect(() => {
     loadProfile(true);
@@ -75,7 +80,7 @@ export const useProfileData = ({ profileUserId, currentUser }: UseProfileDataPro
     if (!profileUserId) return;
 
     const unsubscribeProfile = userService.subscribeToUser(profileUserId, (updatedUser) => {
-      setProfile(prev => {
+      setProfile((prev) => {
         if (!prev) return updatedUser;
         return { ...prev, ...updatedUser };
       });
@@ -87,27 +92,27 @@ export const useProfileData = ({ profileUserId, currentUser }: UseProfileDataPro
       currentUser?.id || '',
       friendIds,
       (action, posts) => {
-        setDbPosts(prev => {
+        setDbPosts((prev) => {
           if (action === 'add') {
-            const newPosts = posts.filter(p => !prev.some(prevP => prevP.id === p.id));
-            return [...newPosts, ...prev].sort((a, b) =>
-              getSafeMillis(b.createdAt) - getSafeMillis(a.createdAt)
-            ).slice(0, 20);
+            const newPosts = posts.filter((p) => !prev.some((prevP) => prevP.id === p.id));
+            return [...newPosts, ...prev]
+              .sort((a, b) => getSafeMillis(b.createdAt) - getSafeMillis(a.createdAt))
+              .slice(0, 20);
           }
           if (action === 'update') {
-            return prev.map(p => {
-              const updated = posts.find(u => u.id === p.id);
+            return prev.map((p) => {
+              const updated = posts.find((u) => u.id === p.id);
               return updated ? { ...p, ...updated } : p;
             });
           }
           if (action === 'remove') {
-            const removedIds = posts.map(p => p.id);
-            return prev.filter(p => !removedIds.includes(p.id));
+            const removedIds = posts.map((p) => p.id);
+            return prev.filter((p) => !removedIds.includes(p.id));
           }
           return prev;
         });
       },
-      20
+      20,
     );
 
     return () => {

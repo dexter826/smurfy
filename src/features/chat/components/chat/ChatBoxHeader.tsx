@@ -16,8 +16,14 @@ interface ChatBoxHeaderProps {
 
 /** Header của khung chat */
 const ChatBoxHeaderInner: React.FC<ChatBoxHeaderProps> = ({
-  conversation, participants, chatName, avatarSrc, partner,
-  usersMap, onBack, onInfoClick,
+  conversation,
+  participants,
+  chatName,
+  avatarSrc,
+  partner,
+  usersMap,
+  onBack,
+  onInfoClick,
 }) => (
   <div className="flex-shrink-0 flex items-center justify-between px-3 md:px-4 h-16 border-b border-border bg-surface transition-theme z-[var(--z-sticky)]">
     {/* Left Content */}
@@ -52,7 +58,6 @@ const ChatBoxHeaderInner: React.FC<ChatBoxHeaderProps> = ({
           <h2 className="text-sm font-semibold text-foreground truncate leading-tight">
             {chatName}
           </h2>
-
         </div>
 
         {!conversation.data.isGroup && partner && (

@@ -15,9 +15,9 @@ export const filterBlockedItems = <T extends { authorId: string }>(
   items: T[],
   blockedUsersMap?: Record<string, BlockedUserEntry>,
   hiddenActivityUserIds?: string[],
-  usersMap?: Record<string, { status: string }>
+  usersMap?: Record<string, { status: string }>,
 ): T[] => {
-  return items.filter(item => {
+  return items.filter((item) => {
     if (hiddenActivityUserIds && hiddenActivityUserIds.includes(item.authorId)) return false;
 
     const blockEntry = blockedUsersMap?.[item.authorId];
@@ -30,7 +30,7 @@ export const filterBlockedItems = <T extends { authorId: string }>(
 // Lọc danh sách user dựa trên danh sách chặn
 export const filterBlockedUsers = <T extends { id: string }>(
   users: T[],
-  blockedUsersMap: Record<string, BlockedUserEntry>
+  blockedUsersMap: Record<string, BlockedUserEntry>,
 ): T[] => {
-  return users.filter(u => !blockedUsersMap[u.id]);
+  return users.filter((u) => !blockedUsersMap[u.id]);
 };
