@@ -49,7 +49,7 @@ export const useChatBlock = ({
     myBlockOptions.blockViewMyActivity && 
     myBlockOptions.hideTheirActivity;
 
-  const isBlocked = isMessageBlockedByMe || isMessageBlockedByPartner || partnerStatus === UserStatus.BANNED;
+  const isBlocked = isMessageBlockedByMe || isMessageBlockedByPartner ;
   const shouldShowBlockBanner = !!myBlockOptions;
 
   useEffect(() => {
@@ -115,7 +115,6 @@ export const useChatBlock = ({
   const { blockedMessage } = useMemo(() => {
     if (!isGroup && partnerId) {
       const currentStatus = partnerStatus || partner?.status || usersMap[partnerId]?.status;
-      if (currentStatus === UserStatus.BANNED) return { blockedMessage: 'Không thể gửi tin nhắn - Người dùng này đã bị khóa tài khoản.' };
       if (isMessageBlockedByMe) return { blockedMessage: 'Bạn đã chặn liên lạc với người này. Bỏ chặn để gửi tin nhắn.' };
       if (isMessageBlockedByPartner) return { blockedMessage: 'Không thể gửi tin nhắn cho người dùng này.' };
       

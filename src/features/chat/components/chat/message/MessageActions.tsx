@@ -26,10 +26,10 @@ interface MessageActionsProps {
 export const MessageActions: React.FC<MessageActionsProps> = ({
   message, isMe, canEdit, showMenu, setShowMenu,
   onReply, onForward, onEdit, setShowRecallConfirm,
-  onDeleteForMe, isBlocked, isPartnerBanned = false,
+  onDeleteForMe, isBlocked,
   showActions = false, isPinned = false, onPin, onUnpin,
 }) => {
-  const isInteractionDisabled = isBlocked || isPartnerBanned;
+  const isInteractionDisabled = isBlocked;
 
   return (
     <div

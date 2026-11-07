@@ -104,7 +104,7 @@ export const ChatDetailsMemberList: React.FC<ChatDetailsMemberListProps> = ({
           const isCurrentUser = member.id === currentUserId;
           const role = getMemberRole(member.id);
           const canManage = canManageMember(member.id);
-          const isBanned = member.status === UserStatus.BANNED;
+          const isBanned = false;
 
           return (
             <div

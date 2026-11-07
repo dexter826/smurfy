@@ -60,7 +60,7 @@ export const SearchResults: React.FC<SearchResultsProps> & { Skeleton: React.FC 
 
         <div>
           {history
-            .filter(item => !('status' in item) || item.status !== UserStatus.BANNED)
+            
             .map((item) => {
               const isConversation = 'data' in item;
               if (isConversation) {
@@ -152,7 +152,7 @@ export const SearchResults: React.FC<SearchResultsProps> & { Skeleton: React.FC 
           </div>
           <div>
             {results.users
-              .filter(u => u.status !== UserStatus.BANNED)
+              
               .map((user) => (
                 <div
                   key={user.id}

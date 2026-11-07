@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { RtdbConversation, RtdbUserChat, ReportType, User, UserStatus } from '@shared/types';
+import { RtdbConversation, RtdbUserChat, User, UserStatus } from '@shared/types';
 import {
   Bell, BellOff, Pin, PinOff, Trash2, ChevronRight,
   Ban, LogOut, Edit3, User as UserIcon, Flag, Archive as ArchiveIcon,
@@ -7,7 +7,6 @@ import {
   Copy, Check, QrCode,
 } from 'lucide-react';
 import { AlertDialog } from '@/components/ui';
-import { useReportStore } from '@/features/admin';
 import { CONFIRM_MESSAGES } from '@/constants/confirmMessages';
 import { useConversationMemberSettings } from '@/features/chat';
 import { QRCodeModal } from '../modals/QRCodeModal';
@@ -67,7 +66,6 @@ export const ChatDetailsActions: React.FC<ChatDetailsActionsProps> = ({
   onDelete, onLeaveGroup, onEditGroup, onViewProfile,
   onTransferCreator, onToggleApprovalMode, onSetTab, onCopyInviteLink, onResetInviteLink,
 }) => {
-  const { openReportModal } = useReportStore();
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [showLeaveConfirm, setShowLeaveConfirm] = useState(false);
   const [showApprovalOffConfirm, setShowApprovalOffConfirm] = useState(false);
@@ -244,7 +242,7 @@ export const ChatDetailsActions: React.FC<ChatDetailsActionsProps> = ({
             </button>
           )}
 
-          {!isGroup && partner?.status !== UserStatus.BANNED && (
+          {!isGroup && (
             <>
               <button
                 onClick={onToggleBlock}
@@ -255,18 +253,7 @@ export const ChatDetailsActions: React.FC<ChatDetailsActionsProps> = ({
                 </div>
                 <span className="text-sm font-semibold">Quản lý chặn</span>
               </button>
-              <button
-                onClick={() => {
-                  const partnerId = Object.keys(conversation.data.members).find(id => id !== currentUserId);
-                  if (partnerId) openReportModal(ReportType.USER, partnerId, partnerId);
-                }}
-                className="w-full flex items-center gap-3 px-5 py-3 hover:bg-danger/5 transition-colors text-left text-danger group"
-              >
-                <div className="w-8 h-8 rounded-full bg-danger/10 flex items-center justify-center text-danger transition-colors">
-                  <Flag size={16} />
-                </div>
-                <span className="text-sm font-semibold">Báo cáo người dùng</span>
-              </button>
+              
             </>
           )}
 

@@ -4,7 +4,7 @@ import {
   Volume2, User as UserIcon, MessageSquare,
 } from 'lucide-react';
 import { RtdbConversation, RtdbUserChat, ReactionType, UserStatus } from '@shared/types';
-import { Dropdown, DropdownItem, AlertDialog, UserAvatar, IconButton, BannedBadge } from '@/components/ui';
+import { Dropdown, DropdownItem, AlertDialog, UserAvatar, IconButton } from '@/components/ui';
 import { useConversationItem } from '@/features/chat';
 import { useConversationMemberSettings } from '@/features/chat';
 import { MessageStatus } from '../message/MessageStatus';
@@ -130,9 +130,7 @@ const ConversationItemInner: React.FC<ConversationItemProps> = ({
             <h3 className={`text-sm truncate ${isUnread ? 'font-semibold text-foreground' : 'font-medium text-secondary'}`}>
               {chatInfo.name}
             </h3>
-            {!conversation.data.isGroup && partner?.status === UserStatus.BANNED && (
-              <BannedBadge size="sm" />
-            )}
+
             {memberSettings?.isPinned && (
               <Pin size={12} className="text-primary flex-shrink-0" />
             )}
@@ -233,7 +231,7 @@ const ConversationItemInner: React.FC<ConversationItemProps> = ({
               onClick={onViewProfile}
             />
           )}
-          {onBlock && !conversation.data.isGroup && partner?.status !== UserStatus.BANNED && (
+          {onBlock && !conversation.data.isGroup && true && (
             <DropdownItem
               icon={<Ban size={14} />}
               label="Quản lý chặn"

@@ -1,6 +1,6 @@
 import React from 'react';
 import { User, UserStatus, RtdbConversation, RtdbUserChat } from '@shared/types';
-import { UserAvatar, Avatar, UserStatusText, BannedBadge } from '@/components/ui';
+import { UserAvatar, Avatar, UserStatusText } from '@/components/ui';
 
 interface ChatDetailsHeaderProps {
   conversation: { id: string; data: RtdbConversation; userChat: RtdbUserChat };
@@ -42,9 +42,7 @@ export const ChatDetailsHeader: React.FC<ChatDetailsHeaderProps> = ({
         <h2 className="text-base font-semibold text-foreground text-center">
           {displayName}
         </h2>
-        {!isGroup && partner?.status === UserStatus.BANNED && (
-          <BannedBadge size="lg" />
-        )}
+
       </div>
 
       {!isGroup && partner && (

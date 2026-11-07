@@ -93,7 +93,7 @@ export const ChatBox: React.FC<ChatBoxProps> = ({
     !isPartnerBanned &&
     !currentUserFriendIds.includes(partner.id) &&
     !isBlockedByMe && !isBlocked,
-    [conversation.data.isGroup, partner, isPartnerBanned, currentUserFriendIds, isBlockedByMe, isBlocked]
+    [conversation.data.isGroup, partner, currentUserFriendIds, isBlockedByMe, isBlocked]
   );
 
   const resolvedPartnerStatus = isPartnerBanned

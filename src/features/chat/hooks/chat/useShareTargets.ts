@@ -93,7 +93,6 @@ export const useShareTargets = (currentUserId: string, searchTerm: string, isOpe
         if (isBlockedByMe || isBlockedByPartner) return false;
         
         const partner = usersMap[partnerId];
-        if (partner?.status === UserStatus.BANNED) return false;
       }
       return true;
     });
@@ -117,7 +116,7 @@ export const useShareTargets = (currentUserId: string, searchTerm: string, isOpe
       .filter(friend => {
         const blocked = blockedUsers[friend.id];
         const blockedBy = blockedByPartners[friend.id];
-        return !blocked?.blockMessages && !blockedBy?.blockMessages && friend.status !== UserStatus.BANNED;
+        return !blocked?.blockMessages && !blockedBy?.blockMessages;
       })
       .map(friend => ({
         type: 'friend',
