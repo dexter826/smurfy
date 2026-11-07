@@ -343,7 +343,7 @@ const ChatPage: React.FC = () => {
         chat={chat}
         selectedConversation={selectedConversation ?? null}
         currentUserId={currentUser?.id ?? ''}
-        partner={partner ?? null}
+        partner={chat.partnerId ? (usersMap[chat.partnerId] ?? null) : null}
         myBlockOptions={myBlockOptions}
       />
     </div>

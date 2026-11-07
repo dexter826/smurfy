@@ -24,7 +24,7 @@ export interface FilePreviewItem {
 interface FilePreviewProps {
   files: FilePreviewItem[];
   onRemove: (index: number) => void;
-  onPlayVoice: (url: string, index: number) => void;
+  onPlayVoice?: (url: string, index: number) => void;
   playingIndex: number | null;
   isSending: boolean;
   onPreviewMedia?: (index: number) => void;

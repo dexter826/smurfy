@@ -16,9 +16,6 @@ import { getMessageDisplayContent } from '@/utils/chatUtils';
 interface ChatInputProps {
   onSendText: (text: string, mentions?: string[], replyToId?: string) => void;
   onSendImages: (files: File[], options?: { content?: string; mentions?: string[]; replyToId?: string }) => Promise<void>;
-  onSendFile: (file: File, replyToId?: string) => void;
-  onSendVideo?: (file: File, replyToId?: string) => void;
-  onSendVoice?: (file: File, replyToId?: string, duration?: number) => void;
   onSendGif?: (url: string, replyToId?: string) => void;
   onTyping: (isTyping: boolean) => void;
   disabled?: boolean;
@@ -55,7 +52,7 @@ export const ChatInput: React.FC<ChatInputProps> = (props) => {
     playingPreview, inputRef, fileInputRef,
     mentionsProps, onSelectMention,
     handleInputChange, handleKeyDown, handleFileSelect, handlePaste,
-    handleSubmit, handlePlayVoice, removeFile,
+    handleSubmit, removeFile,
   } = chatInputState;
 
   const { showMentions, filteredParticipants, mentionIndex } = mentionsProps;
@@ -160,7 +157,6 @@ export const ChatInput: React.FC<ChatInputProps> = (props) => {
       <FilePreview
         files={selectedFiles}
         onRemove={removeFile}
-        onPlayVoice={handlePlayVoice}
         playingIndex={playingPreview}
         isSending={isSending}
         onPreviewMedia={handlePreviewMedia}

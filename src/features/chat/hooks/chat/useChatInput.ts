@@ -16,9 +16,6 @@ interface UseChatInputProps {
   disabled?: boolean;
   onSendText: (text: string, mentions?: string[], replyToId?: string) => void;
   onSendImages: (files: File[], options?: { content?: string; mentions?: string[]; replyToId?: string }) => Promise<void>;
-  onSendFile: (file: File, replyToId?: string) => void;
-  onSendVideo?: (file: File, replyToId?: string) => void;
-  onSendVoice?: (file: File, replyToId?: string, duration?: number) => void;
   onEditMessage?: (text: string) => Promise<void>;
   onCancelAction: () => void;
   participants?: User[];
@@ -34,9 +31,6 @@ export const useChatInput = ({
   disabled,
   onSendText,
   onSendImages,
-  onSendFile,
-  onSendVideo,
-  onSendVoice,
   onEditMessage,
   onCancelAction,
   participants = [],
@@ -63,21 +57,7 @@ export const useChatInput = ({
   const draftTimeoutRef = useRef<NodeJS.Timeout>(undefined);
   const isCurrentlyTypingRef = useRef(false);
 
-  const { isRecording, recordingDuration, startRecording, stopRecording, cancelRecording } =
-    useAudioRecorder({
-      onRecordingComplete: (blob, duration) => {
-        const audioFile = new File([blob], `voice_message_${Date.now()}.webm`, { type: 'audio/webm' });
-        const url = URL.createObjectURL(audioFile);
-        setSelectedFiles(prev => {
-          prev.forEach(f => { if (f.type === 'voice' && f.preview) URL.revokeObjectURL(f.preview); });
-          return [
-            ...prev.filter(f => f.type !== 'voice'),
-            { id: `voice-${Date.now()}`, file: audioFile, preview: url, type: 'voice', duration },
-          ];
-        });
-      },
-      onError: (err) => toast.error(err.message),
-    });
+  
 
   const mentionsProps = useMentions({ 
     inputText, setInputText, participants, currentUserId, isGroup, inputRef 
@@ -227,19 +207,7 @@ export const useChatInput = ({
     setSelectedFiles([]);
   };
 
-  const handlePlayVoice = (url: string, index: number) => {
-    if (playingPreview === index) {
-      audioRef.current?.pause();
-      setPlayingPreview(null);
-    } else {
-      audioRef.current?.pause();
-      const audio = new Audio(url);
-      audio.onended = () => setPlayingPreview(null);
-      audio.play().catch(() => toast.error(TOAST_MESSAGES.CHAT.AUDIO_PLAY_FAILED));
-      audioRef.current = audio;
-      setPlayingPreview(index);
-    }
-  };
+  
 
   const handleSubmit = async (e?: React.FormEvent) => {
     e?.preventDefault();
@@ -250,10 +218,7 @@ export const useChatInput = ({
 
     try {
       const imageFiles = selectedFiles.filter(f => f.type === 'image');
-      const videoFiles = selectedFiles.filter(f => f.type === 'video');
-      const otherFiles = selectedFiles.filter(f => f.type !== 'image' && f.type !== 'video');
-
-      const canCombineText = imageFiles.length === 1 && videoFiles.length === 0 && otherFiles.length === 0 && inputText.trim();
+      const canCombineText = imageFiles.length === 1 && inputText.trim();
       let textSentWithImages = false;
 
       if (imageFiles.length > 0) {
@@ -272,18 +237,6 @@ export const useChatInput = ({
           content: textSentWithImages ? combinedContent : undefined,
           mentions: textSentWithImages ? (combinedMentions.length > 0 ? combinedMentions : undefined) : undefined
         }).catch(() => toast.error(TOAST_MESSAGES.CHAT.SEND_FAILED));
-      }
-
-      for (const video of videoFiles) {
-        try { onSendVideo?.(video.file, replyingTo?.id); } catch { toast.error(TOAST_MESSAGES.CHAT.SEND_FAILED); }
-      }
-
-      for (const item of otherFiles) {
-        if (item.type === 'voice') {
-          try { onSendVoice?.(item.file, replyingTo?.id, item.duration); } catch { toast.error(TOAST_MESSAGES.CHAT.SEND_FAILED); }
-        } else {
-          onSendFile(item.file, replyingTo?.id);
-        }
       }
 
       if (inputText.trim() && !textSentWithImages) {
@@ -373,7 +326,6 @@ export const useChatInput = ({
     handleFileSelect,
     handlePaste,
     handleSubmit,
-    handlePlayVoice,
     removeFile,
   };
 };

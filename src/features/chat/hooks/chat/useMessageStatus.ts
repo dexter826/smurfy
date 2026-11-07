@@ -7,7 +7,6 @@ interface UseMessageStatusOptions {
     conversation: { data: RtdbConversation };
     currentUserId: string;
     usersMap: Record<string, User>;
-    partnerStatus?: UserStatus;
     isFriend?: boolean;
 }
 
@@ -23,7 +22,6 @@ export function useMessageStatus({
     conversation,
     currentUserId,
     usersMap,
-    partnerStatus,
     isFriend = true,
 }: UseMessageStatusOptions): MessageStatusResult {
     const { settings } = useAuthStore();

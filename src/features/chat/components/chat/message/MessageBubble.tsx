@@ -41,7 +41,6 @@ interface MessageBubbleProps {
   isGroup?: boolean;
   lastReadByUsers?: User[];
   isBlocked?: boolean;
-  partnerStatus?: UserStatus;
   conversationId: string;
   allMessages?: Array<{ id: string; data: RtdbMessage }>;
   onContentLoad?: () => void;
@@ -69,7 +68,6 @@ const MessageBubbleInner: React.FC<MessageBubbleProps> = ({
   isGroup = false,
   lastReadByUsers = [],
   isBlocked = false,
-  partnerStatus,
   conversationId,
   allMessages = [],
   onContentLoad,
@@ -125,7 +123,7 @@ const MessageBubbleInner: React.FC<MessageBubbleProps> = ({
   const isDelivered = useMemo(() => {
     if (!message.data.deliveredTo) return false;
     return Object.keys(message.data.deliveredTo).some((uid) => uid !== currentUserId);
-  }, [message.data.deliveredTo, currentUserId, isGroup, partnerStatus]);
+  }, [message.data.deliveredTo, currentUserId, isGroup]);
   const isInteractionDisabled = isBlocked;
 
   const canEdit =

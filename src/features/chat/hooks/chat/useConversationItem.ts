@@ -172,7 +172,6 @@ export const useConversationItem = ({
     conversation,
     currentUserId,
     usersMap,
-    partnerStatus: partner?.status as UserStatus | undefined,
     isFriend,
   });
 

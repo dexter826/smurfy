@@ -113,15 +113,7 @@ export const ChatDetailsSearch: React.FC<ChatDetailsSearchProps> = ({
                       </span>
                     </div>
                     <p className="text-xs text-foreground line-clamp-2 leading-relaxed">
-                      {msg.data.type === 'file' ? (
-                        <span className="flex items-center gap-1">
-                          <span className="text-primary font-semibold shrink-0">[File]</span>
-                          {highlightText(
-                            msg.data.media?.find(m => m.fileName)?.fileName || msg.data.content,
-                            searchTerm
-                          )}
-                        </span>
-                      ) : msg.data.type === MessageType.SHARE_POST ? (
+                      {msg.data.type === MessageType.SHARE_POST ? (
                         (() => {
                           const payload = parseSharedPostMessage(msg.data.content);
                           const text = payload

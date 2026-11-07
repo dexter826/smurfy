@@ -20,7 +20,6 @@ interface MessageListProps {
   avatarSrc?: string;
   partner?: User;
   isBlocked?: boolean;
-  partnerStatus?: UserStatus;
   onContentLoad?: () => void;
   onMarkAsRead?: (messageId: string) => void;
 }
@@ -30,7 +29,7 @@ const MessageListInner: React.FC<MessageListProps> = ({
   messages, currentUserId, usersMap, conversation, participants,
   lastReadByMap, onRecall, onDeleteForMe, onForward, onReply, onEdit,
   chatName, avatarSrc, partner,
-  isBlocked = false, partnerStatus, onContentLoad, onMarkAsRead,
+  isBlocked = false, onContentLoad, onMarkAsRead,
 }) => {
   const { pinMessage, unpinMessage } = useRtdbChatStore();
   const groupedMessages = useMemo(() => {
@@ -137,7 +136,6 @@ const MessageListInner: React.FC<MessageListProps> = ({
                   isGroup={conversation.data.isGroup}
                   allMessages={messages}
                   isBlocked={isBlocked}
-                  partnerStatus={partnerStatus}
                   conversationId={conversation.id}
                   onContentLoad={onContentLoad}
                   onMarkAsRead={onMarkAsRead}

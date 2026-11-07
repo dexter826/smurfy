@@ -93,8 +93,6 @@ export const ChatBox: React.FC<ChatBoxProps> = ({
     [conversation.data.isGroup, partner, currentUserFriendIds, isBlockedByMe, isBlocked]
   );
 
-  const resolvedPartnerStatus = partnerStatus ?? partner?.status;
-
   const isFriend = useMemo(() =>
     conversation.data.isGroup
       ? true
@@ -104,7 +102,6 @@ export const ChatBox: React.FC<ChatBoxProps> = ({
 
   const { lastReadByMap } = useMessageStatus({
     messages, conversation, currentUserId, usersMap,
-    partnerStatus: resolvedPartnerStatus,
     isFriend,
   });
 
@@ -181,7 +178,6 @@ export const ChatBox: React.FC<ChatBoxProps> = ({
               avatarSrc={avatarSrc}
               partner={partner || undefined}
               isBlocked={isBlocked}
-              partnerStatus={resolvedPartnerStatus}
               onEdit={onEdit}
               onMarkAsRead={handleMarkAsRead}
               onContentLoad={() => {

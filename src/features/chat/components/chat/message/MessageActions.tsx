@@ -61,7 +61,6 @@ export const MessageActions: React.FC<MessageActionsProps> = ({
           />
         }
       >
-        {message.data.type !== 'call' && (
           <>
             {!isInteractionDisabled && (
               <DropdownItem
@@ -108,7 +107,6 @@ export const MessageActions: React.FC<MessageActionsProps> = ({
               />
             )}
           </>
-        )}
         <DropdownItem
           icon={<Trash2 size={14} />}
           label="Xóa phía tôi"
