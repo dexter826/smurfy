@@ -13,7 +13,6 @@ export const MobileMenuPage: React.FC = () => {
   const mode = useResolvedTheme();
   const handleConfirmLogout = useLogout();
   const [showLogoutConfirm, setShowLogoutConfirm] = React.useState(false);
-  const isAdmin = user?.role === 'admin';
 
   return (
     <div className="flex flex-col h-full overflow-y-auto w-full bg-background">
@@ -78,15 +77,7 @@ export const MobileMenuPage: React.FC = () => {
           </div>
         </button>
 
-        {isAdmin && (
-          <MenuItem
-            icon={<Shield size={20} />}
-            iconBg="bg-warning/10 text-warning"
-            label="Quản trị"
-            description="Quản lý hệ thống, người dùng..."
-            onClick={() => navigate('/admin')}
-          />
-        )}
+
 
         <div className="h-2" />
 
