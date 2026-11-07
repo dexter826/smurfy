@@ -75,8 +75,7 @@ export const useProfileFriend = ({
   }, [currentUser, profileUserId, isOwnProfile, friendIds]);
 
   const handleFriendAction = useCallback(async (): Promise<{ needConfirm: boolean }> => {
-    if (!currentUser || !profile || isOwnProfile) return { needConfirm: false };;
-    }
+    if (!currentUser || !profile || isOwnProfile) return { needConfirm: false };
 
     try {
       if (friendStatus === FriendStatus.FRIEND) {
