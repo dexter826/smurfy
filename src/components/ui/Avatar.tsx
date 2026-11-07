@@ -10,7 +10,7 @@ export interface AvatarProps {
   src?: string | MediaObject;
   name?: string;
   size?: '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
-  status?: 'active' | 'banned';
+  status?: 'active';
   className?: string;
   isGroup?: boolean;
   members?: User[];
@@ -30,7 +30,6 @@ const sizeClasses: Record<NonNullable<AvatarProps['size']>, string> = {
 
 const statusColor: Record<NonNullable<AvatarProps['status']>, string> = {
   active: 'bg-success border-surface',
-  banned: 'bg-faint border-surface',
 };
 
 const groupPositions: Record<number, string[]> = {
@@ -177,7 +176,7 @@ export const Avatar = React.memo(AvatarInner);
 
 interface UserAvatarProps extends Omit<AvatarProps, 'status'> {
   userId: string;
-  initialStatus?: 'active' | 'banned';
+  initialStatus?: 'active';
   showStatus?: boolean;
 }
 
@@ -212,16 +211,14 @@ const UserAvatarInner: React.FC<UserAvatarProps> = ({
     userId === currentUser?.id ? currentUser?.avatar?.url : cachedUser?.avatar?.url;
   const avatarUrl = cachedAvatarUrl || (typeof src === 'string' ? src : src?.url);
 
-  const statusToDisplay = useMemo((): 'active' | 'banned' | undefined => {
+  const statusToDisplay = useMemo((): 'active' | undefined => {
     if (!showStatus) return undefined;
-    const effectiveStatus = cachedUser?.status ?? initialStatus;
-    if (effectiveStatus === 'banned') return undefined;
     if (userId === currentUser?.id)
       return presence && 'isOnline' in presence && presence.isOnline ? 'active' : undefined;
     return isFriend && presence && 'isOnline' in presence && presence.isOnline
       ? 'active'
       : undefined;
-  }, [presence, showStatus, userId, currentUser?.id, isFriend, initialStatus, cachedUser?.status]);
+  }, [presence, showStatus, userId, currentUser?.id, isFriend]);
 
   return (
     <Avatar

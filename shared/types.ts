@@ -149,8 +149,6 @@ export interface MediaObject {
   size: number;
   thumbnailUrl?: string;
   isSensitive: boolean;
-  isModerated?: boolean;
-  moderationReason?: string;
 }
 
 // ========== USER SETTINGS ==========
@@ -245,12 +243,6 @@ export interface RtdbUserChat {
   updatedAt: number;
 }
 
-export interface CallMessagePayload {
-  callType: 'voice' | 'video';
-  status: 'started' | 'ended' | 'missed' | 'rejected';
-  duration?: number;
-}
-
 export interface SharedPostMessagePayload {
   postId: string;
   authorId: string;
@@ -258,7 +250,7 @@ export interface SharedPostMessagePayload {
   snippet: string;
   url: string;
   previewMediaUrl?: string;
-  previewMediaType?: 'image' | 'video';
+  previewMediaType?: 'image';
 }
 
 export interface RtdbMessage {
@@ -299,7 +291,6 @@ export interface Comment extends BaseEntity, SoftDeletableEntity {
   image?: MediaObject;
   replyCount?: number;
   reactionCount?: number;
-  moderationReason?: string;
   updatedAt: Timestamp;
 }
 
@@ -320,7 +311,6 @@ export interface Post extends BaseEntity, SoftDeletableEntity {
   commentCount: number;
   reactionCount?: number;
   visibility: Visibility;
-  moderationReason?: string;
   updatedAt: Timestamp;
 }
 
@@ -339,7 +329,6 @@ export interface Notification extends BaseEntity {
 
 export interface BlockOptions {
   blockMessages: boolean;
-  blockCalls: boolean;
   blockViewMyActivity: boolean;
   hideTheirActivity: boolean;
 }

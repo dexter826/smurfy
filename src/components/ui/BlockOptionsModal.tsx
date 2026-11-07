@@ -21,7 +21,6 @@ interface BlockOptionsModalProps {
 
 const DEFAULT_OPTIONS: BlockOptions = {
   blockMessages: false,
-  blockCalls: false,
   blockViewMyActivity: false,
   hideTheirActivity: false,
 };
@@ -45,7 +44,6 @@ export const BlockOptionsModal: React.FC<BlockOptionsModalProps> = ({
     if (open) {
       setOptions({
         blockMessages: initialOptions?.blockMessages ?? false,
-        blockCalls: initialOptions?.blockCalls ?? false,
         blockViewMyActivity: initialOptions?.blockViewMyActivity ?? false,
         hideTheirActivity: initialOptions?.hideTheirActivity ?? false,
       });
@@ -68,10 +66,7 @@ export const BlockOptionsModal: React.FC<BlockOptionsModalProps> = ({
     setIsLoading(true);
     try {
       const allFalse =
-        !options.blockMessages &&
-        !options.blockCalls &&
-        !options.blockViewMyActivity &&
-        !options.hideTheirActivity;
+        !options.blockMessages && !options.blockViewMyActivity && !options.hideTheirActivity;
       if (allFalse && onUnblock) {
         await onUnblock();
       } else {

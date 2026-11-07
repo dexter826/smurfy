@@ -94,10 +94,7 @@ const SettingsPage: React.FC = () => {
       const targetId = manageBlockTarget.user.id;
 
       const hasAnyOption =
-        options.blockMessages ||
-        options.blockCalls ||
-        options.blockViewMyActivity ||
-        options.hideTheirActivity;
+        options.blockMessages || options.blockViewMyActivity || options.hideTheirActivity;
       if (!hasAnyOption) {
         setManageBlockTarget(null);
         try {
@@ -269,7 +266,6 @@ const SettingsPage: React.FC = () => {
           onUnblock={() =>
             handleUpdateBlockOptions({
               blockMessages: false,
-              blockCalls: false,
               blockViewMyActivity: false,
               hideTheirActivity: false,
             })

@@ -1,5 +1,4 @@
 import React, { useCallback } from 'react';
-import { Play } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { SharedPostPayload } from '@/features/feed';
 import { UserAvatar } from '@/components/ui';
@@ -49,13 +48,6 @@ export const SharedPostMessage: React.FC<SharedPostMessageProps> = ({
               className="absolute inset-0 h-full w-full object-cover"
               loading="lazy"
             />
-            {payload.previewMediaType === 'video' && (
-              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-black/40 backdrop-blur-sm">
-                  <Play size={16} fill="white" className="ml-0.5 text-white" />
-                </div>
-              </div>
-            )}
           </div>
         )}
 

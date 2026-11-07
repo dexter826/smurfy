@@ -30,7 +30,6 @@ export const useChatBlock = ({
 }: UseChatBlockProps) => {
   const [partnerStatus, setPartnerStatus] = useState<UserStatus | undefined>();
   const [isMessageBlockedByPartner, setIsMessageBlockedByPartner] = useState(false);
-  const [isCallBlockedByPartner, setIsCallBlockedByPartner] = useState(false);
   const [isPartnerBlockingStrangers, setIsPartnerBlockingStrangers] = useState(false);
   const [isLoadingSettings, setIsLoadingSettings] = useState(true);
   const { settings, blockedUsers: myBlockedUsers } = useAuthStore();
@@ -42,11 +41,9 @@ export const useChatBlock = ({
 
   const isBlockedByMe = !!myBlockOptions?.blockMessages;
   const isMessageBlockedByMe = !!myBlockOptions?.blockMessages;
-  const isCallBlockedByMe = !!myBlockOptions?.blockCalls;
   const isFullyBlockedByMe =
     !!myBlockOptions &&
     myBlockOptions.blockMessages &&
-    myBlockOptions.blockCalls &&
     myBlockOptions.blockViewMyActivity &&
     myBlockOptions.hideTheirActivity;
 
@@ -69,7 +66,6 @@ export const useChatBlock = ({
   useEffect(() => {
     if (!partnerId || !currentUser || isGroup) {
       setIsMessageBlockedByPartner(false);
-      setIsCallBlockedByPartner(false);
       setIsLoadingSettings(false);
       return;
     }
@@ -80,10 +76,8 @@ export const useChatBlock = ({
       if (snap.exists()) {
         const data = snap.data();
         setIsMessageBlockedByPartner(data.blockMessages === true);
-        setIsCallBlockedByPartner(data.blockCalls === true);
       } else {
         setIsMessageBlockedByPartner(false);
-        setIsCallBlockedByPartner(false);
       }
     });
     return () => unsub();
@@ -189,10 +183,7 @@ export const useChatBlock = ({
       if (!finalTargetId || !currentUser) return;
 
       const hasAnyOption =
-        options.blockMessages ||
-        options.blockCalls ||
-        options.blockViewMyActivity ||
-        options.hideTheirActivity;
+        options.blockMessages || options.blockViewMyActivity || options.hideTheirActivity;
 
       if (!hasAnyOption) {
         return handleUnblock(finalTargetId);
@@ -217,9 +208,7 @@ export const useChatBlock = ({
     isBlocked,
     isBlockedByMe,
     isMessageBlockedByMe,
-    isCallBlockedByMe,
     isBlockedByPartner: isMessageBlockedByPartner,
-    isCallBlockedByPartner,
     myBlockOptions,
     partnerStatus,
     handleApplyBlock,

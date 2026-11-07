@@ -81,10 +81,7 @@ export const useProfileBlock = ({
       if (!currentUser || !profile || isOwnProfile) return;
 
       const hasAnyOption =
-        options.blockMessages ||
-        options.blockCalls ||
-        options.blockViewMyActivity ||
-        options.hideTheirActivity;
+        options.blockMessages || options.blockViewMyActivity || options.hideTheirActivity;
 
       if (!hasAnyOption) {
         return confirmUnblock();

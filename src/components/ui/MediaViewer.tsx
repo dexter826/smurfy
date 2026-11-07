@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { createPortal } from 'react-dom';
-import { ChevronLeft, ChevronRight, X, Play, Pause } from 'lucide-react';
+import { ChevronLeft, ChevronRight, X } from 'lucide-react';
 import { useScrollLock } from '@/hooks/utils/useScrollLock';
 
 interface MediaItem {
-  type: 'image' | 'video';
+  type?: 'image' | string;
   url: string;
   thumbnail?: string;
 }
@@ -23,21 +23,14 @@ export const MediaViewer: React.FC<MediaViewerProps> = ({
   onOpenChange,
 }) => {
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
-  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
 
   useScrollLock(open);
 
   useEffect(() => {
     if (open) setCurrentIndex(initialIndex);
   }, [open, initialIndex]);
-
-  useEffect(() => {
-    videoRef.current?.pause();
-    setIsVideoPlaying(false);
-  }, [currentIndex, open]);
 
   const goNext = useCallback(
     () => setCurrentIndex((p) => (p < media.length - 1 ? p + 1 : 0)),
@@ -48,28 +41,14 @@ export const MediaViewer: React.FC<MediaViewerProps> = ({
     [media.length],
   );
 
-  const toggleVideo = useCallback(() => {
-    if (!videoRef.current) return;
-    if (isVideoPlaying) {
-      videoRef.current.pause();
-    } else {
-      videoRef.current.play();
-    }
-    setIsVideoPlaying((p) => !p);
-  }, [isVideoPlaying]);
-
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
       if (!open) return;
       if (e.key === 'ArrowLeft') goPrev();
       else if (e.key === 'ArrowRight') goNext();
       else if (e.key === 'Escape') onOpenChange();
-      else if (e.key === ' ' && media[currentIndex]?.type === 'video') {
-        e.preventDefault();
-        toggleVideo();
-      }
     },
-    [open, goPrev, goNext, onOpenChange, currentIndex, media, toggleVideo],
+    [open, goPrev, goNext, onOpenChange],
   );
 
   useEffect(() => {
@@ -150,43 +129,14 @@ export const MediaViewer: React.FC<MediaViewerProps> = ({
           </>
         )}
 
-        {current?.type === 'video' && (
-          <button
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-4 bg-white/20 hover:bg-white/30 text-white rounded-full backdrop-blur-md border border-white/10 transition-all duration-200 active:scale-95"
-            style={{ zIndex: 10 }}
-            onClick={(e) => {
-              e.stopPropagation();
-              toggleVideo();
-            }}
-          >
-            {isVideoPlaying ? <Pause size={28} /> : <Play size={28} />}
-          </button>
-        )}
-
-        {current?.type === 'video' ? (
-          <div className="w-full h-full flex items-center justify-center">
-            <video
-              ref={videoRef}
-              src={current.url}
-              poster={current.thumbnail}
-              className="max-w-full max-h-full object-contain shadow-xl rounded-sm"
-              onClick={(e) => e.stopPropagation()}
-              controls
-              playsInline
-              onPlay={() => setIsVideoPlaying(true)}
-              onPause={() => setIsVideoPlaying(false)}
-            />
-          </div>
-        ) : (
-          <div className="w-full h-full flex items-center justify-center">
-            <img
-              src={current?.url}
-              alt={`Ảnh ${currentIndex + 1}`}
-              className="max-w-full max-h-full object-contain shadow-xl rounded-sm"
-              onClick={(e) => e.stopPropagation()}
-            />
-          </div>
-        )}
+        <div className="w-full h-full flex items-center justify-center">
+          <img
+            src={current?.url}
+            alt={`Ảnh ${currentIndex + 1}`}
+            className="max-w-full max-h-full object-contain shadow-xl rounded-sm"
+            onClick={(e) => e.stopPropagation()}
+          />
+        </div>
       </div>
     </div>,
     document.body,

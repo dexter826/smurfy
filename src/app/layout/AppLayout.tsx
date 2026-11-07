@@ -41,7 +41,7 @@ export const AppLayout: React.FC = () => {
     };
   }, [user, subscribeToConversations, subscribeToRequests, subscribeToFriends, initNotifications]);
   const isChatRoom = location.pathname === '/' && !!selectedConversationId;
-  const navItems = appNavItems(false, {
+  const navItems = appNavItems({
     unread: totalUnread,
     requests: receivedRequests.length,
     notifications: unreadNotifications,

@@ -50,7 +50,7 @@ interface AuthState {
   resetPassword: (email: string) => Promise<void>;
   sendVerificationEmail: () => Promise<void>;
   checkVerificationStatus: () => Promise<void>;
-  logout: (keepBanned?: boolean) => Promise<void>;
+  logout: () => Promise<void>;
   setUser: (user: User | null) => void;
   initialize: () => () => void;
   updateUserProfile: (updates: Partial<User>) => Promise<void>;

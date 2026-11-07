@@ -27,9 +27,7 @@ export type LoadingKey =
   | 'profile.upload'
   | 'profile.update'
   | 'notifications'
-  | 'settings'
-  | 'admin.reports'
-  | 'admin.users';
+  | 'settings';
 
 interface LoadingState {
   loadingStates: Record<LoadingKey, boolean>;
@@ -68,8 +66,6 @@ const initialLoadingStates: Record<LoadingKey, boolean> = {
   'profile.update': false,
   notifications: false,
   settings: false,
-  'admin.reports': false,
-  'admin.users': false,
 };
 
 export const useLoadingStore = create<LoadingState>((set, get) => ({

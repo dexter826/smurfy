@@ -181,7 +181,7 @@ export const ChatDetailsMemberList: React.FC<ChatDetailsMemberListProps> = ({
                     />
                   }
                 >
-                  {!isBanned && role === 'member' && isCurrentUserCreator && onPromoteToAdmin && (
+                  {role === 'member' && isCurrentUserCreator && onPromoteToAdmin && (
                     <DropdownItem
                       icon={<ShieldPlus size={14} />}
                       label="Thăng làm Admin"
@@ -191,7 +191,7 @@ export const ChatDetailsMemberList: React.FC<ChatDetailsMemberListProps> = ({
                       }}
                     />
                   )}
-                  {!isBanned && role === 'admin' && isCurrentUserCreator && onDemoteFromAdmin && (
+                  {role === 'admin' && isCurrentUserCreator && onDemoteFromAdmin && (
                     <DropdownItem
                       icon={<ShieldMinus size={14} />}
                       label="Hạ quyền Admin"

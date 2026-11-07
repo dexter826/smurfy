@@ -469,7 +469,6 @@ export const postService = {
     postId: string,
     currentUserId: string,
     friendIds: string[],
-    isAdmin: boolean = false,
   ): Promise<Post | null> => {
     try {
       const postRef = doc(db, 'posts', postId);
@@ -485,7 +484,6 @@ export const postService = {
 
       if (
         (data.status === PostStatus.PENDING || data.status === PostStatus.POLICY_VIOLATION) &&
-        !isAdmin &&
         !isOwner
       ) {
         return null;
@@ -494,7 +492,7 @@ export const postService = {
       const isSystemPost =
         data.type === PostType.AVATAR_UPDATE || data.type === PostType.COVER_UPDATE;
 
-      if (isAdmin || isSystemPost) {
+      if (isSystemPost) {
         return convertDoc<Post>(postSnap);
       }
 

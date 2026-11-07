@@ -21,18 +21,11 @@ export const getPostSnippet = (post: Post): string => {
   return 'Bài viết không có nội dung văn bản';
 };
 
-export const getPreviewMedia = (post: Post): { url?: string; type?: 'image' | 'video' } => {
+export const getPreviewMedia = (post: Post): { url?: string; type?: 'image' } => {
   const media = post.media || [];
   if (media.length === 0) return {};
 
   const primary = media[0];
-  if (primary.mimeType?.startsWith('video/')) {
-    return {
-      url: primary.thumbnailUrl || primary.url,
-      type: 'video',
-    };
-  }
-
   return {
     url: primary.url,
     type: 'image',

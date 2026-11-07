@@ -15,7 +15,6 @@ interface MessageActionsProps {
   setShowRecallConfirm: (show: boolean) => void;
   onDeleteForMe?: (messageId: string) => void;
   isBlocked: boolean;
-  isPartnerBanned?: boolean;
   showActions?: boolean;
   isPinned?: boolean;
   onPin?: (message: { id: string; data: RtdbMessage }) => void;

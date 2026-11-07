@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { usePresenceStore } from '../store/presenceStore';
 
 /** Theo dõi trạng thái hoạt động của người dùng */
-export const usePresence = (userId: string | undefined, initialStatus?: 'active' | 'banned') => {
+export const usePresence = (userId: string | undefined, initialStatus?: 'active') => {
   const subscribe = usePresenceStore((state) => state.subscribe);
   const unsubscribe = usePresenceStore((state) => state.unsubscribe);
   const presence = usePresenceStore((state) => (userId ? state.presenceMap[userId] || null : null));

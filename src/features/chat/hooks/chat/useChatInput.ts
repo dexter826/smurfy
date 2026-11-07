@@ -50,11 +50,9 @@ export const useChatInput = ({
   const [isSending, setIsSending] = useState(false);
   const [showActions, setShowActions] = useState(false);
   const [showGiphy, setShowGiphy] = useState(false);
-  const [playingPreview, setPlayingPreview] = useState<number | null>(null);
 
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const typingTimeoutRef = useRef<NodeJS.Timeout>(undefined);
   const draftTimeoutRef = useRef<NodeJS.Timeout>(undefined);
@@ -345,7 +343,6 @@ export const useChatInput = ({
     setShowActions,
     showGiphy,
     setShowGiphy,
-    playingPreview,
     inputRef,
     fileInputRef,
     mentionsProps,

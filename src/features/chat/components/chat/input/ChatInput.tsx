@@ -67,7 +67,6 @@ export const ChatInput: React.FC<ChatInputProps> = (props) => {
     setShowActions,
     showGiphy,
     setShowGiphy,
-    playingPreview,
     inputRef,
     fileInputRef,
     mentionsProps,
@@ -201,7 +200,6 @@ export const ChatInput: React.FC<ChatInputProps> = (props) => {
       <FilePreview
         files={selectedFiles}
         onRemove={removeFile}
-        playingIndex={playingPreview}
         isSending={isSending}
         onPreviewMedia={handlePreviewMedia}
       />

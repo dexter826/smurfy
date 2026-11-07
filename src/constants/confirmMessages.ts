@@ -41,34 +41,6 @@ export const CONFIRM_MESSAGES = {
       CONFIRM: 'Xóa',
     },
   },
-  ADMIN: {
-    RESOLVE_REPORT: {
-      TITLE: 'Xác nhận xử lý',
-      MESSAGE: 'Nội dung vi phạm sẽ bị xóa vĩnh viễn khỏi hệ thống. Bạn có chắc chắn?',
-      CONFIRM: 'Đồng ý xóa',
-    },
-    REJECT_REPORT: {
-      TITLE: 'Bỏ qua báo cáo',
-      MESSAGE: 'Báo cáo sẽ được đóng lại và nội dung vẫn được giữ nguyên. Tiếp tục?',
-      CONFIRM: 'Xác nhận',
-    },
-    WARN_USER: {
-      TITLE: 'Gửi cảnh báo',
-      MESSAGE: 'Người dùng sẽ nhận được thông báo cảnh báo về vi phạm này.',
-      CONFIRM: 'Gửi cảnh báo',
-    },
-    BAN_USER: {
-      TITLE: 'Khóa tài khoản',
-      MESSAGE:
-        'Tài khoản người dùng sẽ bị KHÓA và đăng xuất khỏi mọi thiết bị. Hành động này rất nghiêm trọng.',
-      CONFIRM: 'Khóa ngay',
-    },
-    UNBAN_USER: {
-      TITLE: 'Mở khóa tài khoản',
-      MESSAGE: 'Người dùng sẽ có thể đăng nhập và sử dụng ứng dụng bình thường trở lại.',
-      CONFIRM: 'Mở khóa',
-    },
-  },
   AUTH: {
     LOGOUT: {
       TITLE: 'Đăng xuất',

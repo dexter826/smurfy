@@ -266,7 +266,6 @@ export const userService = {
         result[d.id] = {
           blockedUid: data.blockedUid,
           blockMessages: data.blockMessages ?? false,
-          blockCalls: data.blockCalls ?? false,
           blockViewMyActivity: data.blockViewMyActivity ?? false,
           hideTheirActivity: data.hideTheirActivity ?? false,
           createdAt: data.createdAt,

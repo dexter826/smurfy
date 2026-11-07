@@ -25,8 +25,3 @@ export const userChatsRef = (uid: string): DatabaseReference => ref(rtdb, `user_
 
 export const userChatRef = (uid: string, convId: string): DatabaseReference =>
   ref(rtdb, `user_chats/${uid}/${convId}`);
-
-export const callSignalingRef = (uid: string): DatabaseReference =>
-  ref(rtdb, `call_signaling/${uid}`);
-
-export const callSignalingsRef = (): DatabaseReference => ref(rtdb, 'call_signaling');
