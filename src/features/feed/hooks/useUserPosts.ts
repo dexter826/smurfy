@@ -18,7 +18,13 @@ interface UseUserPostsReturn {
   handleLoadMore: () => void;
   handleReact: (postId: string, reaction: ReactionType | 'REMOVE') => Promise<void>;
   handleDelete: (postId: string, media?: any[]) => Promise<void>;
-  handleUpdate: (postId: string, content: string, media: any[], visibility: Visibility, pendingFiles?: File[]) => Promise<void>;
+  handleUpdate: (
+    postId: string,
+    content: string,
+    media: any[],
+    visibility: Visibility,
+    pendingFiles?: File[],
+  ) => Promise<void>;
   refresh: () => Promise<void>;
 }
 
@@ -36,9 +42,9 @@ export const useUserPosts = (userId: string, currentUser: User): UseUserPostsRet
   const friendIds = useFriendIds();
 
   const posts = useMemo(() => {
-    const storePostMap = new Map(allStorePosts.map(p => [p.id, p]));
+    const storePostMap = new Map(allStorePosts.map((p) => [p.id, p]));
 
-    const mergedPosts = dbPosts.map(p => {
+    const mergedPosts = dbPosts.map((p) => {
       const storePost = storePostMap.get(p.id);
       if (storePost && userId === currentUser.id) {
         return storePost;
@@ -48,55 +54,57 @@ export const useUserPosts = (userId: string, currentUser: User): UseUserPostsRet
 
     if (userId !== currentUser.id) return mergedPosts;
 
-    const dbPostIds = new Set(mergedPosts.map(p => p.id));
-    const uploadingPosts = allStorePosts.filter(p =>
-      p.authorId === userId && !dbPostIds.has(p.id)
+    const dbPostIds = new Set(mergedPosts.map((p) => p.id));
+    const uploadingPosts = allStorePosts.filter(
+      (p) => p.authorId === userId && !dbPostIds.has(p.id),
     );
 
     return [...uploadingPosts, ...mergedPosts];
   }, [dbPosts, allStorePosts, userId, currentUser.id]);
 
-  const loadPosts = useCallback(async (isFirstPage: boolean = false) => {
-    if (!isFirstPage && !hasMoreRef.current) return;
-
-    if (isFirstPage) {
-      setLoading(true);
-      lastDocRef.current = null;
-      hasMoreRef.current = true;
-    } else {
-      setLoadingMore(true);
-    }
-
-    try {
-      const result = await postService.getUserPosts(
-        userId,
-        currentUser.id,
-        friendIds,
-        10,
-        isFirstPage ? undefined : (lastDocRef.current || undefined)
-      );
-
-      const newPosts = result.posts;
-      lastDocRef.current = result.lastDoc;
-      hasMoreRef.current = result.posts.length === 10;
-      setHasMore(hasMoreRef.current);
+  const loadPosts = useCallback(
+    async (isFirstPage: boolean = false) => {
+      if (!isFirstPage && !hasMoreRef.current) return;
 
       if (isFirstPage) {
-        setDbPosts(newPosts);
+        setLoading(true);
+        lastDocRef.current = null;
+        hasMoreRef.current = true;
       } else {
-        setDbPosts(prev => [...prev, ...newPosts]);
+        setLoadingMore(true);
       }
 
-      const userIds = [...new Set(newPosts.map(p => p.authorId))];
-      fetchUsers(userIds);
+      try {
+        const result = await postService.getUserPosts(
+          userId,
+          currentUser.id,
+          friendIds,
+          10,
+          isFirstPage ? undefined : lastDocRef.current || undefined,
+        );
 
-    } catch (error) {
-      console.error("Lỗi load posts", error);
-    } finally {
-      if (isFirstPage) setLoading(false);
-      setLoadingMore(false);
-    }
-  }, [userId, currentUser.id, friendIds, fetchUsers]);
+        const newPosts = result.posts;
+        lastDocRef.current = result.lastDoc;
+        hasMoreRef.current = result.posts.length === 10;
+        setHasMore(hasMoreRef.current);
+
+        if (isFirstPage) {
+          setDbPosts(newPosts);
+        } else {
+          setDbPosts((prev) => [...prev, ...newPosts]);
+        }
+
+        const userIds = [...new Set(newPosts.map((p) => p.authorId))];
+        fetchUsers(userIds);
+      } catch (error) {
+        console.error('Lỗi load posts', error);
+      } finally {
+        if (isFirstPage) setLoading(false);
+        setLoadingMore(false);
+      }
+    },
+    [userId, currentUser.id, friendIds, fetchUsers],
+  );
 
   useEffect(() => {
     loadPosts(true);
@@ -112,15 +120,15 @@ export const useUserPosts = (userId: string, currentUser: User): UseUserPostsRet
             return;
           }
 
-          const removedIds = new Set(changedPosts.map(post => post.id));
-          setDbPosts(prev => prev.filter(post => !removedIds.has(post.id)));
+          const removedIds = new Set(changedPosts.map((post) => post.id));
+          setDbPosts((prev) => prev.filter((post) => !removedIds.has(post.id)));
           return;
         }
 
-        setDbPosts(prev => {
+        setDbPosts((prev) => {
           const updatedPosts = [...prev];
-          changedPosts.forEach(npm => {
-            const index = updatedPosts.findIndex(p => p.id === npm.id);
+          changedPosts.forEach((npm) => {
+            const index = updatedPosts.findIndex((p) => p.id === npm.id);
             if (index !== -1) {
               updatedPosts[index] = npm;
             } else {
@@ -135,8 +143,8 @@ export const useUserPosts = (userId: string, currentUser: User): UseUserPostsRet
           return updatedPosts;
         });
 
-        fetchUsers(changedPosts.map(post => post.authorId));
-      }
+        fetchUsers(changedPosts.map((post) => post.authorId));
+      },
     );
 
     return () => unsubscribe();
@@ -148,52 +156,61 @@ export const useUserPosts = (userId: string, currentUser: User): UseUserPostsRet
     }
   }, [loading, loadingMore, hasMore, loadPosts]);
 
-  const handleReact = useCallback(async (postId: string, reaction: ReactionType | 'REMOVE') => {
-    const { setOptimisticReaction, clearOptimisticReaction } = useReactionStore.getState();
+  const handleReact = useCallback(
+    async (postId: string, reaction: ReactionType | 'REMOVE') => {
+      const { setOptimisticReaction, clearOptimisticReaction } = useReactionStore.getState();
 
-    const isRemove = reaction === 'REMOVE';
-    setOptimisticReaction(postId, isRemove ? null : reaction);
+      const isRemove = reaction === 'REMOVE';
+      setOptimisticReaction(postId, isRemove ? null : reaction);
 
-    try {
-      await postService.reactToPost(postId, currentUser.id, reaction);
+      try {
+        await postService.reactToPost(postId, currentUser.id, reaction);
 
-      setTimeout(() => {
+        setTimeout(() => {
+          clearOptimisticReaction(postId);
+        }, 500);
+      } catch (error) {
+        console.error('Lỗi react bài viết:', error);
         clearOptimisticReaction(postId);
-      }, 500);
-    } catch (error) {
-      console.error("Lỗi react bài viết:", error);
-      clearOptimisticReaction(postId);
-      throw error;
-    }
-  }, [currentUser.id]);
+        throw error;
+      }
+    },
+    [currentUser.id],
+  );
 
-  const handleDelete = useCallback(async (postId: string, media?: any[]) => {
-    try {
-      await deleteStorePost(postId, currentUser.id);
-      setDbPosts(prev => prev.filter(p => p.id !== postId));
-    } catch (error) {
-      console.error("Lỗi khi xóa bài viết trong hook:", error);
-      throw error;
-    }
-  }, [deleteStorePost, currentUser.id]);
+  const handleDelete = useCallback(
+    async (postId: string, media?: any[]) => {
+      try {
+        await deleteStorePost(postId, currentUser.id);
+        setDbPosts((prev) => prev.filter((p) => p.id !== postId));
+      } catch (error) {
+        console.error('Lỗi khi xóa bài viết trong hook:', error);
+        throw error;
+      }
+    },
+    [deleteStorePost, currentUser.id],
+  );
 
-  const handleUpdate = useCallback(async (
-    postId: string,
-    content: string,
-    media: any[],
-    visibility: Visibility,
-    pendingFiles?: File[]
-  ) => {
-    const { updatePost } = usePostStore.getState();
+  const handleUpdate = useCallback(
+    async (
+      postId: string,
+      content: string,
+      media: any[],
+      visibility: Visibility,
+      pendingFiles?: File[],
+    ) => {
+      const { updatePost } = usePostStore.getState();
 
-    setDbPosts(prev => prev.map(p =>
-      p.id === postId
-        ? { ...p, content, media, visibility, updatedAt: Timestamp.now() }
-        : p
-    ));
+      setDbPosts((prev) =>
+        prev.map((p) =>
+          p.id === postId ? { ...p, content, media, visibility, updatedAt: Timestamp.now() } : p,
+        ),
+      );
 
-    await updatePost(postId, content, media, visibility, pendingFiles);
-  }, []);
+      await updatePost(postId, content, media, visibility, pendingFiles);
+    },
+    [],
+  );
 
   const refresh = useCallback(async () => {
     await loadPosts(true);
@@ -209,6 +226,6 @@ export const useUserPosts = (userId: string, currentUser: User): UseUserPostsRet
     handleReact,
     handleDelete,
     handleUpdate,
-    refresh
+    refresh,
   };
 };

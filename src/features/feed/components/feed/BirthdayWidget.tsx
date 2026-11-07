@@ -13,10 +13,7 @@ import { TOAST_MESSAGES } from '@/constants';
 import { Avatar } from '@/components/ui/Avatar';
 import { Modal } from '@/components/ui/Modal';
 
-const BIRTHDAY_WISHES = [
-  "Chúc mừng sinh nhật! 🎂",
-  "Tuổi mới rực rỡ nhé! ✨",
-];
+const BIRTHDAY_WISHES = ['Chúc mừng sinh nhật! 🎂', 'Tuổi mới rực rỡ nhé! ✨'];
 
 interface BirthdayRowProps {
   friend: User;
@@ -29,12 +26,15 @@ const BirthdayRow: React.FC<BirthdayRowProps> = ({ friend, onQuickWish, onOpenCh
     <Link to={`/profile/${friend.id}`} className="shrink-0">
       <Avatar src={friend.avatar?.url} name={friend.fullName} size="lg" />
     </Link>
-    
+
     <div className="flex-grow min-w-0">
-      <Link to={`/profile/${friend.id}`} className="text-sm font-bold text-foreground hover:text-primary transition-colors truncate block">
+      <Link
+        to={`/profile/${friend.id}`}
+        className="text-sm font-bold text-foreground hover:text-primary transition-colors truncate block"
+      >
         {friend.fullName}
       </Link>
-      
+
       <div className="flex flex-wrap gap-1.5 mt-1">
         {BIRTHDAY_WISHES.map((wish, i) => (
           <button
@@ -48,7 +48,7 @@ const BirthdayRow: React.FC<BirthdayRowProps> = ({ friend, onQuickWish, onOpenCh
       </div>
     </div>
 
-    <button 
+    <button
       onClick={() => onOpenChat(friend)}
       className="p-2 text-muted hover:text-primary hover:bg-primary/5 rounded-full transition-all shrink-0"
       title="Vào Chat"
@@ -69,7 +69,7 @@ export const BirthdayWidget: React.FC = () => {
     if (!currentUser) return;
 
     const unsubscribe = friendService.subscribeToFriends(currentUser.id, (friends) => {
-      const todayBirthdays = friends.filter(friend => {
+      const todayBirthdays = friends.filter((friend) => {
         if (!isBirthdayToday(friend.dob)) return false;
         const dobVisibility = friend.profilePrivacy?.dob || Visibility.FRIENDS;
         return canViewField(dobVisibility, false, true);
@@ -94,7 +94,7 @@ export const BirthdayWidget: React.FC = () => {
     try {
       const { getOrCreateConversation } = useRtdbChatStore.getState();
       const convId = getOrCreateConversation(currentUser.id, friend.id);
-      
+
       await rtdbMessageService.sendTextMessage(convId, currentUser.id, wish);
       toast.success(TOAST_MESSAGES.FRIEND.BIRTHDAY_WISH_SUCCESS(friend.fullName));
     } catch (error) {
@@ -124,54 +124,83 @@ export const BirthdayWidget: React.FC = () => {
               <div className="flex flex-col">
                 <div className="flex items-center justify-between">
                   <div>
-                    <h3 className="text-xs font-bold text-foreground">Hôm nay là sinh nhật của bạn!</h3>
+                    <h3 className="text-xs font-bold text-foreground">
+                      Hôm nay là sinh nhật của bạn!
+                    </h3>
                     <p className="text-[10px] text-secondary">Chúc bạn một ngày rực rỡ 🎂</p>
                   </div>
                 </div>
-                
+
                 {friendsWithBirthday.length > 0 && (
-                  <div 
+                  <div
                     className="mt-2 pt-2 border-t border-border/50 flex items-center justify-between cursor-pointer group"
                     onClick={() => setIsModalOpen(true)}
                   >
                     <p className="text-[10px] text-secondary truncate group-hover:text-primary transition-colors">
-                      Hôm nay cũng là sinh nhật của {friendsWithBirthday.length === 1 ? firstFriend.fullName : `${firstFriend.fullName} và ${friendsWithBirthday.length - 1} người khác`}
+                      Hôm nay cũng là sinh nhật của{' '}
+                      {friendsWithBirthday.length === 1
+                        ? firstFriend.fullName
+                        : `${firstFriend.fullName} và ${friendsWithBirthday.length - 1} người khác`}
                     </p>
                     <div className="flex items-center -space-x-1.5 ml-2">
                       {friendsWithBirthday.slice(0, 2).map((friend) => (
-                        <Avatar key={friend.id} src={friend.avatar?.url} name={friend.fullName} size="xs" className="ring-1 ring-surface" />
+                        <Avatar
+                          key={friend.id}
+                          src={friend.avatar?.url}
+                          name={friend.fullName}
+                          size="xs"
+                          className="ring-1 ring-surface"
+                        />
                       ))}
                     </div>
                   </div>
                 )}
               </div>
             ) : friendsWithBirthday.length === 1 ? (
-              <div 
+              <div
                 className="flex items-center justify-between cursor-pointer group w-full"
                 onClick={() => setIsModalOpen(true)}
               >
                 <div className="min-w-0">
-                  <h3 className="text-xs font-bold text-foreground truncate group-hover:text-primary transition-colors">Sinh nhật bạn bè</h3>
-                  <p className="text-[10px] text-secondary truncate mt-0.5">Hôm nay là sinh nhật của {firstFriend.fullName} 🎂</p>
+                  <h3 className="text-xs font-bold text-foreground truncate group-hover:text-primary transition-colors">
+                    Sinh nhật bạn bè
+                  </h3>
+                  <p className="text-[10px] text-secondary truncate mt-0.5">
+                    Hôm nay là sinh nhật của {firstFriend.fullName} 🎂
+                  </p>
                 </div>
                 <div className="flex items-center">
-                  <Avatar src={firstFriend.avatar?.url} name={firstFriend.fullName} size="xs" className="ring-2 ring-surface" />
+                  <Avatar
+                    src={firstFriend.avatar?.url}
+                    name={firstFriend.fullName}
+                    size="xs"
+                    className="ring-2 ring-surface"
+                  />
                 </div>
               </div>
             ) : (
-              <div 
+              <div
                 className="flex items-center justify-between cursor-pointer group"
                 onClick={() => setIsModalOpen(true)}
               >
                 <div className="min-w-0">
-                  <h3 className="text-xs font-bold text-foreground group-hover:text-primary transition-colors">Sinh nhật bạn bè</h3>
+                  <h3 className="text-xs font-bold text-foreground group-hover:text-primary transition-colors">
+                    Sinh nhật bạn bè
+                  </h3>
                   <p className="text-[10px] text-secondary truncate mt-0.5">
-                    Hôm nay là sinh nhật của {firstFriend.fullName} và {friendsWithBirthday.length - 1} người khác 🎂
+                    Hôm nay là sinh nhật của {firstFriend.fullName} và{' '}
+                    {friendsWithBirthday.length - 1} người khác 🎂
                   </p>
                 </div>
                 <div className="flex items-center -space-x-2">
                   {friendsWithBirthday.slice(0, 3).map((friend) => (
-                    <Avatar key={friend.id} src={friend.avatar?.url} name={friend.fullName} size="xs" className="ring-2 ring-surface" />
+                    <Avatar
+                      key={friend.id}
+                      src={friend.avatar?.url}
+                      name={friend.fullName}
+                      size="xs"
+                      className="ring-2 ring-surface"
+                    />
                   ))}
                 </div>
               </div>
@@ -180,8 +209,8 @@ export const BirthdayWidget: React.FC = () => {
         </div>
       </div>
 
-      <Modal 
-        open={isModalOpen} 
+      <Modal
+        open={isModalOpen}
         onOpenChange={() => setIsModalOpen(false)}
         title="Sinh nhật hôm nay"
         size="md"
@@ -189,11 +218,11 @@ export const BirthdayWidget: React.FC = () => {
       >
         <div className="max-h-[70vh] overflow-y-auto divide-y divide-border scroll-hide">
           {friendsWithBirthday.map((friend) => (
-            <BirthdayRow 
-              key={friend.id} 
-              friend={friend} 
-              onQuickWish={handleQuickWish} 
-              onOpenChat={handleOpenChat} 
+            <BirthdayRow
+              key={friend.id}
+              friend={friend}
+              onQuickWish={handleQuickWish}
+              onOpenChat={handleOpenChat}
             />
           ))}
         </div>

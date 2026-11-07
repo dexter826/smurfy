@@ -1,16 +1,50 @@
 import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { X, ChevronLeft, ChevronRight, MoreHorizontal, Edit, Trash2, Flag, Play, Pause, Maximize2, AlertCircle } from 'lucide-react';
 import {
-  UserAvatar, IconButton, Modal, Dropdown, DropdownItem,
-  Skeleton, ReactionDetailsModal, MediaViewer, SensitiveMediaGuard,
+  X,
+  ChevronLeft,
+  ChevronRight,
+  MoreHorizontal,
+  Edit,
+  Trash2,
+  Flag,
+  Play,
+  Pause,
+  Maximize2,
+  AlertCircle,
+} from 'lucide-react';
+import {
+  UserAvatar,
+  IconButton,
+  Modal,
+  Dropdown,
+  DropdownItem,
+  Skeleton,
+  ReactionDetailsModal,
+  MediaViewer,
+  SensitiveMediaGuard,
 } from '@/components/ui';
-import { Post, User, ReportType, ReactionType, PostType, Visibility, PostStatus } from '@shared/types';
+import {
+  Post,
+  User,
+  ReportType,
+  ReactionType,
+  PostType,
+  Visibility,
+  PostStatus,
+} from '@shared/types';
 import { CommentSection } from '@/features/comment';
 import { formatRelativeTime, formatDateTime } from '@/utils/dateUtils';
 import { useReportStore } from '@/features/admin';
 import { useFriendIds, useFilteredReactions } from '@/hooks';
-import { VisibilityBadge, TruncatedText, InteractionActions, PostMediaGrid, SystemPostMedia } from '../shared';
+import {
+  VisibilityBadge,
+  TruncatedText,
+  InteractionActions,
+  PostMediaGrid,
+  SystemPostMedia,
+} from '../shared';
+import { PostViewCinema } from './PostViewCinema';
 import { LinkPreviewCard } from '@/components/shared/LinkPreviewCard';
 import { extractFirstUrl } from '@/services/linkPreviewService';
 
@@ -28,8 +62,16 @@ interface PostViewModalProps {
 }
 
 export const PostViewModal: React.FC<PostViewModalProps> = ({
-  post, author, currentUser, open, onOpenChange,
-  onReact, onEdit, onDelete, onShare, isLoading,
+  post,
+  author,
+  currentUser,
+  open,
+  onOpenChange,
+  onReact,
+  onEdit,
+  onDelete,
+  onShare,
+  isLoading,
 }) => {
   const navigate = useNavigate();
   const { openReportModal } = useReportStore();
@@ -41,11 +83,17 @@ export const PostViewModal: React.FC<PostViewModalProps> = ({
   const videoRef = useRef<HTMLVideoElement>(null);
 
   const { filteredSummary, filteredCount, currentUserReaction } = useFilteredReactions(
-    post?.id || '', 'post', post?.authorId || '', post?.reactionCount
+    post?.id || '',
+    'post',
+    post?.authorId || '',
+    post?.reactionCount,
   );
 
   const handleProfileClick = useCallback(() => {
-    if (author?.id) { onOpenChange(); navigate(`/profile/${author.id}`); }
+    if (author?.id) {
+      onOpenChange();
+      navigate(`/profile/${author.id}`);
+    }
   }, [author?.id, onOpenChange, navigate]);
 
   useEffect(() => {
@@ -61,24 +109,27 @@ export const PostViewModal: React.FC<PostViewModalProps> = ({
 
   const allMedia = useMemo(() => {
     if (!post) return [];
-    return (post.media || []).map(m => ({
+    return (post.media || []).map((m) => ({
       url: m.url,
-      type: m.mimeType.startsWith('video/') ? 'video' as const : 'image' as const,
+      type: m.mimeType.startsWith('video/') ? ('video' as const) : ('image' as const),
       thumbnail: m.thumbnailUrl,
       isSensitive: m.isSensitive,
     }));
   }, [post?.media]);
 
   const isOwner = post?.authorId === currentUser.id;
-  const isSystemPost = post?.type === PostType.AVATAR_UPDATE || post?.type === PostType.COVER_UPDATE;
+  const isSystemPost =
+    post?.type === PostType.AVATAR_UPDATE || post?.type === PostType.COVER_UPDATE;
   const isFriend = (post && friendIds?.includes(post.authorId)) || false;
   const isViolation = (post?.status as any) === 'policy_violation';
   const isDeleted = post?.status === PostStatus.DELETED || isViolation;
-  const canAccessByVisibility = !post
-    || isOwner
-    || post.visibility === Visibility.PUBLIC
-    || (post.visibility === Visibility.FRIENDS && isFriend);
-  const canShare = !!post && !isDeleted && post.visibility !== Visibility.PRIVATE && canAccessByVisibility;
+  const canAccessByVisibility =
+    !post ||
+    isOwner ||
+    post.visibility === Visibility.PUBLIC ||
+    (post.visibility === Visibility.FRIENDS && isFriend);
+  const canShare =
+    !!post && !isDeleted && post.visibility !== Visibility.PRIVATE && canAccessByVisibility;
   const canShowInteractions = !post || !isSystemPost || (!isDeleted && canAccessByVisibility);
 
   const handleSharePost = useCallback(() => {
@@ -91,8 +142,8 @@ export const PostViewModal: React.FC<PostViewModalProps> = ({
 
     if (isSystemPost) {
       if (!isOwner && !isFriend) return undefined;
-      if (isDeleted) return "";
-      if (post.visibility === Visibility.PRIVATE && isFriend) return "";
+      if (isDeleted) return '';
+      if (post.visibility === Visibility.PRIVATE && isFriend) return '';
     }
 
     return undefined;
@@ -105,13 +156,7 @@ export const PostViewModal: React.FC<PostViewModalProps> = ({
 
   if ((!post || isDeleted) && !shouldShowSkeleton) {
     return (
-      <Modal
-        open={open}
-        onOpenChange={onOpenChange}
-        showHeader={false}
-        size="md"
-        padding="none"
-      >
+      <Modal open={open} onOpenChange={onOpenChange} showHeader={false} size="md" padding="none">
         <div className="p-8 text-center">
           <div className="w-14 h-14 rounded-full bg-background border border-border flex items-center justify-center mx-auto mb-4">
             <AlertCircle size={24} className="text-muted" />
@@ -151,11 +196,13 @@ export const PostViewModal: React.FC<PostViewModalProps> = ({
         bodyClassName={`overflow-hidden flex flex-col h-full ${isCinema ? 'lg:flex-row' : ''}`}
       >
         {isCinema && (
-          <div className="hidden lg:flex flex-[1.6] bg-[#0a0c10] items-center justify-center border-r border-white/5 shrink-0">
+          <div className="hidden lg:flex flex-[1.6] bg-chat items-center justify-center border-r border-white/5 shrink-0">
             <Skeleton className="w-[80%] aspect-video rounded-xl opacity-10" />
           </div>
         )}
-        <div className={`flex flex-col bg-surface shrink-0 transition-theme ${isCinema ? 'h-full w-full lg:w-[460px] flex-1 lg:flex-none' : 'w-full h-auto'}`}>
+        <div
+          className={`flex flex-col bg-surface shrink-0 transition-theme ${isCinema ? 'h-full w-full lg:w-[460px] flex-1 lg:flex-none' : 'w-full h-auto'}`}
+        >
           <div className="p-4 md:p-5 border-b border-border flex items-center gap-3 shrink-0">
             <Skeleton variant="circle" width={42} height={42} />
             <div className="space-y-1.5 flex-1">
@@ -189,106 +236,22 @@ export const PostViewModal: React.FC<PostViewModalProps> = ({
     >
       {/* ── Cinema media panel (desktop only) ── */}
       {hasMedia && (
-        <div className="hidden lg:flex flex-[1.6] bg-[#0a0c10] items-center justify-center relative overflow-hidden border-r border-white/5 shrink-0">
-          <div className="w-full h-full relative flex items-center justify-center min-h-0 min-w-0" style={{ zIndex: 10 }}>
-            <div className="absolute top-4 right-4" style={{ zIndex: 40 }}>
-              <button
-                onClick={() => setIsMediaViewerOpen(true)}
-                className="w-11 h-11 flex items-center justify-center bg-black/20 hover:bg-black/30 active:scale-95 backdrop-blur-md text-white rounded-full border border-white/10 shadow-xl transition-all duration-150"
-                title="Xem toàn màn hình"
-              >
-                <Maximize2 size={22} strokeWidth={2} />
-              </button>
-            </div>
-
-            {!allMedia[activeMediaIndex] ? (
-              <p className="text-white/40 text-sm">Không tìm thấy nội dung</p>
-            ) : isSystemPost ? (
-              <SystemPostMedia
-                type={post.type as PostType.AVATAR_UPDATE | PostType.COVER_UPDATE}
-                media={post.media || []}
-                variant="cinema"
-              />
-            ) : allMedia[activeMediaIndex].type === 'video' ? (
-              <SensitiveMediaGuard isSensitive={allMedia[activeMediaIndex].isSensitive} className="w-full h-full min-h-0 min-w-0">
-                <div className="w-full h-full flex items-center justify-center relative group/player">
-                  <video
-                    ref={videoRef}
-                    src={allMedia[activeMediaIndex].url}
-                    poster={allMedia[activeMediaIndex].thumbnail}
-                    controls playsInline preload="metadata"
-                    className="w-full h-full object-contain"
-                    onPlay={() => setIsVideoPlaying(true)}
-                    onPause={() => setIsVideoPlaying(false)}
-                  />
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      if (videoRef.current) {
-                        videoRef.current.paused ? videoRef.current.play() : videoRef.current.pause();
-                      }
-                    }}
-                    className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-4 bg-background hover:bg-active text-foreground rounded-full border border-border transition-all duration-200 active:scale-95 z-20 ${isVideoPlaying ? 'opacity-0 group-hover/player:opacity-100' : 'opacity-100'}`}
-                  >
-                    {isVideoPlaying ? <Pause size={28} /> : <Play size={28} />}
-                  </button>
-                </div>
-              </SensitiveMediaGuard>
-            ) : (
-              <SensitiveMediaGuard isSensitive={allMedia[activeMediaIndex].isSensitive} className="w-full h-full min-h-0 min-w-0">
-                <div className="w-full h-full flex items-center justify-center">
-                    <img
-                      src={allMedia[activeMediaIndex].url}
-                      alt=""
-                      className="w-full h-full object-contain hover:opacity-95 transition-opacity duration-200 animate-fade-in"
-                    />
-                </div>
-              </SensitiveMediaGuard>
-            )}
-
-            {/* Navigation arrows */}
-            {allMedia.length > 1 && (
-              <>
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setActiveMediaIndex(p => (p === 0 ? allMedia.length - 1 : p - 1));
-                  }}
-                  className="absolute left-4 top-1/2 -translate-y-1/2 w-11 h-11 flex items-center justify-center bg-black/20 hover:bg-black/30 active:scale-90 backdrop-blur-md text-white rounded-full border border-white/10 shadow-xl transition-all duration-150"
-                  style={{ zIndex: 30 }}
-                >
-                  <ChevronLeft size={28} strokeWidth={2} />
-                </button>
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setActiveMediaIndex(p => (p === allMedia.length - 1 ? 0 : p + 1));
-                  }}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 w-11 h-11 flex items-center justify-center bg-black/20 hover:bg-black/30 active:scale-90 backdrop-blur-md text-white rounded-full border border-white/10 shadow-xl transition-all duration-150"
-                  style={{ zIndex: 30 }}
-                >
-                  <ChevronRight size={28} strokeWidth={2} />
-                </button>
-                {/* Counter pill */}
-                <div
-                  className="absolute top-5 left-1/2 -translate-x-1/2 px-3 py-1 bg-black/20 backdrop-blur-md rounded-full border border-white/10 text-white/90 text-xs font-medium pointer-events-none"
-                  style={{ zIndex: 30 }}
-                >
-                  {activeMediaIndex + 1} / {allMedia.length}
-                </div>
-              </>
-            )}
-          </div>
-        </div>
+        <PostViewCinema
+          post={post}
+          allMedia={allMedia}
+          activeMediaIndex={activeMediaIndex}
+          setActiveMediaIndex={setActiveMediaIndex}
+          setIsMediaViewerOpen={setIsMediaViewerOpen}
+          videoRef={videoRef}
+          isVideoPlaying={isVideoPlaying}
+          setIsVideoPlaying={setIsVideoPlaying}
+        />
       )}
 
       {/* ── Content / comment panel ── */}
       <div
         className={`flex flex-col bg-surface transition-theme relative overflow-hidden
-          ${hasMedia
-            ? 'h-full w-full lg:w-[460px] flex-1 lg:flex-none'
-            : 'w-full h-auto'
-          }`}
+          ${hasMedia ? 'h-full w-full lg:w-[460px] flex-1 lg:flex-none' : 'w-full h-auto'}`}
         style={{ zIndex: 10 }}
       >
         {/* Header */}
@@ -313,7 +276,9 @@ export const PostViewModal: React.FC<PostViewModalProps> = ({
                 {author?.fullName || 'Người dùng'}
               </button>
               {post.type === PostType.AVATAR_UPDATE && (
-                <span className="text-sm text-secondary font-normal">vừa cập nhật ảnh đại diện.</span>
+                <span className="text-sm text-secondary font-normal">
+                  vừa cập nhật ảnh đại diện.
+                </span>
               )}
               {post.type === PostType.COVER_UPDATE && (
                 <span className="text-sm text-secondary font-normal">vừa cập nhật ảnh bìa.</span>
@@ -328,9 +293,7 @@ export const PostViewModal: React.FC<PostViewModalProps> = ({
               {post.status === PostStatus.PENDING && (
                 <>
                   <span className="opacity-40">·</span>
-                  <span className="text-muted font-medium">
-                    Đang xử lý...
-                  </span>
+                  <span className="text-muted font-medium">Đang xử lý...</span>
                 </>
               )}
             </div>
@@ -339,10 +302,14 @@ export const PostViewModal: React.FC<PostViewModalProps> = ({
           <div className="flex items-center gap-0.5 shrink-0 ml-auto">
             {isOwner ? (
               !isDeleted && (
-                <Dropdown trigger={<IconButton icon={<MoreHorizontal size={18} />} size="sm" variant="ghost" />}>
+                <Dropdown
+                  trigger={
+                    <IconButton icon={<MoreHorizontal size={18} />} size="sm" variant="ghost" />
+                  }
+                >
                   <DropdownItem
                     icon={<Edit size={15} />}
-                    label={isSystemPost ? "Chỉnh sửa quyền riêng tư" : "Chỉnh sửa bài viết"}
+                    label={isSystemPost ? 'Chỉnh sửa quyền riêng tư' : 'Chỉnh sửa bài viết'}
                     onClick={() => onEdit?.(post.id)}
                   />
                   <DropdownItem
@@ -354,7 +321,11 @@ export const PostViewModal: React.FC<PostViewModalProps> = ({
                 </Dropdown>
               )
             ) : (
-              <Dropdown trigger={<IconButton icon={<MoreHorizontal size={18} />} size="sm" variant="ghost" />}>
+              <Dropdown
+                trigger={
+                  <IconButton icon={<MoreHorizontal size={18} />} size="sm" variant="ghost" />
+                }
+              >
                 <DropdownItem
                   icon={<Flag size={15} />}
                   label="Báo cáo"
@@ -378,7 +349,9 @@ export const PostViewModal: React.FC<PostViewModalProps> = ({
           postOwnerId={post.authorId}
           totalCommentCount={post.commentCount}
           readonly={!canShowInteractions || post.status === PostStatus.PENDING}
-          readonlyMessage={post.status === PostStatus.PENDING ? "Bài viết đang được xử lý." : readonlyMessage}
+          readonlyMessage={
+            post.status === PostStatus.PENDING ? 'Bài viết đang được xử lý.' : readonlyMessage
+          }
           header={
             <div className="flex flex-col">
               {/* Post text (Displayed first on mobile) */}
@@ -387,11 +360,12 @@ export const PostViewModal: React.FC<PostViewModalProps> = ({
                   <p className="text-foreground whitespace-pre-line break-words text-sm leading-relaxed">
                     <TruncatedText content={post.content} threshold={300} />
                   </p>
-                  {(post.media?.length ?? 0) === 0 && (() => {
-                    const url = extractFirstUrl(post.content);
-                    if (!url) return null;
-                    return <LinkPreviewCard url={url} className="mt-3" />;
-                  })()}
+                  {(post.media?.length ?? 0) === 0 &&
+                    (() => {
+                      const url = extractFirstUrl(post.content);
+                      if (!url) return null;
+                      return <LinkPreviewCard url={url} className="mt-3" />;
+                    })()}
                 </div>
               )}
 
@@ -410,7 +384,9 @@ export const PostViewModal: React.FC<PostViewModalProps> = ({
                   </div>
 
                   {!isSystemPost ? (
-                    <div className={`grid gap-1 w-full bg-background/10 ${allMedia.length === 1 ? 'grid-cols-1' : 'grid-cols-2'}`}>
+                    <div
+                      className={`grid gap-1 w-full bg-background/10 ${allMedia.length === 1 ? 'grid-cols-1' : 'grid-cols-2'}`}
+                    >
                       {allMedia.map((media, idx) => (
                         <div
                           key={idx}
@@ -421,7 +397,10 @@ export const PostViewModal: React.FC<PostViewModalProps> = ({
                             setIsMediaViewerOpen(true);
                           }}
                         >
-                          <SensitiveMediaGuard isSensitive={media.isSensitive} className="w-full h-full">
+                          <SensitiveMediaGuard
+                            isSensitive={media.isSensitive}
+                            className="w-full h-full"
+                          >
                             {media.type === 'video' ? (
                               <div className="w-full h-full flex items-center justify-center bg-black">
                                 <video
@@ -460,7 +439,11 @@ export const PostViewModal: React.FC<PostViewModalProps> = ({
 
               {/* Reaction actions */}
               {canShowInteractions && (
-                <div className={post.status === PostStatus.PENDING ? "opacity-50 pointer-events-none" : ""}>
+                <div
+                  className={
+                    post.status === PostStatus.PENDING ? 'opacity-50 pointer-events-none' : ''
+                  }
+                >
                   <InteractionActions
                     reactionSummary={filteredSummary}
                     reactionCount={filteredCount}

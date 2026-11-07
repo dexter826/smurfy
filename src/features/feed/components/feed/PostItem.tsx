@@ -2,12 +2,34 @@ import React, { useState, useCallback } from 'react';
 import { MoreHorizontal, Edit, Trash2, Flag } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { formatRelativeTime, formatDateTime } from '@/utils/dateUtils';
-import { UserAvatar, Skeleton, Dropdown, DropdownItem, IconButton, ReactionDetailsModal, UploadProgress } from '@/components/ui';
-import { Post, PostStatus, Visibility, PostType, User, ReportType, ReactionType } from '@shared/types';
+import {
+  UserAvatar,
+  Skeleton,
+  Dropdown,
+  DropdownItem,
+  IconButton,
+  ReactionDetailsModal,
+  UploadProgress,
+} from '@/components/ui';
+import {
+  Post,
+  PostStatus,
+  Visibility,
+  PostType,
+  User,
+  ReportType,
+  ReactionType,
+} from '@shared/types';
 import { useReportStore } from '@/features/admin';
 import { usePostStore } from '@/store';
 import { useFriendIds, useFilteredReactions } from '@/hooks';
-import { VisibilityBadge, TruncatedText, InteractionActions, PostMediaGrid, SystemPostMedia } from './shared';
+import {
+  VisibilityBadge,
+  TruncatedText,
+  InteractionActions,
+  PostMediaGrid,
+  SystemPostMedia,
+} from './shared';
 import { LinkPreviewCard } from '@/components/shared/LinkPreviewCard';
 import { extractFirstUrl } from '@/services/linkPreviewService';
 
@@ -24,8 +46,15 @@ interface PostItemProps {
 }
 
 const PostItemInner: React.FC<PostItemProps> = ({
-  post, author, currentUser,
-  onReact, onEdit, onDelete, onViewDetail, onProfileClick, onShare,
+  post,
+  author,
+  currentUser,
+  onReact,
+  onEdit,
+  onDelete,
+  onViewDetail,
+  onProfileClick,
+  onShare,
 }) => {
   const [isReactionsModalOpen, setIsReactionsModalOpen] = useState(false);
   const navigate = useNavigate();
@@ -40,25 +69,31 @@ const PostItemInner: React.FC<PostItemProps> = ({
   const isSystemPost = post.type === PostType.AVATAR_UPDATE || post.type === PostType.COVER_UPDATE;
   const isFriend = friendIds?.includes(post.authorId) || false;
   const isDeleted = post.status === PostStatus.DELETED;
-  const canAccessByVisibility = isOwner
-    || post.visibility === Visibility.PUBLIC
-    || (post.visibility === Visibility.FRIENDS && isFriend);
+  const canAccessByVisibility =
+    isOwner ||
+    post.visibility === Visibility.PUBLIC ||
+    (post.visibility === Visibility.FRIENDS && isFriend);
   const canShare = !isDeleted && post.visibility !== Visibility.PRIVATE && canAccessByVisibility;
   const canShowInteractions = !isSystemPost || (!isDeleted && canAccessByVisibility);
 
   const { filteredSummary, filteredCount, currentUserReaction } = useFilteredReactions(
-    post.id, 'post', post.authorId, post.reactionCount
+    post.id,
+    'post',
+    post.authorId,
+    post.reactionCount,
   );
 
   const handleProfileClick = useCallback(() => {
-    if (author?.id) { onProfileClick?.(); navigate(`/profile/${author.id}`); }
+    if (author?.id) {
+      onProfileClick?.();
+      navigate(`/profile/${author.id}`);
+    }
   }, [author?.id, onProfileClick, navigate]);
 
   const handleViewDetail = useCallback(() => onViewDetail?.(post), [onViewDetail, post]);
 
   return (
     <article className="group bg-surface border border-border rounded-2xl overflow-hidden transition-theme animate-fade-in">
-
       {/* ── Header ── */}
       <div className="flex items-center px-4 py-3 gap-3">
         <UserAvatar
@@ -86,17 +121,13 @@ const PostItemInner: React.FC<PostItemProps> = ({
             )}
           </div>
           <div className="flex items-center gap-1.5 text-xs text-muted mt-0.5">
-            <span title={formatDateTime(post.createdAt)}>
-              {formatRelativeTime(post.createdAt)}
-            </span>
+            <span title={formatDateTime(post.createdAt)}>{formatRelativeTime(post.createdAt)}</span>
             <span className="opacity-40">·</span>
             <VisibilityBadge visibility={post.visibility} size={11} />
             {post.status === PostStatus.PENDING && (
               <>
                 <span className="opacity-40">·</span>
-                <span className="text-muted font-medium">
-                  Đang xử lý...
-                </span>
+                <span className="text-muted font-medium">Đang xử lý...</span>
               </>
             )}
           </div>
@@ -105,17 +136,10 @@ const PostItemInner: React.FC<PostItemProps> = ({
         {/* Menu */}
         {isOwner ? (
           !isDeleted && (
-            <Dropdown
-              trigger={
-                <IconButton
-                  icon={<MoreHorizontal size={18} />}
-                  size="sm"
-                />
-              }
-            >
+            <Dropdown trigger={<IconButton icon={<MoreHorizontal size={18} />} size="sm" />}>
               <DropdownItem
                 icon={<Edit size={15} />}
-                label={isSystemPost ? "Chỉnh sửa quyền riêng tư" : "Chỉnh sửa bài viết"}
+                label={isSystemPost ? 'Chỉnh sửa quyền riêng tư' : 'Chỉnh sửa bài viết'}
                 onClick={() => onEdit?.(post.id)}
               />
               <DropdownItem
@@ -127,14 +151,7 @@ const PostItemInner: React.FC<PostItemProps> = ({
             </Dropdown>
           )
         ) : (
-          <Dropdown
-            trigger={
-              <IconButton
-                icon={<MoreHorizontal size={18} />}
-                size="sm"
-              />
-            }
-          >
+          <Dropdown trigger={<IconButton icon={<MoreHorizontal size={18} />} size="sm" />}>
             <DropdownItem
               icon={<Flag size={15} />}
               label="Báo cáo"
@@ -157,16 +174,13 @@ const PostItemInner: React.FC<PostItemProps> = ({
             </div>
           )}
           {/* Link preview - only when no media attached */}
-          {!isUploading && (post.media?.length ?? 0) === 0 && (() => {
-            const url = extractFirstUrl(post.content);
-            if (!url) return null;
-            return (
-              <LinkPreviewCard
-                url={url}
-                className="mt-3"
-              />
-            );
-          })()}
+          {!isUploading &&
+            (post.media?.length ?? 0) === 0 &&
+            (() => {
+              const url = extractFirstUrl(post.content);
+              if (!url) return null;
+              return <LinkPreviewCard url={url} className="mt-3" />;
+            })()}
         </div>
       )}
 
@@ -174,17 +188,12 @@ const PostItemInner: React.FC<PostItemProps> = ({
       <div className="relative">
         {isUploading && (
           <div className="px-4 py-2 border-b border-border bg-background/30">
-            <UploadProgress 
-              progress={uploadState.progress} 
-            />
+            <UploadProgress progress={uploadState.progress} />
           </div>
         )}
-        
+
         {!isSystemPost ? (
-          <PostMediaGrid
-            media={post.media || []}
-            onClick={handleViewDetail}
-          />
+          <PostMediaGrid media={post.media || []} onClick={handleViewDetail} />
         ) : (
           <SystemPostMedia
             type={post.type as PostType.AVATAR_UPDATE | PostType.COVER_UPDATE}
@@ -196,7 +205,7 @@ const PostItemInner: React.FC<PostItemProps> = ({
 
       {/* ── Reactions & comments ── */}
       {canShowInteractions && (
-        <div className={post.status === PostStatus.PENDING ? "opacity-50 pointer-events-none" : ""}>
+        <div className={post.status === PostStatus.PENDING ? 'opacity-50 pointer-events-none' : ''}>
           <InteractionActions
             reactionSummary={filteredSummary}
             reactionCount={filteredCount}
@@ -204,7 +213,9 @@ const PostItemInner: React.FC<PostItemProps> = ({
             commentCount={post.commentCount}
             onReact={(type) => onReact(post.id, type)}
             onCommentClick={handleViewDetail}
-            onShareClick={canShare ? () => onShare?.(post, author?.fullName || 'Người dùng') : undefined}
+            onShareClick={
+              canShare ? () => onShare?.(post, author?.fullName || 'Người dùng') : undefined
+            }
             onViewReactions={() => setIsReactionsModalOpen(true)}
           />
         </div>
@@ -248,5 +259,5 @@ const PostSkeleton: React.FC = () => (
 
 export const PostItem: React.FC<PostItemProps> & { Skeleton: React.FC } = Object.assign(
   React.memo(PostItemInner),
-  { Skeleton: PostSkeleton }
+  { Skeleton: PostSkeleton },
 );

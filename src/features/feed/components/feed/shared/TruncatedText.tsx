@@ -39,9 +39,8 @@ export const TruncatedText: React.FC<TruncatedTextProps> = ({
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const shouldTruncate = content.length > threshold;
-  const displayContent = !shouldTruncate || isExpanded
-    ? content
-    : content.slice(0, threshold) + '…';
+  const displayContent =
+    !shouldTruncate || isExpanded ? content : content.slice(0, threshold) + '…';
 
   return (
     <span className={className}>

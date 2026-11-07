@@ -17,10 +17,10 @@ export const usePostStore = create<PostStoreState>()(
       storage: createJSONStorage(() => localStorage),
       partialize: (state) => ({
         posts: state.posts.slice(0, PAGINATION.FEED_CACHE_LIMIT),
-        lastFetchTime: state.lastFetchTime
+        lastFetchTime: state.lastFetchTime,
       }),
-    }
-  )
+    },
+  ),
 );
 
 // Đăng ký reset tự động

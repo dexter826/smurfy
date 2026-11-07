@@ -8,7 +8,8 @@ import { Button } from '@/components/ui';
 export const FriendSuggestionsWidget: React.FC = () => {
   const navigate = useNavigate();
   const scrollRef = useRef<HTMLDivElement>(null);
-  const { filteredSuggestions, isSuggestionsLoading, handleAddFriend, handleDismissSuggestion } = useContacts();
+  const { filteredSuggestions, isSuggestionsLoading, handleAddFriend, handleDismissSuggestion } =
+    useContacts();
   const [showLeftArrow, setShowLeftArrow] = useState(false);
   const [showRightArrow, setShowRightArrow] = useState(true);
 
@@ -28,10 +29,10 @@ export const FriendSuggestionsWidget: React.FC = () => {
   const scroll = (direction: 'left' | 'right') => {
     if (!scrollRef.current) return;
     const gap = 12;
-    const scrollAmount = scrollRef.current.clientWidth + gap; 
+    const scrollAmount = scrollRef.current.clientWidth + gap;
     scrollRef.current.scrollBy({
       left: direction === 'left' ? -scrollAmount : scrollAmount,
-      behavior: 'smooth'
+      behavior: 'smooth',
     });
   };
 
@@ -83,25 +84,29 @@ export const FriendSuggestionsWidget: React.FC = () => {
           </>
         )}
 
-        <div 
+        <div
           ref={scrollRef}
           onScroll={checkScroll}
           className="flex overflow-x-auto snap-x snap-mandatory scroll-hide pb-4 pt-1 gap-3 scroll-smooth"
         >
-          {isSuggestionsLoading ? (
-            [...Array(4)].map((_, i) => <SuggestionItem.Skeleton variant="card" key={i} className="w-[calc((100%-12px)/2)] min-w-[calc((100%-12px)/2)] sm:w-[calc((100%-24px)/3)] sm:min-w-[calc((100%-24px)/3)] md:w-[calc((100%-36px)/4)] md:min-w-[calc((100%-36px)/4)]" />)
-          ) : (
-            displaySuggestions.map(user => (
-              <SuggestionItem
-                variant="card"
-                key={user.id}
-                user={user}
-                onAddFriend={handleAddFriend}
-                onDismiss={handleDismissSuggestion}
-                className="w-[calc((100%-12px)/2)] min-w-[calc((100%-12px)/2)] sm:w-[calc((100%-24px)/3)] sm:min-w-[calc((100%-24px)/3)] md:w-[calc((100%-36px)/4)] md:min-w-[calc((100%-36px)/4)]"
-              />
-            ))
-          )}
+          {isSuggestionsLoading
+            ? [...Array(4)].map((_, i) => (
+                <SuggestionItem.Skeleton
+                  variant="card"
+                  key={i}
+                  className="w-[calc((100%-12px)/2)] min-w-[calc((100%-12px)/2)] sm:w-[calc((100%-24px)/3)] sm:min-w-[calc((100%-24px)/3)] md:w-[calc((100%-36px)/4)] md:min-w-[calc((100%-36px)/4)]"
+                />
+              ))
+            : displaySuggestions.map((user) => (
+                <SuggestionItem
+                  variant="card"
+                  key={user.id}
+                  user={user}
+                  onAddFriend={handleAddFriend}
+                  onDismiss={handleDismissSuggestion}
+                  className="w-[calc((100%-12px)/2)] min-w-[calc((100%-12px)/2)] sm:w-[calc((100%-24px)/3)] sm:min-w-[calc((100%-24px)/3)] md:w-[calc((100%-36px)/4)] md:min-w-[calc((100%-36px)/4)]"
+                />
+              ))}
         </div>
       </div>
     </div>

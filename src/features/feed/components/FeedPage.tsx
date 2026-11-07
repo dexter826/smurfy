@@ -1,6 +1,13 @@
 import React, { useState, useCallback } from 'react';
 import { StickyNote, Sparkles } from 'lucide-react';
-import { PostItem, PostModal, CreatePost, FeedSkeleton, FriendSuggestionsWidget, BirthdayWidget } from '../components/feed';
+import {
+  PostItem,
+  PostModal,
+  CreatePost,
+  FeedSkeleton,
+  FriendSuggestionsWidget,
+  BirthdayWidget,
+} from '../components/feed';
 
 import { useAuthStore } from '@/features/auth';
 import { useSharePostStore } from '@/store';
@@ -15,36 +22,43 @@ const FeedPage: React.FC = () => {
   const { user: currentUser } = useAuthStore();
   const friendIds = useFriendIds();
   const {
-    posts, isLoading, hasMore, usersMap,
-    handleReact, handleUpdate, handleDelete, observerRef,
+    posts,
+    isLoading,
+    hasMore,
+    usersMap,
+    handleReact,
+    handleUpdate,
+    handleDelete,
+    observerRef,
   } = useFeed();
-  const isLoadingMore = useLoadingStore(state => state.loadingStates['feed.loadMore']);
+  const isLoadingMore = useLoadingStore((state) => state.loadingStates['feed.loadMore']);
   const { viewPost } = usePostNavigation();
-  const openSharePost = useSharePostStore(state => state.openSharePost);
+  const openSharePost = useSharePostStore((state) => state.openSharePost);
 
   const [showEditModal, setShowEditModal] = useState<string | null>(null);
   const [postToDelete, setPostToDelete] = useState<string | null>(null);
 
-  const handleEditPost = useCallback((
-    content: string,
-    media: MediaObject[],
-    visibility: Visibility,
-    pendingFiles?: File[]
-  ) => {
-    if (!showEditModal) return;
-    handleUpdate(showEditModal, content, media, visibility, pendingFiles);
-  }, [showEditModal, handleUpdate]);
+  const handleEditPost = useCallback(
+    (content: string, media: MediaObject[], visibility: Visibility, pendingFiles?: File[]) => {
+      if (!showEditModal) return;
+      handleUpdate(showEditModal, content, media, visibility, pendingFiles);
+    },
+    [showEditModal, handleUpdate],
+  );
 
   const handleDeletePost = useCallback(async () => {
     if (!postToDelete) return;
-    const post = posts.find(p => p.id === postToDelete);
+    const post = posts.find((p) => p.id === postToDelete);
     await handleDelete(postToDelete, post?.media);
     setPostToDelete(null);
   }, [postToDelete, posts, handleDelete]);
 
-  const handleOpenShareModal = useCallback((post: Post, authorName: string) => {
-    openSharePost(post, authorName);
-  }, [openSharePost]);
+  const handleOpenShareModal = useCallback(
+    (post: Post, authorName: string) => {
+      openSharePost(post, authorName);
+    },
+    [openSharePost],
+  );
 
   if (!currentUser) {
     return (
@@ -56,7 +70,7 @@ const FeedPage: React.FC = () => {
 
   if (isLoading && posts.length === 0) return <FeedSkeleton />;
 
-  const editPost = posts.find(p => p.id === showEditModal);
+  const editPost = posts.find((p) => p.id === showEditModal);
 
   return (
     <div
@@ -67,7 +81,7 @@ const FeedPage: React.FC = () => {
         <CreatePost currentUser={currentUser} />
 
         <BirthdayWidget />
-        
+
         <FriendSuggestionsWidget />
 
         {posts.length === 0 ? (
@@ -85,21 +99,26 @@ const FeedPage: React.FC = () => {
         ) : (
           <>
             <div className="space-y-3 md:space-y-4">
-              {posts.map((post) => {
+              {posts.map((post, index) => {
                 const author = usersMap[post.authorId];
                 if (!author) return <PostItem.Skeleton key={post.id} />;
                 return (
-                  <PostItem
+                  <div
                     key={post.id}
-                    post={post}
-                    author={author}
-                    currentUser={currentUser}
-                    onReact={handleReact}
-                    onEdit={setShowEditModal}
-                    onDelete={setPostToDelete}
-                    onViewDetail={viewPost}
-                    onShare={handleOpenShareModal}
-                  />
+                    className="animate-fade-in-up motion-reduce:animate-none"
+                    style={{ animationDelay: `${Math.min(index * 60, 300)}ms` }}
+                  >
+                    <PostItem
+                      post={post}
+                      author={author}
+                      currentUser={currentUser}
+                      onReact={handleReact}
+                      onEdit={setShowEditModal}
+                      onDelete={setPostToDelete}
+                      onViewDetail={viewPost}
+                      onShare={handleOpenShareModal}
+                    />
+                  </div>
                 );
               })}
             </div>
@@ -108,7 +127,9 @@ const FeedPage: React.FC = () => {
 
             {isLoadingMore && hasMore && (
               <div className="space-y-4 mt-4">
-                {[...Array(2)].map((_, i) => <PostItem.Skeleton key={`more-${i}`} />)}
+                {[...Array(2)].map((_, i) => (
+                  <PostItem.Skeleton key={`more-${i}`} />
+                ))}
               </div>
             )}
 

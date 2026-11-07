@@ -16,23 +16,28 @@ interface PostMediaGridProps {
   onItemClick?: (index: number) => void;
 }
 
-const PostMediaGridInner: React.FC<PostMediaGridProps> = ({
-  media, onClick, onItemClick
-}) => {
-  const allMedia = useMemo<MediaItem[]>(() =>
-    media.map(m => ({
-      url: m.url,
-      type: m.mimeType.startsWith('video') ? 'video' : 'image',
-      thumbnailUrl: m.thumbnailUrl,
-      isSensitive: m.isSensitive
-    }))
-    , [media]);
+const PostMediaGridInner: React.FC<PostMediaGridProps> = ({ media, onClick, onItemClick }) => {
+  const allMedia = useMemo<MediaItem[]>(
+    () =>
+      media.map((m) => ({
+        url: m.url,
+        type: m.mimeType.startsWith('video') ? 'video' : 'image',
+        thumbnailUrl: m.thumbnailUrl,
+        isSensitive: m.isSensitive,
+      })),
+    [media],
+  );
 
   if (allMedia.length === 0) return null;
 
   const count = allMedia.length;
 
-  const renderMediaItem = (item: MediaItem, index: number, className: string = '', overlay?: React.ReactNode) => {
+  const renderMediaItem = (
+    item: MediaItem,
+    index: number,
+    className: string = '',
+    overlay?: React.ReactNode,
+  ) => {
     const isBlob = item.url.startsWith('blob:');
 
     return (
@@ -69,11 +74,13 @@ const PostMediaGridInner: React.FC<PostMediaGridProps> = ({
             />
           )}
 
-
-
           {!isBlob && item.type === 'video' && (
             <div className="absolute top-2 right-2 p-1 bg-black/20 backdrop-blur-md rounded-full text-white pointer-events-none group-hover:opacity-0 transition-opacity">
-              <IconButton icon={<ChevronRight size={14} fill="white" className="pointer-events-none" />} size="sm" className="!bg-transparent" />
+              <IconButton
+                icon={<ChevronRight size={14} fill="white" className="pointer-events-none" />}
+                size="sm"
+                className="!bg-transparent"
+              />
             </div>
           )}
 
@@ -103,7 +110,11 @@ const PostMediaGridInner: React.FC<PostMediaGridProps> = ({
           >
             <div
               className={`absolute inset-0 blur-2xl grayscale pointer-events-none transition-opacity duration-700 ${isBlob ? 'opacity-10' : 'opacity-20'}`}
-              style={{ backgroundImage: `url(${item.url})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+              style={{
+                backgroundImage: `url(${item.url})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+              }}
             />
 
             {item.type === 'video' ? (
@@ -124,8 +135,6 @@ const PostMediaGridInner: React.FC<PostMediaGridProps> = ({
                 className={`relative z-10 w-full h-auto max-h-[600px] object-contain transition-all duration-300 ${isBlob ? 'blur-[2px] opacity-70' : ''}`}
               />
             )}
-
-
           </div>
         </SensitiveMediaGuard>
       </div>
@@ -135,10 +144,13 @@ const PostMediaGridInner: React.FC<PostMediaGridProps> = ({
   return (
     <div className="bg-background relative select-none overflow-hidden">
       <div
-        className={`grid gap-0.5 aspect-[4/3] sm:aspect-video cursor-pointer ${count === 2 ? 'grid-cols-2' :
-          count === 3 ? 'grid-cols-2 grid-rows-2' :
-            'grid-cols-2 grid-rows-2'
-          }`}
+        className={`grid gap-0.5 aspect-[4/3] sm:aspect-video cursor-pointer ${
+          count === 2
+            ? 'grid-cols-2'
+            : count === 3
+              ? 'grid-cols-2 grid-rows-2'
+              : 'grid-cols-2 grid-rows-2'
+        }`}
         onClick={onClick}
       >
         {allMedia.slice(0, 4).map((item, idx) => {
@@ -148,7 +160,9 @@ const PostMediaGridInner: React.FC<PostMediaGridProps> = ({
           const overlay = isLast ? (
             <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px] flex flex-col items-center justify-center text-white z-10 group-hover:bg-black/30 transition-all">
               <span className="text-3xl font-bold drop-shadow-lg">+{count - 4}</span>
-              <span className="text-xs uppercase tracking-wider font-semibold opacity-80">Xem thêm</span>
+              <span className="text-xs uppercase tracking-wider font-semibold opacity-80">
+                Xem thêm
+              </span>
             </div>
           ) : null;
 

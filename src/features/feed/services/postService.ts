@@ -17,13 +17,27 @@ import {
   DocumentSnapshot,
 } from 'firebase/firestore';
 import { db } from '@/lib/firebase/config';
-import { Post, Visibility, ReactionType, ReactionDoc, PostStatus, MediaObject, PostType, UserStatus } from '@shared/types'
+import {
+  Post,
+  Visibility,
+  ReactionType,
+  ReactionDoc,
+  PostStatus,
+  MediaObject,
+  PostType,
+  UserStatus,
+} from '@shared/types';
 import { batchGetUsers } from '@/utils/batchUtils';
 import { userService } from '@/services/userService';
 import { PAGINATION, IMAGE_COMPRESSION, STORAGE_PATHS } from '@/constants';
 import { compressImage, isImageFile } from '@/utils/imageUtils';
 import { withRetry } from '@/utils/retryUtils';
-import { uploadWithProgress, ProgressCallback, deleteStorageFiles, generateVideoThumbnail } from '@/utils/uploadUtils';
+import {
+  uploadWithProgress,
+  ProgressCallback,
+  deleteStorageFiles,
+  generateVideoThumbnail,
+} from '@/utils/uploadUtils';
 import { convertDoc, convertDocs } from '@/utils/firebaseUtils';
 import { getSafeMillis } from '@/utils/timestampHelpers';
 import { filterBlockedItems } from '@/lib/block/blockUtils';
@@ -31,7 +45,7 @@ import {
   validatePostContent,
   validateImageFile,
   validateVideoFile,
-  FileValidationError
+  FileValidationError,
 } from '@/utils/fileValidation';
 
 const postConverter = (doc: DocumentSnapshot) => convertDoc<Post>(doc);
@@ -48,7 +62,7 @@ export const postService = {
   getFeedFromFanout: async (
     userId: string,
     limitCount: number = PAGINATION.FEED_POSTS,
-    lastDoc?: DocumentSnapshot
+    lastDoc?: DocumentSnapshot,
   ): Promise<{ posts: Post[]; lastDoc: DocumentSnapshot | null; hasMore: boolean }> => {
     try {
       if (!userId) return { posts: [], lastDoc: null, hasMore: false };
@@ -56,7 +70,7 @@ export const postService = {
       let feedQuery = query(
         collection(db, 'users', userId, 'feeds'),
         orderBy('createdAt', 'desc'),
-        limit(limitCount + 1)
+        limit(limitCount + 1),
       );
 
       if (lastDoc) {
@@ -69,8 +83,8 @@ export const postService = {
         return { posts: [], lastDoc: null, hasMore: false };
       }
 
-      const postIds = feedSnapshot.docs.map(doc => doc.data().postId);
-      const postPromises = postIds.map(id => getDoc(doc(db, 'posts', id)));
+      const postIds = feedSnapshot.docs.map((doc) => doc.data().postId);
+      const postPromises = postIds.map((id) => getDoc(doc(db, 'posts', id)));
       const postResults = await Promise.allSettled(postPromises);
 
       const posts: Post[] = [];
@@ -96,12 +110,12 @@ export const postService = {
 
       const lastPost = finalPosts[finalPosts.length - 1];
       const lastVisible = lastPost
-        ? feedSnapshot.docs.find(d => d.data().postId === lastPost.id) || null
+        ? feedSnapshot.docs.find((d) => d.data().postId === lastPost.id) || null
         : null;
 
       return { posts: finalPosts, lastDoc: lastVisible, hasMore };
     } catch (error) {
-      console.error("Lỗi lấy feed từ fan-out", error);
+      console.error('Lỗi lấy feed từ fan-out', error);
       return { posts: [], lastDoc: null, hasMore: false };
     }
   },
@@ -110,79 +124,95 @@ export const postService = {
   subscribeToFeedFanout: (
     userId: string,
     callback: (action: 'add' | 'update' | 'remove', posts: Post[]) => void,
-    limitCount: number = PAGINATION.FEED_POSTS
+    limitCount: number = PAGINATION.FEED_POSTS,
   ) => {
-    if (!userId) return () => { };
+    if (!userId) return () => {};
 
     const feedQuery = query(
       collection(db, 'users', userId, 'feeds'),
       orderBy('createdAt', 'desc'),
-      limit(limitCount)
+      limit(limitCount),
     );
 
-    return onSnapshot(feedQuery, async (snapshot) => {
-      const addedIds = snapshot.docChanges()
-        .filter(c => c.type === 'added')
-        .map(c => c.doc.data().postId);
+    return onSnapshot(
+      feedQuery,
+      async (snapshot) => {
+        const addedIds = snapshot
+          .docChanges()
+          .filter((c) => c.type === 'added')
+          .map((c) => c.doc.data().postId);
 
-      if (addedIds.length > 0) {
-        const postPromises = addedIds.map(id => getDoc(doc(db, 'posts', id)));
-        const postResults = await Promise.allSettled(postPromises);
+        if (addedIds.length > 0) {
+          const postPromises = addedIds.map((id) => getDoc(doc(db, 'posts', id)));
+          const postResults = await Promise.allSettled(postPromises);
 
-        const posts: Post[] = [];
-        for (const result of postResults) {
-          if (result.status === 'fulfilled' && result.value.exists()) {
-            const postData = result.value.data();
-            if (
-              postData.status === PostStatus.ACTIVE ||
-              (postData.status === PostStatus.PENDING && postData.authorId === userId)
-            ) {
-              posts.push(convertDoc<Post>(result.value));
+          const posts: Post[] = [];
+          for (const result of postResults) {
+            if (result.status === 'fulfilled' && result.value.exists()) {
+              const postData = result.value.data();
+              if (
+                postData.status === PostStatus.ACTIVE ||
+                (postData.status === PostStatus.PENDING && postData.authorId === userId)
+              ) {
+                posts.push(convertDoc<Post>(result.value));
+              }
             }
           }
+
+          if (posts.length > 0) callback('add', posts);
         }
 
-        if (posts.length > 0) callback('add', posts);
-      }
+        const removedIds = snapshot
+          .docChanges()
+          .filter((c) => c.type === 'removed')
+          .map((c) => c.doc.data().postId);
 
-      const removedIds = snapshot.docChanges()
-        .filter(c => c.type === 'removed')
-        .map(c => c.doc.data().postId);
+        if (removedIds.length > 0) {
+          callback(
+            'remove',
+            removedIds.map((id) => ({ id }) as Post),
+          );
+        }
 
-      if (removedIds.length > 0) {
-        callback('remove', removedIds.map(id => ({ id } as Post)));
-      }
+        const modifiedIds = snapshot
+          .docChanges()
+          .filter((c) => c.type === 'modified')
+          .map((c) => c.doc.data().postId);
 
-      const modifiedIds = snapshot.docChanges()
-        .filter(c => c.type === 'modified')
-        .map(c => c.doc.data().postId);
+        if (modifiedIds.length > 0) {
+          const postPromises = modifiedIds.map((id) => getDoc(doc(db, 'posts', id)));
+          const postResults = await Promise.allSettled(postPromises);
 
-      if (modifiedIds.length > 0) {
-        const postPromises = modifiedIds.map(id => getDoc(doc(db, 'posts', id)));
-        const postResults = await Promise.allSettled(postPromises);
-
-        const posts: Post[] = [];
-        for (const result of postResults) {
-          if (result.status === 'fulfilled' && result.value.exists()) {
-            const postData = result.value.data();
-            if (
-              postData.status === PostStatus.ACTIVE ||
-              (postData.status === PostStatus.PENDING && postData.authorId === userId)
-            ) {
-              posts.push(convertDoc<Post>(result.value));
+          const posts: Post[] = [];
+          for (const result of postResults) {
+            if (result.status === 'fulfilled' && result.value.exists()) {
+              const postData = result.value.data();
+              if (
+                postData.status === PostStatus.ACTIVE ||
+                (postData.status === PostStatus.PENDING && postData.authorId === userId)
+              ) {
+                posts.push(convertDoc<Post>(result.value));
+              }
             }
           }
-        }
 
-        if (posts.length > 0) callback('update', posts);
-      }
-    }, (error) => {
-      console.error("[postService] Lỗi subscribe feed:", error);
-    });
+          if (posts.length > 0) callback('update', posts);
+        }
+      },
+      (error) => {
+        console.error('[postService] Lỗi subscribe feed:', error);
+      },
+    );
   },
 
   /** Lấy danh sách bài viết của người dùng */
-  getUserPosts: async (userId: string, currentUserId: string, friendIds: string[], limitCount: number = PAGINATION.USER_POSTS, lastDoc?: DocumentSnapshot): Promise<{ posts: Post[], lastDoc: DocumentSnapshot | null }> => {
+  getUserPosts: async (
+    userId: string,
+    currentUserId: string,
+    friendIds: string[],
+    limitCount: number = PAGINATION.USER_POSTS,
+    lastDoc?: DocumentSnapshot,
+  ): Promise<{ posts: Post[]; lastDoc: DocumentSnapshot | null }> => {
     try {
       if (!currentUserId) {
         return { posts: [], lastDoc: null };
@@ -201,7 +231,7 @@ export const postService = {
             where('authorId', '==', userId),
             where('status', 'in', [PostStatus.ACTIVE, PostStatus.PENDING]),
             orderBy('createdAt', 'desc'),
-            limit(limitCount)
+            limit(limitCount),
           )
         : query(
             collection(db, 'posts'),
@@ -209,7 +239,7 @@ export const postService = {
             where('status', '==', PostStatus.ACTIVE),
             where('visibility', 'in', visibilityFilter),
             orderBy('createdAt', 'desc'),
-            limit(limitCount)
+            limit(limitCount),
           );
 
       if (lastDoc) {
@@ -240,7 +270,7 @@ export const postService = {
 
       return { posts, lastDoc: lastVisible };
     } catch (error) {
-      console.error("Lỗi lấy bài viết của user", error);
+      console.error('Lỗi lấy bài viết của user', error);
       return { posts: [], lastDoc: null };
     }
   },
@@ -251,11 +281,11 @@ export const postService = {
     currentUserId: string,
     friendIds: string[],
     callback: (action: 'add' | 'update' | 'remove', posts: Post[]) => void,
-    limitCount: number = PAGINATION.USER_POSTS
+    limitCount: number = PAGINATION.USER_POSTS,
   ) => {
     if (!currentUserId) {
       callback('remove', []);
-      return () => { };
+      return () => {};
     }
 
     const isOwner = userId === currentUserId;
@@ -263,7 +293,7 @@ export const postService = {
     const visibilityFilter = getVisibilityFilter(isOwner, isFriend);
     if (visibilityFilter.length === 0) {
       callback('remove', []);
-      return () => { };
+      return () => {};
     }
 
     const q = isOwner
@@ -272,7 +302,7 @@ export const postService = {
           where('authorId', '==', userId),
           where('status', 'in', [PostStatus.ACTIVE, PostStatus.PENDING]),
           orderBy('createdAt', 'desc'),
-          limit(limitCount)
+          limit(limitCount),
         )
       : query(
           collection(db, 'posts'),
@@ -280,7 +310,7 @@ export const postService = {
           where('status', '==', PostStatus.ACTIVE),
           where('visibility', 'in', visibilityFilter),
           orderBy('createdAt', 'desc'),
-          limit(limitCount)
+          limit(limitCount),
         );
 
     let unsubscribe: (() => void) | null = null;
@@ -297,44 +327,55 @@ export const postService = {
       }
 
       if (userId !== currentUserId) {
-        const blockedByTarget = await getDoc(doc(db, 'users', userId, 'blockedUsers', currentUserId));
+        const blockedByTarget = await getDoc(
+          doc(db, 'users', userId, 'blockedUsers', currentUserId),
+        );
         const blockedByMe = await getDoc(doc(db, 'users', currentUserId, 'blockedUsers', userId));
 
-        if ((blockedByTarget.exists() && blockedByTarget.data().blockViewMyActivity === true) ||
-          (blockedByMe.exists() && blockedByMe.data().hideTheirActivity === true)) {
+        if (
+          (blockedByTarget.exists() && blockedByTarget.data().blockViewMyActivity === true) ||
+          (blockedByMe.exists() && blockedByMe.data().hideTheirActivity === true)
+        ) {
           callback('remove', []);
           return;
         }
       }
 
-      unsubscribe = onSnapshot(q, (snapshot) => {
-        const addedPosts = snapshot.docChanges()
-          .filter(change => change.type === 'added')
-          .map(change => convertDoc<Post>(change.doc));
-        if (addedPosts.length > 0) {
-          callback('add', addedPosts);
-        }
+      unsubscribe = onSnapshot(
+        q,
+        (snapshot) => {
+          const addedPosts = snapshot
+            .docChanges()
+            .filter((change) => change.type === 'added')
+            .map((change) => convertDoc<Post>(change.doc));
+          if (addedPosts.length > 0) {
+            callback('add', addedPosts);
+          }
 
-        const updatedPosts = snapshot.docChanges()
-          .filter(change => change.type === 'modified')
-          .map(change => convertDoc<Post>(change.doc));
-        if (updatedPosts.length > 0) {
-          callback('update', updatedPosts);
-        }
+          const updatedPosts = snapshot
+            .docChanges()
+            .filter((change) => change.type === 'modified')
+            .map((change) => convertDoc<Post>(change.doc));
+          if (updatedPosts.length > 0) {
+            callback('update', updatedPosts);
+          }
 
-        const removedPosts = snapshot.docChanges()
-          .filter(change => change.type === 'removed')
-          .map(change => ({ id: change.doc.id } as Post));
-        if (removedPosts.length > 0) {
-          callback('remove', removedPosts);
-        }
-      }, (error) => {
-        if (error?.code === 'permission-denied') {
-          callback('remove', []);
-          return;
-        }
-        console.error("Lỗi subscribe bài viết của user", error);
-      });
+          const removedPosts = snapshot
+            .docChanges()
+            .filter((change) => change.type === 'removed')
+            .map((change) => ({ id: change.doc.id }) as Post);
+          if (removedPosts.length > 0) {
+            callback('remove', removedPosts);
+          }
+        },
+        (error) => {
+          if (error?.code === 'permission-denied') {
+            callback('remove', []);
+            return;
+          }
+          console.error('Lỗi subscribe bài viết của user', error);
+        },
+      );
     };
 
     setup();
@@ -346,7 +387,16 @@ export const postService = {
   },
 
   /** Tạo bài viết mới */
-  createPost: async (postData: Partial<Post> & { authorId: string, content?: string, media?: MediaObject[], visibility?: Visibility, type?: PostType }, predefinedId?: string): Promise<string> => {
+  createPost: async (
+    postData: Partial<Post> & {
+      authorId: string;
+      content?: string;
+      media?: MediaObject[];
+      visibility?: Visibility;
+      type?: PostType;
+    },
+    predefinedId?: string,
+  ): Promise<string> => {
     try {
       if (postData.content) {
         validatePostContent(postData.content);
@@ -365,7 +415,7 @@ export const postService = {
         visibility: postData.visibility || Visibility.FRIENDS,
         commentCount: 0,
         createdAt: postData.createdAt || serverTimestamp(),
-        updatedAt: postData.updatedAt || serverTimestamp()
+        updatedAt: postData.updatedAt || serverTimestamp(),
       };
 
       if (postData.media && postData.media.length > 0) {
@@ -378,7 +428,7 @@ export const postService = {
       if (error instanceof FileValidationError) {
         throw error;
       }
-      console.error("Lỗi tạo bài viết", error);
+      console.error('Lỗi tạo bài viết', error);
       throw error;
     }
   },
@@ -387,7 +437,12 @@ export const postService = {
   generatePostId: () => doc(collection(db, 'posts')).id,
 
   /** Cập nhật nội dung bài viết */
-  updatePost: async (postId: string, content: string, media: MediaObject[], visibility: Visibility): Promise<void> => {
+  updatePost: async (
+    postId: string,
+    content: string,
+    media: MediaObject[],
+    visibility: Visibility,
+  ): Promise<void> => {
     try {
       const postRef = doc(db, 'posts', postId);
 
@@ -395,7 +450,7 @@ export const postService = {
       if (oldSnap.exists()) {
         const old = oldSnap.data();
         const oldMediaUrls = (old.media || []).map((m: MediaObject) => m.url);
-        const newMediaUrls = media.map(m => m.url);
+        const newMediaUrls = media.map((m) => m.url);
         const removedUrls = oldMediaUrls.filter((u: string) => !newMediaUrls.includes(u));
 
         if (removedUrls.length > 0) {
@@ -407,10 +462,10 @@ export const postService = {
         content,
         media,
         visibility,
-        updatedAt: serverTimestamp()
+        updatedAt: serverTimestamp(),
       });
     } catch (error) {
-      console.error("Lỗi cập nhật bài viết", error);
+      console.error('Lỗi cập nhật bài viết', error);
       throw error;
     }
   },
@@ -423,16 +478,20 @@ export const postService = {
         status: PostStatus.DELETED,
         deletedAt: serverTimestamp(),
         deletedBy: userId,
-        updatedAt: serverTimestamp()
+        updatedAt: serverTimestamp(),
       });
     } catch (error) {
-      console.error("Lỗi xóa bài viết", error);
+      console.error('Lỗi xóa bài viết', error);
       throw error;
     }
   },
 
   /** Tương tác cảm xúc với bài viết */
-  reactToPost: async (postId: string, userId: string, reaction: string | ReactionType): Promise<void> => {
+  reactToPost: async (
+    postId: string,
+    userId: string,
+    reaction: string | ReactionType,
+  ): Promise<void> => {
     try {
       const reactionRef = doc(db, 'posts', postId, 'reactions', userId);
       const snap = await getDoc(reactionRef);
@@ -444,7 +503,7 @@ export const postService = {
         const now = serverTimestamp();
         const reactionData: Partial<ReactionDoc> = {
           type: reaction as ReactionType,
-          updatedAt: now as Timestamp
+          updatedAt: now as Timestamp,
         };
 
         if (!snap.exists()) {
@@ -454,7 +513,7 @@ export const postService = {
         await setDoc(reactionRef, reactionData, { merge: true });
       }
     } catch (error) {
-      console.error("Lỗi react bài viết", error);
+      console.error('Lỗi react bài viết', error);
       throw error;
     }
   },
@@ -469,9 +528,13 @@ export const postService = {
     }
   },
 
-
   /** Lấy thông tin bài viết theo ID */
-  getPostById: async (postId: string, currentUserId: string, friendIds: string[], isAdmin: boolean = false): Promise<Post | null> => {
+  getPostById: async (
+    postId: string,
+    currentUserId: string,
+    friendIds: string[],
+    isAdmin: boolean = false,
+  ): Promise<Post | null> => {
     try {
       const postRef = doc(db, 'posts', postId);
       const postSnap = await getDoc(postRef);
@@ -484,11 +547,16 @@ export const postService = {
 
       const isOwner = data.authorId === currentUserId;
 
-      if ((data.status === PostStatus.PENDING || data.status === PostStatus.POLICY_VIOLATION) && !isAdmin && !isOwner) {
+      if (
+        (data.status === PostStatus.PENDING || data.status === PostStatus.POLICY_VIOLATION) &&
+        !isAdmin &&
+        !isOwner
+      ) {
         return null;
       }
 
-      const isSystemPost = data.type === PostType.AVATAR_UPDATE || data.type === PostType.COVER_UPDATE;
+      const isSystemPost =
+        data.type === PostType.AVATAR_UPDATE || data.type === PostType.COVER_UPDATE;
 
       if (isAdmin || isSystemPost) {
         return convertDoc<Post>(postSnap);
@@ -504,12 +572,16 @@ export const postService = {
       }
 
       if (!isOwner) {
-        const blockSnap = await getDoc(doc(db, 'users', data.authorId, 'blockedUsers', currentUserId));
+        const blockSnap = await getDoc(
+          doc(db, 'users', data.authorId, 'blockedUsers', currentUserId),
+        );
         if (blockSnap.exists() && blockSnap.data().blockViewMyActivity === true) {
           return null;
         }
 
-        const myBlockSnap = await getDoc(doc(db, 'users', currentUserId, 'blockedUsers', data.authorId));
+        const myBlockSnap = await getDoc(
+          doc(db, 'users', currentUserId, 'blockedUsers', data.authorId),
+        );
         if (myBlockSnap.exists() && myBlockSnap.data().hideTheirActivity === true) {
           return null;
         }
@@ -517,7 +589,7 @@ export const postService = {
 
       return convertDoc<Post>(postSnap);
     } catch (error) {
-      console.error("Lỗi lấy chi tiết bài viết", error);
+      console.error('Lỗi lấy chi tiết bài viết', error);
       return null;
     }
   },
@@ -532,7 +604,7 @@ export const postService = {
 
       return convertDoc<Post>(postSnap);
     } catch (error) {
-      console.error("Lỗi lấy chi tiết bài viết cho admin", error);
+      console.error('Lỗi lấy chi tiết bài viết cho admin', error);
       return null;
     }
   },
@@ -541,7 +613,7 @@ export const postService = {
   uploadPostMedia: async (
     files: File[],
     userId: string,
-    onProgress?: (progress: number, fileIndex: number, totalFiles: number) => void
+    onProgress?: (progress: number, fileIndex: number, totalFiles: number) => void,
   ): Promise<MediaObject[]> => {
     try {
       for (const file of files) {
@@ -570,23 +642,26 @@ export const postService = {
         if (isImageFile(file)) {
           file = await compressImage(file, IMAGE_COMPRESSION.POST);
         }
-        const thumbPromise = isVideo ? (async () => {
-          try {
-            const thumbFile = await generateVideoThumbnail(file);
-            const thumbPath = `thumbnails/${userId}/${createdAt}_${thumbFile.name}`;
-            return await uploadWithProgress(thumbPath, thumbFile);
-          } catch (e) {
-            console.error("Lỗi tạo/up thumbnail:", e);
-            return undefined;
-          }
-        })() : Promise.resolve(undefined);
+        const thumbPromise = isVideo
+          ? (async () => {
+              try {
+                const thumbFile = await generateVideoThumbnail(file);
+                const thumbPath = `thumbnails/${userId}/${createdAt}_${thumbFile.name}`;
+                return await uploadWithProgress(thumbPath, thumbFile);
+              } catch (e) {
+                console.error('Lỗi tạo/up thumbnail:', e);
+                return undefined;
+              }
+            })()
+          : Promise.resolve(undefined);
 
         const uploadPromise = withRetry(() =>
           uploadWithProgress(path, file, (progress) => {
             progressMap.set(i, progress.progress);
-            const totalProgress = Array.from(progressMap.values()).reduce((a, b) => a + b, 0) / totalFiles;
+            const totalProgress =
+              Array.from(progressMap.values()).reduce((a, b) => a + b, 0) / totalFiles;
             onProgress?.(totalProgress, i, totalFiles);
-          })
+          }),
         );
 
         const [url, thumbUrlResult] = await Promise.all([uploadPromise, thumbPromise]);
@@ -598,18 +673,15 @@ export const postService = {
           mimeType: file.type,
           size: file.size,
           isSensitive: false,
-          ...(thumbnailUrl && { thumbnailUrl })
+          ...(thumbnailUrl && { thumbnailUrl }),
         } as MediaObject;
       });
 
       return await Promise.all(uploadPromises);
     } catch (error) {
       if (error instanceof FileValidationError) throw error;
-      console.error("Lỗi upload media song song:", error);
+      console.error('Lỗi upload media song song:', error);
       throw error;
     }
   },
-
-
 };
-

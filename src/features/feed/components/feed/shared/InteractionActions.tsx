@@ -24,8 +24,14 @@ interface InteractionActionsProps {
 }
 
 export const InteractionActions: React.FC<InteractionActionsProps> = ({
-  reactionSummary, reactionCount, myReaction, commentCount,
-  onReact, onCommentClick, onShareClick, onViewReactions,
+  reactionSummary,
+  reactionCount,
+  myReaction,
+  commentCount,
+  onReact,
+  onCommentClick,
+  onShareClick,
+  onViewReactions,
   showEmptyDivider = false,
   className = '',
   statsClassName = 'px-4 py-2.5 flex justify-between items-center border-b border-border/50',
@@ -64,8 +70,8 @@ export const InteractionActions: React.FC<InteractionActionsProps> = ({
             </button>
           )}
         </div>
-      ) : showEmptyDivider && (
-        <div className="mx-4 border-t border-border/40" />
+      ) : (
+        showEmptyDivider && <div className="mx-4 border-t border-border/40" />
       )}
 
       {/* Action buttons */}
@@ -81,7 +87,10 @@ export const InteractionActions: React.FC<InteractionActionsProps> = ({
               style={{ zIndex: 'var(--z-popover)' }}
             >
               <ReactionSelector
-                onSelect={(type) => { onReact(type); setShowReactions(false); }}
+                onSelect={(type) => {
+                  onReact(type);
+                  setShowReactions(false);
+                }}
                 className="relative shadow-xl animate-fade-in"
               />
             </div>
@@ -90,16 +99,19 @@ export const InteractionActions: React.FC<InteractionActionsProps> = ({
             variant="ghost"
             fullWidth
             className={`h-10 rounded-xl text-sm font-semibold transition-all duration-200
-              ${myReaction
-                ? `${getReactionColorClass(myReaction)} hover:bg-hover`
-                : 'text-secondary hover:text-foreground hover:bg-hover'
+              ${
+                myReaction
+                  ? `${getReactionColorClass(myReaction)} hover:bg-hover`
+                  : 'text-secondary hover:text-foreground hover:bg-hover'
               }`}
             onClick={() => onReact(myReaction ? 'REMOVE' : ReactionType.LIKE)}
             onMouseEnter={() => setShowReactions(true)}
             icon={
-              myReaction
-                ? getReactionIcon(myReaction as ReactionType, 'w-[18px] h-[18px]', 18)
-                : <Heart size={18} className="transition-transform duration-200" />
+              myReaction ? (
+                getReactionIcon(myReaction as ReactionType, 'w-[18px] h-[18px]', 18)
+              ) : (
+                <Heart size={18} className="transition-transform duration-200" />
+              )
             }
           >
             {myReaction ? REACTION_LABELS[myReaction as ReactionType] : 'Thích'}

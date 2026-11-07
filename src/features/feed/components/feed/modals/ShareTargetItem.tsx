@@ -24,14 +24,14 @@ export const ShareTargetItem: React.FC<ShareTargetItemProps> = ({
   variant = 'vertical',
 }) => {
   const isGroup = entry.type === 'conversation' && entry.item.data.isGroup;
-  
+
   let partner: User | undefined;
   let title = '';
   let avatarUrl = '';
 
   if (entry.type === 'conversation') {
     const conv = entry.item.data;
-    const partnerId = Object.keys(conv.members).find(uid => uid !== currentUserId) || '';
+    const partnerId = Object.keys(conv.members).find((uid) => uid !== currentUserId) || '';
     partner = usersMap[partnerId];
     title = (isGroup ? conv.name : partner?.fullName) || (isGroup ? 'Nhóm' : 'Người dùng');
     avatarUrl = (isGroup ? conv.avatar?.url : partner?.avatar?.url) || '';
@@ -41,7 +41,8 @@ export const ShareTargetItem: React.FC<ShareTargetItemProps> = ({
     avatarUrl = partner.avatar?.url || '';
   }
 
-  const participantIds = isGroup && entry.type === 'conversation' ? Object.keys(entry.item.data.members) : [];
+  const participantIds =
+    isGroup && entry.type === 'conversation' ? Object.keys(entry.item.data.members) : [];
   const groupParticipants = useConversationParticipants(participantIds);
 
   if (entry.type === 'conversation' && !isGroup && partner?.status === UserStatus.BANNED) {
@@ -56,11 +57,13 @@ export const ShareTargetItem: React.FC<ShareTargetItemProps> = ({
         className="flex flex-col items-center gap-2 w-16 shrink-0 group relative outline-none"
       >
         <div className="relative w-11 h-11 flex items-center justify-center">
-          <div className={`absolute inset-0 rounded-full transition-all duration-300 ${
-            selected 
-              ? 'border-[2px] border-primary scale-100 opacity-100' 
-              : 'border-transparent scale-90 opacity-0'
-          }`} />
+          <div
+            className={`absolute inset-0 rounded-full transition-all duration-300 ${
+              selected
+                ? 'border-[2px] border-primary scale-100 opacity-100'
+                : 'border-transparent scale-90 opacity-0'
+            }`}
+          />
 
           <UserAvatar
             userId={isGroup ? '' : partner?.id || ''}
@@ -82,9 +85,11 @@ export const ShareTargetItem: React.FC<ShareTargetItemProps> = ({
             </div>
           )}
         </div>
-        <span className={`text-[10px] font-bold truncate w-full text-center transition-colors px-1 ${
-          selected ? 'text-primary' : 'text-secondary group-hover:text-foreground'
-        }`}>
+        <span
+          className={`text-[10px] font-bold truncate w-full text-center transition-colors px-1 ${
+            selected ? 'text-primary' : 'text-secondary group-hover:text-foreground'
+          }`}
+        >
           {title.split(' ')[title.split(' ').length - 1]}
         </span>
       </button>
@@ -124,13 +129,17 @@ export const ShareTargetItem: React.FC<ShareTargetItemProps> = ({
           )}
         </div>
       </div>
-      
-      <div className={`w-5 h-5 shrink-0 rounded-md border flex items-center justify-center transition-all duration-200 ${
-        selected 
-          ? 'border-primary bg-primary text-white' 
-          : 'border-border bg-surface group-hover:border-primary/50'
-      }`}>
-        {selected && <Check size={13} strokeWidth={3} className="animate-in zoom-in-50 duration-200" />}
+
+      <div
+        className={`w-5 h-5 shrink-0 rounded-md border flex items-center justify-center transition-all duration-200 ${
+          selected
+            ? 'border-primary bg-primary text-white'
+            : 'border-border bg-surface group-hover:border-primary/50'
+        }`}
+      >
+        {selected && (
+          <Check size={13} strokeWidth={3} className="animate-in zoom-in-50 duration-200" />
+        )}
       </div>
     </button>
   );

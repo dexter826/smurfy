@@ -5,7 +5,7 @@ import { Visibility } from '@shared/types';
 const VISIBILITY_ICONS: Record<Visibility, { Icon: typeof Users; title: string }> = {
   [Visibility.PUBLIC]: { Icon: Globe, title: 'Công khai' },
   [Visibility.FRIENDS]: { Icon: Users, title: 'Bạn bè' },
-  [Visibility.PRIVATE]: { Icon: Lock, title: 'Chỉ mình tôi' }
+  [Visibility.PRIVATE]: { Icon: Lock, title: 'Chỉ mình tôi' },
 };
 
 interface VisibilityBadgeProps {
@@ -17,7 +17,7 @@ interface VisibilityBadgeProps {
 const VisibilityBadgeInner: React.FC<VisibilityBadgeProps> = ({
   visibility,
   size = 12,
-  className = ''
+  className = '',
 }) => {
   const { Icon, title } = VISIBILITY_ICONS[visibility];
   return (

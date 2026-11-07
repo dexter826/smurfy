@@ -5,7 +5,11 @@ import { Post, Visibility } from '@shared/types';
 import { useRtdbChatStore } from '@/store';
 import { toast } from '@/store/toastStore';
 import { TOAST_MESSAGES } from '@/constants/toastMessages';
-import { buildSharedPostPayload, getPostSnippet, getPreviewMedia } from '../../../utils/postShareMessage';
+import {
+  buildSharedPostPayload,
+  getPostSnippet,
+  getPreviewMedia,
+} from '../../../utils/postShareMessage';
 import { useShareTargets } from '@/features/chat';
 import { ShareTargetItem } from './ShareTargetItem';
 
@@ -29,13 +33,12 @@ export const SharePostModal: React.FC<SharePostModalProps> = ({
   const [selectedConversationIds, setSelectedConversationIds] = useState<Set<string>>(new Set());
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const sendSharedPostMessage = useRtdbChatStore(state => state.sendSharedPostMessage);
-  const { 
-    filteredItems, 
-    recentItems, 
-    friendItems, 
-    usersMap 
-  } = useShareTargets(currentUserId, searchTerm, open);
+  const sendSharedPostMessage = useRtdbChatStore((state) => state.sendSharedPostMessage);
+  const { filteredItems, recentItems, friendItems, usersMap } = useShareTargets(
+    currentUserId,
+    searchTerm,
+    open,
+  );
 
   useEffect(() => {
     if (!open) {
@@ -49,7 +52,7 @@ export const SharePostModal: React.FC<SharePostModalProps> = ({
   const canSubmit = selectedConversationIds.size > 0 && !!post && !isPrivatePost && !isSubmitting;
 
   const handleToggleConversation = (conversationId: string) => {
-    setSelectedConversationIds(prev => {
+    setSelectedConversationIds((prev) => {
       const next = new Set(prev);
       if (next.has(conversationId)) {
         next.delete(conversationId);
@@ -69,10 +72,12 @@ export const SharePostModal: React.FC<SharePostModalProps> = ({
 
     try {
       const results = await Promise.allSettled(
-        targetIds.map(conversationId => sendSharedPostMessage(conversationId, currentUserId, payload))
+        targetIds.map((conversationId) =>
+          sendSharedPostMessage(conversationId, currentUserId, payload),
+        ),
       );
 
-      const hasSuccess = results.some(result => result.status === 'fulfilled');
+      const hasSuccess = results.some((result) => result.status === 'fulfilled');
       if (hasSuccess) {
         setSelectedConversationIds(new Set());
         onOpenChange();
@@ -114,11 +119,7 @@ export const SharePostModal: React.FC<SharePostModalProps> = ({
               if (!media.url) return null;
               return (
                 <div className="relative w-24 h-24 shrink-0 bg-surface-sunken overflow-hidden border-r border-border/50">
-                  <img 
-                    src={media.url} 
-                    alt="" 
-                    className="w-full h-full object-cover" 
-                  />
+                  <img src={media.url} alt="" className="w-full h-full object-cover" />
                   {media.type === 'video' && (
                     <div className="absolute inset-0 flex items-center justify-center bg-black/30">
                       <div className="w-8 h-8 flex items-center justify-center rounded-full bg-black/40 backdrop-blur-sm border border-white/20">
@@ -133,10 +134,10 @@ export const SharePostModal: React.FC<SharePostModalProps> = ({
             {/* Content Info */}
             <div className="p-4 min-w-0 flex-1 flex flex-col justify-center">
               <div className="flex items-center gap-2 mb-2">
-                <UserAvatar 
-                  userId={post?.authorId || ''} 
-                  name={authorName} 
-                  size="2xs" 
+                <UserAvatar
+                  userId={post?.authorId || ''}
+                  name={authorName}
+                  size="2xs"
                   showStatus={false}
                   className="ring-1 ring-border"
                 />
@@ -152,7 +153,12 @@ export const SharePostModal: React.FC<SharePostModalProps> = ({
         {/* Search Input */}
         <div className="relative group">
           <Input
-            icon={<Search size={16} className="text-muted group-focus-within:text-primary transition-colors" />}
+            icon={
+              <Search
+                size={16}
+                className="text-muted group-focus-within:text-primary transition-colors"
+              />
+            }
             placeholder="Tìm kiếm người dùng hoặc nhóm..."
             value={searchTerm}
             onChange={(event) => setSearchTerm(event.target.value)}
@@ -170,7 +176,7 @@ export const SharePostModal: React.FC<SharePostModalProps> = ({
                     Trò chuyện gần đây
                   </span>
                   <div className="flex overflow-x-auto gap-3 pb-1 px-1 scroll-hide">
-                    {recentItems.map(entry => (
+                    {recentItems.map((entry) => (
                       <ShareTargetItem
                         key={entry.id}
                         entry={entry}
@@ -190,7 +196,7 @@ export const SharePostModal: React.FC<SharePostModalProps> = ({
                 </span>
                 <div className="space-y-1">
                   {friendItems.length > 0 ? (
-                    friendItems.map(entry => (
+                    friendItems.map((entry) => (
                       <ShareTargetItem
                         key={entry.id}
                         entry={entry}
@@ -214,12 +220,12 @@ export const SharePostModal: React.FC<SharePostModalProps> = ({
           ) : (
             /* Search Results */
             <div className="flex flex-col gap-3.5 overflow-y-auto scroll-hide min-h-0">
-               <span className="text-[10px] font-black text-muted uppercase tracking-widest opacity-80 px-1">
-                  Kết quả tìm kiếm
-                </span>
+              <span className="text-[10px] font-black text-muted uppercase tracking-widest opacity-80 px-1">
+                Kết quả tìm kiếm
+              </span>
               <div className="space-y-1.5">
                 {filteredItems.length > 0 ? (
-                  filteredItems.map(entry => (
+                  filteredItems.map((entry) => (
                     <ShareTargetItem
                       key={entry.id}
                       entry={entry}

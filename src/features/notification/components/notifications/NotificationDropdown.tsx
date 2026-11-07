@@ -29,13 +29,13 @@ export const NotificationDropdown: React.FC = () => {
             <div className="relative">
               <Bell size={20} />
               {unreadCount > 0 && (
-                <span className="absolute -top-0.5 -right-0.5 h-2 w-2 rounded-full bg-danger ring-2 ring-primary" />
+                <span className="absolute -top-0.5 -right-0.5 h-2 w-2 rounded-full bg-danger ring-2 ring-surface" />
               )}
             </div>
           }
           variant="ghost"
           title="Thông báo"
-          className={`text-white/70 hover:bg-white/10 hover:text-white transition-all duration-200 active:bg-white/20 ${open ? 'bg-white/20 text-white' : ''}`}
+          className={`text-secondary hover:bg-hover hover:text-foreground transition-all duration-200 active:bg-active ${open ? 'bg-primary-soft text-primary-strong' : ''}`}
         />
       }
     >

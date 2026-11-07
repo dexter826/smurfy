@@ -26,20 +26,21 @@ export const CreatePost: React.FC<CreatePostProps> & { Skeleton: React.FC } = ({
     if (files.length === 0) return;
 
     const isVideo = e.target.accept.includes('video');
-    const limit = isVideo ? MEDIA_CONSTRAINTS.MAX_VIDEOS_PER_POST : MEDIA_CONSTRAINTS.MAX_IMAGES_PER_POST;
+    const limit = isVideo
+      ? MEDIA_CONSTRAINTS.MAX_VIDEOS_PER_POST
+      : MEDIA_CONSTRAINTS.MAX_IMAGES_PER_POST;
     const typeLabel = isVideo ? 'VIDEO' : 'IMAGE';
 
     let selectedFiles = files;
     if (files.length > limit) {
-      toast.error(isVideo
-        ? TOAST_MESSAGES.FEED.VIDEO_LIMIT(limit)
-        : TOAST_MESSAGES.FEED.MEDIA_LIMIT(limit)
+      toast.error(
+        isVideo ? TOAST_MESSAGES.FEED.VIDEO_LIMIT(limit) : TOAST_MESSAGES.FEED.MEDIA_LIMIT(limit),
       );
       selectedFiles = files.slice(0, limit);
     }
 
     const validFiles: File[] = [];
-    selectedFiles.forEach(file => {
+    selectedFiles.forEach((file) => {
       const validation = validateFile(file, typeLabel as any);
       if (validation.isValid) {
         validFiles.push(file);
@@ -52,7 +53,7 @@ export const CreatePost: React.FC<CreatePostProps> & { Skeleton: React.FC } = ({
       setPendingFiles(validFiles);
       setShowCreateModal(true);
     }
-    
+
     e.target.value = '';
   };
 
@@ -60,7 +61,7 @@ export const CreatePost: React.FC<CreatePostProps> & { Skeleton: React.FC } = ({
     content: string,
     media: MediaObject[],
     visibility: Visibility,
-    pendingFiles?: File[]
+    pendingFiles?: File[],
   ) => {
     createPost(currentUser.id, content, media, visibility, pendingFiles);
     setPendingFiles([]);
@@ -102,8 +103,22 @@ export const CreatePost: React.FC<CreatePostProps> & { Skeleton: React.FC } = ({
           />
         </div>
 
-        <input ref={imageInputRef} type="file" accept="image/*" multiple className="hidden" onChange={onMediaSelect} />
-        <input ref={videoInputRef} type="file" accept="video/*" multiple className="hidden" onChange={onMediaSelect} />
+        <input
+          ref={imageInputRef}
+          type="file"
+          accept="image/*"
+          multiple
+          className="hidden"
+          onChange={onMediaSelect}
+        />
+        <input
+          ref={videoInputRef}
+          type="file"
+          accept="video/*"
+          multiple
+          className="hidden"
+          onChange={onMediaSelect}
+        />
       </div>
 
       <PostModal
@@ -119,7 +134,9 @@ export const CreatePost: React.FC<CreatePostProps> & { Skeleton: React.FC } = ({
 
 /* ── Reusable action button ── */
 const ActionBtn: React.FC<{ icon: React.ReactNode; label: string; onClick: () => void }> = ({
-  icon, label, onClick,
+  icon,
+  label,
+  onClick,
 }) => (
   <button
     onClick={onClick}
