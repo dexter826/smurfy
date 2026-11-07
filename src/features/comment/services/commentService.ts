@@ -311,7 +311,7 @@ export const commentService = {
 
 
   /** Lấy thông tin bình luận chi tiết theo ID */
-  getCommentById: async (commentId: string, isAdmin: boolean = false): Promise<Comment | null> => {
+  getCommentById: async (commentId: string): Promise<Comment | null> => {
     try {
       const commentRef = doc(db, 'comments', commentId);
       const commentSnap = await getDoc(commentRef);
@@ -320,7 +320,7 @@ export const commentService = {
 
       const data = commentSnap.data();
       
-      if (!isAdmin && data.status === CommentStatus.DELETED) {
+      if (data.status === CommentStatus.DELETED) {
         return null;
       }
 

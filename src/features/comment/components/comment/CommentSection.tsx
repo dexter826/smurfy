@@ -3,11 +3,10 @@ import { X, MessageCircle, ChevronDown, ListFilter } from 'lucide-react';
 import { Button, AlertDialog, UploadProgress, Dropdown, DropdownItem, EmptyState } from '@/components/ui';
 import { CONFIRM_MESSAGES, TOAST_MESSAGES } from '@/constants';
 import { toast } from '@/store/toastStore';
-import { Comment, User, ReportType, MediaObject } from '@shared/types';
+import { Comment, User, MediaObject } from '@shared/types';
 
 import { useCommentStore } from '@/store';
 import { useUserCache } from '@/store/userCacheStore';
-import { useReportStore } from '@/features/admin';
 import { useFriendIds, useBlockedUsers } from '@/hooks';
 import { CommentSkeleton } from './CommentSkeleton';
 import { CommentInput } from './CommentInput';
@@ -42,7 +41,6 @@ export const CommentSection: React.FC<CommentSectionProps> = ({
   } = useCommentStore();
 
   const { users, fetchUsers } = useUserCache();
-  const { openReportModal } = useReportStore();
   const friendIds = useFriendIds();
   const { hiddenActivityUserIds: rawHiddenActivityUserIds } = useBlockedUsers();
   const hiddenActivityUserIds = useMemo(() => rawHiddenActivityUserIds, [rawHiddenActivityUserIds.join(',')]);
@@ -258,7 +256,6 @@ export const CommentSection: React.FC<CommentSectionProps> = ({
                     loadReplies={loadReplies}
                     resetInput={resetInput}
                     onProfileClick={onProfileClick}
-                    openReportModal={openReportModal}
                     getFilteredReplies={getFilteredReplies}
                   />
                 </div>

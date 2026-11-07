@@ -1,13 +1,13 @@
 import React, { useCallback, useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ChevronDown, ChevronRight, Ellipsis, Flag, PenTool, Pencil, Trash2 } from 'lucide-react';
+import { ChevronDown, ChevronRight, Ellipsis, PenTool, Pencil, Trash2 } from 'lucide-react';
 import {
   UserAvatar, LazyImage, Skeleton, ReactionSelector,
   ReactionDisplay, ReactionDetailsModal, Dropdown, DropdownItem,
-  SensitiveMediaGuard, UploadProgress,
+  UploadProgress,
 } from '@/components/ui';
 import { CommentInput } from './CommentInput';
-import { Comment, User, ReactionType, ReportType, MediaObject, CommentStatus } from '@shared/types';
+import { Comment, User, ReactionType, MediaObject, CommentStatus } from '@shared/types';
 import { formatRelativeTime, formatDateTime } from '@/utils/dateUtils';
 import { TruncatedText } from '@/features/feed';
 import { useCommentStore } from '@/store';
@@ -36,7 +36,6 @@ interface CommentItemProps {
   loadReplies: (parentId: string) => Promise<void>;
   resetInput: () => void;
   onProfileClick?: () => void;
-  openReportModal: (type: ReportType, id: string, userId: string) => void;
   getFilteredReplies: (
     postId: string, parentId: string, postOwnerId: string,
     currentUserId: string, friendIds: string[]
@@ -49,7 +48,7 @@ const CommentItemInner: React.FC<CommentItemProps> = ({
   isReply = false, rootAuthorId,
   handleReplyClick, handleEditClick, handleCommentSubmit, handleDeleteClick,
   loadReplies, resetInput, onProfileClick,
-  openReportModal, getFilteredReplies,
+  getFilteredReplies,
 }) => {
   const navigate = useNavigate();
   const { reactToComment, uploadingStates } = useCommentStore();
@@ -158,13 +157,12 @@ const CommentItemInner: React.FC<CommentItemProps> = ({
                     </p>
                     {comment.image && (
                       <div className="mt-2 rounded-xl overflow-hidden border border-border relative group/media">
-                        <SensitiveMediaGuard isSensitive={comment.image.isSensitive} size="sm">
-                          <LazyImage
+                        <LazyImage
                             src={comment.image.url}
                             className={`max-h-52 w-full object-contain transition-all duration-200 ${isUploading ? 'blur-[1px] opacity-70' : ''}`}
                             alt="attach"
                           />
-                        </SensitiveMediaGuard>
+                        
                         
                         {isUploading && (
                           <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/5 px-4">
@@ -203,7 +201,7 @@ const CommentItemInner: React.FC<CommentItemProps> = ({
             </div>
 
             {/* Options menu — appears on hover */}
-            {!isEditing && comment.status !== CommentStatus.PENDING && (
+            {!isEditing && comment.status !== CommentStatus.PENDING && comment.authorId === currentUser.id && (
               <div className="opacity-0 group-hover/comment:opacity-100 transition-opacity duration-200 pt-1.5 flex-shrink-0">
                 <Dropdown
                   trigger={
@@ -216,18 +214,8 @@ const CommentItemInner: React.FC<CommentItemProps> = ({
                   }
                   align="right"
                 >
-                  {comment.authorId === currentUser.id ? (
-                    <>
-                      <DropdownItem icon={<Pencil size={14} />} label="Chỉnh sửa" onClick={() => handleEditClick(comment)} />
-                      <DropdownItem icon={<Trash2 size={14} />} label="Xóa" variant="danger" onClick={() => handleDeleteClick(comment)} />
-                    </>
-                  ) : (
-                    <DropdownItem
-                      icon={<Flag size={14} />}
-                      label="Báo cáo"
-                      onClick={() => openReportModal(ReportType.COMMENT, comment.id, comment.authorId)}
-                    />
-                  )}
+                  <DropdownItem icon={<Pencil size={14} />} label="Chỉnh sửa" onClick={() => handleEditClick(comment)} />
+                  <DropdownItem icon={<Trash2 size={14} />} label="Xóa" variant="danger" onClick={() => handleDeleteClick(comment)} />
                 </Dropdown>
               </div>
             )}
@@ -348,7 +336,6 @@ const CommentItemInner: React.FC<CommentItemProps> = ({
                         loadReplies={loadReplies}
                         resetInput={resetInput}
                         onProfileClick={onProfileClick}
-                        openReportModal={openReportModal}
                         getFilteredReplies={getFilteredReplies}
                       />
                     ))}
