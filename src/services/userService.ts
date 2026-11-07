@@ -9,10 +9,8 @@ import {
   where,
   onSnapshot,
   limit,
-  startAfter,
   orderBy,
   DocumentSnapshot,
-  getCountFromServer,
   Timestamp,
   serverTimestamp,
   deleteDoc,
@@ -94,19 +92,6 @@ export const userService = {
     }
   },
 
-  /** Khóa hoặc mở khóa người dùng (Admin) */
-  banUser: async (userId: string, action: 'ban' | 'unban'): Promise<void> => {
-    try {
-      const userRef = doc(db, 'users', userId);
-      await updateDoc(userRef, {
-        status: action === 'ban' ? UserStatus.BANNED : UserStatus.ACTIVE,
-        updatedAt: serverTimestamp()
-      });
-    } catch (error) {
-      console.error("Lỗi ban/unban người dùng", error);
-      throw error;
-    }
-  },
 
   updateProfile: async (userId: string, data: Partial<User>): Promise<User> => {
     try {
@@ -378,72 +363,6 @@ export const userService = {
     });
   },
 
-  /** Danh sách người dùng cho Admin */
-  getAdminUsers: async (
-    limitCount: number = PAGINATION.ADMIN_USERS,
-    lastVisibleDoc?: DocumentSnapshot
-  ): Promise<{ users: User[], lastDoc: DocumentSnapshot | null }> => {
-    try {
-      const usersRef = collection(db, 'users');
-      let q = query(
-        usersRef,
-        orderBy('createdAt', 'desc'),
-        limit(limitCount)
-      );
-
-      if (lastVisibleDoc) {
-        q = query(q, startAfter(lastVisibleDoc));
-      }
-
-      const snapshot = await getDocs(q);
-      const users = snapshot.docs.map(doc => userConverter(doc));
-
-      const lastDoc = snapshot.docs[snapshot.docs.length - 1] || null;
-      return { users, lastDoc };
-    } catch (error) {
-      console.error("Lỗi lấy danh sách admin users", error);
-      throw error;
-    }
-  },
-
-  /** Thống kê người dùng cho Admin */
-  getAdminStats: async (): Promise<{ total: number, active: number, banned: number }> => {
-    try {
-      const usersRef = collection(db, 'users');
-      const [totalSnap, bannedSnap] = await Promise.all([
-        getCountFromServer(usersRef),
-        getCountFromServer(query(usersRef, where('status', '==', UserStatus.BANNED)))
-      ]);
-
-      const total = totalSnap.data().count;
-      const banned = bannedSnap.data().count;
-
-      return { total, banned, active: total - banned };
-    } catch (error) {
-      console.error("Lỗi lấy thống kê admin", error);
-      return { total: 0, active: 0, banned: 0 };
-    }
-  },
-
-  /** Theo dõi người dùng cho Admin */
-  subscribeToAdminUsers: (
-    limitCount: number = PAGINATION.ADMIN_USERS,
-    callback: (users: User[]) => void,
-    onError?: (error: Error) => void
-  ): (() => void) => {
-    const usersRef = collection(db, 'users');
-    const q = query(
-      usersRef,
-      limit(limitCount)
-    );
-
-    return onSnapshot(q, (snapshot) => {
-      const users = snapshot.docs.map(doc => userConverter(doc));
-      callback(users);
-    }, (error) => {
-      if (onError) onError(error);
-    });
-  },
 
   /** Lấy cài đặt cá nhân */
   getUserSettings: async (userId: string): Promise<UserSettings> => {
