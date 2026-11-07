@@ -1,16 +1,12 @@
 import React, { useCallback, useState, useMemo } from 'react';
-import { Send, X, Edit2, Reply, Ban } from 'lucide-react';
+import { Send, X, Edit2, Reply, Ban, Image as ImageIcon } from 'lucide-react';
 import { EmojiPicker, Button, IconButton, TextArea, MediaViewer } from '@/components/ui';
 import { MentionList } from './MentionList';
 import { FilePreview } from './FilePreview';
-import { ActionsMenu } from './ActionsMenu';
-import { GiphyPicker } from './GiphyPicker';
-import { useLinkPreview } from '@/hooks/useLinkPreview';
 import { useChatInput } from '@/features/chat';
 import { insertTextAtCursor } from '@/utils';
 import { VALIDATION } from '@/constants';
 import { RtdbMessage, User } from '@shared/types';
-import { LinkPreviewCard } from '@/components/shared/LinkPreviewCard';
 import { getMessageDisplayContent } from '@/utils/chatUtils';
 
 interface ChatInputProps {
@@ -19,7 +15,6 @@ interface ChatInputProps {
     files: File[],
     options?: { content?: string; mentions?: string[]; replyToId?: string },
   ) => Promise<void>;
-  onSendGif?: (url: string, replyToId?: string) => void;
   onTyping: (isTyping: boolean) => void;
   disabled?: boolean;
   blockedMessage?: string;
@@ -47,7 +42,6 @@ export const ChatInput: React.FC<ChatInputProps> = (props) => {
     replyingTo,
     editingMessage,
     onCancelAction,
-    onSendGif,
     currentUserId,
     usersMap,
     isDisbanded = false,
@@ -63,10 +57,6 @@ export const ChatInput: React.FC<ChatInputProps> = (props) => {
     setInputText,
     selectedFiles,
     isSending,
-    showActions,
-    setShowActions,
-    showGiphy,
-    setShowGiphy,
     inputRef,
     fileInputRef,
     mentionsProps,
@@ -80,8 +70,6 @@ export const ChatInput: React.FC<ChatInputProps> = (props) => {
   } = chatInputState;
 
   const { showMentions, filteredParticipants, mentionIndex } = mentionsProps;
-
-  const linkPreview = useLinkPreview(editingMessage ? '' : inputText);
 
   const [previewMediaIndex, setPreviewMediaIndex] = useState<number | null>(null);
 
@@ -179,23 +167,6 @@ export const ChatInput: React.FC<ChatInputProps> = (props) => {
       className="flex-shrink-0 border-t border-border bg-surface transition-theme pb-safe relative"
       style={{ zIndex: 'var(--z-sticky)' }}
     >
-      {/* Giphy Picker Popover */}
-      {showGiphy && (
-        <div className="absolute bottom-full left-0 mb-2 ml-3 z-[var(--z-popover)]">
-          <div className="fixed inset-0" onClick={() => setShowGiphy(false)} />
-          <div className="relative">
-            <GiphyPicker
-              onSelect={(url) => {
-                onSendGif?.(url, replyingTo?.id);
-                setShowGiphy(false);
-                onCancelAction();
-              }}
-              onOpenChange={() => setShowGiphy(false)}
-            />
-          </div>
-        </div>
-      )}
-
       {/* File Previews */}
       <FilePreview
         files={selectedFiles}
@@ -203,18 +174,6 @@ export const ChatInput: React.FC<ChatInputProps> = (props) => {
         isSending={isSending}
         onPreviewMedia={handlePreviewMedia}
       />
-
-      {/* Link Preview */}
-      {!editingMessage && linkPreview.url && !linkPreview.isDismissed && (
-        <div className="px-3 pt-2">
-          <LinkPreviewCard
-            url={linkPreview.url}
-            previewData={linkPreview.isLoading ? undefined : linkPreview.previewData}
-            onDismiss={linkPreview.dismiss}
-            compact
-          />
-        </div>
-      )}
 
       {/* Reply Or Edit Banner */}
       {(replyingTo || editingMessage) && (
@@ -263,15 +222,15 @@ export const ChatInput: React.FC<ChatInputProps> = (props) => {
           />
         )}
 
-        <ActionsMenu
-          open={showActions}
-          onToggle={() => setShowActions(!showActions)}
-          onAction={(type) => {
-            setShowActions(false);
-            if (type === 'media') fileInputRef.current?.click();
-            else if (type === 'gif') setShowGiphy(true);
-          }}
+        <IconButton
+          type="button"
+          onClick={() => fileInputRef.current?.click()}
+          title="Đính kèm ảnh"
+          icon={<ImageIcon size={18} />}
+          size="md"
+          variant="ghost"
           disabled={disabled || isSending}
+          className="flex-shrink-0"
         />
 
         <input

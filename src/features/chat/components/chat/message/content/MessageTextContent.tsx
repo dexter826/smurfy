@@ -2,9 +2,6 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { parseTextWithMentions } from '@/utils/chatUtils';
 
-import { extractFirstUrl } from '@/services/linkPreviewService';
-import { LinkPreviewCard } from '@/components/shared/LinkPreviewCard';
-
 interface MessageTextContentProps {
   content: string;
   isMe: boolean;
@@ -81,21 +78,11 @@ export const MessageTextContent: React.FC<MessageTextContentProps> = ({
     });
   };
 
-  const firstUrl = extractFirstUrl(content);
-
   return (
     <div className="flex flex-col min-w-0 w-full">
       <div className="whitespace-pre-wrap break-words leading-snug">{renderContent()}</div>
 
       {isEdited && <span className="text-[10px] opacity-60 mt-1 italic">(đã chỉnh sửa)</span>}
-
-      {firstUrl && (
-        <LinkPreviewCard
-          url={firstUrl}
-          compact
-          className="mt-2 shadow-sm border border-border/50"
-        />
-      )}
     </div>
   );
 };

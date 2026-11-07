@@ -1,13 +1,7 @@
 import React from 'react';
 import { RtdbMessage, MessageType } from '@shared/types';
 import { parseSharedPostMessage } from '@/features/feed';
-import {
-  TextMessage,
-  ImageMessage,
-  GifMessage,
-  RecalledMessage,
-  SharedPostMessage,
-} from './content';
+import { TextMessage, ImageMessage, RecalledMessage, SharedPostMessage } from './content';
 
 interface MessageContentProps {
   message: { id: string; data: RtdbMessage };
@@ -63,9 +57,6 @@ const MessageContentInner: React.FC<MessageContentProps> = ({
           onLoad={onLoad}
         />
       );
-
-    case MessageType.GIF:
-      return <GifMessage message={message} onLoad={onLoad} />;
 
     case MessageType.SYSTEM:
       return null;

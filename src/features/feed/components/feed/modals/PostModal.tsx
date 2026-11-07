@@ -20,8 +20,6 @@ import { insertTextAtCursor } from '@/utils/uiUtils';
 import { useAutoResizeTextarea } from '@/hooks/utils';
 import { useAuthStore } from '@/features/auth';
 import { processPostFiles } from '../../../utils/postMedia';
-import { useLinkPreview } from '@/hooks/useLinkPreview';
-import { LinkPreviewCard } from '@/components/shared/LinkPreviewCard';
 
 interface PostModalProps {
   open: boolean;
@@ -77,8 +75,6 @@ export const PostModal: React.FC<PostModalProps> = ({
   const [showDiscardConfirm, setShowDiscardConfirm] = useState(false);
   const [pendingFiles, setPendingFiles] = useState<File[]>([]);
   const [previews, setPreviews] = useState<{ url: string; type: 'image' | 'video' }[]>([]);
-
-  const linkPreview = useLinkPreview(isEdit ? '' : formData.content || '');
 
   useEffect(() => {
     if (open && !initializedRef.current) {
@@ -304,17 +300,6 @@ export const PostModal: React.FC<PostModalProps> = ({
                   </span>
                 </div>
               </div>
-            )}
-
-            {/* Link preview in composer */}
-            {!isEdit && linkPreview.url && !linkPreview.isDismissed && allPreviews.length === 0 && (
-              <LinkPreviewCard
-                url={linkPreview.url}
-                previewData={linkPreview.isLoading ? undefined : linkPreview.previewData}
-                onDismiss={linkPreview.dismiss}
-                compact
-                className="mb-3"
-              />
             )}
 
             {/* Media grid preview */}

@@ -90,10 +90,7 @@ const MessageBubbleInner: React.FC<MessageBubbleProps> = ({
 
   useClickOutside([containerRef], () => setShowActions(false), showActions);
 
-  const isMedia = useMemo(
-    () => message.data.type === MessageType.IMAGE || message.data.type === MessageType.GIF,
-    [message.data.type],
-  );
+  const isMedia = useMemo(() => message.data.type === MessageType.IMAGE, [message.data.type]);
 
   const [isContentReady, setIsContentReady] = useState(!isMedia);
 

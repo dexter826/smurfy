@@ -44,7 +44,6 @@ export enum MessageType {
   SHARE_POST = 'share_post',
   IMAGE = 'image',
   SYSTEM = 'system',
-  GIF = 'gif',
 }
 
 export enum NotificationType {

@@ -14,7 +14,6 @@ export const useChatMessages = ({
   const {
     sendTextMessage,
     sendImageMessage,
-    sendGifMessage,
     recallMessage,
     deleteMessageForMe,
     editMessage,
@@ -40,14 +39,6 @@ export const useChatMessages = ({
       await sendImageMessage(selectedConversationId, currentUserId, files, options);
     },
     [selectedConversationId, currentUserId, sendImageMessage],
-  );
-
-  const handleSendGif = useCallback(
-    async (url: string, replyToId?: string) => {
-      if (!selectedConversationId || !currentUserId) return;
-      await sendGifMessage(selectedConversationId, currentUserId, url, replyToId);
-    },
-    [selectedConversationId, currentUserId, sendGifMessage],
   );
 
   const handleEditMessage = useCallback(
@@ -109,7 +100,6 @@ export const useChatMessages = ({
   return {
     handleSendText,
     handleSendImage,
-    handleSendGif,
     handleEditMessage,
     handleRecallMessage,
     handleDeleteForMe,

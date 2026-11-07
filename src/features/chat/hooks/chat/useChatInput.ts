@@ -48,8 +48,6 @@ export const useChatInput = ({
   const [activeMentions, setActiveMentions] = useState<{ id: string; name: string }[]>([]);
   const [selectedFiles, setSelectedFiles] = useState<FilePreviewItem[]>([]);
   const [isSending, setIsSending] = useState(false);
-  const [showActions, setShowActions] = useState(false);
-  const [showGiphy, setShowGiphy] = useState(false);
 
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -339,10 +337,6 @@ export const useChatInput = ({
     setInputText,
     selectedFiles,
     isSending,
-    showActions,
-    setShowActions,
-    showGiphy,
-    setShowGiphy,
     inputRef,
     fileInputRef,
     mentionsProps,

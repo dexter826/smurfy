@@ -38,12 +38,6 @@ export interface RtdbMessageSlice {
     files: File[],
     options?: { content?: string; mentions?: string[]; replyToId?: string },
   ) => Promise<void>;
-  sendGifMessage: (
-    conversationId: string,
-    senderId: string,
-    gifUrl: string,
-    replyToId?: string,
-  ) => Promise<void>;
   markAsRead: (conversationId: string, userId: string) => Promise<void>;
   markAsDelivered: (conversationId: string, userId: string) => Promise<void>;
   recallMessage: (conversationId: string, messageId: string) => Promise<void>;
@@ -444,67 +438,6 @@ export const createRtdbMessageSlice: StateCreator<RtdbChatState, [], [], RtdbMes
     }
   },
 
-  /** Gửi tin nhắn GIF */
-  sendGifMessage: async (
-    conversationId: string,
-    senderId: string,
-    gifUrl: string,
-    replyToId?: string,
-  ) => {
-    const msgId = rtdbMessageService.generateMessageId(conversationId);
-    const createdAt = getServerSyncedNow();
-
-    set((state) => {
-      const existing = state.messages[conversationId] || [];
-      const optimisticMsg = {
-        id: msgId,
-        data: {
-          senderId,
-          type: MessageType.GIF,
-          content: gifUrl,
-          media: [],
-          mentions: [],
-          isForwarded: false,
-          replyToId: replyToId || null,
-          isEdited: false,
-          isRecalled: false,
-          deletedBy: {},
-          readBy: {},
-          deliveredTo: {},
-          reactions: {},
-          createdAt,
-          updatedAt: createdAt,
-        } as RtdbMessage,
-      };
-
-      return {
-        messages: {
-          ...state.messages,
-          [conversationId]: [...existing, optimisticMsg].sort(
-            (a, b) => a.data.createdAt - b.data.createdAt,
-          ),
-        },
-      };
-    });
-
-    try {
-      await rtdbMessageService.sendGifMessage(conversationId, senderId, gifUrl, {
-        replyToId,
-        messageId: msgId,
-      });
-      set((state) => {
-        const next = { ...state.failedMessageIds };
-        delete next[msgId];
-        return { failedMessageIds: next };
-      });
-    } catch (error) {
-      console.error('[rtdbMessageSlice] Lỗi sendGifMessage:', error);
-      set((state) => ({
-        failedMessageIds: { ...state.failedMessageIds, [msgId]: true },
-      }));
-    }
-  },
-
   /** Đánh dấu đã đọc */
   markAsRead: async (conversationId: string, userId: string) => {
     if (get().conversations.some((c) => c.id === conversationId)) {
@@ -757,12 +690,6 @@ export const createRtdbMessageSlice: StateCreator<RtdbChatState, [], [], RtdbMes
           break;
         case MessageType.IMAGE:
           console.warn('Resend media chưa được hỗ trợ đầy đủ nếu file gốc đã mất');
-          break;
-        case MessageType.GIF:
-          await rtdbMessageService.sendGifMessage(conversationId, data.senderId, data.content, {
-            replyToId: data.replyToId,
-            messageId,
-          });
           break;
         case MessageType.SHARE_POST:
           await rtdbMessageService.sendSharedPostMessage(

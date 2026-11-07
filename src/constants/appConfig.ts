@@ -135,14 +135,6 @@ export const API_ENDPOINTS = {
   PROVINCES: envConfig.api.provincesUrl,
 } as const;
 
-/** Cấu hình Giphy API */
-export const GIPHY_CONFIG = {
-  BASE_URL: 'https://api.giphy.com/v1/gifs',
-  API_KEY: import.meta.env.VITE_GIPHY_API_KEY as string,
-  LIMIT: '20',
-  RATING: 'pg',
-} as const;
-
 export const INTEREST_SUGGESTIONS = [
   'Du lịch',
   'Âm nhạc',

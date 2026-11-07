@@ -181,65 +181,6 @@ export const messageSendService = {
     }
   },
 
-  sendGifMessage: async (
-    convId: string,
-    senderId: string,
-    gifUrl: string,
-    options?: {
-      replyToId?: string;
-      mentions?: string[];
-      messageId?: string;
-    },
-  ): Promise<string> => {
-    try {
-      const msgId = options?.messageId || push(ref(rtdb, `messages/${convId}`)).key!;
-      const newMsgRef = ref(rtdb, `messages/${convId}/${msgId}`);
-
-      const messageData: RtdbMessage = {
-        senderId,
-        type: MessageType.GIF,
-        content: gifUrl,
-        media: [],
-        mentions: options?.mentions || [],
-        isForwarded: false,
-        isEdited: false,
-        isRecalled: false,
-        deletedBy: {},
-        readBy: {},
-        deliveredTo: {},
-        reactions: {},
-        createdAt: getServerSyncedNow(),
-        updatedAt: getServerSyncedNow(),
-      };
-
-      assignReplyToIdIfPresent(messageData, options?.replyToId);
-
-      const conversation = await ensureConversationExists(convId, senderId);
-      if (!conversation) throw new Error('Conversation not found');
-
-      const updates = getConversationUpdatePaths(
-        convId,
-        senderId,
-        messageData,
-        '[GIF]',
-        conversation,
-        msgId,
-      );
-      updates[`messages/${convId}/${msgId}`] = {
-        ...messageData,
-        createdAt: getRtdbServerTimestamp(),
-        updatedAt: getRtdbServerTimestamp(),
-      };
-
-      await update(ref(rtdb), updates);
-
-      return msgId;
-    } catch (error) {
-      console.error('[rtdbMessageService] Lỗi sendGifMessage:', error);
-      throw error;
-    }
-  },
-
   sendSystemMessage: async (convId: string, content: string): Promise<string> => {
     try {
       const newMsgRef = push(ref(rtdb, `messages/${convId}`));

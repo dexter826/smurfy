@@ -61,7 +61,6 @@ const ChatPage: React.FC = () => {
     handleDeleteForMe,
     handleForwardMessage,
     handleSendImage,
-    handleSendGif,
     handleTyping,
     handleSearch,
     handlePin,
@@ -245,7 +244,6 @@ const ChatPage: React.FC = () => {
               key={selectedConversationId}
               onSendText={handleSendText}
               onSendImages={handleSendImage}
-              onSendGif={handleSendGif}
               onTyping={handleTyping}
               blockedMessage={blockedMessage}
               onManageBlock={modal.openBlockModal}

@@ -20,8 +20,6 @@ export const getMessageDisplayContent = (message: RtdbMessage): string => {
         ? `${prefix} ${message.content.replace(/@\[([^\]]+)\]/g, '@$1')}`
         : prefix;
     }
-    case MessageType.GIF:
-      return message.content?.startsWith('[GIF]') ? message.content : '[GIF]';
     case MessageType.SYSTEM:
       return message.content;
     default:

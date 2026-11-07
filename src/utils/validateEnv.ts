@@ -31,12 +31,7 @@ const requiredEnvVars = [
   'VITE_PROVINCES_API_URL',
 ] as const;
 
-const optionalEnvVars = [
-  'VITE_FIREBASE_MEASUREMENT_ID',
-  'VITE_IMGBB_API_KEY',
-  'VITE_LINKPREVIEW_API_KEY',
-  'VITE_GIPHY_API_KEY',
-] as const;
+const optionalEnvVars = ['VITE_FIREBASE_MEASUREMENT_ID', 'VITE_IMGBB_API_KEY'] as const;
 
 export function validateEnvironment(): ValidationResult {
   const errors: string[] = [];

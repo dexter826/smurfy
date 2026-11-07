@@ -35,8 +35,6 @@ import {
   SystemPostMedia,
 } from '../shared';
 import { PostViewCinema } from './PostViewCinema';
-import { LinkPreviewCard } from '@/components/shared/LinkPreviewCard';
-import { extractFirstUrl } from '@/services/linkPreviewService';
 
 interface PostViewModalProps {
   post: Post | null;
@@ -313,12 +311,6 @@ export const PostViewModal: React.FC<PostViewModalProps> = ({
                   <p className="text-foreground whitespace-pre-line break-words text-sm leading-relaxed">
                     <TruncatedText content={post.content} threshold={300} />
                   </p>
-                  {(post.media?.length ?? 0) === 0 &&
-                    (() => {
-                      const url = extractFirstUrl(post.content);
-                      if (!url) return null;
-                      return <LinkPreviewCard url={url} className="mt-3" />;
-                    })()}
                 </div>
               )}
 
