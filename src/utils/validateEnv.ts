@@ -8,7 +8,6 @@ interface EnvConfig {
     appId: string;
     measurementId?: string;
     databaseURL: string;
-    vapidKey: string;
   };
   api: {
     provincesUrl: string;
@@ -29,11 +28,15 @@ const requiredEnvVars = [
   'VITE_FIREBASE_MESSAGING_SENDER_ID',
   'VITE_FIREBASE_APP_ID',
   'VITE_FIREBASE_DATABASE_URL',
-  'VITE_FIREBASE_VAPID_KEY',
   'VITE_PROVINCES_API_URL',
 ] as const;
 
-const optionalEnvVars = ['VITE_FIREBASE_MEASUREMENT_ID', 'VITE_IMGBB_API_KEY'] as const;
+const optionalEnvVars = [
+  'VITE_FIREBASE_MEASUREMENT_ID',
+  'VITE_IMGBB_API_KEY',
+  'VITE_LINKPREVIEW_API_KEY',
+  'VITE_GIPHY_API_KEY',
+] as const;
 
 export function validateEnvironment(): ValidationResult {
   const errors: string[] = [];
@@ -95,7 +98,6 @@ export function getValidatedEnvConfig(): EnvConfig {
       appId: import.meta.env.VITE_FIREBASE_APP_ID,
       measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
       databaseURL: import.meta.env.VITE_FIREBASE_DATABASE_URL,
-      vapidKey: import.meta.env.VITE_FIREBASE_VAPID_KEY,
     },
     api: {
       provincesUrl: import.meta.env.VITE_PROVINCES_API_URL,
