@@ -36,18 +36,14 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ isReady, onFinish })
 
   return (
     <div
-      className={`fixed inset-0 z-[var(--z-toast)] flex flex-col items-center justify-center bg-bg-primary transition-opacity duration-500 ${
+      className={`fixed inset-0 z-toast flex flex-col items-center justify-center bg-background transition-opacity duration-500 ${
         isFadingOut ? 'opacity-0 pointer-events-none' : 'opacity-100'
       }`}
     >
-      <div className="w-full max-w-[512px] aspect-square flex items-center justify-center p-4">
-        {animationData && (
-          <Lottie 
-            animationData={animationData} 
-            loop={true} 
-            className="w-full h-full"
-          />
-        )}
+      <img src="/logo.svg" alt="Smurfy" className="h-28 w-28 object-contain" />
+      <h1 className="font-display font-extrabold text-3xl text-foreground mt-4 tracking-tight">Smurfy</h1>
+      <div className="w-24 h-1.5 mt-8 overflow-hidden rounded-full bg-surface-sunken">
+        <div className="h-full w-1/2 rounded-full bg-primary animate-shimmer" />
       </div>
     </div>
   );

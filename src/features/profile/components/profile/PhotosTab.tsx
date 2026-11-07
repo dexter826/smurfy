@@ -147,11 +147,11 @@ const PhotosTabInner: React.FC<PhotosTabProps> = ({
 
   return (
     <>
-      <div className="bg-bg-primary rounded-2xl border border-border-light p-4 md:p-5">
+      <div className="bg-surface rounded-2xl border border-border p-4 md:p-5">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="font-semibold text-base text-text-primary">
+          <h3 className="font-semibold text-base text-foreground">
             Ảnh/Video
-            <span className="text-text-tertiary font-normal ml-1.5 text-sm">
+            <span className="text-muted font-normal ml-1.5 text-sm">
               ({media.length}{hasMore ? '+' : ''})
             </span>
           </h3>
@@ -161,7 +161,7 @@ const PhotosTabInner: React.FC<PhotosTabProps> = ({
           {media.map((item, index) => (
             <div
               key={`${item.url}-${index}`}
-              className="aspect-square bg-bg-secondary rounded-xl overflow-hidden cursor-pointer group relative"
+              className="aspect-square bg-background rounded-xl overflow-hidden cursor-pointer group relative"
               onClick={() => setSelectedIndex(index)}
             >
               <SensitiveMediaGuard isSensitive={item.isSensitive} size="sm" className="w-full h-full">
@@ -207,15 +207,15 @@ const PhotosTabInner: React.FC<PhotosTabProps> = ({
       <MediaViewer
         media={mediaViewerItems}
         initialIndex={selectedIndex}
-        isOpen={selectedIndex >= 0}
-        onClose={() => setSelectedIndex(-1)}
+        open={selectedIndex >= 0}
+        onOpenChange={() => setSelectedIndex(-1)}
       />
     </>
   );
 };
 
 const PhotosTabSkeleton: React.FC = () => (
-  <div className="bg-bg-primary rounded-2xl border border-border-light p-4 md:p-5">
+  <div className="bg-surface rounded-2xl border border-border p-4 md:p-5">
     <Skeleton width={120} height={20} className="mb-4" />
     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2">
       {[...Array(10)].map((_, i) => (

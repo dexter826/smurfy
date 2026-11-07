@@ -13,7 +13,7 @@ export const SystemPostMedia: React.FC<SystemPostMediaProps> = ({
   type,
   media,
   variant = 'feed',
-  onClick
+  onClick,
 }) => {
   const mainMedia = media[0];
   if (!mainMedia) return null;
@@ -23,7 +23,7 @@ export const SystemPostMedia: React.FC<SystemPostMediaProps> = ({
 
   return (
     <div
-      className={`relative w-full overflow-hidden cursor-pointer ${isCinema ? 'h-full flex items-center justify-center bg-black' : 'bg-bg-secondary/30 border-y border-border-light'}`}
+      className={`relative w-full overflow-hidden cursor-pointer ${isCinema ? 'h-full flex items-center justify-center bg-black' : 'bg-background/30 border-y border-border'}`}
       onClick={onClick}
     >
       {/* Nền mờ chỉ xuất hiện ở chế độ Cinema để lấp đầy không gian trống */}
@@ -38,9 +38,13 @@ export const SystemPostMedia: React.FC<SystemPostMediaProps> = ({
         />
       )}
 
-      <div className={`relative z-10 w-full flex items-center justify-center ${isAvatar ? (isCinema ? 'p-12' : 'py-8 md:py-12') : ''}`}>
+      <div
+        className={`relative z-10 w-full flex items-center justify-center ${isAvatar ? (isCinema ? 'p-12' : 'py-8 md:py-12') : ''}`}
+      >
         {isAvatar ? (
-          <div className={`relative rounded-full border-[8px] border-bg-primary shadow-xl overflow-hidden ${isCinema ? 'w-64 h-64 sm:w-80 sm:h-80 md:w-[450px] md:h-[450px]' : 'w-60 h-60 sm:w-80 sm:h-80'}`}>
+          <div
+            className={`relative rounded-full border-[8px] border-surface shadow-xl overflow-hidden ${isCinema ? 'w-64 h-64 sm:w-80 sm:h-80 md:w-[450px] md:h-[450px]' : 'w-60 h-60 sm:w-80 sm:h-80'}`}
+          >
             <LazyImage
               src={mainMedia.url}
               alt="Avatar update"
@@ -49,7 +53,9 @@ export const SystemPostMedia: React.FC<SystemPostMediaProps> = ({
             />
           </div>
         ) : (
-          <div className={`relative w-full overflow-hidden ${isCinema ? 'aspect-video md:aspect-[21/9] max-w-5xl shadow-2xl' : 'aspect-video sm:aspect-[21/9]'}`}>
+          <div
+            className={`relative w-full overflow-hidden ${isCinema ? 'aspect-video md:aspect-[21/9] max-w-5xl shadow-2xl' : 'aspect-video sm:aspect-[21/9]'}`}
+          >
             <LazyImage
               src={mainMedia.url}
               alt="Cover update"

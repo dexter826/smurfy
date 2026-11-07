@@ -18,7 +18,7 @@ export const MessageStatus: React.FC<MessageStatusProps> = ({
   if (!isMine) return null;
 
   if (isFailed) {
-    return <AlertCircle size={13} strokeWidth={2.5} className="text-error" />;
+    return <AlertCircle size={13} strokeWidth={2.5} className="text-danger" />;
   }
 
   if (isRead && readers.length > 0) {
@@ -35,7 +35,7 @@ export const MessageStatus: React.FC<MessageStatusProps> = ({
           ))}
         </div>
         {readers.length > 3 && (
-          <span className="text-[10px] text-text-tertiary font-semibold ml-0.5">
+          <span className="text-[10px] text-muted font-semibold ml-0.5">
             +{readers.length - 3}
           </span>
         )}
@@ -44,8 +44,8 @@ export const MessageStatus: React.FC<MessageStatusProps> = ({
   }
 
   if (isDelivered) {
-    return <CheckCheck size={13} strokeWidth={2.5} className="text-text-tertiary" />;
+    return <CheckCheck size={13} strokeWidth={2.5} className="text-muted" />;
   }
 
-  return <Check size={13} strokeWidth={2.5} className="text-text-tertiary" />;
+  return <Check size={13} strokeWidth={2.5} className="text-muted" />;
 };

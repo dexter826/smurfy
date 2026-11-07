@@ -20,8 +20,8 @@ const BLOCK_TAG_MAP: {
   label: string;
   color: string;
 }[] = [
-    { key: 'blockMessages', icon: <MessageSquareOff size={10} />, label: 'Chặn tin nhắn', color: 'text-error bg-error/10 border-error/20' },
-    { key: 'blockCalls', icon: <PhoneOff size={10} />, label: 'Chặn cuộc gọi', color: 'text-error bg-error/10 border-error/20 opacity-90' },
+    { key: 'blockMessages', icon: <MessageSquareOff size={10} />, label: 'Chặn tin nhắn', color: 'text-danger bg-danger/10 border-danger/20' },
+    { key: 'blockCalls', icon: <PhoneOff size={10} />, label: 'Chặn cuộc gọi', color: 'text-danger bg-danger/10 border-danger/20 opacity-90' },
     { key: 'blockViewMyActivity', icon: <Eye size={10} />, label: 'Ẩn bài của tôi', color: 'text-warning bg-warning/10 border-warning/20' },
     { key: 'hideTheirActivity', icon: <EyeOff size={10} />, label: 'Ẩn bài của họ', color: 'text-warning bg-warning/10 border-warning/20 opacity-90' },
   ];
@@ -51,7 +51,7 @@ const BlockedUsersSection: React.FC<BlockedUsersSectionProps> = ({
     return (
       <div className="space-y-2.5 animate-fade-in">
         {[...Array(3)].map((_, i) => (
-          <div key={i} className="flex items-center gap-3.5 p-4 bg-bg-primary rounded-2xl border border-border-light">
+          <div key={i} className="flex items-center gap-3.5 p-4 bg-surface rounded-2xl border border-border">
             <Skeleton variant="circle" width={44} height={44} />
             <div className="flex-1 space-y-1.5">
               <Skeleton width="40%" height={14} />
@@ -76,12 +76,12 @@ const BlockedUsersSection: React.FC<BlockedUsersSectionProps> = ({
   }
 
   return (
-    <div className="bg-bg-primary rounded-2xl border border-border-light overflow-hidden animate-fade-in">
+    <div className="bg-surface rounded-2xl border border-border overflow-hidden animate-fade-in">
       {blockedList.map((item, idx) => (
         <div
           key={item.user.id}
-          className={`flex items-center gap-3.5 px-4 py-3.5 hover:bg-bg-hover transition-colors duration-200
-            ${idx < blockedList.length - 1 ? 'border-b border-border-light/60' : ''}`}
+          className={`flex items-center gap-3.5 px-4 py-3.5 hover:bg-hover transition-colors duration-200
+            ${idx < blockedList.length - 1 ? 'border-b border-border/60' : ''}`}
         >
           <UserAvatar
             userId={item.user.id}
@@ -90,7 +90,7 @@ const BlockedUsersSection: React.FC<BlockedUsersSectionProps> = ({
             size="md"
           />
           <div className="flex-1 min-w-0">
-            <h3 className="text-sm font-semibold text-text-primary truncate">
+            <h3 className="text-sm font-semibold text-foreground truncate">
               {item.user.fullName}
             </h3>
             <BlockOptionTags options={item.options} />

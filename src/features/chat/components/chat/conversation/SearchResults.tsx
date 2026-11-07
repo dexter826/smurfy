@@ -46,7 +46,7 @@ export const SearchResults: React.FC<SearchResultsProps> & { Skeleton: React.FC 
     return (
       <div className="flex flex-col py-2">
         <div className="flex items-center justify-between px-4 py-2 mb-1">
-          <span className="text-xs font-semibold text-text-tertiary flex items-center gap-1.5">
+          <span className="text-xs font-semibold text-muted flex items-center gap-1.5">
             <Clock size={12} />
             Tìm kiếm gần đây
           </span>
@@ -80,16 +80,16 @@ export const SearchResults: React.FC<SearchResultsProps> & { Skeleton: React.FC 
               return (
                 <div
                   key={item.id}
-                  className="group flex items-center gap-3 px-3 py-2.5 mx-1 hover:bg-bg-hover active:bg-bg-active cursor-pointer transition-colors duration-200 rounded-xl"
+                  className="group flex items-center gap-3 px-3 py-2.5 mx-1 hover:bg-hover active:bg-active cursor-pointer transition-colors duration-200 rounded-xl"
                   onClick={() => onSelectUser(user)}
                 >
                   <UserAvatar userId={user.id} size="md" />
-                  <span className="flex-1 min-w-0 text-sm font-medium text-text-primary truncate">
+                  <span className="flex-1 min-w-0 text-sm font-medium text-foreground truncate">
                     {user.fullName}
                   </span>
                   <button
                     onClick={(e) => { e.stopPropagation(); onRemoveFromHistory?.(item.id); }}
-                    className="w-7 h-7 flex items-center justify-center rounded-full text-text-tertiary hover:bg-bg-tertiary opacity-0 group-hover:opacity-100 transition-all duration-200"
+                    className="w-7 h-7 flex items-center justify-center rounded-full text-muted hover:bg-surface-sunken opacity-0 group-hover:opacity-100 transition-all duration-200"
                   >
                     <X size={13} />
                   </button>
@@ -123,7 +123,7 @@ export const SearchResults: React.FC<SearchResultsProps> & { Skeleton: React.FC 
       {hasConversations && (
         <div className="mb-4">
           <div className="flex items-center px-4 py-2 mb-1">
-            <span className="text-xs font-semibold text-text-tertiary flex items-center gap-1.5">
+            <span className="text-xs font-semibold text-muted flex items-center gap-1.5">
               <Search size={12} />
               Hội thoại
             </span>
@@ -145,7 +145,7 @@ export const SearchResults: React.FC<SearchResultsProps> & { Skeleton: React.FC 
       {hasUsers && (
         <div>
           <div className="flex items-center px-4 py-2 mb-1">
-            <span className="text-xs font-semibold text-text-tertiary flex items-center gap-1.5">
+            <span className="text-xs font-semibold text-muted flex items-center gap-1.5">
               <Search size={12} />
               Bạn bè
             </span>
@@ -157,10 +157,10 @@ export const SearchResults: React.FC<SearchResultsProps> & { Skeleton: React.FC 
                 <div
                   key={user.id}
                   onClick={() => onSelectUser(user)}
-                  className="flex items-center gap-3 px-3 py-2.5 mx-1 hover:bg-bg-hover active:bg-bg-active cursor-pointer transition-colors duration-200 rounded-xl"
+                  className="flex items-center gap-3 px-3 py-2.5 mx-1 hover:bg-hover active:bg-active cursor-pointer transition-colors duration-200 rounded-xl"
                 >
                   <UserAvatar userId={user.id} size="md" />
-                  <span className="flex-1 min-w-0 text-sm font-medium text-text-primary truncate">
+                  <span className="flex-1 min-w-0 text-sm font-medium text-foreground truncate">
                     {user.fullName}
                   </span>
                 </div>
@@ -190,7 +190,7 @@ const HistoryConversationItem: React.FC<HistoryConversationItemProps> = ({
 
   return (
     <div
-      className="group flex items-center gap-3 px-3 py-2.5 mx-1 hover:bg-bg-hover active:bg-bg-active cursor-pointer transition-colors duration-200 rounded-xl"
+      className="group flex items-center gap-3 px-3 py-2.5 mx-1 hover:bg-hover active:bg-active cursor-pointer transition-colors duration-200 rounded-xl"
       onClick={onSelect}
     >
       <Avatar
@@ -200,13 +200,13 @@ const HistoryConversationItem: React.FC<HistoryConversationItemProps> = ({
         isGroup={conversation.data.isGroup}
         members={participants}
       />
-      <span className="flex-1 min-w-0 text-sm font-medium text-text-primary truncate">
+      <span className="flex-1 min-w-0 text-sm font-medium text-foreground truncate">
         {displayName}
       </span>
       {onRemove && (
         <button
           onClick={(e) => { e.stopPropagation(); onRemove(); }}
-          className="w-7 h-7 flex items-center justify-center rounded-full text-text-tertiary hover:bg-bg-tertiary opacity-0 group-hover:opacity-100 transition-all duration-200"
+          className="w-7 h-7 flex items-center justify-center rounded-full text-muted hover:bg-surface-sunken opacity-0 group-hover:opacity-100 transition-all duration-200"
         >
           <X size={13} />
         </button>

@@ -10,17 +10,17 @@ const sizeConfig: Record<NonNullable<BannedBadgeProps['size']>, {
 }> = {
   sm: {
     icon: 10,
-    className: 'inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-xs bg-error/10 text-error flex-shrink-0',
+    className: 'inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-xs bg-danger/10 text-danger flex-shrink-0',
     showText: false,
   },
   md: {
     icon: 10,
-    className: 'inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-xs font-medium bg-error/10 text-error',
+    className: 'inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-xs font-medium bg-danger/10 text-danger',
     showText: true,
   },
   lg: {
     icon: 12,
-    className: 'inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-error/10 text-error',
+    className: 'inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-danger/10 text-danger',
     showText: true,
   },
 };

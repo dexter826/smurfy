@@ -1,7 +1,7 @@
-import React, { useState, useRef, useLayoutEffect, useMemo, useCallback } from 'react';
-import { createPortal } from 'react-dom';
-import { useClickOutside } from '@/hooks/utils';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { ChevronDown, Search, X, Check } from 'lucide-react';
+import { Popover } from './Popover';
+import { cn } from '@/lib/cn';
 
 export interface SearchableOption {
   value: string;
@@ -23,81 +23,52 @@ interface SearchableSelectProps {
   allowCustomValue?: boolean;
 }
 
-const MENU_GAP = 6;
-const VIEWPORT_PADDING = 12;
-const MAX_MENU_HEIGHT = 256;
+const sizeClasses: Record<NonNullable<SearchableSelectProps['size']>, string> = {
+  sm: 'min-h-[36px] px-3 text-sm',
+  md: 'min-h-[44px] px-4 text-base',
+  lg: 'min-h-[48px] px-6 text-base',
+};
 
 export const SearchableSelect: React.FC<SearchableSelectProps> = ({
-  label, options, value, onChange, error,
+  label,
+  options,
+  value,
+  onChange,
+  error,
   placeholder = 'Chọn một tùy chọn',
   searchPlaceholder = 'Tìm kiếm...',
-  disabled = false, className = '', size = 'md',
+  disabled = false,
+  className = '',
+  size = 'md',
   allowCustomValue = false,
 }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
-  const [pos, setPos] = useState<{
-    top?: number; bottom?: number; left: number; width: number; openUp: boolean;
-  } | null>(null);
-
-  const containerRef = useRef<HTMLDivElement>(null);
-  const menuRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const selectedOption = options.find(o => o.value === value);
+  const selectedOption = options.find((o) => o.value === value);
 
-  // Tìm theo label hoặc code
   const filtered = useMemo(() => {
     if (!query.trim()) return options.slice(0, 50);
     const q = query.toLowerCase().trim();
     return options
-      .filter(o =>
-        o.label.toLowerCase().includes(q) ||
-        (o.code && o.code.toLowerCase().includes(q))
+      .filter(
+        (o) => o.label.toLowerCase().includes(q) || (o.code && o.code.toLowerCase().includes(q)),
       )
       .slice(0, 50);
   }, [query, options]);
 
-  const calcPos = useCallback(() => {
-    if (!containerRef.current || !menuRef.current) return;
-    const rect = containerRef.current.getBoundingClientRect();
-    const vw = window.innerWidth;
-    const vh = window.innerHeight;
-    const spaceBelow = vh - rect.bottom - MENU_GAP;
-    const spaceAbove = rect.top - VIEWPORT_PADDING;
-    const openUp = spaceBelow < MAX_MENU_HEIGHT && spaceAbove > spaceBelow;
-    const width = Math.max(rect.width, 200);
-    const left = Math.max(VIEWPORT_PADDING, Math.min(rect.left, vw - width - VIEWPORT_PADDING));
-    setPos(openUp
-      ? { bottom: vh - rect.top + MENU_GAP, left, width, openUp: true }
-      : { top: rect.bottom + MENU_GAP, left, width, openUp: false }
-    );
-  }, []);
-
-  useLayoutEffect(() => {
-    if (!isOpen) { setPos(null); return; }
-    calcPos();
-    setTimeout(() => inputRef.current?.focus(), 0);
-    window.addEventListener('scroll', calcPos, true);
-    window.addEventListener('resize', calcPos);
-    return () => {
-      window.removeEventListener('scroll', calcPos, true);
-      window.removeEventListener('resize', calcPos);
-    };
-  }, [isOpen, calcPos]);
-
-  useClickOutside([containerRef, menuRef], () => {
-    setIsOpen(false);
+  useEffect(() => {
+    if (open) {
+      const t = setTimeout(() => inputRef.current?.focus(), 0);
+      return () => clearTimeout(t);
+    }
     setQuery('');
-  }, isOpen);
-
-  const handleOpen = () => {
-    if (!disabled) setIsOpen(prev => !prev);
-  };
+  }, [open]);
 
   const handleSelect = (option: SearchableOption) => {
     onChange(option.value);
-    setIsOpen(false);
+    setOpen(false);
     setQuery('');
   };
 
@@ -106,130 +77,114 @@ export const SearchableSelect: React.FC<SearchableSelectProps> = ({
     onChange('');
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Escape') { setIsOpen(false); setQuery(''); }
+  const handleInputKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && allowCustomValue && query) {
       onChange(query);
-      setIsOpen(false);
+      setOpen(false);
       setQuery('');
     }
   };
 
-  const sizeClasses: Record<NonNullable<SearchableSelectProps['size']>, string> = {
-    sm: 'min-h-[36px] px-3 text-sm',
-    md: 'min-h-[44px] px-4 text-base',
-    lg: 'min-h-[48px] px-6 text-base',
-  };
-
   return (
-    <div className={`flex flex-col gap-1.5 ${className}`} ref={containerRef}>
-      {label && (
-        <label className="text-xs font-semibold text-text-secondary ml-1">
-          {label}
-        </label>
-      )}
-
-      <div
-        role="combobox"
-        aria-expanded={isOpen}
-        aria-haspopup="listbox"
-        onClick={handleOpen}
-        className={`
-          w-full flex items-center justify-between outline-none transition-all duration-200
-          rounded-xl font-normal bg-bg-primary border cursor-pointer
-          ${sizeClasses[size]}
-          ${isOpen ? 'border-primary ring-2 ring-primary/20' : 'border-border-light hover:border-border-medium'}
-          ${error ? 'border-error ring-2 ring-error/10' : ''}
-          ${disabled ? 'opacity-50 cursor-not-allowed bg-bg-secondary' : ''}
-        `}
-      >
-        <span className={`truncate flex-1 ${!selectedOption && !value ? 'text-text-tertiary' : 'text-text-primary'}`}>
-          {selectedOption ? selectedOption.label : (value || placeholder)}
-        </span>
-        <div className="flex items-center gap-1 flex-shrink-0 ml-2">
+    <Popover
+      open={open}
+      onOpenChange={setOpen}
+      align="start"
+      fullWidth
+      contentClassName="w-[var(--radix-popover-trigger-width)] min-w-[200px] max-w-[calc(100vw-24px)] p-0 flex flex-col"
+      className={className}
+      trigger={
+        <div className="relative w-full">
+          <button
+            type="button"
+            disabled={disabled}
+            className={cn(
+              'flex w-full items-center justify-between rounded-sm bg-surface border font-normal outline-none',
+              'transition-all duration-200 cursor-pointer text-left',
+              'border-border hover:border-border-strong',
+              'focus-visible:ring-2 focus-visible:ring-focus/50 focus-visible:border-primary',
+              'data-[state=open]:border-primary data-[state=open]:ring-2 data-[state=open]:ring-focus/50',
+              error && 'border-danger ring-2 ring-danger/50',
+              disabled && 'cursor-not-allowed opacity-50 bg-background',
+              sizeClasses[size],
+            )}
+          >
+            <span
+              className={cn(
+                'flex-1 truncate',
+                !selectedOption && !value ? 'text-muted' : 'text-foreground',
+              )}
+            >
+              {selectedOption ? selectedOption.label : value || placeholder}
+            </span>
+            <ChevronDown
+              size={size === 'sm' ? 14 : 18}
+              className={cn(
+                'ml-2 flex-shrink-0 text-muted transition-transform duration-200',
+                open && 'rotate-180',
+              )}
+            />
+          </button>
           {value && !disabled && (
             <button
               type="button"
               onClick={handleClear}
-              className="text-text-tertiary hover:text-text-primary transition-colors"
+              className="absolute right-9 top-1/2 -translate-y-1/2 text-muted transition-colors hover:text-foreground"
               aria-label="Xóa"
             >
               <X size={14} />
             </button>
           )}
-          <ChevronDown
-            size={size === 'sm' ? 14 : 18}
-            className={`text-text-tertiary transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
-          />
+        </div>
+      }
+    >
+      <div className="flex flex-col" onKeyDown={handleInputKeyDown}>
+        <div className="flex-shrink-0 border-b border-border p-2">
+          <div className="relative">
+            <Search
+              size={14}
+              className="absolute left-2.5 top-1/2 -translate-y-1/2 text-muted"
+              aria-hidden="true"
+            />
+            <input
+              ref={inputRef}
+              type="text"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder={searchPlaceholder}
+              className="w-full rounded-sm border-none bg-background py-1.5 pl-7 pr-3 text-sm text-foreground outline-none placeholder:text-muted"
+            />
+          </div>
+        </div>
+
+        <div className="max-h-60 overflow-y-auto scroll-hide">
+          {filtered.length === 0 ? (
+            <div className="px-4 py-3 text-center text-sm text-muted">Không tìm thấy kết quả</div>
+          ) : (
+            filtered.map((option) => (
+              <button
+                key={option.value}
+                type="button"
+                role="option"
+                aria-selected={option.value === value}
+                onClick={() => handleSelect(option)}
+                className={cn(
+                  'flex w-full items-center justify-between gap-2 px-4 py-2.5 text-left text-sm outline-none',
+                  'transition-colors duration-fast hover:bg-hover active:bg-active',
+                  option.value === value
+                    ? 'bg-primary-soft font-medium text-primary'
+                    : 'font-normal text-foreground',
+                )}
+              >
+                <span className="truncate">{option.label}</span>
+                {option.value === value && (
+                  <Check size={15} className="flex-shrink-0 text-primary" aria-hidden="true" />
+                )}
+              </button>
+            ))
+          )}
         </div>
       </div>
-
-      {isOpen && createPortal(
-        <div
-          ref={menuRef}
-          role="listbox"
-          onKeyDown={handleKeyDown}
-          className="fixed bg-bg-primary border border-border-light rounded-xl shadow-dropdown overflow-hidden animate-fade-in flex flex-col"
-          style={{
-            zIndex: 'var(--z-popover)',
-            top: pos?.top !== undefined ? `${pos.top}px` : undefined,
-            bottom: pos?.bottom !== undefined ? `${pos.bottom}px` : undefined,
-            left: pos ? `${pos.left}px` : undefined,
-            width: pos ? `${pos.width}px` : undefined,
-            maxWidth: `calc(100vw - ${VIEWPORT_PADDING * 2}px)`,
-            maxHeight: `${MAX_MENU_HEIGHT + 52}px`,
-            transformOrigin: pos?.openUp ? 'bottom left' : 'top left',
-            visibility: pos ? 'visible' : 'hidden',
-          }}
-        >
-          {/* Search input */}
-          <div className="p-2 border-b border-border-light flex-shrink-0">
-            <div className="relative">
-              <Search size={14} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-text-tertiary" />
-              <input
-                ref={inputRef}
-                type="text"
-                value={query}
-                onChange={e => setQuery(e.target.value)}
-                placeholder={searchPlaceholder}
-                className="w-full pl-7 pr-3 py-1.5 text-sm bg-bg-secondary rounded-lg border-none outline-none text-text-primary placeholder:text-text-tertiary"
-              />
-            </div>
-          </div>
-
-          {/* Options list */}
-          <div className="overflow-y-auto scroll-hide flex-1">
-            {filtered.length === 0 ? (
-              <div className="px-4 py-3 text-sm text-text-tertiary text-center">
-                Không tìm thấy kết quả
-              </div>
-            ) : (
-              filtered.map((option) => (
-                <button
-                  key={option.value}
-                  type="button"
-                  role="option"
-                  aria-selected={option.value === value}
-                  onClick={() => handleSelect(option)}
-                  className={`
-                    w-full px-4 py-2.5 text-left text-sm flex items-center justify-between gap-2
-                    transition-colors duration-fast hover:bg-bg-hover active:bg-bg-active
-                    ${option.value === value ? 'bg-primary/5 text-primary font-medium' : 'text-text-primary font-normal'}
-                  `}
-                >
-                  <span className="truncate">{option.label}</span>
-                  {option.value === value && <Check size={15} className="flex-shrink-0 text-primary" />}
-                </button>
-              ))
-            )}
-          </div>
-        </div>,
-        document.body
-      )}
-
-      {error && (
-        <p className="mt-0.5 ml-1 text-xs font-medium text-error animate-fade-in">{error}</p>
-      )}
-    </div>
+    </Popover>
   );
 };

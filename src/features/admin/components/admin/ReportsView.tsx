@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import { Flag, Clock, CheckCircle, XCircle, AlertTriangle, FileText, MessageSquare, User as UserIcon, Trash2, Lock, X } from 'lucide-react';
 import { Report, ReportStatus, ReportType } from '@shared/types';
-import { UserAvatar, Skeleton, Select, IconButton, ConfirmDialog, EmptyState } from '@/components/ui';
+import { UserAvatar, Skeleton, Select, IconButton, AlertDialog, EmptyState } from '@/components/ui';
 import { REPORT_CONFIG, TOAST_MESSAGES, CONFIRM_MESSAGES } from '@/constants';
 import { formatRelativeTime } from '@/utils/dateUtils';
 import { useAdminReports } from '../../hooks/useAdminReports';
@@ -57,7 +57,7 @@ const STATUS_BADGE: Record<ReportStatus, React.ReactNode> = {
     </span>
   ),
   [ReportStatus.REJECTED]: (
-    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-bg-tertiary text-text-secondary uppercase">
+    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-surface-sunken text-secondary uppercase">
       <XCircle size={9} /> Từ chối
     </span>
   ),
@@ -75,7 +75,7 @@ const TYPE_BADGE: Record<ReportType, React.ReactNode> = {
     </span>
   ),
   [ReportType.USER]: (
-    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-error/10 text-error uppercase">
+    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-danger/10 text-danger uppercase">
       <UserIcon size={9} /> Người dùng
     </span>
   ),
@@ -83,8 +83,8 @@ const TYPE_BADGE: Record<ReportType, React.ReactNode> = {
 
 /** Card hiển thị chỉ số báo cáo */
 const StatCard: React.FC<{ label: string; value: number; color: string }> = ({ label, value, color }) => (
-  <div className="bg-bg-secondary/60 px-4 py-2.5 rounded-xl border border-border-light flex flex-col items-center min-w-[90px]">
-    <span className="text-[10px] font-bold text-text-tertiary uppercase tracking-wider">{label}</span>
+  <div className="bg-background/60 px-4 py-2.5 rounded-xl border border-border flex flex-col items-center min-w-[90px]">
+    <span className="text-[10px] font-bold text-muted uppercase tracking-wider">{label}</span>
     <span className={`text-xl font-black ${color}`}>{value}</span>
   </div>
 );
@@ -140,35 +140,35 @@ export const ReportsView: React.FC<ReportsViewProps> = ({ onSelectReport }) => {
     <div className="flex flex-col h-full overflow-hidden">
 
       {/* Header */}
-      <div className="bg-bg-primary px-4 md:px-6 py-4 border-b border-border-light flex-shrink-0 space-y-4">
+      <div className="bg-surface px-4 md:px-6 py-4 border-b border-border flex-shrink-0 space-y-4">
         <div className="max-w-5xl mx-auto flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <h1 className="text-base font-bold text-text-primary flex items-center gap-2">
+            <h1 className="text-base font-bold text-foreground flex items-center gap-2">
               <Flag size={18} className="text-primary" />
               Quản lý báo cáo
             </h1>
-            <p className="text-xs text-text-tertiary mt-0.5">
+            <p className="text-xs text-muted mt-0.5">
               Xử lý các báo cáo vi phạm nội dung và người dùng
             </p>
           </div>
           <div className="flex items-center gap-2">
             <StatCard label="Chờ xử lý" value={stats.pending} color="text-warning" />
             <StatCard label="Đã xử lý" value={stats.resolved} color="text-success" />
-            <StatCard label="Từ chối" value={stats.rejected} color="text-error" />
+            <StatCard label="Từ chối" value={stats.rejected} color="text-danger" />
           </div>
         </div>
 
         <div className="max-w-5xl mx-auto flex flex-col sm:flex-row gap-3 items-center justify-between">
           {/* Status Tabs */}
-          <div className="flex bg-bg-secondary p-1 rounded-xl border border-border-light w-full sm:w-auto">
+          <div className="flex bg-background p-1 rounded-xl border border-border w-full sm:w-auto">
             {STATUS_TABS.map(tab => (
               <button
                 key={tab.value}
                 onClick={() => setStatusFilter(tab.value)}
                 className={`flex-1 sm:flex-none px-4 py-2 rounded-lg text-xs font-semibold transition-colors duration-200
                   ${statusFilter === tab.value
-                    ? 'bg-bg-primary text-primary shadow-sm'
-                    : 'text-text-secondary hover:text-text-primary'
+                    ? 'bg-surface text-primary shadow-sm'
+                    : 'text-secondary hover:text-foreground'
                   }`}
               >
                 {tab.label}
@@ -187,11 +187,11 @@ export const ReportsView: React.FC<ReportsViewProps> = ({ onSelectReport }) => {
       </div>
 
       {/* Report List */}
-      <div className="flex-1 overflow-y-auto scroll-hide p-4 md:p-6 bg-bg-secondary/30">
+      <div className="flex-1 overflow-y-auto scroll-hide p-4 md:p-6 bg-background/30">
         <div className="max-w-5xl mx-auto space-y-3">
           {isLoading ? (
             [...Array(3)].map((_, i) => (
-              <div key={i} className="bg-bg-primary p-4 rounded-2xl border border-border-light space-y-3 animate-fade-in">
+              <div key={i} className="bg-surface p-4 rounded-2xl border border-border space-y-3 animate-fade-in">
                 <div className="flex justify-between">
                   <Skeleton className="h-5 w-24 rounded-full" />
                   <Skeleton className="h-4 w-20" />
@@ -224,7 +224,7 @@ export const ReportsView: React.FC<ReportsViewProps> = ({ onSelectReport }) => {
                       key={report.id}
                       type="button"
                       onClick={() => onSelectReport(report.id)}
-                      className="w-full text-left bg-bg-primary p-4 rounded-2xl border border-border-light hover:border-primary/30 hover:shadow-md transition-all duration-200 group outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+                      className="w-full text-left bg-surface p-4 rounded-2xl border border-border hover:border-primary/30 hover:shadow-md transition-all duration-200 group outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
                     >
                       {/* Top Row */}
                       <div className="flex items-center justify-between mb-2.5">
@@ -232,31 +232,31 @@ export const ReportsView: React.FC<ReportsViewProps> = ({ onSelectReport }) => {
                           {STATUS_BADGE[report.status]}
                           {TYPE_BADGE[report.targetType]}
                         </div>
-                        <span className="text-[11px] text-text-tertiary">
+                        <span className="text-[11px] text-muted">
                           {formatRelativeTime(report.createdAt)}
                         </span>
                       </div>
 
                       {/* Reason */}
-                      <p className="text-sm font-semibold text-text-primary mb-2.5 flex items-center gap-1.5">
-                        <AlertTriangle size={13} className="text-error flex-shrink-0" />
+                      <p className="text-sm font-semibold text-foreground mb-2.5 flex items-center gap-1.5">
+                        <AlertTriangle size={13} className="text-danger flex-shrink-0" />
                         {reasonConfig?.label}
                       </p>
 
                       {/* Description Snippet */}
                       {report.description && (
-                        <div className="bg-bg-secondary/50 px-3 py-2 rounded-xl border border-border-light mb-2.5">
-                          <p className="text-xs text-text-secondary italic line-clamp-1">
+                        <div className="bg-background/50 px-3 py-2 rounded-xl border border-border mb-2.5">
+                          <p className="text-xs text-secondary italic line-clamp-1">
                             "{report.description}"
                           </p>
                         </div>
                       )}
 
                       {/* Footer */}
-                      <div className="flex items-center justify-between pt-3 border-t border-border-light/60">
+                      <div className="flex items-center justify-between pt-3 border-t border-border/60">
                         <div className="flex items-center gap-2">
                           <UserAvatar size="xs" userId={report.reporterId} />
-                          <span className="text-xs text-text-tertiary truncate max-w-[120px]">
+                          <span className="text-xs text-muted truncate max-w-[120px]">
                             {reporter?.fullName}
                           </span>
                         </div>
@@ -267,7 +267,7 @@ export const ReportsView: React.FC<ReportsViewProps> = ({ onSelectReport }) => {
                               onClick={(e) => initiateAction(e, report, 'reject')}
                               variant="ghost"
                               size="sm"
-                              className="text-text-secondary hover:bg-bg-secondary"
+                              className="text-secondary hover:bg-background"
                               title="Bỏ qua"
                             />
                             {report.targetType === ReportType.USER ? (
@@ -276,7 +276,7 @@ export const ReportsView: React.FC<ReportsViewProps> = ({ onSelectReport }) => {
                                 onClick={(e) => initiateAction(e, report, 'ban')}
                                 variant="ghost"
                                 size="sm"
-                                className="text-error hover:bg-error/10"
+                                className="text-danger hover:bg-danger/10"
                                 title="Khóa tài khoản"
                               />
                             ) : (
@@ -285,7 +285,7 @@ export const ReportsView: React.FC<ReportsViewProps> = ({ onSelectReport }) => {
                                 onClick={(e) => initiateAction(e, report, 'resolve')}
                                 variant="ghost"
                                 size="sm"
-                                className="text-error hover:bg-error/10"
+                                className="text-danger hover:bg-danger/10"
                                 title="Xóa nội dung"
                               />
                             )}
@@ -298,18 +298,18 @@ export const ReportsView: React.FC<ReportsViewProps> = ({ onSelectReport }) => {
               </div>
 
               {/* Desktop Table View */}
-              <div className="hidden md:block bg-bg-primary rounded-2xl border border-border-light overflow-hidden shadow-sm">
+              <div className="hidden md:block bg-surface rounded-2xl border border-border overflow-hidden shadow-sm">
                 <table className="w-full text-left border-collapse">
                   <thead>
-                    <tr className="bg-bg-secondary border-b border-border-light/60">
-                      <th className="px-5 py-3.5 text-xs font-semibold text-text-secondary uppercase tracking-wider">Thời gian</th>
-                      <th className="px-5 py-3.5 text-xs font-semibold text-text-secondary uppercase tracking-wider">Đối tượng / Trạng thái</th>
-                      <th className="px-5 py-3.5 text-xs font-semibold text-text-secondary uppercase tracking-wider">Vi phạm</th>
-                      <th className="px-5 py-3.5 text-xs font-semibold text-text-secondary uppercase tracking-wider">Báo cáo bởi</th>
-                      <th className="px-5 py-3.5 text-xs font-semibold text-text-secondary uppercase tracking-wider text-right">Thao tác</th>
+                    <tr className="bg-background border-b border-border/60">
+                      <th className="px-5 py-3.5 text-xs font-semibold text-secondary uppercase tracking-wider">Thời gian</th>
+                      <th className="px-5 py-3.5 text-xs font-semibold text-secondary uppercase tracking-wider">Đối tượng / Trạng thái</th>
+                      <th className="px-5 py-3.5 text-xs font-semibold text-secondary uppercase tracking-wider">Vi phạm</th>
+                      <th className="px-5 py-3.5 text-xs font-semibold text-secondary uppercase tracking-wider">Báo cáo bởi</th>
+                      <th className="px-5 py-3.5 text-xs font-semibold text-secondary uppercase tracking-wider text-right">Thao tác</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-border-light/60">
+                  <tbody className="divide-y divide-border/60">
                     {reports.map(report => {
                       const reporter = getUser(report.reporterId);
                       const reasonConfig = REPORT_CONFIG.REASONS[report.reason as keyof typeof REPORT_CONFIG.REASONS];
@@ -317,10 +317,10 @@ export const ReportsView: React.FC<ReportsViewProps> = ({ onSelectReport }) => {
                         <tr
                           key={`table-${report.id}`}
                           onClick={() => onSelectReport(report.id)}
-                          className="hover:bg-bg-secondary/40 transition-colors duration-150 cursor-pointer group"
+                          className="hover:bg-background/40 transition-colors duration-150 cursor-pointer group"
                         >
                           <td className="px-5 py-3.5 align-middle">
-                            <span className="text-sm font-medium text-text-primary whitespace-nowrap">
+                            <span className="text-sm font-medium text-foreground whitespace-nowrap">
                               {formatRelativeTime(report.createdAt)}
                             </span>
                           </td>
@@ -332,8 +332,8 @@ export const ReportsView: React.FC<ReportsViewProps> = ({ onSelectReport }) => {
                           </td>
                           <td className="px-5 py-3.5 align-middle max-w-[200px]">
                             <div className="flex items-center gap-1.5 truncate">
-                              <AlertTriangle size={14} className="text-error flex-shrink-0" />
-                              <span className="text-sm font-semibold text-text-primary truncate">
+                              <AlertTriangle size={14} className="text-danger flex-shrink-0" />
+                              <span className="text-sm font-semibold text-foreground truncate">
                                 {reasonConfig?.label || 'Không xác định'}
                               </span>
                             </div>
@@ -341,7 +341,7 @@ export const ReportsView: React.FC<ReportsViewProps> = ({ onSelectReport }) => {
                           <td className="px-5 py-3.5 align-middle">
                             <div className="flex items-center gap-2">
                               <UserAvatar size="sm" userId={report.reporterId} src={reporter?.avatar?.url} />
-                              <span className="text-sm text-text-secondary truncate max-w-[120px]">
+                              <span className="text-sm text-secondary truncate max-w-[120px]">
                                 {reporter?.fullName || 'Người dùng'}
                               </span>
                             </div>
@@ -355,7 +355,7 @@ export const ReportsView: React.FC<ReportsViewProps> = ({ onSelectReport }) => {
                                     onClick={(e) => initiateAction(e, report, 'reject')}
                                     variant="ghost"
                                     size="sm"
-                                    className="text-text-secondary hover:bg-bg-secondary"
+                                    className="text-secondary hover:bg-background"
                                     title="Bỏ qua"
                                   />
                                   {report.targetType === ReportType.USER ? (
@@ -364,7 +364,7 @@ export const ReportsView: React.FC<ReportsViewProps> = ({ onSelectReport }) => {
                                       onClick={(e) => initiateAction(e, report, 'ban')}
                                       variant="ghost"
                                       size="sm"
-                                      className="text-error hover:bg-error/10"
+                                      className="text-danger hover:bg-danger/10"
                                       title="Khóa tài khoản"
                                     />
                                   ) : (
@@ -373,13 +373,13 @@ export const ReportsView: React.FC<ReportsViewProps> = ({ onSelectReport }) => {
                                       onClick={(e) => initiateAction(e, report, 'resolve')}
                                       variant="ghost"
                                       size="sm"
-                                      className="text-error hover:bg-error/10"
+                                      className="text-danger hover:bg-danger/10"
                                       title="Xóa nội dung"
                                     />
                                   )}
                                 </>
                               ) : (
-                                <span className="text-xs text-text-tertiary italic">
+                                <span className="text-xs text-muted italic">
                                   {report.status === ReportStatus.RESOLVED ? 'Đã xử lý' : 'Đã từ chối'}
                                 </span>
                               )}
@@ -397,9 +397,9 @@ export const ReportsView: React.FC<ReportsViewProps> = ({ onSelectReport }) => {
       </div>
 
       {pendingAction && (
-        <ConfirmDialog
-          isOpen
-          onClose={() => {
+        <AlertDialog
+          open
+          onOpenChange={() => {
             setPendingAction(null);
             setSelectedReport(null);
           }}

@@ -108,7 +108,7 @@ export const ChatInput: React.FC<ChatInputProps> = (props) => {
 
   if (isLoadingSettings) {
     return (
-      <div className="flex-shrink-0 border-t border-border-light bg-bg-primary pb-safe h-[60px] flex items-center justify-center">
+      <div className="flex-shrink-0 border-t border-border bg-surface pb-safe h-[60px] flex items-center justify-center">
         <div className="w-5 h-5 border-2 border-primary/20 border-t-primary rounded-full animate-spin" />
       </div>
     );
@@ -116,13 +116,13 @@ export const ChatInput: React.FC<ChatInputProps> = (props) => {
 
   if (blockedMessage || isDisbanded) {
     return (
-      <div className="flex-shrink-0 border-t border-border-light bg-bg-primary pb-safe" style={{ zIndex: 'var(--z-sticky)' }}>
+      <div className="flex-shrink-0 border-t border-border bg-surface pb-safe" style={{ zIndex: 'var(--z-sticky)' }}>
         <div className="flex items-center justify-between px-4 py-3 gap-3">
           <div className="flex items-center gap-2.5 min-w-0">
-            <div className="w-8 h-8 rounded-full bg-error/10 flex items-center justify-center flex-shrink-0">
-              <Ban size={15} className="text-error" />
+            <div className="w-8 h-8 rounded-full bg-danger/10 flex items-center justify-center flex-shrink-0">
+              <Ban size={15} className="text-danger" />
             </div>
-            <span className="text-sm text-text-secondary font-medium truncate">
+            <span className="text-sm text-secondary font-medium truncate">
               {isDisbanded ? 'Nhóm này đã giải tán.' : blockedMessage}
             </span>
           </div>
@@ -140,7 +140,7 @@ export const ChatInput: React.FC<ChatInputProps> = (props) => {
   }
 
   return (
-    <div className="flex-shrink-0 border-t border-border-light bg-bg-primary transition-theme pb-safe relative" style={{ zIndex: 'var(--z-sticky)' }}>
+    <div className="flex-shrink-0 border-t border-border bg-surface transition-theme pb-safe relative" style={{ zIndex: 'var(--z-sticky)' }}>
       {/* Giphy Picker Popover */}
       {showGiphy && (
         <div className="absolute bottom-full left-0 mb-2 ml-3 z-[var(--z-popover)]">
@@ -152,7 +152,7 @@ export const ChatInput: React.FC<ChatInputProps> = (props) => {
                 setShowGiphy(false);
                 onCancelAction();
               }}
-              onClose={() => setShowGiphy(false)}
+              onOpenChange={() => setShowGiphy(false)}
             />
           </div>
         </div>
@@ -177,7 +177,7 @@ export const ChatInput: React.FC<ChatInputProps> = (props) => {
 
       {/* Reply Or Edit Banner */}
       {(replyingTo || editingMessage) && (
-        <div className="px-4 py-2 border-b border-border-light bg-bg-secondary/80 backdrop-blur-md flex items-center justify-between gap-3 animate-in slide-in-from-bottom-2 duration-300">
+        <div className="px-4 py-2 border-b border-border bg-background/80 backdrop-blur-md flex items-center justify-between gap-3 animate-in slide-in-from-bottom-2 duration-300">
           <div className="flex items-center gap-3 overflow-hidden flex-1 min-w-0 border-l-4 border-primary pl-3">
             <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
               {editingMessage ? <Edit2 size={14} className="text-primary" /> : <Reply size={14} className="text-primary" />}
@@ -189,7 +189,7 @@ export const ChatInput: React.FC<ChatInputProps> = (props) => {
                   : replyingTo?.data.senderId === currentUserId ? 'Trả lời chính bạn' : `Trả lời ${usersMap[replyingTo?.data.senderId || '']?.fullName || ''}`
                 }
               </p>
-              <p className="text-[11px] text-text-secondary truncate opacity-80 italic">
+              <p className="text-[11px] text-secondary truncate opacity-80 italic">
                 {editingMessage ? editingMessage.data.content : getMessageDisplayContent(replyingTo!.data)}
               </p>
             </div>
@@ -206,7 +206,7 @@ export const ChatInput: React.FC<ChatInputProps> = (props) => {
         )}
 
         <ActionsMenu
-          isOpen={showActions}
+          open={showActions}
           onToggle={() => setShowActions(!showActions)}
           onAction={(type) => {
             setShowActions(false);
@@ -233,19 +233,19 @@ export const ChatInput: React.FC<ChatInputProps> = (props) => {
             autoResize
             maxHeight={120}
             containerClassName="flex-1"
-            className="rounded-xl bg-bg-secondary border-border-light"
+            className="rounded-xl bg-background border-border"
             renderOverlay={renderMentionOverlay}
             rightElement={
               <div className="flex items-center">
                 {inputText.length >= VALIDATION.MESSAGE_MAX_LENGTH * 0.8 && (
-                  <span className={`text-[9px] font-bold mr-1 px-1 rounded ${inputText.length >= VALIDATION.MESSAGE_MAX_LENGTH ? 'text-error bg-error/10' : 'text-text-tertiary'}`}>
+                  <span className={`text-[9px] font-bold mr-1 px-1 rounded ${inputText.length >= VALIDATION.MESSAGE_MAX_LENGTH ? 'text-danger bg-danger/10' : 'text-muted'}`}>
                     {inputText.length}/{VALIDATION.MESSAGE_MAX_LENGTH}
                   </span>
                 )}
                 <EmojiPicker
                   onEmojiSelect={(emoji) => insertTextAtCursor(inputRef, inputText, emoji, setInputText)}
                   disabled={disabled || isSending}
-                  buttonClassName="p-1.5 text-text-tertiary hover:text-primary transition-colors"
+                  buttonClassName="p-1.5 text-muted hover:text-primary transition-colors"
                 />
               </div>
             }
@@ -256,7 +256,7 @@ export const ChatInput: React.FC<ChatInputProps> = (props) => {
         <button
           type="submit"
           disabled={disabled || !!blockedMessage || (!inputText.trim() && selectedFiles.length === 0) || isSending}
-          className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 transition-colors duration-200 active:brightness-95 ${canSend ? 'btn-gradient text-white shadow-accent hover:brightness-110' : 'bg-bg-tertiary text-text-tertiary cursor-not-allowed'}`}
+          className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 transition-colors duration-200 active:brightness-95 ${canSend ? 'btn-gradient text-white shadow-accent hover:brightness-110' : 'bg-surface-sunken text-muted cursor-not-allowed'}`}
         >
           {isSending ? <span className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" /> : <Send size={16} className={canSend ? 'fill-current' : ''} />}
         </button>
@@ -265,8 +265,8 @@ export const ChatInput: React.FC<ChatInputProps> = (props) => {
       <MediaViewer
         media={mediaPreviewItems}
         initialIndex={previewMediaIndex ?? 0}
-        isOpen={previewMediaIndex !== null}
-        onClose={() => setPreviewMediaIndex(null)}
+        open={previewMediaIndex !== null}
+        onOpenChange={() => setPreviewMediaIndex(null)}
       />
     </div>
   );

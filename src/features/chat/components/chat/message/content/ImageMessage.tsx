@@ -117,7 +117,7 @@ export const ImageMessage: React.FC<ImageMessageProps> = ({
       <div className="flex flex-col w-full max-w-[320px]">
         {contentUI}
         {message.data.content && (
-          <div className="px-3 pb-2 pt-2 border-t border-border-light/40">
+          <div className="px-3 pb-2 pt-2 border-t border-border/40">
             <MessageTextContent content={message.data.content} isMe={isMe} isEdited={!!message.data.isEdited} />
           </div>
         )}
@@ -160,7 +160,7 @@ export const ImageMessage: React.FC<ImageMessageProps> = ({
       </SensitiveMediaGuard>
       
       {message.data.content && (
-        <div className="px-3 pb-2 pt-2 border-t border-border-light/40">
+        <div className="px-3 pb-2 pt-2 border-t border-border/40">
           <MessageTextContent content={message.data.content} isMe={isMe} isEdited={!!message.data.isEdited} />
         </div>
       )}

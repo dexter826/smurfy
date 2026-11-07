@@ -24,11 +24,17 @@ interface InteractionActionsProps {
 }
 
 export const InteractionActions: React.FC<InteractionActionsProps> = ({
-  reactionSummary, reactionCount, myReaction, commentCount,
-  onReact, onCommentClick, onShareClick, onViewReactions,
+  reactionSummary,
+  reactionCount,
+  myReaction,
+  commentCount,
+  onReact,
+  onCommentClick,
+  onShareClick,
+  onViewReactions,
   showEmptyDivider = false,
   className = '',
-  statsClassName = 'px-4 py-2.5 flex justify-between items-center border-b border-border-light/50',
+  statsClassName = 'px-4 py-2.5 flex justify-between items-center border-b border-border/50',
   actionClassName = 'flex px-1 py-1 gap-0.5',
   selectorClassName = '',
   selectorPosition = 'top',
@@ -58,14 +64,14 @@ export const InteractionActions: React.FC<InteractionActionsProps> = ({
           {commentCount > 0 && (
             <button
               onClick={onCommentClick}
-              className="text-xs text-text-tertiary hover:text-text-secondary hover:underline transition-colors duration-200 font-medium"
+              className="text-xs text-muted hover:text-secondary hover:underline transition-colors duration-200 font-medium"
             >
               {commentCount} bình luận
             </button>
           )}
         </div>
-      ) : showEmptyDivider && (
-        <div className="mx-4 border-t border-border-light/40" />
+      ) : (
+        showEmptyDivider && <div className="mx-4 border-t border-border/40" />
       )}
 
       {/* Action buttons */}
@@ -81,7 +87,10 @@ export const InteractionActions: React.FC<InteractionActionsProps> = ({
               style={{ zIndex: 'var(--z-popover)' }}
             >
               <ReactionSelector
-                onSelect={(type) => { onReact(type); setShowReactions(false); }}
+                onSelect={(type) => {
+                  onReact(type);
+                  setShowReactions(false);
+                }}
                 className="relative shadow-xl animate-fade-in"
               />
             </div>
@@ -90,16 +99,19 @@ export const InteractionActions: React.FC<InteractionActionsProps> = ({
             variant="ghost"
             fullWidth
             className={`h-10 rounded-xl text-sm font-semibold transition-all duration-200
-              ${myReaction
-                ? `${getReactionColorClass(myReaction)} hover:bg-bg-hover`
-                : 'text-text-secondary hover:text-text-primary hover:bg-bg-hover'
+              ${
+                myReaction
+                  ? `${getReactionColorClass(myReaction)} hover:bg-hover`
+                  : 'text-secondary hover:text-foreground hover:bg-hover'
               }`}
             onClick={() => onReact(myReaction ? 'REMOVE' : ReactionType.LIKE)}
             onMouseEnter={() => setShowReactions(true)}
             icon={
-              myReaction
-                ? getReactionIcon(myReaction as ReactionType, 'w-[18px] h-[18px]', 18)
-                : <Heart size={18} className="transition-transform duration-200" />
+              myReaction ? (
+                getReactionIcon(myReaction as ReactionType, 'w-[18px] h-[18px]', 18)
+              ) : (
+                <Heart size={18} className="transition-transform duration-200" />
+              )
             }
           >
             {myReaction ? REACTION_LABELS[myReaction as ReactionType] : 'Thích'}
@@ -110,7 +122,7 @@ export const InteractionActions: React.FC<InteractionActionsProps> = ({
         <Button
           variant="ghost"
           fullWidth
-          className="flex-1 h-10 rounded-xl text-sm font-semibold text-text-secondary hover:text-text-primary hover:bg-bg-hover transition-all duration-200"
+          className="flex-1 h-10 rounded-xl text-sm font-semibold text-secondary hover:text-foreground hover:bg-hover transition-all duration-200"
           onClick={onCommentClick}
           icon={<MessageCircle size={18} />}
         >
@@ -121,7 +133,7 @@ export const InteractionActions: React.FC<InteractionActionsProps> = ({
           <Button
             variant="ghost"
             fullWidth
-            className="flex-1 h-10 rounded-xl text-sm font-semibold text-text-secondary hover:text-text-primary hover:bg-bg-hover transition-all duration-200"
+            className="flex-1 h-10 rounded-xl text-sm font-semibold text-secondary hover:text-foreground hover:bg-hover transition-all duration-200"
             onClick={onShareClick}
             icon={<Send size={18} />}
           >

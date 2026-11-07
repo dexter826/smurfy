@@ -5,17 +5,17 @@ import { Modal, Button, UserAvatar, Select } from '@/components/ui';
 import { useConversationParticipants } from '@/features/chat';
 
 interface TransferAdminModalProps {
-  isOpen: boolean;
+  open: boolean;
   conversation: { id: string; data: RtdbConversation; userChat: RtdbUserChat };
   currentUserId: string;
   mode?: 'transfer_only' | 'transfer_and_leave';
-  onClose: () => void;
+  onOpenChange: () => void;
   onConfirm: (newAdminId: string) => Promise<void>;
 }
 
 /** Modal chuyển quyền trưởng nhóm chat */
 export const TransferAdminModal: React.FC<TransferAdminModalProps> = ({
-  isOpen, conversation, currentUserId, mode = 'transfer_and_leave', onClose, onConfirm,
+  open, conversation, currentUserId, mode = 'transfer_and_leave', onOpenChange, onConfirm,
 }) => {
   const [selectedId, setSelectedId] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -32,20 +32,20 @@ export const TransferAdminModal: React.FC<TransferAdminModalProps> = ({
     setIsSubmitting(true);
     try {
       await onConfirm(selectedId);
-      onClose();
+      onOpenChange();
     } catch { /* silent */ }
     finally { setIsSubmitting(false); }
   };
 
   return (
     <Modal
-      isOpen={isOpen}
-      onClose={onClose}
+      open={open}
+      onOpenChange={onOpenChange}
       title={isTransferOnly ? 'Chuyển quyền trưởng nhóm' : 'Chọn trưởng nhóm mới'}
-      maxWidth="sm"
+      size="sm"
       footer={
         <div className="flex gap-3">
-          <Button variant="secondary" onClick={onClose}>Hủy</Button>
+          <Button variant="secondary" onClick={onOpenChange}>Hủy</Button>
           <Button
             variant="danger"
             onClick={handleConfirm}
@@ -64,8 +64,8 @@ export const TransferAdminModal: React.FC<TransferAdminModalProps> = ({
             <Crown size={26} className="text-warning" />
           </div>
           <div>
-            <h3 className="text-base font-semibold text-text-primary">Bạn đang là trưởng nhóm</h3>
-            <p className="text-sm text-text-secondary mt-1 leading-relaxed">
+            <h3 className="text-base font-semibold text-foreground">Bạn đang là trưởng nhóm</h3>
+            <p className="text-sm text-secondary mt-1 leading-relaxed">
               {isTransferOnly
                 ? 'Chọn thành viên để chuyển quyền trưởng nhóm. Bạn sẽ trở thành Admin sau khi chuyển.'
                 : 'Vui lòng chọn một thành viên khác làm trưởng nhóm trước khi rời khỏi nhóm này.'
@@ -85,13 +85,13 @@ export const TransferAdminModal: React.FC<TransferAdminModalProps> = ({
           />
 
           {selectedMember && (
-            <div className="flex items-center gap-3 p-3 bg-bg-secondary rounded-xl border border-border-light animate-fade-in">
+            <div className="flex items-center gap-3 p-3 bg-background rounded-xl border border-border animate-fade-in">
               <UserAvatar userId={selectedMember.id} size="sm" />
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-semibold text-text-primary truncate">
+                <p className="text-sm font-semibold text-foreground truncate">
                   {selectedMember.fullName}
                 </p>
-                <p className="text-xs text-text-tertiary">Sẽ trở thành trưởng nhóm mới</p>
+                <p className="text-xs text-muted">Sẽ trở thành trưởng nhóm mới</p>
               </div>
               <Crown size={14} className="text-warning flex-shrink-0" />
             </div>

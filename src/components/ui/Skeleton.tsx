@@ -7,9 +7,8 @@ interface SkeletonProps extends SkeletonLibProps {
   variant?: 'line' | 'circle' | 'rect';
 }
 
-// Wrapper toàn cục — dùng một lần ở root thay vì mỗi instance
 export const SkeletonProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <SkeletonTheme baseColor="var(--bg-hover)" highlightColor="var(--bg-primary)">
+  <SkeletonTheme baseColor="var(--color-hover)" highlightColor="var(--color-surface)">
     {children}
   </SkeletonTheme>
 );

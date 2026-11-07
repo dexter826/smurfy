@@ -10,13 +10,13 @@ import { AlertTriangle } from 'lucide-react';
 import { isFullyBlocked } from '@/lib/block/blockUtils';
 
 interface BlockOptionsModalProps {
-  isOpen: boolean;
+  open: boolean;
   targetId: string;
   targetName: string;
   initialOptions?: Partial<BlockOptions>;
   onApply: (options: BlockOptions) => Promise<void>;
   onUnblock?: () => Promise<void>;
-  onClose: () => void;
+  onOpenChange: () => void;
 }
 
 const DEFAULT_OPTIONS: BlockOptions = {
@@ -27,13 +27,13 @@ const DEFAULT_OPTIONS: BlockOptions = {
 };
 
 export const BlockOptionsModal: React.FC<BlockOptionsModalProps> = ({
-  isOpen,
+  open,
   targetId,
   targetName,
   initialOptions,
   onApply,
   onUnblock,
-  onClose,
+  onOpenChange,
 }) => {
   const friends = useContactStore(state => state.friends);
   const isFriend = React.useMemo(() => friends.some(f => f.id === targetId), [friends, targetId]);
@@ -42,7 +42,7 @@ export const BlockOptionsModal: React.FC<BlockOptionsModalProps> = ({
   const [isActivityExpanded, setIsActivityExpanded] = useState(false);
 
   useEffect(() => {
-    if (isOpen) {
+    if (open) {
       setOptions({
         blockMessages: initialOptions?.blockMessages ?? false,
         blockCalls: initialOptions?.blockCalls ?? false,
@@ -53,11 +53,11 @@ export const BlockOptionsModal: React.FC<BlockOptionsModalProps> = ({
         (initialOptions?.blockViewMyActivity ?? false) || (initialOptions?.hideTheirActivity ?? false)
       );
     }
-  }, [isOpen, initialOptions]);
+  }, [open, initialOptions]);
 
-  useScrollLock(isOpen);
+  useScrollLock(open);
 
-  if (!isOpen) return null;
+  if (!open) return null;
 
   const toggleOption = (key: keyof BlockOptions) => {
     setOptions(prev => ({ ...prev, [key]: !prev[key] }));
@@ -72,7 +72,7 @@ export const BlockOptionsModal: React.FC<BlockOptionsModalProps> = ({
       } else {
         await onApply(options);
       }
-      onClose();
+      onOpenChange();
     } finally {
       setIsLoading(false);
     }
@@ -93,14 +93,14 @@ export const BlockOptionsModal: React.FC<BlockOptionsModalProps> = ({
           isNested ? '' : 'rounded-2xl border-2'
         } ${
           isActive
-            ? isNested ? 'bg-error/5' : 'bg-error/5 border-error/40 ring-1 ring-error/20'
-            : isNested ? 'hover:bg-bg-secondary/50' : 'border-bg-secondary hover:border-border-light'
+            ? isNested ? 'bg-danger/5' : 'bg-danger/5 border-danger/40 ring-1 ring-danger/20'
+            : isNested ? 'hover:bg-background/50' : 'border-background hover:border-border'
         }`}
         onClick={() => toggleOption(key)}
       >
         <div className="pt-0.5">
           <div className={`w-5 h-5 rounded-md border-2 flex items-center justify-center transition-colors ${
-            isActive ? 'border-error bg-error' : 'border-border-strong'
+            isActive ? 'border-danger bg-danger' : 'border-border-strong'
           }`}>
             {isActive && (
               <svg viewBox="0 0 12 10" width="10" height="10" fill="none">
@@ -110,11 +110,11 @@ export const BlockOptionsModal: React.FC<BlockOptionsModalProps> = ({
           </div>
         </div>
         <div className="flex-1 min-w-0">
-          <div className={`flex items-center gap-2 font-bold text-sm ${isActive ? 'text-error' : 'text-text-primary'}`}>
+          <div className={`flex items-center gap-2 font-bold text-sm ${isActive ? 'text-danger' : 'text-foreground'}`}>
             {icon}
             <span>{label}</span>
           </div>
-          <p className="text-xs text-text-secondary mt-1 leading-relaxed">
+          <p className="text-xs text-secondary mt-1 leading-relaxed">
             {desc}
           </p>
         </div>
@@ -127,21 +127,21 @@ export const BlockOptionsModal: React.FC<BlockOptionsModalProps> = ({
       style={{ zIndex: 'var(--z-modal)' }}
     >
       <div
-        className="fixed inset-0 bg-bg-overlay backdrop-blur-sm animate-fade-in"
-        onClick={onClose}
+        className="fixed inset-0 bg-overlay backdrop-blur-sm animate-fade-in"
+        onClick={onOpenChange}
       />
-      <div className="relative bg-bg-primary w-full max-w-md rounded-t-2xl sm:rounded-2xl shadow-xl overflow-hidden animate-fade-in">
-        <div className="flex items-center justify-between px-5 py-4 border-b border-border-light">
+      <div className="relative bg-surface w-full max-w-md rounded-t-2xl sm:rounded-2xl shadow-xl overflow-hidden animate-fade-in">
+        <div className="flex items-center justify-between px-5 py-4 border-b border-border">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-error/10 flex items-center justify-center flex-shrink-0">
-              <Ban size={18} className="text-error" />
+            <div className="w-9 h-9 rounded-xl bg-danger/10 flex items-center justify-center flex-shrink-0">
+              <Ban size={18} className="text-danger" />
             </div>
             <div>
-              <h3 className="font-bold text-text-primary text-base">Quản lý chặn {targetName}</h3>
-              <p className="text-xs text-text-tertiary">Chọn các hạn chế muốn áp dụng</p>
+              <h3 className="font-bold text-foreground text-base">Quản lý chặn {targetName}</h3>
+              <p className="text-xs text-muted">Chọn các hạn chế muốn áp dụng</p>
             </div>
           </div>
-          <IconButton icon={<X size={20} />} onClick={onClose} size="lg" />
+          <IconButton icon={<X size={20} />} onClick={onOpenChange} size="lg" />
         </div>
 
         <div className="px-5 py-4 space-y-2.5 max-h-[60vh] overflow-y-auto overscroll-contain">
@@ -150,12 +150,12 @@ export const BlockOptionsModal: React.FC<BlockOptionsModalProps> = ({
 
           <div className={`border-2 rounded-2xl overflow-hidden transition-all duration-200 ${
             options.blockViewMyActivity || options.hideTheirActivity
-              ? 'border-error/40 ring-1 ring-error/20'
-              : 'border-bg-secondary hover:border-border-light'
+              ? 'border-danger/40 ring-1 ring-danger/20'
+              : 'border-background hover:border-border'
           }`}>
             <div 
               className={`flex items-start gap-4 p-4 cursor-pointer transition-colors ${
-                options.blockViewMyActivity && options.hideTheirActivity ? 'bg-error/5' : 'bg-bg-primary hover:bg-bg-secondary/50'
+                options.blockViewMyActivity && options.hideTheirActivity ? 'bg-danger/5' : 'bg-surface hover:bg-background/50'
               }`}
               onClick={() => {
                 const newValue = !(options.blockViewMyActivity && options.hideTheirActivity);
@@ -169,7 +169,7 @@ export const BlockOptionsModal: React.FC<BlockOptionsModalProps> = ({
             >
               <div className="pt-0.5">
                 <div className={`w-5 h-5 rounded-md border-2 flex items-center justify-center transition-colors ${
-                  (options.blockViewMyActivity && options.hideTheirActivity) ? 'border-error bg-error' : 'border-border-strong'
+                  (options.blockViewMyActivity && options.hideTheirActivity) ? 'border-danger bg-danger' : 'border-border-strong'
                 }`}>
                   {(options.blockViewMyActivity && options.hideTheirActivity) && (
                     <svg viewBox="0 0 12 10" width="10" height="10" fill="none">
@@ -177,16 +177,16 @@ export const BlockOptionsModal: React.FC<BlockOptionsModalProps> = ({
                     </svg>
                   )}
                   {(!options.blockViewMyActivity || !options.hideTheirActivity) && (options.blockViewMyActivity || options.hideTheirActivity) && (
-                    <div className="w-2 h-0.5 bg-error rounded-full" />
+                    <div className="w-2 h-0.5 bg-danger rounded-full" />
                   )}
                 </div>
               </div>
               <div className="flex-1 min-w-0">
-                <div className={`flex items-center gap-2 font-bold text-sm ${options.blockViewMyActivity || options.hideTheirActivity ? 'text-error' : 'text-text-primary'}`}>
+                <div className={`flex items-center gap-2 font-bold text-sm ${options.blockViewMyActivity || options.hideTheirActivity ? 'text-danger' : 'text-foreground'}`}>
                   <EyeOff size={15} />
                   <span>Chặn và ẩn nhật ký</span>
                 </div>
-                <p className="text-xs text-text-secondary mt-1 leading-relaxed">
+                <p className="text-xs text-secondary mt-1 leading-relaxed">
                   Quản lý quyền xem bài viết và hoạt động
                 </p>
               </div>
@@ -197,12 +197,12 @@ export const BlockOptionsModal: React.FC<BlockOptionsModalProps> = ({
                   setIsActivityExpanded(!isActivityExpanded);
                 }}
               >
-                <ChevronDown size={18} className={`text-text-tertiary transition-transform duration-200 ${isActivityExpanded ? 'rotate-180' : ''}`} />
+                <ChevronDown size={18} className={`text-muted transition-transform duration-200 ${isActivityExpanded ? 'rotate-180' : ''}`} />
               </div>
             </div>
             
             {isActivityExpanded && (
-              <div className="border-t border-border-light bg-bg-primary">
+              <div className="border-t border-border bg-surface">
                 {renderOption(
                   'blockViewMyActivity',
                   <EyeOff size={15} />,
@@ -210,7 +210,7 @@ export const BlockOptionsModal: React.FC<BlockOptionsModalProps> = ({
                   'Người này sẽ không xem được bài đăng của bạn.',
                   true
                 )}
-                <div className="h-px bg-border-light mx-4" />
+                <div className="h-px bg-border mx-4" />
                 {renderOption(
                   'hideTheirActivity',
                   <EyeOff size={15} />,
@@ -225,15 +225,15 @@ export const BlockOptionsModal: React.FC<BlockOptionsModalProps> = ({
 
         {/* Cảnh báo hủy kết bạn (Tối giản) */}
         {isFriend && isFullyBlocked(options) && (
-          <div className="px-6 py-2 bg-error/5 border-t border-error/10 animate-fade-in">
-            <p className="text-[11px] text-error/80 text-center font-medium">
+          <div className="px-6 py-2 bg-danger/5 border-t border-danger/10 animate-fade-in">
+            <p className="text-[11px] text-danger/80 text-center font-medium">
               Lưu ý: Việc áp dụng tất cả các hạn chế sẽ đồng thời <span className="font-bold">hủy kết bạn</span>.
             </p>
           </div>
         )}
 
-        <div className="px-6 py-5 border-t border-divider flex gap-3 pb-[calc(20px+env(safe-area-inset-bottom))] sm:pb-6">
-          <Button variant="secondary" onClick={onClose} className="flex-1 font-semibold h-11">
+        <div className="px-6 py-5 border-t border-border-default flex gap-3 pb-[calc(20px+env(safe-area-inset-bottom))] sm:pb-6">
+          <Button variant="secondary" onClick={onOpenChange} className="flex-1 font-semibold h-11">
             Hủy
           </Button>
           <Button

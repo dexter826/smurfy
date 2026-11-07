@@ -2,12 +2,34 @@ import React, { useState, useCallback } from 'react';
 import { MoreHorizontal, Edit, Trash2, Flag } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { formatRelativeTime, formatDateTime } from '@/utils/dateUtils';
-import { UserAvatar, Skeleton, Dropdown, DropdownItem, IconButton, ReactionDetailsModal, UploadProgress } from '@/components/ui';
-import { Post, PostStatus, Visibility, PostType, User, ReportType, ReactionType } from '@shared/types';
+import {
+  UserAvatar,
+  Skeleton,
+  Dropdown,
+  DropdownItem,
+  IconButton,
+  ReactionDetailsModal,
+  UploadProgress,
+} from '@/components/ui';
+import {
+  Post,
+  PostStatus,
+  Visibility,
+  PostType,
+  User,
+  ReportType,
+  ReactionType,
+} from '@shared/types';
 import { useReportStore } from '@/features/admin';
 import { usePostStore } from '@/store';
 import { useFriendIds, useFilteredReactions } from '@/hooks';
-import { VisibilityBadge, TruncatedText, InteractionActions, PostMediaGrid, SystemPostMedia } from './shared';
+import {
+  VisibilityBadge,
+  TruncatedText,
+  InteractionActions,
+  PostMediaGrid,
+  SystemPostMedia,
+} from './shared';
 import { LinkPreviewCard } from '@/components/shared/LinkPreviewCard';
 import { extractFirstUrl } from '@/services/linkPreviewService';
 
@@ -24,8 +46,15 @@ interface PostItemProps {
 }
 
 const PostItemInner: React.FC<PostItemProps> = ({
-  post, author, currentUser,
-  onReact, onEdit, onDelete, onViewDetail, onProfileClick, onShare,
+  post,
+  author,
+  currentUser,
+  onReact,
+  onEdit,
+  onDelete,
+  onViewDetail,
+  onProfileClick,
+  onShare,
 }) => {
   const [isReactionsModalOpen, setIsReactionsModalOpen] = useState(false);
   const navigate = useNavigate();
@@ -40,25 +69,31 @@ const PostItemInner: React.FC<PostItemProps> = ({
   const isSystemPost = post.type === PostType.AVATAR_UPDATE || post.type === PostType.COVER_UPDATE;
   const isFriend = friendIds?.includes(post.authorId) || false;
   const isDeleted = post.status === PostStatus.DELETED;
-  const canAccessByVisibility = isOwner
-    || post.visibility === Visibility.PUBLIC
-    || (post.visibility === Visibility.FRIENDS && isFriend);
+  const canAccessByVisibility =
+    isOwner ||
+    post.visibility === Visibility.PUBLIC ||
+    (post.visibility === Visibility.FRIENDS && isFriend);
   const canShare = !isDeleted && post.visibility !== Visibility.PRIVATE && canAccessByVisibility;
   const canShowInteractions = !isSystemPost || (!isDeleted && canAccessByVisibility);
 
   const { filteredSummary, filteredCount, currentUserReaction } = useFilteredReactions(
-    post.id, 'post', post.authorId, post.reactionCount
+    post.id,
+    'post',
+    post.authorId,
+    post.reactionCount,
   );
 
   const handleProfileClick = useCallback(() => {
-    if (author?.id) { onProfileClick?.(); navigate(`/profile/${author.id}`); }
+    if (author?.id) {
+      onProfileClick?.();
+      navigate(`/profile/${author.id}`);
+    }
   }, [author?.id, onProfileClick, navigate]);
 
   const handleViewDetail = useCallback(() => onViewDetail?.(post), [onViewDetail, post]);
 
   return (
-    <article className="group bg-bg-primary border border-border-light rounded-2xl overflow-hidden transition-theme animate-fade-in">
-
+    <article className="group bg-surface border border-border rounded-2xl overflow-hidden transition-theme animate-fade-in">
       {/* ── Header ── */}
       <div className="flex items-center px-4 py-3 gap-3">
         <UserAvatar
@@ -73,30 +108,26 @@ const PostItemInner: React.FC<PostItemProps> = ({
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-1.5 flex-wrap">
             <button
-              className="font-semibold text-text-primary text-sm hover:text-primary transition-colors duration-200 truncate"
+              className="font-semibold text-foreground text-sm hover:text-primary transition-colors duration-200 truncate"
               onClick={handleProfileClick}
             >
               {author?.fullName || 'Người dùng'}
             </button>
             {post.type === PostType.AVATAR_UPDATE && (
-              <span className="text-sm text-text-secondary font-normal">vừa cập nhật ảnh đại diện.</span>
+              <span className="text-sm text-secondary font-normal">vừa cập nhật ảnh đại diện.</span>
             )}
             {post.type === PostType.COVER_UPDATE && (
-              <span className="text-sm text-text-secondary font-normal">vừa cập nhật ảnh bìa.</span>
+              <span className="text-sm text-secondary font-normal">vừa cập nhật ảnh bìa.</span>
             )}
           </div>
-          <div className="flex items-center gap-1.5 text-xs text-text-tertiary mt-0.5">
-            <span title={formatDateTime(post.createdAt)}>
-              {formatRelativeTime(post.createdAt)}
-            </span>
+          <div className="flex items-center gap-1.5 text-xs text-muted mt-0.5">
+            <span title={formatDateTime(post.createdAt)}>{formatRelativeTime(post.createdAt)}</span>
             <span className="opacity-40">·</span>
             <VisibilityBadge visibility={post.visibility} size={11} />
             {post.status === PostStatus.PENDING && (
               <>
                 <span className="opacity-40">·</span>
-                <span className="text-text-tertiary font-medium">
-                  Đang xử lý...
-                </span>
+                <span className="text-muted font-medium">Đang xử lý...</span>
               </>
             )}
           </div>
@@ -105,17 +136,10 @@ const PostItemInner: React.FC<PostItemProps> = ({
         {/* Menu */}
         {isOwner ? (
           !isDeleted && (
-            <Dropdown
-              trigger={
-                <IconButton
-                  icon={<MoreHorizontal size={18} />}
-                  size="sm"
-                />
-              }
-            >
+            <Dropdown trigger={<IconButton icon={<MoreHorizontal size={18} />} size="sm" />}>
               <DropdownItem
                 icon={<Edit size={15} />}
-                label={isSystemPost ? "Chỉnh sửa quyền riêng tư" : "Chỉnh sửa bài viết"}
+                label={isSystemPost ? 'Chỉnh sửa quyền riêng tư' : 'Chỉnh sửa bài viết'}
                 onClick={() => onEdit?.(post.id)}
               />
               <DropdownItem
@@ -127,14 +151,7 @@ const PostItemInner: React.FC<PostItemProps> = ({
             </Dropdown>
           )
         ) : (
-          <Dropdown
-            trigger={
-              <IconButton
-                icon={<MoreHorizontal size={18} />}
-                size="sm"
-              />
-            }
-          >
+          <Dropdown trigger={<IconButton icon={<MoreHorizontal size={18} />} size="sm" />}>
             <DropdownItem
               icon={<Flag size={15} />}
               label="Báo cáo"
@@ -148,43 +165,35 @@ const PostItemInner: React.FC<PostItemProps> = ({
       {/* ── Text content ── */}
       {!isSystemPost && post.content && (
         <div className="px-4 pb-3">
-          <p className="text-text-primary whitespace-pre-line break-words text-sm leading-relaxed">
+          <p className="text-foreground whitespace-pre-line break-words text-sm leading-relaxed">
             <TruncatedText content={post.content} threshold={300} />
           </p>
           {error && (
-            <div className="mt-2 p-2.5 bg-error/5 border border-error/20 rounded-xl">
-              <span className="text-xs text-error font-medium">{error}</span>
+            <div className="mt-2 p-2.5 bg-danger/5 border border-danger/20 rounded-xl">
+              <span className="text-xs text-danger font-medium">{error}</span>
             </div>
           )}
           {/* Link preview - only when no media attached */}
-          {!isUploading && (post.media?.length ?? 0) === 0 && (() => {
-            const url = extractFirstUrl(post.content);
-            if (!url) return null;
-            return (
-              <LinkPreviewCard
-                url={url}
-                className="mt-3"
-              />
-            );
-          })()}
+          {!isUploading &&
+            (post.media?.length ?? 0) === 0 &&
+            (() => {
+              const url = extractFirstUrl(post.content);
+              if (!url) return null;
+              return <LinkPreviewCard url={url} className="mt-3" />;
+            })()}
         </div>
       )}
 
       {/* ── Media & Upload Progress ── */}
       <div className="relative">
         {isUploading && (
-          <div className="px-4 py-2 border-b border-border-light bg-bg-secondary/30">
-            <UploadProgress 
-              progress={uploadState.progress} 
-            />
+          <div className="px-4 py-2 border-b border-border bg-background/30">
+            <UploadProgress progress={uploadState.progress} />
           </div>
         )}
-        
+
         {!isSystemPost ? (
-          <PostMediaGrid
-            media={post.media || []}
-            onClick={handleViewDetail}
-          />
+          <PostMediaGrid media={post.media || []} onClick={handleViewDetail} />
         ) : (
           <SystemPostMedia
             type={post.type as PostType.AVATAR_UPDATE | PostType.COVER_UPDATE}
@@ -196,7 +205,7 @@ const PostItemInner: React.FC<PostItemProps> = ({
 
       {/* ── Reactions & comments ── */}
       {canShowInteractions && (
-        <div className={post.status === PostStatus.PENDING ? "opacity-50 pointer-events-none" : ""}>
+        <div className={post.status === PostStatus.PENDING ? 'opacity-50 pointer-events-none' : ''}>
           <InteractionActions
             reactionSummary={filteredSummary}
             reactionCount={filteredCount}
@@ -204,15 +213,17 @@ const PostItemInner: React.FC<PostItemProps> = ({
             commentCount={post.commentCount}
             onReact={(type) => onReact(post.id, type)}
             onCommentClick={handleViewDetail}
-            onShareClick={canShare ? () => onShare?.(post, author?.fullName || 'Người dùng') : undefined}
+            onShareClick={
+              canShare ? () => onShare?.(post, author?.fullName || 'Người dùng') : undefined
+            }
             onViewReactions={() => setIsReactionsModalOpen(true)}
           />
         </div>
       )}
 
       <ReactionDetailsModal
-        isOpen={isReactionsModalOpen}
-        onClose={() => setIsReactionsModalOpen(false)}
+        open={isReactionsModalOpen}
+        onOpenChange={() => setIsReactionsModalOpen(false)}
         sourceId={post.id}
         sourceType="post"
         currentUserId={currentUser.id}
@@ -223,7 +234,7 @@ const PostItemInner: React.FC<PostItemProps> = ({
 
 /* ── Skeleton ── */
 const PostSkeleton: React.FC = () => (
-  <div className="bg-bg-primary rounded-2xl border border-border-light overflow-hidden transition-theme">
+  <div className="bg-surface rounded-2xl border border-border overflow-hidden transition-theme">
     <div className="p-4 flex items-start gap-3">
       <Skeleton variant="circle" width={40} height={40} />
       <div className="space-y-2 flex-1">
@@ -235,8 +246,8 @@ const PostSkeleton: React.FC = () => (
       <Skeleton variant="line" width="88%" height={14} className="opacity-70" />
       <Skeleton variant="line" width="58%" height={14} className="opacity-50" />
     </div>
-    <div className="w-full aspect-video bg-bg-secondary" />
-    <div className="flex px-2 py-1 border-t border-border-light">
+    <div className="w-full aspect-video bg-background" />
+    <div className="flex px-2 py-1 border-t border-border">
       {[...Array(2)].map((_, i) => (
         <div key={i} className="flex-1 flex justify-center py-2.5">
           <Skeleton variant="line" width={64} height={18} className="opacity-40" />
@@ -248,5 +259,5 @@ const PostSkeleton: React.FC = () => (
 
 export const PostItem: React.FC<PostItemProps> & { Skeleton: React.FC } = Object.assign(
   React.memo(PostItemInner),
-  { Skeleton: PostSkeleton }
+  { Skeleton: PostSkeleton },
 );

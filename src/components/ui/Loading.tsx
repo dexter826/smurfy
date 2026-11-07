@@ -22,7 +22,7 @@ export const Loading: React.FC<LoadingProps> = ({
   if (variant === 'cube' || variant === 'page') {
     return (
       <div
-        className={`fixed inset-0 flex flex-col justify-center items-center bg-bg-primary gap-8 transition-theme ${className}`}
+        className={`fixed inset-0 flex flex-col justify-center items-center bg-surface gap-8 transition-theme ${className}`}
         style={{ zIndex: 'var(--z-toast)' }}
       >
         <div className="grid grid-cols-2 gap-3 w-16 h-16 animate-rotate-loader">
@@ -32,7 +32,7 @@ export const Loading: React.FC<LoadingProps> = ({
           <div className="w-full h-full rounded-lg screen-loader-cube" />
         </div>
         {text && (
-          <p className="text-text-secondary font-semibold tracking-wider text-xs uppercase animate-pulse">
+          <p className="text-secondary font-semibold tracking-wider text-xs uppercase animate-pulse">
             {text}
           </p>
         )}
@@ -42,9 +42,9 @@ export const Loading: React.FC<LoadingProps> = ({
 
   if (variant === 'overlay') {
     return (
-      <div className={`absolute inset-0 z-10 flex flex-col items-center justify-center bg-bg-overlay backdrop-blur-[2px] rounded-[inherit] transition-theme ${className}`}>
+      <div className={`absolute inset-0 z-10 flex flex-col items-center justify-center bg-overlay backdrop-blur-[2px] rounded-[inherit] transition-theme ${className}`}>
         {spinner}
-        {text && <p className="mt-2 text-text-secondary text-sm font-medium">{text}</p>}
+        {text && <p className="mt-2 text-secondary text-sm font-medium">{text}</p>}
       </div>
     );
   }
@@ -53,7 +53,7 @@ export const Loading: React.FC<LoadingProps> = ({
     return (
       <div className={`flex flex-col items-center justify-center p-8 w-full ${className}`}>
         {spinner}
-        {text && <p className="mt-2 text-text-secondary text-sm font-medium">{text}</p>}
+        {text && <p className="mt-2 text-secondary text-sm font-medium">{text}</p>}
       </div>
     );
   }
@@ -61,7 +61,7 @@ export const Loading: React.FC<LoadingProps> = ({
   return (
     <div className={`flex items-center justify-center ${className}`}>
       {spinner}
-      {text && <span className="ml-2 text-text-secondary text-sm font-medium">{text}</span>}
+      {text && <span className="ml-2 text-secondary text-sm font-medium">{text}</span>}
     </div>
   );
 };

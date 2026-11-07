@@ -89,7 +89,7 @@ export const VoiceMessage: React.FC<VoiceMessageProps> = ({
         </div>
         
         <div className="flex-1 min-w-0">
-          <div className="text-[13px] font-bold text-text-primary mb-1 transition-colors group-hover:text-primary">
+          <div className="text-[13px] font-bold text-foreground mb-1 transition-colors group-hover:text-primary">
             {isUploading ? `Đang tải ${Math.round(uploadProgress!.progress)}%` : 'Tin nhắn thoại'}
           </div>
           <div className="flex items-center gap-2">
@@ -98,7 +98,7 @@ export const VoiceMessage: React.FC<VoiceMessageProps> = ({
                 <div 
                   key={i} 
                   className={`w-0.5 rounded-full transition-all duration-300 ${
-                    isThisPlaying ? 'bg-primary' : (isMe ? 'bg-primary/60' : 'bg-text-tertiary/40')
+                    isThisPlaying ? 'bg-primary' : (isMe ? 'bg-primary/60' : 'bg-muted/40')
                   } ${isUploading ? 'animate-pulse' : ''}`}
                   style={{ 
                     height: isThisPlaying ? `${30 + Math.random() * 70}%` : '20%',
@@ -109,7 +109,7 @@ export const VoiceMessage: React.FC<VoiceMessageProps> = ({
             </div>
             
             <div className={`flex items-center gap-1 font-bold text-[10px] uppercase tracking-wider ${
-              isMe ? 'text-primary/80' : 'text-text-tertiary'
+              isMe ? 'text-primary/80' : 'text-muted'
             }`}>
               <Mic size={10} strokeWidth={3} />
               <span>{durationStr ?? '0:00'}</span>

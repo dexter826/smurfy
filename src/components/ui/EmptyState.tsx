@@ -33,15 +33,15 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
 
   const variantClasses = {
     default: 'bg-transparent',
-    boxed: 'bg-bg-primary rounded-2xl border border-border-light p-8 md:p-12 shadow-sm',
-    error: 'bg-error/5 rounded-2xl border border-error/10 p-8',
+    boxed: 'bg-surface rounded-md border border-border p-8 md:p-12 shadow-sm',
+    error: 'bg-danger-soft rounded-md border border-danger/10 p-8',
   }[variant];
 
-  const iconColor = variant === 'error' ? 'text-error' : 'text-text-tertiary';
+  const iconColor = variant === 'error' ? 'text-danger' : 'text-muted';
 
   const renderIcon = () => {
     if (!icon) return null;
-    
+
     if (React.isValidElement(icon)) {
       return icon;
     }
@@ -51,23 +51,21 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
   };
 
   return (
-    <div 
+    <div
       className={`flex flex-col items-center justify-center text-center animate-fade-in ${sizeConfig.gap} ${variantClasses} ${className}`}
     >
       {icon && (
-        <div className={`${sizeConfig.iconContainer} rounded-full bg-bg-secondary/40 flex items-center justify-center border border-border-light/50 flex-shrink-0`}>
+        <div
+          className={`${sizeConfig.iconContainer} rounded-full bg-background/40 flex items-center justify-center border border-border/50 flex-shrink-0`}
+        >
           {renderIcon()}
         </div>
       )}
-      
+
       <div className="max-w-sm space-y-1">
-        <h3 className={`${sizeConfig.title} font-semibold text-text-primary`}>
-          {title}
-        </h3>
+        <h3 className={`${sizeConfig.title} font-semibold text-foreground`}>{title}</h3>
         {description && (
-          <p className={`${sizeConfig.desc} text-text-tertiary leading-relaxed`}>
-            {description}
-          </p>
+          <p className={`${sizeConfig.desc} text-muted leading-relaxed`}>{description}</p>
         )}
       </div>
 

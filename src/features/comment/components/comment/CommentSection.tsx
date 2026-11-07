@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { X, MessageCircle, ChevronDown, ListFilter } from 'lucide-react';
-import { Button, ConfirmDialog, UploadProgress, Dropdown, DropdownItem, EmptyState } from '@/components/ui';
+import { Button, AlertDialog, UploadProgress, Dropdown, DropdownItem, EmptyState } from '@/components/ui';
 import { CONFIRM_MESSAGES, TOAST_MESSAGES } from '@/constants';
 import { toast } from '@/store/toastStore';
 import { Comment, User, ReportType, MediaObject } from '@shared/types';
@@ -172,20 +172,20 @@ export const CommentSection: React.FC<CommentSectionProps> = ({
   }, [rootHiddenCount, filteredRootComments, getFilteredReplies, postId, postOwnerId, currentUser.id, friendIdsKey]);
 
   return (
-    <div className={`flex flex-col min-h-0 transition-all duration-200 ${className} ${!header ? 'border-t border-border-light' : 'h-full bg-bg-primary'}`}>
+    <div className={`flex flex-col min-h-0 transition-all duration-200 ${className} ${!header ? 'border-t border-border' : 'h-full bg-surface'}`}>
 
       {/* Scrollable comment list */}
       <div className="flex-1 overflow-y-auto scroll-hide">
-        {header && <div className="bg-bg-primary">{header}</div>}
+        {header && <div className="bg-surface">{header}</div>}
 
         <div className="pb-4">
           {/* Comment Filter Header */}
           <div className="px-4 pt-2 pb-1 flex items-center justify-end">
             <Dropdown
               trigger={
-                <button className="flex items-center gap-1 text-[11px] font-semibold text-text-tertiary transition-colors duration-200">
+                <button className="flex items-center gap-1 text-[11px] font-semibold text-muted transition-colors duration-200">
                   <span>Sắp xếp:</span>
-                  <span className="text-text-secondary">{rootSortOrder[postId] === 'asc' ? 'Cũ nhất' : 'Mới nhất'}</span>
+                  <span className="text-secondary">{rootSortOrder[postId] === 'asc' ? 'Cũ nhất' : 'Mới nhất'}</span>
                   <ChevronDown size={12} />
                 </button>
               }
@@ -228,8 +228,8 @@ export const CommentSection: React.FC<CommentSectionProps> = ({
           ) : (
             <div className="flex flex-col">
               {rootHiddenCount > 0 && (
-                <div className="mx-4 my-2 py-2 border-b border-border-light/30 text-center">
-                  <p className="text-xs text-text-tertiary italic">
+                <div className="mx-4 my-2 py-2 border-b border-border/30 text-center">
+                  <p className="text-xs text-muted italic">
                     Có {totalCommentCount} bình luận. {readonly 
                       ? (readonlyMessage === "" ? "" : (readonlyMessage || 'Bạn không thể tương tác với bài viết này.')) 
                       : 'Một số bình luận có thể bị giới hạn theo quyền riêng tư.'}
@@ -285,9 +285,9 @@ export const CommentSection: React.FC<CommentSectionProps> = ({
       {/* Sticky input area */}
       {!readonly && (
         <div
-          className={`flex-shrink-0 sticky bottom-0 bg-bg-primary border-t border-border-light
+          className={`flex-shrink-0 sticky bottom-0 bg-surface border-t border-border
             ${variant === 'cinema'
-              ? 'p-4 md:p-5 bg-bg-primary/95 backdrop-blur-md shadow-md'
+              ? 'p-4 md:p-5 bg-surface/95 backdrop-blur-md shadow-md'
               : 'p-3 md:p-4'
             }
             pb-[calc(12px+env(safe-area-inset-bottom))] md:pb-4`}
@@ -323,9 +323,9 @@ export const CommentSection: React.FC<CommentSectionProps> = ({
         </div>
       )}
 
-      <ConfirmDialog
-        isOpen={!!commentToDelete}
-        onClose={() => setCommentToDelete(null)}
+      <AlertDialog
+        open={!!commentToDelete}
+        onOpenChange={() => setCommentToDelete(null)}
         onConfirm={handleDeleteConfirm}
         title={CONFIRM_MESSAGES.FEED.DELETE_COMMENT.TITLE}
         message={CONFIRM_MESSAGES.FEED.DELETE_COMMENT.MESSAGE(

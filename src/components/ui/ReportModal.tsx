@@ -18,7 +18,7 @@ import { reportService } from '@/features/admin';
 
 export const ReportModal: React.FC = () => {
   const { user } = useAuthStore();
-  const { isOpen, data: reportContext, isSubmitting: isStoreSubmitting, closeReportModal, submitReport } = useReportStore();
+  const { isOpen: open, data: reportContext, isSubmitting: isStoreSubmitting, closeReportModal, submitReport } = useReportStore();
 
   const [selectedImages, setSelectedImages] = useState<File[]>([]);
   const [previewUrls, setPreviewUrls] = useState<string[]>([]);
@@ -46,7 +46,7 @@ export const ReportModal: React.FC = () => {
   const formData = watch();
 
   useEffect(() => {
-    if (isOpen) {
+    if (open) {
       reset({
         reason: '',
         description: '',
@@ -56,7 +56,7 @@ export const ReportModal: React.FC = () => {
       setPreviewUrls([]);
       setShouldBlock(false);
     }
-  }, [isOpen, reset]);
+  }, [open, reset]);
 
   // Thu hồi URL preview.
   useEffect(() => {
@@ -155,21 +155,21 @@ export const ReportModal: React.FC = () => {
         <div className={`
           flex items-start gap-3 p-3 rounded-xl border transition-all duration-200 animate-fade-in
           ${shouldBlock 
-            ? 'border-error/20 bg-error/5' 
-            : 'border-border-light bg-bg-hover/30 hover:bg-bg-hover'
+            ? 'border-danger/20 bg-danger/5' 
+            : 'border-border bg-hover/30 hover:bg-hover'
           }
         `}>
           <div className="flex-shrink-0 mt-0.5">
             <Checkbox
               id="report-block-user"
               checked={shouldBlock}
-              onChange={(e) => setShouldBlock(e.target.checked)}
-              className="checked:bg-error checked:border-error hover:border-error/50 focus-visible:ring-error/40"
+              onCheckedChange={(checked) => setShouldBlock(checked === true)}
+              className="data-[state=checked]:bg-danger data-[state=checked]:border-danger hover:border-danger/50 focus-visible:ring-danger/50"
             />
           </div>
           <label htmlFor="report-block-user" className="cursor-pointer flex-1 min-w-0">
-            <div className={`text-sm font-medium transition-colors ${shouldBlock ? 'text-error' : 'text-text-primary'}`}>Chặn người dùng này</div>
-            <div className={`text-xs mt-0.5 transition-colors ${shouldBlock ? 'text-error/80' : 'text-text-secondary'}`}>
+            <div className={`text-sm font-medium transition-colors ${shouldBlock ? 'text-danger' : 'text-foreground'}`}>Chặn người dùng này</div>
+            <div className={`text-xs mt-0.5 transition-colors ${shouldBlock ? 'text-danger/80' : 'text-secondary'}`}>
               Họ sẽ không thể nhắn tin hay xem trang cá nhân của bạn
               {(() => {
                 const targetId = reportContext?.type === ReportType.USER ? reportContext.id : reportContext?.ownerId;
@@ -212,10 +212,10 @@ export const ReportModal: React.FC = () => {
 
   return (
     <Modal
-      isOpen={isOpen}
-      onClose={handleClose}
+      open={open}
+      onOpenChange={handleClose}
       title={isUserReport ? "Báo cáo người dùng" : "Báo cáo vi phạm"}
-      maxWidth="sm"
+      size="sm"
       footer={modalFooter}
     >
       <form id="report-form" onSubmit={handleSubmit(onFormSubmit)} className="space-y-4">
@@ -228,7 +228,7 @@ export const ReportModal: React.FC = () => {
                 flex items-start gap-3 p-3 rounded-xl cursor-pointer transition-all duration-200
                 border ${formData.reason === key
                   ? 'border-primary bg-primary/5'
-                  : 'border-border-light hover:bg-bg-hover active:bg-bg-active hover:border-border-medium'
+                  : 'border-border hover:bg-hover active:bg-active hover:border-border-strong'
                 }
               `}
             >
@@ -239,8 +239,8 @@ export const ReportModal: React.FC = () => {
                 className="mt-0.5 accent-primary w-4 h-4"
               />
               <div className="flex-1 min-w-0">
-                <div className="font-medium text-text-primary text-sm">{value.label}</div>
-                <div className="text-xs text-text-secondary mt-0.5">{value.description}</div>
+                <div className="font-medium text-foreground text-sm">{value.label}</div>
+                <div className="text-xs text-secondary mt-0.5">{value.description}</div>
               </div>
             </label>
           ))}
@@ -248,15 +248,15 @@ export const ReportModal: React.FC = () => {
 
         {/* Validation Error for Reason */}
         {errors.reason && (
-          <p className="text-xs text-error mt-1">{errors.reason.message}</p>
+          <p className="text-xs text-danger mt-1">{errors.reason.message}</p>
         )}
 
         {/* Mô tả thêm */}
         {(formData.reason === ReportReason.OTHER || formData.reason !== '') && (
           <div className="space-y-4 animate-fade-in">
             <div className="space-y-2">
-              <label className="text-sm font-medium text-text-primary">
-                Mô tả chi tiết {formData.reason === ReportReason.OTHER && <span className="text-text-secondary">(bắt buộc)</span>}
+              <label className="text-sm font-medium text-foreground">
+                Mô tả chi tiết {formData.reason === ReportReason.OTHER && <span className="text-secondary">(bắt buộc)</span>}
               </label>
               <TextArea
                 placeholder="Vui lòng mô tả lý do báo cáo..."
@@ -271,15 +271,15 @@ export const ReportModal: React.FC = () => {
             {/* Upload Image Section */}
             <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <label className="text-sm font-medium text-text-primary">
+                <label className="text-sm font-medium text-foreground">
                   Hình ảnh bằng chứng (Tối đa {REPORT_CONFIG.MAX_IMAGES_PER_REPORT} ảnh)
                 </label>
-                <span className="text-xs text-text-tertiary">{selectedImages.length}/{REPORT_CONFIG.MAX_IMAGES_PER_REPORT}</span>
+                <span className="text-xs text-muted">{selectedImages.length}/{REPORT_CONFIG.MAX_IMAGES_PER_REPORT}</span>
               </div>
 
               <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
                 {previewUrls.map((url, index) => (
-                  <div key={index} className="aspect-square relative group rounded-xl overflow-hidden border border-border-light">
+                  <div key={index} className="aspect-square relative group rounded-xl overflow-hidden border border-border">
                     <img src={url} alt="Preview" className="w-full h-full object-cover" />
                     <button
                       type="button"
@@ -295,7 +295,7 @@ export const ReportModal: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => fileInputRef.current?.click()}
-                    className="aspect-square flex flex-col items-center justify-center gap-1 border border-dashed border-border-light rounded-xl hover:bg-bg-hover active:bg-bg-active hover:border-primary/50 transition-all duration-200 text-text-tertiary hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+                    className="aspect-square flex flex-col items-center justify-center gap-1 border border-dashed border-border rounded-xl hover:bg-hover active:bg-active hover:border-primary/50 transition-all duration-200 text-muted hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
                   >
                     <ImageIcon size={20} />
                     <span className="text-xs">Thêm ảnh</span>

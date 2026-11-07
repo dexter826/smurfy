@@ -9,7 +9,7 @@ interface RecalledMessageProps {
  */
 export const RecalledMessage: React.FC<RecalledMessageProps> = ({ isMe }) => (
   <div className={`italic text-[13px] font-medium py-0.5 opacity-70 ${
-    isMe ? 'text-text-primary' : 'text-text-tertiary'
+    isMe ? 'text-foreground' : 'text-muted'
   }`}>
     Tin nhắn đã thu hồi
   </div>

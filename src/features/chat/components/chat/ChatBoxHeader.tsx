@@ -22,7 +22,7 @@ const ChatBoxHeaderInner: React.FC<ChatBoxHeaderProps> = ({
   conversation, participants, chatName, avatarSrc, partner,
   usersMap, onBack, onInfoClick, onCall, onVideoCall, canCall = true,
 }) => (
-  <div className="flex-shrink-0 flex items-center justify-between px-3 md:px-4 h-16 border-b border-border-light bg-bg-primary transition-theme z-[var(--z-sticky)]">
+  <div className="flex-shrink-0 flex items-center justify-between px-3 md:px-4 h-16 border-b border-border bg-surface transition-theme z-[var(--z-sticky)]">
     {/* Left Content */}
     <div className="flex items-center gap-2 md:gap-3 flex-1 min-w-0">
       {onBack && (
@@ -52,7 +52,7 @@ const ChatBoxHeaderInner: React.FC<ChatBoxHeaderProps> = ({
 
       <div className="flex-1 min-w-0 flex flex-col justify-center">
         <div className="flex items-center gap-1.5">
-          <h2 className="text-sm font-semibold text-text-primary truncate leading-tight">
+          <h2 className="text-sm font-semibold text-foreground truncate leading-tight">
             {chatName}
           </h2>
           {!conversation.data.isGroup && partner &&
@@ -69,7 +69,7 @@ const ChatBoxHeaderInner: React.FC<ChatBoxHeaderProps> = ({
           />
         )}
         {conversation.data.isGroup && (
-          <span className="text-xs text-text-tertiary truncate leading-tight">
+          <span className="text-xs text-muted truncate leading-tight">
             {participants.length} thành viên
           </span>
         )}

@@ -14,7 +14,7 @@ export const GifMessage: React.FC<GifMessageProps> = ({ message, onLoad }) => {
   const gifUrl = message.data.content;
   
   return (
-    <div className="rounded-xl overflow-hidden max-w-[320px] max-h-[420px] shadow-md bg-bg-secondary border border-border-light animate-fade-in hover:shadow-lg transition-shadow duration-300 w-fit">
+    <div className="rounded-xl overflow-hidden max-w-[320px] max-h-[420px] shadow-md bg-background border border-border animate-fade-in hover:shadow-lg transition-shadow duration-300 w-fit">
       <LazyImage 
         src={gifUrl} 
         alt="GIF" 

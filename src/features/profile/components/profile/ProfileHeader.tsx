@@ -50,7 +50,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
   const { openReportModal } = useReportStore();
 
   const [cropState, setCropState] = useState<{
-    isOpen: boolean; type: 'avatar' | 'cover'; image: string;
+    open: boolean; type: 'avatar' | 'cover'; image: string;
   } | null>(null);
 
   const openFilePicker = (type: 'avatar' | 'cover') => {
@@ -65,7 +65,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
     const validation = validateFile(file, type === 'avatar' ? 'AVATAR' : 'COVER');
     if (!validation.isValid) { if (validation.error) toast.error(validation.error); return; }
     const blobUrl = URL.createObjectURL(file);
-    setCropState({ isOpen: true, type, image: blobUrl });
+    setCropState({ open: true, type, image: blobUrl });
     e.target.value = '';
   };
 
@@ -143,13 +143,13 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
 
             {/* Avatar */}
             <div className="relative -mt-14 md:-mt-16 mx-auto md:mx-0 flex-shrink-0" style={{ zIndex: 'var(--z-sticky)' }}>
-              <div className="p-1 bg-bg-primary rounded-full shadow-md overflow-hidden">
+              <div className="p-1 bg-surface rounded-full shadow-md overflow-hidden">
                 <UserAvatar
                   userId={user.id}
                   src={user.avatar?.url}
                   name={user.fullName}
                   size="2xl"
-                  className={`border-4 border-bg-primary ${user.avatar?.url && onAvatarClick ? 'cursor-pointer' : ''}`}
+                  className={`border-4 border-surface ${user.avatar?.url && onAvatarClick ? 'cursor-pointer' : ''}`}
                   initialStatus={user.status}
                   showStatus={false}
                   onClick={user.avatar?.url ? onAvatarClick : undefined}
@@ -166,7 +166,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
                     trigger={
                       <button
                         disabled={!!uploadingType && uploadingType !== 'avatar'}
-                        className="w-9 h-9 flex items-center justify-center bg-bg-primary hover:bg-bg-hover border-2 border-bg-primary rounded-full shadow-md transition-colors duration-200 text-text-secondary hover:text-primary disabled:opacity-50"
+                        className="w-9 h-9 flex items-center justify-center bg-surface hover:bg-hover border-2 border-surface rounded-full shadow-md transition-colors duration-200 text-secondary hover:text-primary disabled:opacity-50"
                       >
                         <Pencil size={15} />
                       </button>
@@ -185,11 +185,11 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
 
             {/* Name */}
             <div className="flex-1 min-w-0 pb-1">
-              <h1 className="text-2xl md:text-3xl font-bold text-text-primary truncate">
+              <h1 className="text-2xl md:text-3xl font-bold text-foreground truncate">
                 {user.fullName}
               </h1>
               {!isOwnProfile && friendStatus !== FriendStatus.FRIEND && (
-                <div className="flex items-center justify-center md:justify-start gap-1.5 mt-1 text-text-tertiary text-xs md:text-sm font-medium animate-fade-in group">
+                <div className="flex items-center justify-center md:justify-start gap-1.5 mt-1 text-muted text-xs md:text-sm font-medium animate-fade-in group">
                   <BookUser size={14} className="text-primary/70 group-hover:text-primary transition-colors" />
                   <span className="truncate">
                     {(() => {
@@ -224,7 +224,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
                   </Button>
                 </>
               ) : user.status === UserStatus.BANNED ? (
-                <span className="px-3 py-2 rounded-xl bg-error/10 text-error text-sm font-medium border border-error/20">
+                <span className="px-3 py-2 rounded-xl bg-danger/10 text-danger text-sm font-medium border border-danger/20">
                   Tài khoản đã bị khóa
                 </span>
               ) : (
@@ -244,7 +244,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
                           variant="secondary"
                           onClick={onFriendClick}
                           icon={<UserCheck size={17} />}
-                          className="bg-primary/10 text-primary border-primary/20 hover:bg-error/10 hover:text-error hover:border-error/20"
+                          className="bg-primary/10 text-primary border-primary/20 hover:bg-danger/10 hover:text-danger hover:border-danger/20"
                         >
                           Bạn bè
                         </Button>
@@ -253,7 +253,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
                           variant="secondary"
                           onClick={onFriendClick}
                           icon={<X size={17} />}
-                          className="hover:bg-error/10 hover:text-error hover:border-error/20"
+                          className="hover:bg-danger/10 hover:text-danger hover:border-danger/20"
                         >
                           Hủy lời mời
                         </Button>
@@ -274,7 +274,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
                     <div className="flex items-center gap-2">
                       <Button 
                         variant="secondary" 
-                        className="bg-error/5 text-error border-error/20 hover:bg-error/10"
+                        className="bg-danger/5 text-danger border-danger/20 hover:bg-danger/10"
                         onClick={onUnblockClick}
                         icon={<Ban size={17} />}
                       >
@@ -311,7 +311,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
 
       {cropState && (
         <ImageCropper
-          isOpen={cropState.isOpen}
+          open={cropState.open}
           image={cropState.image}
           aspect={cropState.type === 'avatar' ? 1 : 16 / 9}
           title={cropState.type === 'avatar' ? 'Cắt ảnh đại diện' : 'Cắt ảnh bìa'}

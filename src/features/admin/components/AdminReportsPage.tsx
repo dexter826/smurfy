@@ -10,7 +10,7 @@ const AdminReportsPage: React.FC = () => {
 
   if (!isInitialized) {
     return (
-      <div className="p-6 space-y-5 h-full bg-bg-secondary/20 animate-fade-in">
+      <div className="p-6 space-y-5 h-full bg-background/20 animate-fade-in">
         <Skeleton className="h-9 w-44 rounded-xl" />
         <Skeleton className="h-16 w-full rounded-2xl" />
         <div className="space-y-3">
@@ -30,7 +30,7 @@ const AdminReportsPage: React.FC = () => {
       {selectedReportId && (
         <ReportDetailModal
           reportId={selectedReportId}
-          onClose={() => setSelectedReportId(null)}
+          onOpenChange={() => setSelectedReportId(null)}
         />
       )}
     </div>

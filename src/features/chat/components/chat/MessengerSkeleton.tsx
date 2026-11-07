@@ -4,12 +4,12 @@ import { ConversationItem } from './conversation/ConversationItem';
 
 /** Skeleton hiển thị cho toàn bộ trang Messenger */
 export const MessengerSkeleton: React.FC = () => (
-  <div className="flex h-full w-full bg-bg-primary overflow-hidden">
+  <div className="flex h-full w-full bg-surface overflow-hidden">
 
     {/* Sidebar Skeleton */}
-    <div className="flex flex-col w-full md:w-[300px] lg:w-[360px] border-r border-border-light flex-shrink-0">
+    <div className="flex flex-col w-full md:w-[300px] lg:w-[360px] border-r border-border flex-shrink-0">
       {/* Header */}
-      <div className="px-4 py-3 border-b border-border-light space-y-3">
+      <div className="px-4 py-3 border-b border-border space-y-3">
         <div className="flex justify-between items-center h-10">
           <Skeleton width={110} height={22} />
           <Skeleton variant="circle" width={36} height={36} />
@@ -30,9 +30,9 @@ export const MessengerSkeleton: React.FC = () => (
     </div>
 
     {/* Main Chat Skeleton Desktop */}
-    <div className="hidden md:flex flex-1 flex-col bg-bg-chat">
+    <div className="hidden md:flex flex-1 flex-col bg-chat">
       {/* Chat header */}
-      <div className="h-16 px-4 border-b border-border-light bg-bg-primary flex items-center justify-between flex-shrink-0">
+      <div className="h-16 px-4 border-b border-border bg-surface flex items-center justify-between flex-shrink-0">
         <div className="flex items-center gap-3">
           <Skeleton variant="circle" width={40} height={40} />
           <div className="space-y-1.5">
@@ -67,7 +67,7 @@ export const MessengerSkeleton: React.FC = () => (
       </div>
 
       {/* Input */}
-      <div className="p-3 md:p-4 bg-bg-primary border-t border-border-light flex-shrink-0">
+      <div className="p-3 md:p-4 bg-surface border-t border-border flex-shrink-0">
         <Skeleton height={44} className="rounded-xl" />
       </div>
     </div>

@@ -50,7 +50,7 @@ export const MessageActions: React.FC<MessageActionsProps> = ({
       )}
 
       <Dropdown
-        isOpen={showMenu}
+        open={showMenu}
         onOpenChange={setShowMenu}
         align={isMe ? 'right' : 'left'}
         trigger={

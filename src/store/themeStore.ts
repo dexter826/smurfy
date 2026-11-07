@@ -2,37 +2,52 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { ThemeMode } from '@shared/types';
 
+type StoredTheme = ThemeMode | null;
+
 interface ThemeState {
-  mode: ThemeMode;
+  mode: StoredTheme;
   toggleTheme: () => void;
   applyTheme: () => void;
+  resolvedMode: () => ThemeMode;
 }
+
+const systemPrefersDark = () =>
+  typeof window !== 'undefined' && window.matchMedia('(prefers-color-scheme: dark)').matches;
 
 export const useThemeStore = create<ThemeState>()(
   persist(
     (set, get) => ({
-      mode: 'light',
-      /** Chuyển đổi chế độ giao diện */
+      mode: null,
       toggleTheme: () => {
-        const newMode = get().mode === 'light' ? 'dark' : 'light';
-        set({ mode: newMode });
+        const next: ThemeMode = get().resolvedMode() === 'light' ? 'dark' : 'light';
+        set({ mode: next });
         get().applyTheme();
       },
-      /** Áp dụng giao diện hiện tại */
       applyTheme: () => {
-        const { mode } = get();
-        if (mode === 'dark') {
-          document.documentElement.classList.add('dark');
+        const root = document.documentElement;
+        if (get().resolvedMode() === 'dark') {
+          root.classList.add('dark');
         } else {
-          document.documentElement.classList.remove('dark');
+          root.classList.remove('dark');
         }
       },
+      resolvedMode: () => get().mode ?? (systemPrefersDark() ? 'dark' : 'light'),
     }),
     {
       name: 'smurf_social_theme',
       onRehydrateStorage: () => (state) => {
         state?.applyTheme();
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+          if (useThemeStore.getState().mode === null) {
+            useThemeStore.getState().applyTheme();
+          }
+        });
       },
-    }
-  )
+    },
+  ),
 );
+
+export const useResolvedTheme = (): ThemeMode => {
+  const mode = useThemeStore((s) => s.mode);
+  return mode ?? (systemPrefersDark() ? 'dark' : 'light');
+};

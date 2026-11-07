@@ -33,27 +33,28 @@ export const Input: React.FC<InputProps> = ({
       {label && (
         <label
           htmlFor={inputId}
-          className="text-xs font-semibold text-text-secondary ml-1 cursor-pointer"
+          className="text-caption font-semibold text-secondary ml-1 cursor-pointer"
         >
           {label}
         </label>
       )}
       <div className="relative group">
         {icon && (
-          <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-text-tertiary group-focus-within:text-primary transition-colors duration-200">
+          <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-muted group-focus-within:text-primary transition-colors duration-200">
             {icon}
           </div>
         )}
         <input
           id={inputId}
           className={`
-            w-full bg-bg-primary border rounded-xl transition-all duration-200 outline-none
-            text-text-primary placeholder:text-text-tertiary
-            ${error
-              ? 'border-error focus:ring-2 focus:ring-error/20 focus:border-error'
-              : 'border-border-light focus:ring-2 focus:ring-primary/20 focus:border-primary hover:border-border-medium'
+            w-full bg-surface border rounded-sm transition-all duration-200 outline-none
+            text-foreground placeholder:text-muted
+            ${
+              error
+                ? 'border-danger focus:ring-2 focus:ring-danger/50 focus:border-danger'
+                : 'border-border focus:ring-2 focus:ring-focus/50 focus:border-primary hover:border-border-strong'
             }
-            disabled:bg-bg-secondary disabled:text-text-tertiary disabled:cursor-not-allowed disabled:border-border-light
+            disabled:bg-background disabled:text-muted disabled:cursor-not-allowed disabled:border-border
             ${sizeClasses[size]}
             ${icon ? 'pl-10' : ''}
             ${rightElement ? 'pr-10' : ''}
@@ -62,13 +63,11 @@ export const Input: React.FC<InputProps> = ({
           {...props}
         />
         {rightElement && (
-          <div className="absolute inset-y-0 right-0 pr-1.5 flex items-center">
-            {rightElement}
-          </div>
+          <div className="absolute inset-y-0 right-0 pr-1.5 flex items-center">{rightElement}</div>
         )}
       </div>
       {error && (
-        <p className="mt-0.5 ml-1 text-xs font-medium text-error flex items-center gap-1 animate-fade-in">
+        <p className="mt-0.5 ml-1 text-xs font-medium text-danger flex items-center gap-1 animate-fade-in">
           {error}
         </p>
       )}

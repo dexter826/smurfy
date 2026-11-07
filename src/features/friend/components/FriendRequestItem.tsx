@@ -21,7 +21,7 @@ const FriendRequestItemInner: React.FC<FriendRequestItemProps> = ({
   const navigate = useNavigate();
 
   return (
-    <div className="flex flex-col sm:flex-row sm:items-center justify-between px-4 py-3.5 transition-colors duration-200 hover:bg-bg-hover border-b border-border-light/60 last:border-0 gap-3">
+    <div className="flex flex-col sm:flex-row sm:items-center justify-between px-4 py-3.5 transition-colors duration-200 hover:bg-hover border-b border-border/60 last:border-0 gap-3">
       {/* User info */}
       <div className="flex items-center gap-3 flex-1 min-w-0">
         <UserAvatar
@@ -34,12 +34,12 @@ const FriendRequestItemInner: React.FC<FriendRequestItemProps> = ({
         />
         <div className="flex-1 min-w-0">
           <button
-            className="text-sm font-semibold text-text-primary hover:text-primary transition-colors duration-200 truncate block text-left"
+            className="text-sm font-semibold text-foreground hover:text-primary transition-colors duration-200 truncate block text-left"
             onClick={() => navigate(`/profile/${user.id}`)}
           >
             {user.fullName}
           </button>
-          <p className="text-xs text-text-tertiary mt-0.5 flex items-center gap-1">
+          <p className="text-xs text-muted mt-0.5 flex items-center gap-1">
             <Clock size={11} />
             {formatRelativeTime(request.createdAt)}
           </p>
@@ -88,7 +88,7 @@ const FriendRequestItemInner: React.FC<FriendRequestItemProps> = ({
 };
 
 const FriendRequestItemSkeleton: React.FC = () => (
-    <div className="flex flex-col sm:flex-row sm:items-center justify-between px-4 py-3.5 border-b border-border-light/60 last:border-0 gap-3">
+    <div className="flex flex-col sm:flex-row sm:items-center justify-between px-4 py-3.5 border-b border-border/60 last:border-0 gap-3">
         <div className="flex items-center gap-3 flex-1">
             <Skeleton variant="circle" width={40} height={40} />
             <div className="space-y-1.5 flex-1">

@@ -3,8 +3,14 @@ import { useNavigate } from 'react-router-dom';
 import { Smile, RefreshCw, AlertCircle, Pin } from 'lucide-react';
 import { RtdbMessage, User, MessageType, UserStatus } from '@shared/types';
 import {
-  UserAvatar, ReactionDisplay, ReactionSelector,
-  Modal, UserStatusText, ConfirmDialog, MediaViewer, ReactionDetailsModal,
+  UserAvatar,
+  ReactionDisplay,
+  ReactionSelector,
+  Modal,
+  UserStatusText,
+  AlertDialog,
+  MediaViewer,
+  ReactionDetailsModal,
 } from '@/components/ui';
 import { useRtdbChatStore } from '@/store';
 import { getMessageDisplayContent } from '@/utils/chatUtils';
@@ -12,6 +18,7 @@ import { TIME_LIMITS } from '@/constants/appConfig';
 import { formatTimeOnly } from '@/utils/dateUtils';
 import { scrollToMessage } from '@/utils';
 import { MessageContent } from './MessageContent';
+import { MessageReplyPreview } from './MessageReplyPreview';
 import { MessageActions } from './MessageActions';
 import { MessageStatus } from './MessageStatus';
 import { useIntersectionObserver } from '@/hooks/utils/useIntersectionObserver';
@@ -48,12 +55,32 @@ interface MessageBubbleProps {
 
 /** Bong bóng hiển thị nội dung tin nhắn */
 const MessageBubbleInner: React.FC<MessageBubbleProps> = ({
-  message, isMe, sender, showAvatar, showName, isLastMessage,
-  onRecall, onDeleteForMe, onForward, onReply, onEdit,
-  currentUserId, usersMap, isGroup = false, lastReadByUsers = [],
-  isBlocked = false, partnerStatus, onCall, onJoinCall,
-  conversationId, allMessages = [], onContentLoad, onMarkAsRead,
-  isPinned = false, onPin, onUnpin,
+  message,
+  isMe,
+  sender,
+  showAvatar,
+  showName,
+  isLastMessage,
+  onRecall,
+  onDeleteForMe,
+  onForward,
+  onReply,
+  onEdit,
+  currentUserId,
+  usersMap,
+  isGroup = false,
+  lastReadByUsers = [],
+  isBlocked = false,
+  partnerStatus,
+  onCall,
+  onJoinCall,
+  conversationId,
+  allMessages = [],
+  onContentLoad,
+  onMarkAsRead,
+  isPinned = false,
+  onPin,
+  onUnpin,
 }) => {
   const navigate = useNavigate();
   const [showMenu, setShowMenu] = useState(false);
@@ -69,22 +96,27 @@ const MessageBubbleInner: React.FC<MessageBubbleProps> = ({
 
   useClickOutside([containerRef], () => setShowActions(false), showActions);
 
-  const isMedia = useMemo(() => 
-    message.data.type === MessageType.IMAGE || 
-    message.data.type === MessageType.VIDEO || 
-    message.data.type === MessageType.GIF,
-  [message.data.type]);
-                  
+  const isMedia = useMemo(
+    () =>
+      message.data.type === MessageType.IMAGE ||
+      message.data.type === MessageType.VIDEO ||
+      message.data.type === MessageType.GIF,
+    [message.data.type],
+  );
+
   const [isContentReady, setIsContentReady] = useState(!isMedia);
 
-  const observerRef = useIntersectionObserver(() => {
-    if (!isMe && !message.data.readBy?.[currentUserId] && onMarkAsRead) {
-      onMarkAsRead(message.id);
-    }
-  }, { 
-    threshold: 0.5, 
-    enabled: !isMe && !message.data.readBy?.[currentUserId] && !!onMarkAsRead 
-  });
+  const observerRef = useIntersectionObserver(
+    () => {
+      if (!isMe && !message.data.readBy?.[currentUserId] && onMarkAsRead) {
+        onMarkAsRead(message.id);
+      }
+    },
+    {
+      threshold: 0.5,
+      enabled: !isMe && !message.data.readBy?.[currentUserId] && !!onMarkAsRead,
+    },
+  );
 
   const handleContentLoad = useCallback(() => {
     setIsContentReady(true);
@@ -98,45 +130,53 @@ const MessageBubbleInner: React.FC<MessageBubbleProps> = ({
   const isDelivered = useMemo(() => {
     if (!isGroup && partnerStatus === UserStatus.BANNED) return false;
     if (!message.data.deliveredTo) return false;
-    return Object.keys(message.data.deliveredTo).some(uid => uid !== currentUserId);
+    return Object.keys(message.data.deliveredTo).some((uid) => uid !== currentUserId);
   }, [message.data.deliveredTo, currentUserId, isGroup, partnerStatus]);
 
   const isPartnerBanned = !isGroup && partnerStatus === UserStatus.BANNED;
   const isInteractionDisabled = isBlocked || isPartnerBanned;
 
-  const canEdit = isMe && !message.data.isRecalled &&
-    (message.data.type === MessageType.TEXT || (message.data.type === MessageType.IMAGE && !!message.data.content)) &&
-    (Date.now() - message.data.createdAt) <= TIME_LIMITS.MESSAGE_EDIT_WINDOW;
+  const canEdit =
+    isMe &&
+    !message.data.isRecalled &&
+    (message.data.type === MessageType.TEXT ||
+      (message.data.type === MessageType.IMAGE && !!message.data.content)) &&
+    Date.now() - message.data.createdAt <= TIME_LIMITS.MESSAGE_EDIT_WINDOW;
 
   const hasReactions = message.data.reactions && Object.keys(message.data.reactions).length > 0;
   const myReaction = message.data.reactions?.[currentUserId];
 
   const reactionSummary = useMemo(() => {
     if (!message.data.reactions) return {};
-    return Object.entries(message.data.reactions).reduce((acc, [, emoji]) => {
-      acc[emoji] = (acc[emoji] || 0) + 1;
-      return acc;
-    }, {} as Record<string, number>);
+    return Object.entries(message.data.reactions).reduce(
+      (acc, [, emoji]) => {
+        acc[emoji] = (acc[emoji] || 0) + 1;
+        return acc;
+      },
+      {} as Record<string, number>,
+    );
   }, [message.data.reactions]);
 
-  const reactionCount = useMemo(() =>
-    Object.keys(message.data.reactions || {}).length,
-    [message.data.reactions]
+  const reactionCount = useMemo(
+    () => Object.keys(message.data.reactions || {}).length,
+    [message.data.reactions],
   );
-
 
   /* System Message */
   if (message.data.type === MessageType.SYSTEM) {
     return (
       <div className="flex justify-center my-2">
-        <span className="bg-bg-tertiary/70 text-text-tertiary text-xs px-3 py-1 rounded-full italic text-center max-w-[85%]">
+        <span className="bg-surface-sunken/70 text-muted text-xs px-3 py-1 rounded-full italic text-center max-w-[85%]">
           {message.data.content}
         </span>
       </div>
     );
   }
 
-  const shouldWrapBackground = !isMedia || message.data.isRecalled || (message.data.type === MessageType.IMAGE && !!message.data.content);
+  const shouldWrapBackground =
+    !isMedia ||
+    message.data.isRecalled ||
+    (message.data.type === MessageType.IMAGE && !!message.data.content);
 
   return (
     <>
@@ -160,11 +200,13 @@ const MessageBubbleInner: React.FC<MessageBubbleProps> = ({
           </div>
         )}
 
-        <div className={`flex flex-col max-w-[75%] min-w-0 ${isMe ? 'items-end' : 'items-start'} relative`}>
+        <div
+          className={`flex flex-col max-w-[75%] min-w-0 ${isMe ? 'items-end' : 'items-start'} relative`}
+        >
           {/* Sender Name Group Only */}
           {!isMe && showName && (
             <button
-              className="text-xs text-text-secondary ml-1 mb-0.5 font-semibold hover:text-primary transition-colors duration-200"
+              className="text-xs text-secondary ml-1 mb-0.5 font-semibold hover:text-primary transition-colors duration-200"
               onClick={handleProfileClick}
             >
               {sender?.fullName || 'Người dùng'}
@@ -172,20 +214,17 @@ const MessageBubbleInner: React.FC<MessageBubbleProps> = ({
           )}
 
           {/* Bubble And Reaction Zone */}
-          <div 
-            ref={containerRef}
-            className={`relative group/message w-fit max-w-full`}
-          >
+          <div ref={containerRef} className={`relative group/message w-fit max-w-full`}>
             <ReactionDetailsModal
-              isOpen={showReactionDetails}
-              onClose={() => setShowReactionDetails(false)}
+              open={showReactionDetails}
+              onOpenChange={() => setShowReactionDetails(false)}
               sourceId={message.id}
               sourceType="message"
               reactions={message.data.reactions}
               currentUserId={currentUserId}
             />
 
-            <div 
+            <div
               className={`flex flex-col ${isMe ? 'items-end' : 'items-start'} w-full cursor-pointer md:cursor-default`}
               onClick={(e) => {
                 e.stopPropagation();
@@ -195,51 +234,47 @@ const MessageBubbleInner: React.FC<MessageBubbleProps> = ({
               {/* Main Content Bubble */}
               <div
                 className={`
-                  relative text-sm transition-all duration-300 animate-in fade-in max-w-full
-                  ${shouldWrapBackground
-                    ? `shadow-sm ${hasReactions ? 'min-w-[92px]' : 'min-w-[60px]'} overflow-hidden
-                        ${isMe
-                        ? 'bg-bg-message-sent border border-primary/10 text-text-primary rounded-xl rounded-br-sm'
-                        : 'bg-bg-message-received border border-border-light text-text-primary rounded-xl rounded-bl-sm'
-                      }`
-                    : `overflow-hidden ${isMe ? 'rounded-xl rounded-br-sm' : 'rounded-xl rounded-bl-sm'}`
+                  relative text-sm transition-all duration-300 animate-fade-in max-w-full
+                  ${
+                    shouldWrapBackground
+                      ? `shadow-sm ${hasReactions ? 'min-w-[92px]' : 'min-w-[60px]'} overflow-hidden
+                        ${
+                          isMe
+                            ? 'bg-message-sent border border-primary-edge text-on-primary rounded-md rounded-br-sm'
+                            : 'bg-message-received border border-border text-foreground rounded-md rounded-bl-sm'
+                        }`
+                      : `overflow-hidden ${isMe ? 'rounded-md rounded-br-sm' : 'rounded-md rounded-bl-sm'}`
                   }
                 `}
               >
                 {/* Reply Preview */}
-                {!message.data.isRecalled && message.data.replyToId && (() => {
-                  const replyToMsg = allMessages.find(m => m.id === message.data.replyToId);
-                  const replyAuthorName = replyToMsg?.data.senderId === currentUserId
-                    ? 'Bạn'
-                    : usersMap[replyToMsg?.data.senderId || '']?.fullName || 'Người dùng';
+                {!message.data.isRecalled &&
+                  message.data.replyToId &&
+                  (() => {
+                    const replyToMsg = allMessages.find((m) => m.id === message.data.replyToId);
+                    const replyAuthorName =
+                      replyToMsg?.data.senderId === currentUserId
+                        ? 'Bạn'
+                        : usersMap[replyToMsg?.data.senderId || '']?.fullName || 'Người dùng';
 
-                  return (
-                    <div
-                      className={`
-                        mx-1 mt-1 mb-1 px-2.5 py-1.5 rounded-xl border-l-4 text-[11px] cursor-pointer 
-                        transition-all duration-200 hover:brightness-95 active:scale-[0.98]
-                        ${isMe
-                          ? 'bg-black/5 dark:bg-white/5 border-primary/40 text-text-primary/80'
-                          : 'bg-black/5 dark:bg-white/5 border-primary/40 text-text-secondary'
-                        }
-                        ${!shouldWrapBackground ? 'bg-black/40 backdrop-blur-md border-primary/60 text-white/90' : ''}
-                      `}
-                      onClick={() => replyToMsg && scrollToMessage(message.data.replyToId!)}
-                    >
-                      <div className={`font-bold mb-0.5 ${!shouldWrapBackground ? 'text-primary-light' : 'text-primary'}`}>
-                        {replyAuthorName}
-                      </div>
-                      <div className="truncate opacity-80 italic">
-                        {replyToMsg?.data.isRecalled
-                          ? 'Tin nhắn đã thu hồi'
-                          : getMessageDisplayContent(replyToMsg!.data)
-                        }
-                      </div>
-                    </div>
-                  );
-                })()}
+                    return (
+                      <MessageReplyPreview
+                        replyToMsg={replyToMsg}
+                        replyAuthorName={replyAuthorName}
+                        isMe={isMe}
+                        shouldWrapBackground={shouldWrapBackground}
+                        message={message}
+                      />
+                    );
+                  })()}
 
-                <div className={shouldWrapBackground && message.data.type !== MessageType.IMAGE ? "px-3 py-2" : ""}>
+                <div
+                  className={
+                    shouldWrapBackground && message.data.type !== MessageType.IMAGE
+                      ? 'px-3 py-2'
+                      : ''
+                  }
+                >
                   <MessageContent
                     message={message}
                     isMe={isMe}
@@ -254,16 +289,19 @@ const MessageBubbleInner: React.FC<MessageBubbleProps> = ({
 
                 {/* Timestamp */}
                 {!message.data.isRecalled && (
-                  <div className={`
-                    text-[10px] flex items-center gap-1
+                  <div
+                    className={`
+                    text-caption flex items-center gap-1
                     transition-all duration-500 ease-out transform
                     ${isContentReady ? 'opacity-100 scale-100' : 'opacity-0 scale-90'}
-                    ${!shouldWrapBackground
-                      ? `absolute bottom-2 ${isMe ? 'right-2' : 'left-2'} px-1.5 py-0.5 rounded-full bg-black/40 text-white backdrop-blur-sm z-20`
-                      : `${hasReactions ? 'pb-3' : 'pb-1.5'} ${isMe ? 'justify-end text-text-primary opacity-60 px-3' : 'justify-start text-text-tertiary px-3'}`
+                    ${
+                      !shouldWrapBackground
+                        ? `absolute bottom-2 ${isMe ? 'right-2' : 'left-2'} px-1.5 py-0.5 rounded-full bg-black/40 text-white backdrop-blur-sm z-20`
+                        : `${hasReactions ? 'pb-3' : 'pb-1.5'} ${isMe ? 'justify-end text-on-primary/70 px-3' : 'justify-start text-muted px-3'}`
                     }
-                  `}>
-                    {isPinned && <Pin size={10} className="text-text-tertiary flex-shrink-0" />}
+                  `}
+                  >
+                    {isPinned && <Pin size={10} className="text-muted flex-shrink-0" />}
                     {formatTimeOnly(message.data.createdAt)}
                   </div>
                 )}
@@ -286,10 +324,15 @@ const MessageBubbleInner: React.FC<MessageBubbleProps> = ({
                 )}
 
                 {!isInteractionDisabled && (
-                  <div className={`relative ${(hasReactions || showActions) ? 'opacity-100' : 'opacity-0 group-hover/message:opacity-100'} transition-opacity duration-200`}>
+                  <div
+                    className={`relative ${hasReactions || showActions ? 'opacity-100' : 'opacity-0 group-hover/message:opacity-100'} transition-opacity duration-200`}
+                  >
                     <button
-                      className="w-7 h-6 flex items-center justify-center bg-bg-primary rounded-full border border-border-light shadow-sm text-text-tertiary hover:text-primary hover:border-primary/30 transition-all duration-200"
-                      onClick={(e) => { e.stopPropagation(); setShowReactionSelector(!showReactionSelector); }}
+                      className="w-7 h-6 flex items-center justify-center bg-surface rounded-full border border-border shadow-sm text-muted hover:text-primary hover:border-primary/30 transition-all duration-200"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setShowReactionSelector(!showReactionSelector);
+                      }}
                     >
                       <Smile size={11} strokeWidth={2.5} />
                     </button>
@@ -300,15 +343,20 @@ const MessageBubbleInner: React.FC<MessageBubbleProps> = ({
                   <>
                     <div
                       className="fixed inset-0 z-[var(--z-dropdown)]"
-                      onClick={(e) => { e.stopPropagation(); setShowReactionSelector(false); }}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setShowReactionSelector(false);
+                      }}
                     />
-                    <div className={`absolute bottom-full mb-1 ${isMe ? 'right-0' : 'left-0'} z-[var(--z-popover)]`}>
+                    <div
+                      className={`absolute bottom-full mb-1 ${isMe ? 'right-0' : 'left-0'} z-[var(--z-popover)]`}
+                    >
                       <ReactionSelector
                         onSelect={(emoji) => {
                           toggleReaction(conversationId, message.id, currentUserId, emoji);
                           setShowActions(false);
                         }}
-                        onClose={() => setShowReactionSelector(false)}
+                        onOpenChange={() => setShowReactionSelector(false)}
                         autoClose={false}
                         className="relative shadow-xl animate-fade-in"
                         currentReaction={myReaction}
@@ -322,33 +370,50 @@ const MessageBubbleInner: React.FC<MessageBubbleProps> = ({
 
             {/* Message Actions Hover */}
             {!message.data.isRecalled && (
-                 <MessageActions
-                  message={message}
-                  isMe={isMe}
-                  canEdit={canEdit}
-                  showMenu={showMenu}
-                  setShowMenu={setShowMenu}
-                  showActions={showActions}
-                  onReply={(msg) => { onReply?.(msg); setShowActions(false); }}
-                  onForward={(msg) => { onForward?.(msg); setShowActions(false); }}
-                  onEdit={(msg) => { onEdit?.(msg); setShowActions(false); }}
-                  setShowRecallConfirm={(show) => { setShowRecallConfirm(show); if (show) setShowActions(false); }}
-                  onDeleteForMe={(id) => { onDeleteForMe?.(id); setShowActions(false); }}
-                  isBlocked={isBlocked}
-                  isPartnerBanned={isPartnerBanned}
-                  isPinned={isPinned}
-                  onPin={onPin}
-                  onUnpin={onUnpin}
-                />
+              <MessageActions
+                message={message}
+                isMe={isMe}
+                canEdit={canEdit}
+                showMenu={showMenu}
+                setShowMenu={setShowMenu}
+                showActions={showActions}
+                onReply={(msg) => {
+                  onReply?.(msg);
+                  setShowActions(false);
+                }}
+                onForward={(msg) => {
+                  onForward?.(msg);
+                  setShowActions(false);
+                }}
+                onEdit={(msg) => {
+                  onEdit?.(msg);
+                  setShowActions(false);
+                }}
+                setShowRecallConfirm={(show) => {
+                  setShowRecallConfirm(show);
+                  if (show) setShowActions(false);
+                }}
+                onDeleteForMe={(id) => {
+                  onDeleteForMe?.(id);
+                  setShowActions(false);
+                }}
+                isBlocked={isBlocked}
+                isPartnerBanned={isPartnerBanned}
+                isPinned={isPinned}
+                onPin={onPin}
+                onUnpin={onUnpin}
+              />
             )}
           </div>
 
           {/* Read Status */}
           {isMe && (isLastMessage || lastReadByUsers.length > 0) && (
-            <div className={hasReactions ? "mt-2.5" : "mt-1"}>
+            <div className={hasReactions ? 'mt-2.5' : 'mt-1'}>
               <div
                 className="cursor-pointer"
-                onClick={() => isGroup && lastReadByUsers.length > 0 && setShowReaders(!showReaders)}
+                onClick={() =>
+                  isGroup && lastReadByUsers.length > 0 && setShowReaders(!showReaders)
+                }
               >
                 <MessageStatus
                   isMine={isMe}
@@ -361,8 +426,11 @@ const MessageBubbleInner: React.FC<MessageBubbleProps> = ({
 
               {isFailed && (
                 <button
-                  onClick={(e) => { e.stopPropagation(); resendMessage(conversationId, message.id); }}
-                  className="flex items-center gap-1 mt-1 text-[10px] text-error hover:text-error/80 transition-colors duration-200 font-medium"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    resendMessage(conversationId, message.id);
+                  }}
+                  className="flex items-center gap-1 mt-1 text-caption text-danger hover:text-danger/80 transition-colors duration-200 font-medium"
                 >
                   <RefreshCw size={10} />
                   <span>Gửi lại</span>
@@ -371,23 +439,23 @@ const MessageBubbleInner: React.FC<MessageBubbleProps> = ({
 
               {isGroup && lastReadByUsers.length > 0 && (
                 <Modal
-                  isOpen={showReaders}
-                  onClose={() => setShowReaders(false)}
+                  open={showReaders}
+                  onOpenChange={() => setShowReaders(false)}
                   title="Người đã xem"
-                  maxWidth="sm"
+                  size="sm"
                 >
                   <div className="space-y-2">
-                    {lastReadByUsers.map(reader => (
+                    {lastReadByUsers.map((reader) => (
                       <div
                         key={reader.id}
-                        className="flex items-center gap-3 p-2 hover:bg-bg-hover rounded-xl transition-colors duration-200"
+                        className="flex items-center gap-3 p-2 hover:bg-hover rounded-sm transition-colors duration-200"
                       >
                         <UserAvatar userId={reader.id} size="md" showStatus />
                         <div className="flex-1 min-w-0">
-                          <div className="text-sm font-semibold text-text-primary truncate">
+                          <div className="text-sm font-semibold text-foreground truncate">
                             {reader.fullName}
                           </div>
-                          <UserStatusText userId={reader.id} className="text-xs text-text-tertiary" />
+                          <UserStatusText userId={reader.id} className="text-xs text-muted" />
                         </div>
                       </div>
                     ))}
@@ -401,24 +469,29 @@ const MessageBubbleInner: React.FC<MessageBubbleProps> = ({
 
       <MediaViewer
         media={
-          (message.data.media && message.data.media.length > 0)
-            ? message.data.media.map(m => ({
-              type: m.mimeType?.startsWith('video/') ? 'video' as const : 'image' as const,
-              url: m.url,
-            }))
-            : [{
-              type: message.data.type === MessageType.VIDEO ? 'video' as const : 'image' as const,
-              url: message.data.content,
-            }]
+          message.data.media && message.data.media.length > 0
+            ? message.data.media.map((m) => ({
+                type: m.mimeType?.startsWith('video/') ? ('video' as const) : ('image' as const),
+                url: m.url,
+              }))
+            : [
+                {
+                  type:
+                    message.data.type === MessageType.VIDEO
+                      ? ('video' as const)
+                      : ('image' as const),
+                  url: message.data.content,
+                },
+              ]
         }
         initialIndex={selectedImageIndex ?? 0}
-        isOpen={selectedImageIndex !== null}
-        onClose={() => setSelectedImageIndex(null)}
+        open={selectedImageIndex !== null}
+        onOpenChange={() => setSelectedImageIndex(null)}
       />
 
-      <ConfirmDialog
-        isOpen={showRecallConfirm}
-        onClose={() => setShowRecallConfirm(false)}
+      <AlertDialog
+        open={showRecallConfirm}
+        onOpenChange={() => setShowRecallConfirm(false)}
         onConfirm={() => onRecall?.(message.id)}
         title="Thu hồi tin nhắn"
         message="Tin nhắn này sẽ bị thu hồi đối với tất cả mọi người trong cuộc trò chuyện."
@@ -430,4 +503,3 @@ const MessageBubbleInner: React.FC<MessageBubbleProps> = ({
 };
 
 export const MessageBubble = React.memo(MessageBubbleInner);
-

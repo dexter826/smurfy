@@ -4,7 +4,7 @@ import { User, UserStatus } from '@shared/types';
 import { userService } from '@/services/userService';
 import { functions } from '@/lib/firebase/config';
 import { httpsCallable } from 'firebase/functions';
-import { UserAvatar, Skeleton, IconButton, Select, ConfirmDialog, EmptyState } from '@/components/ui';
+import { UserAvatar, Skeleton, IconButton, Select, AlertDialog, EmptyState } from '@/components/ui';
 import { CONFIRM_MESSAGES, TOAST_MESSAGES } from '@/constants';
 import { toast } from '@/store/toastStore';
 import { useNavigate } from 'react-router-dom';
@@ -16,18 +16,18 @@ const STATUS_OPTIONS = [
 ];
 
 interface ConfirmState {
-  isOpen: boolean;
+  open: boolean;
   type: 'ban' | 'unban';
   userId: string;
   userName: string;
 }
 
-const CONFIRM_CLOSED: ConfirmState = { isOpen: false, type: 'ban', userId: '', userName: '' };
+const CONFIRM_CLOSED: ConfirmState = { open: false, type: 'ban', userId: '', userName: '' };
 
 /** Card hiển thị chỉ số người dùng */
 const StatCard: React.FC<{ label: string; value: number; color: string }> = ({ label, value, color }) => (
-  <div className="bg-bg-secondary/60 px-4 py-2.5 rounded-xl border border-border-light flex flex-col items-center min-w-[90px]">
-    <span className="text-[10px] font-bold text-text-tertiary uppercase tracking-wider">{label}</span>
+  <div className="bg-background/60 px-4 py-2.5 rounded-xl border border-border flex flex-col items-center min-w-[90px]">
+    <span className="text-[10px] font-bold text-muted uppercase tracking-wider">{label}</span>
     <span className={`text-xl font-black ${color}`}>{value}</span>
   </div>
 );
@@ -93,21 +93,21 @@ export const UsersView: React.FC = () => {
     <div className="flex flex-col h-full overflow-hidden">
 
       {/* Header */}
-      <div className="bg-bg-primary px-4 md:px-6 py-4 border-b border-border-light flex-shrink-0 space-y-4">
+      <div className="bg-surface px-4 md:px-6 py-4 border-b border-border flex-shrink-0 space-y-4">
         <div className="max-w-5xl mx-auto flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <h1 className="text-base font-bold text-text-primary flex items-center gap-2">
+            <h1 className="text-base font-bold text-foreground flex items-center gap-2">
               <Users size={18} className="text-primary" />
               Quản lý người dùng
             </h1>
-            <p className="text-xs text-text-tertiary mt-0.5">
+            <p className="text-xs text-muted mt-0.5">
               Theo dõi và điều phối hoạt động người dùng trên hệ thống
             </p>
           </div>
           <div className="flex items-center gap-2">
             <StatCard label="Tổng" value={stats.total} color="text-primary" />
             <StatCard label="Hoạt động" value={stats.active} color="text-success" />
-            <StatCard label="Bị khóa" value={stats.banned} color="text-error" />
+            <StatCard label="Bị khóa" value={stats.banned} color="text-danger" />
           </div>
         </div>
 
@@ -116,14 +116,14 @@ export const UsersView: React.FC = () => {
           <div className="flex-1 relative group">
             <Search
               size={16}
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-text-tertiary group-focus-within:text-primary transition-colors duration-200"
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-muted group-focus-within:text-primary transition-colors duration-200"
             />
             <input
               type="text"
               placeholder="Tìm kiếm theo tên hoặc email..."
               value={searchTerm}
               onChange={e => setSearchTerm(e.target.value)}
-              className="w-full pl-9 pr-4 py-2.5 bg-bg-secondary border border-border-light rounded-xl text-sm outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-200 text-text-primary placeholder:text-text-tertiary"
+              className="w-full pl-9 pr-4 py-2.5 bg-background border border-border rounded-xl text-sm outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-200 text-foreground placeholder:text-muted"
             />
           </div>
           <div className="sm:w-52">
@@ -137,12 +137,12 @@ export const UsersView: React.FC = () => {
       </div>
 
       {/* User List */}
-      <div className="flex-1 overflow-y-auto scroll-hide p-4 md:p-6 bg-bg-secondary/30">
+      <div className="flex-1 overflow-y-auto scroll-hide p-4 md:p-6 bg-background/30">
         <div className="max-w-5xl mx-auto">
           {isLoading ? (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               {[...Array(6)].map((_, i) => (
-                <div key={i} className="bg-bg-primary p-4 rounded-2xl border border-border-light flex items-center gap-3 animate-fade-in">
+                <div key={i} className="bg-surface p-4 rounded-2xl border border-border flex items-center gap-3 animate-fade-in">
                   <Skeleton variant="circle" width={44} height={44} />
                   <div className="flex-1 space-y-1.5">
                     <Skeleton className="h-4 w-32" />
@@ -167,7 +167,7 @@ export const UsersView: React.FC = () => {
                 {filteredUsers.map(user => (
                   <div
                     key={user.id}
-                    className="bg-bg-primary px-4 py-3.5 rounded-2xl border border-border-light hover:border-primary/25 hover:shadow-md transition-all duration-200 group flex items-center justify-between"
+                    className="bg-surface px-4 py-3.5 rounded-2xl border border-border hover:border-primary/25 hover:shadow-md transition-all duration-200 group flex items-center justify-between"
                   >
                     <div className="flex items-center gap-3 min-w-0 flex-1">
                       <UserAvatar
@@ -180,7 +180,7 @@ export const UsersView: React.FC = () => {
                       />
                       <div className="min-w-0">
                         <div className="flex items-center gap-1.5 flex-wrap">
-                          <span className="text-sm font-semibold text-text-primary truncate">
+                          <span className="text-sm font-semibold text-foreground truncate">
                             {user.fullName}
                           </span>
                           {user.role === 'admin' && (
@@ -189,12 +189,12 @@ export const UsersView: React.FC = () => {
                             </span>
                           )}
                           {user.status === UserStatus.BANNED && (
-                            <span className="px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-error/10 text-error uppercase">
+                            <span className="px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-danger/10 text-danger uppercase">
                               Bị khóa
                             </span>
                           )}
                         </div>
-                        <span className="text-xs text-text-tertiary truncate block">{user.email}</span>
+                        <span className="text-xs text-muted truncate block">{user.email}</span>
                       </div>
                     </div>
 
@@ -210,7 +210,7 @@ export const UsersView: React.FC = () => {
                       {user.status === UserStatus.BANNED ? (
                         <IconButton
                           icon={<Unlock size={15} />}
-                          onClick={() => setConfirm({ isOpen: true, type: 'unban', userId: user.id, userName: user.fullName })}
+                          onClick={() => setConfirm({ open: true, type: 'unban', userId: user.id, userName: user.fullName })}
                           variant="ghost"
                           size="sm"
                           className="text-success hover:bg-success/10"
@@ -218,10 +218,10 @@ export const UsersView: React.FC = () => {
                       ) : (
                         <IconButton
                           icon={<Lock size={15} />}
-                          onClick={() => setConfirm({ isOpen: true, type: 'ban', userId: user.id, userName: user.fullName })}
+                          onClick={() => setConfirm({ open: true, type: 'ban', userId: user.id, userName: user.fullName })}
                           variant="ghost"
                           size="sm"
-                          className="hover:text-error hover:bg-error/10"
+                          className="hover:text-danger hover:bg-danger/10"
                         />
                       )}
                     </div>
@@ -230,19 +230,19 @@ export const UsersView: React.FC = () => {
               </div>
 
               {/* Desktop Table View */}
-              <div className="hidden md:block bg-bg-primary rounded-2xl border border-border-light overflow-hidden shadow-sm">
+              <div className="hidden md:block bg-surface rounded-2xl border border-border overflow-hidden shadow-sm">
                 <table className="w-full text-left border-collapse">
                   <thead>
-                    <tr className="bg-bg-secondary border-b border-border-light/60">
-                      <th className="px-5 py-3.5 text-xs font-semibold text-text-secondary uppercase tracking-wider">Tài khoản</th>
-                      <th className="px-5 py-3.5 text-xs font-semibold text-text-secondary uppercase tracking-wider">Email</th>
-                      <th className="px-5 py-3.5 text-xs font-semibold text-text-secondary uppercase tracking-wider">Phân quyền / Trạng thái</th>
-                      <th className="px-5 py-3.5 text-xs font-semibold text-text-secondary uppercase tracking-wider text-right">Thao tác</th>
+                    <tr className="bg-background border-b border-border/60">
+                      <th className="px-5 py-3.5 text-xs font-semibold text-secondary uppercase tracking-wider">Tài khoản</th>
+                      <th className="px-5 py-3.5 text-xs font-semibold text-secondary uppercase tracking-wider">Email</th>
+                      <th className="px-5 py-3.5 text-xs font-semibold text-secondary uppercase tracking-wider">Phân quyền / Trạng thái</th>
+                      <th className="px-5 py-3.5 text-xs font-semibold text-secondary uppercase tracking-wider text-right">Thao tác</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-border-light/60">
+                  <tbody className="divide-y divide-border/60">
                     {filteredUsers.map(user => (
-                      <tr key={`table-${user.id}`} className="hover:bg-bg-secondary/40 transition-colors duration-150">
+                      <tr key={`table-${user.id}`} className="hover:bg-background/40 transition-colors duration-150">
                         <td className="px-5 py-3.5 align-middle">
                           <div className="flex items-center gap-3">
                             <UserAvatar
@@ -253,22 +253,22 @@ export const UsersView: React.FC = () => {
                               className="cursor-pointer flex-shrink-0"
                               onClick={() => navigate(`/profile/${user.id}`)}
                             />
-                            <span className="text-sm font-semibold text-text-primary">{user.fullName}</span>
+                            <span className="text-sm font-semibold text-foreground">{user.fullName}</span>
                           </div>
                         </td>
                         <td className="px-5 py-3.5 align-middle">
-                          <span className="text-sm text-text-tertiary">{user.email || '—'}</span>
+                          <span className="text-sm text-muted">{user.email || '—'}</span>
                         </td>
                         <td className="px-5 py-3.5 align-middle">
                           <div className="flex items-center gap-2 flex-wrap">
                             {user.role === 'admin' ? (
                               <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-primary/10 text-primary uppercase border border-primary/20">Admin</span>
                             ) : (
-                              <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-bg-secondary text-text-tertiary uppercase border border-border-light">User</span>
+                              <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-background text-muted uppercase border border-border">User</span>
                             )}
 
                             {user.status === UserStatus.BANNED ? (
-                              <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-error/10 text-error uppercase border border-error/20">Bị Khóa</span>
+                              <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-danger/10 text-danger uppercase border border-danger/20">Bị Khóa</span>
                             ) : (
                               <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-success/10 text-success uppercase border border-success/20">Hoạt động</span>
                             )}
@@ -286,7 +286,7 @@ export const UsersView: React.FC = () => {
                             {user.status === UserStatus.BANNED ? (
                               <IconButton
                                 icon={<Unlock size={16} />}
-                                onClick={() => setConfirm({ isOpen: true, type: 'unban', userId: user.id, userName: user.fullName })}
+                                onClick={() => setConfirm({ open: true, type: 'unban', userId: user.id, userName: user.fullName })}
                                 variant="ghost"
                                 size="sm"
                                 className="text-success hover:bg-success/10"
@@ -295,10 +295,10 @@ export const UsersView: React.FC = () => {
                             ) : (
                               <IconButton
                                 icon={<Lock size={16} />}
-                                onClick={() => setConfirm({ isOpen: true, type: 'ban', userId: user.id, userName: user.fullName })}
+                                onClick={() => setConfirm({ open: true, type: 'ban', userId: user.id, userName: user.fullName })}
                                 variant="ghost"
                                 size="sm"
-                                className="hover:text-error hover:bg-error/10"
+                                className="hover:text-danger hover:bg-danger/10"
                                 title="Khóa tài khoản"
                               />
                             )}
@@ -314,9 +314,9 @@ export const UsersView: React.FC = () => {
         </div>
       </div>
 
-      <ConfirmDialog
-        isOpen={confirm.isOpen}
-        onClose={() => setConfirm(CONFIRM_CLOSED)}
+      <AlertDialog
+        open={confirm.open}
+        onOpenChange={() => setConfirm(CONFIRM_CLOSED)}
         onConfirm={handleConfirmAction}
         title={confirm.type === 'ban'
           ? CONFIRM_MESSAGES.ADMIN.BAN_USER.TITLE

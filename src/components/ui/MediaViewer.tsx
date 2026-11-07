@@ -14,12 +14,12 @@ interface MediaItem {
 interface MediaViewerProps {
     media: MediaItem[];
     initialIndex?: number;
-    isOpen: boolean;
-    onClose: () => void;
+    open: boolean;
+    onOpenChange: () => void;
 }
 
 export const MediaViewer: React.FC<MediaViewerProps> = ({
-    media, initialIndex = 0, isOpen, onClose,
+    media, initialIndex = 0, open, onOpenChange,
 }) => {
     const [currentIndex, setCurrentIndex] = useState(initialIndex);
     const [isVideoPlaying, setIsVideoPlaying] = useState(false);
@@ -27,16 +27,16 @@ export const MediaViewer: React.FC<MediaViewerProps> = ({
     const [touchEnd, setTouchEnd] = useState<number | null>(null);
     const videoRef = useRef<HTMLVideoElement>(null);
 
-    useScrollLock(isOpen);
+    useScrollLock(open);
 
     useEffect(() => {
-        if (isOpen) setCurrentIndex(initialIndex);
-    }, [isOpen, initialIndex]);
+        if (open) setCurrentIndex(initialIndex);
+    }, [open, initialIndex]);
 
     useEffect(() => {
         videoRef.current?.pause();
         setIsVideoPlaying(false);
-    }, [currentIndex, isOpen]);
+    }, [currentIndex, open]);
 
     const goNext = useCallback(() => setCurrentIndex(p => (p < media.length - 1 ? p + 1 : 0)), [media.length]);
     const goPrev = useCallback(() => setCurrentIndex(p => (p > 0 ? p - 1 : media.length - 1)), [media.length]);
@@ -48,12 +48,12 @@ export const MediaViewer: React.FC<MediaViewerProps> = ({
     }, [isVideoPlaying]);
 
     const handleKeyDown = useCallback((e: KeyboardEvent) => {
-        if (!isOpen) return;
+        if (!open) return;
         if (e.key === 'ArrowLeft') goPrev();
         else if (e.key === 'ArrowRight') goNext();
-        else if (e.key === 'Escape') onClose();
+        else if (e.key === 'Escape') onOpenChange();
         else if (e.key === ' ' && media[currentIndex]?.type === 'video') { e.preventDefault(); toggleVideo(); }
-    }, [isOpen, goPrev, goNext, onClose, currentIndex, media, toggleVideo]);
+    }, [open, goPrev, goNext, onOpenChange, currentIndex, media, toggleVideo]);
 
     useEffect(() => {
         window.addEventListener('keydown', handleKeyDown);
@@ -67,7 +67,7 @@ export const MediaViewer: React.FC<MediaViewerProps> = ({
         else if (dist < -50) goPrev();
     };
 
-    if (!isOpen) return null;
+    if (!open) return null;
 
     const current = media[currentIndex];
 
@@ -75,7 +75,7 @@ export const MediaViewer: React.FC<MediaViewerProps> = ({
         <div
             className="fixed inset-0 bg-black/95 backdrop-blur-sm flex flex-col select-none animate-fade-in"
             style={{ zIndex: 'var(--z-dialog)' }}
-            onClick={onClose}
+            onClick={onOpenChange}
             onTouchStart={(e) => { setTouchEnd(null); setTouchStart(e.targetTouches[0].clientX); }}
             onTouchMove={(e) => setTouchEnd(e.targetTouches[0].clientX)}
             onTouchEnd={onTouchEnd}
@@ -95,7 +95,7 @@ export const MediaViewer: React.FC<MediaViewerProps> = ({
                 </div>
                 <button
                     className="p-2.5 bg-white/10 hover:bg-white/20 active:bg-white/30 text-white rounded-full transition-colors duration-200 backdrop-blur-md border border-white/10 shadow-lg"
-                    onClick={(e) => { e.stopPropagation(); onClose(); }}
+                    onClick={(e) => { e.stopPropagation(); onOpenChange(); }}
                     aria-label="Đóng"
                 >
                     <X size={22} />

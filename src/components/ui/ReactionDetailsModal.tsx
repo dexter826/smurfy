@@ -7,8 +7,8 @@ import { collection, getDocs } from 'firebase/firestore';
 import { db } from '@/lib/firebase/config';
 
 interface ReactionDetailsModalProps {
-  isOpen: boolean;
-  onClose: () => void;
+  open: boolean;
+  onOpenChange: () => void;
   reactions?: Record<string, string | ReactionType>;
   sourceId?: string;
   sourceType?: 'post' | 'comment' | 'message';
@@ -16,8 +16,8 @@ interface ReactionDetailsModalProps {
 }
 
 export const ReactionDetailsModal: React.FC<ReactionDetailsModalProps> = ({
-  isOpen,
-  onClose,
+  open,
+  onOpenChange,
   reactions: reactionsProp,
   sourceId,
   sourceType,
@@ -31,7 +31,7 @@ export const ReactionDetailsModal: React.FC<ReactionDetailsModalProps> = ({
 
   // Tải từ subcollection khi POST/COMMENT context
   useEffect(() => {
-    if (!isOpen) return;
+    if (!open) return;
 
     // Ưu tiên sử dụng reactions từ prop (Chat hoặc khi Ref cho Posts/Comments đã có sẵn)
     if (reactionsProp) {
@@ -56,7 +56,7 @@ export const ReactionDetailsModal: React.FC<ReactionDetailsModalProps> = ({
           setReactions({});
         });
     }
-  }, [isOpen, sourceId, sourceType, reactionsProp]);
+  }, [open, sourceId, sourceType, reactionsProp]);
 
   const reactionEntries = useMemo(() => Object.entries(reactions), [reactions]);
 
@@ -74,7 +74,7 @@ export const ReactionDetailsModal: React.FC<ReactionDetailsModalProps> = ({
   }, [reactionCounts]);
 
   useEffect(() => {
-    if (!isOpen || reactionEntries.length === 0) return;
+    if (!open || reactionEntries.length === 0) return;
 
     const loadUsers = async () => {
       setIsLoading(true);
@@ -90,7 +90,7 @@ export const ReactionDetailsModal: React.FC<ReactionDetailsModalProps> = ({
     };
 
     loadUsers();
-  }, [isOpen, reactionEntries]);
+  }, [open, reactionEntries]);
 
   const displayList = useMemo(() => {
     const list = reactionEntries
@@ -106,23 +106,23 @@ export const ReactionDetailsModal: React.FC<ReactionDetailsModalProps> = ({
 
   return (
     <Modal
-      isOpen={isOpen}
-      onClose={onClose}
+      open={open}
+      onOpenChange={onOpenChange}
       title="Cảm xúc"
-      maxWidth="sm"
+      size="sm"
       bodyClassName="!p-0"
     >
       <div className="flex flex-col h-[500px] max-h-[70vh]">
         {/* Tabs */}
         {tabs.length > 1 && (
-          <div className="flex items-center gap-4 px-4 border-b border-divider overflow-x-auto scroll-hide">
+          <div className="flex items-center gap-4 px-4 border-b border-border-default overflow-x-auto scroll-hide">
             {tabs.map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab as 'ALL' | ReactionType)}
                 className={`py-3 px-1 border-b-2 transition-all duration-200 text-sm font-semibold whitespace-nowrap flex items-center gap-1.5 ${activeTab === tab
                   ? 'border-primary text-primary'
-                  : 'border-transparent text-text-secondary hover:text-text-primary'
+                  : 'border-transparent text-secondary hover:text-foreground'
                   }`}
               >
                 {tab === 'ALL' ? (
@@ -153,7 +153,7 @@ export const ReactionDetailsModal: React.FC<ReactionDetailsModalProps> = ({
               {displayList.map(({ user, type, userId }) => (
                 <div
                   key={userId}
-                  className="flex items-center justify-between px-3 py-2.5 hover:bg-bg-hover rounded-xl transition-colors duration-200 cursor-pointer group"
+                  className="flex items-center justify-between px-3 py-2.5 hover:bg-hover rounded-xl transition-colors duration-200 cursor-pointer group"
                 >
                   <div className="flex items-center gap-3">
                     <div className="relative">
@@ -164,12 +164,12 @@ export const ReactionDetailsModal: React.FC<ReactionDetailsModalProps> = ({
                         size="md"
                         showStatus={false}
                       />
-                      <div className="absolute -bottom-1 -right-1 bg-bg-primary rounded-full p-0.5 shadow-sm border border-border-light">
+                      <div className="absolute -bottom-1 -right-1 bg-surface rounded-full p-0.5 shadow-sm border border-border">
                         {getReactionIcon(type, "", 14)}
                       </div>
                     </div>
                     <div>
-                      <div className="text-sm font-semibold text-text-primary group-hover:text-primary transition-colors duration-200">
+                      <div className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors duration-200">
                         {userId === currentUserId ? 'Bạn' : user.fullName}
                       </div>
                     </div>

@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '@/features/auth';
-import { Button, ConfirmDialog, BlockOptionsModal } from '@/components/ui';
+import { Button, AlertDialog, BlockOptionsModal } from '@/components/ui';
 import { CONFIRM_MESSAGES } from '@/constants';
 import { PostModal } from '@/features/feed';
 import { usePostStore, useSharePostStore } from '@/store';
@@ -126,12 +126,12 @@ const ProfilePage: React.FC = () => {
   if (isBannedProfile && !isOwnProfile) {
     return (
       <div className="h-full flex items-center justify-center p-4">
-        <div className="bg-bg-primary rounded-2xl border border-border-light p-10 w-full max-w-md text-center animate-fade-in">
-          <div className="w-16 h-16 bg-bg-secondary rounded-full flex items-center justify-center mx-auto mb-5 border border-border-light">
-            <Lock size={28} className="text-text-tertiary" />
+        <div className="bg-surface rounded-2xl border border-border p-10 w-full max-w-md text-center animate-fade-in">
+          <div className="w-16 h-16 bg-background rounded-full flex items-center justify-center mx-auto mb-5 border border-border">
+            <Lock size={28} className="text-muted" />
           </div>
-          <h2 className="text-xl font-bold text-text-primary mb-2">Tài khoản này đã bị khóa</h2>
-          <p className="text-sm text-text-secondary mb-7 leading-relaxed">
+          <h2 className="text-xl font-bold text-foreground mb-2">Tài khoản này đã bị khóa</h2>
+          <p className="text-sm text-secondary mb-7 leading-relaxed">
             Người dùng này đã vi phạm quy tắc cộng đồng hoặc không còn tồn tại trên hệ thống.
           </p>
           <div className="flex gap-3 justify-center">
@@ -146,7 +146,7 @@ const ProfilePage: React.FC = () => {
   return (
     <div className="h-full w-full overflow-y-auto">
       {/* Header card */}
-      <div className="bg-bg-primary shadow-sm mb-4">
+      <div className="bg-surface shadow-sm mb-4">
         <ProfileHeader
           user={profile}
           isOwnProfile={isOwnProfile}
@@ -212,24 +212,24 @@ const ProfilePage: React.FC = () => {
 
       <EditProfileModal
         user={profile}
-        isOpen={isEditModalOpen}
-        onClose={() => setIsEditModalOpen(false)}
+        open={isEditModalOpen}
+        onOpenChange={() => setIsEditModalOpen(false)}
         onSave={handleSaveProfile}
       />
 
       {currentUser && (
         <PostModal
-          isOpen={!!showEditModal}
-          onClose={() => setShowEditModal(null)}
+          open={!!showEditModal}
+          onOpenChange={() => setShowEditModal(null)}
           currentUser={currentUser}
           initialPost={posts.find(p => p.id === showEditModal) || undefined}
           onSubmit={handleEditPost}
         />
       )}
 
-      <ConfirmDialog
-        isOpen={!!postToDelete}
-        onClose={() => setPostToDelete(null)}
+      <AlertDialog
+        open={!!postToDelete}
+        onOpenChange={() => setPostToDelete(null)}
         onConfirm={handleDeletePost}
         title={CONFIRM_MESSAGES.FEED.DELETE_POST.TITLE}
         message={CONFIRM_MESSAGES.FEED.DELETE_POST.MESSAGE}
@@ -238,9 +238,9 @@ const ProfilePage: React.FC = () => {
       />
 
       {confirmType && (
-        <ConfirmDialog
-          isOpen
-          onClose={() => setConfirmType(null)}
+        <AlertDialog
+          open
+          onOpenChange={() => setConfirmType(null)}
           onConfirm={async () => { await confirmActions[confirmType](); setConfirmType(null); }}
           title={confirmConfig[confirmType].title}
           message={confirmConfig[confirmType].message}
@@ -250,13 +250,13 @@ const ProfilePage: React.FC = () => {
       )}
 
       <BlockOptionsModal
-        isOpen={isBlockModalOpen}
+        open={isBlockModalOpen}
         targetId={profile.id}
         targetName={profile.fullName}
         initialOptions={currentBlockOptions}
         onApply={handleApplyBlock}
         onUnblock={confirmUnblock}
-        onClose={closeBlockModal}
+        onOpenChange={closeBlockModal}
       />
 
     </div>

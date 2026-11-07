@@ -12,7 +12,7 @@ interface ChatDetailsMediaProps {
 type MediaTab = 'images' | 'videos' | 'files' | 'voice' | 'links';
 
 interface MediaViewerState {
-  isOpen: boolean;
+  open: boolean;
   index: number;
   items: { type: 'image' | 'video'; url: string; thumbnail?: string }[];
 }
@@ -36,7 +36,7 @@ const formatDuration = (seconds?: string | number) => {
 /** Hiển thị phương tiện (ảnh, video, file) trong hội thoại */
 const ChatDetailsMediaInner: React.FC<ChatDetailsMediaProps> = ({ messages, onMessageClick }) => {
   const [activeTab, setActiveTab] = useState<MediaTab>('images');
-  const [viewer, setViewer] = useState<MediaViewerState>({ isOpen: false, index: 0, items: [] });
+  const [viewer, setViewer] = useState<MediaViewerState>({ open: false, index: 0, items: [] });
 
   const sortedMessages = useMemo(
     () => [...messages].sort((a, b) => b.data.createdAt - a.data.createdAt),
@@ -139,7 +139,7 @@ const ChatDetailsMediaInner: React.FC<ChatDetailsMediaProps> = ({ messages, onMe
               <button
                 key={item.key}
                 type="button"
-                onClick={() => setViewer({ isOpen: true, index, items: imageViewerItems })}
+                onClick={() => setViewer({ open: true, index, items: imageViewerItems })}
                 className="aspect-square overflow-hidden hover:opacity-85 active:opacity-70 transition-opacity duration-200 group relative"
               >
                 <LazyImage
@@ -163,8 +163,8 @@ const ChatDetailsMediaInner: React.FC<ChatDetailsMediaProps> = ({ messages, onMe
               <button
                 key={item.key}
                 type="button"
-                onClick={() => setViewer({ isOpen: true, index, items: videoViewerItems })}
-                className="aspect-video rounded-lg overflow-hidden bg-bg-tertiary relative group"
+                onClick={() => setViewer({ open: true, index, items: videoViewerItems })}
+                className="aspect-video rounded-lg overflow-hidden bg-surface-sunken relative group"
               >
                 <video
                   src={item.media.url}
@@ -191,7 +191,7 @@ const ChatDetailsMediaInner: React.FC<ChatDetailsMediaProps> = ({ messages, onMe
             {mediaItems.files.map((item) => (
               <div
                 key={item.key}
-                className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-bg-hover transition-colors duration-200"
+                className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-hover transition-colors duration-200"
               >
                 <button
                   type="button"
@@ -202,16 +202,16 @@ const ChatDetailsMediaInner: React.FC<ChatDetailsMediaProps> = ({ messages, onMe
                     <FileText size={17} className="text-primary" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-text-primary truncate">
+                    <p className="text-sm font-medium text-foreground truncate">
                       {item.media.fileName || 'File'}
                     </p>
-                    <p className="text-xs text-text-tertiary">{formatFileSize(item.media.size)}</p>
+                    <p className="text-xs text-muted">{formatFileSize(item.media.size)}</p>
                   </div>
                 </button>
                 <button
                   type="button"
                   onClick={() => downloadFile(item.media.url, item.media.fileName || 'file')}
-                  className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-bg-active text-text-tertiary hover:text-primary transition-all duration-200 flex-shrink-0"
+                  className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-active text-muted hover:text-primary transition-all duration-200 flex-shrink-0"
                   title="Tải về"
                 >
                   <Download size={16} />
@@ -230,7 +230,7 @@ const ChatDetailsMediaInner: React.FC<ChatDetailsMediaProps> = ({ messages, onMe
             {mediaItems.voice.map((item) => (
               <div
                 key={item.key}
-                className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-bg-hover transition-colors duration-200"
+                className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-hover transition-colors duration-200"
               >
                 <button
                   type="button"
@@ -241,10 +241,10 @@ const ChatDetailsMediaInner: React.FC<ChatDetailsMediaProps> = ({ messages, onMe
                     <Mic size={17} className="text-primary" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-text-primary truncate">
+                    <p className="text-sm font-medium text-foreground truncate">
                       {item.msgId ? formatDuration(item.content) : 'Tin nhắn thoại'}
                     </p>
-                    <p className="text-xs text-text-tertiary">
+                    <p className="text-xs text-muted">
                       {item.media ? formatFileSize(item.media.size) : 'Đoạn ghi âm'}
                     </p>
                   </div>
@@ -255,7 +255,7 @@ const ChatDetailsMediaInner: React.FC<ChatDetailsMediaProps> = ({ messages, onMe
                     const url = item.media?.url || item.content;
                     if (url) downloadFile(url, `voice_${item.msgId}.webm`);
                   }}
-                  className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-bg-active text-text-tertiary hover:text-primary transition-all duration-200 flex-shrink-0"
+                  className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-active text-muted hover:text-primary transition-all duration-200 flex-shrink-0"
                   title="Tải về"
                 >
                   <Download size={16} />
@@ -274,7 +274,7 @@ const ChatDetailsMediaInner: React.FC<ChatDetailsMediaProps> = ({ messages, onMe
             {mediaItems.links.map((item) => (
               <div
                 key={item.key}
-                className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-bg-hover transition-colors duration-200"
+                className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-hover transition-colors duration-200"
               >
                 <button
                   type="button"
@@ -285,10 +285,10 @@ const ChatDetailsMediaInner: React.FC<ChatDetailsMediaProps> = ({ messages, onMe
                     <Link2 size={17} className="text-primary" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-text-primary truncate">
+                    <p className="text-sm font-medium text-foreground truncate">
                       {item.title || 'Liên kết'}
                     </p>
-                    <p className="text-xs text-text-tertiary truncate max-w-[200px]">
+                    <p className="text-xs text-muted truncate max-w-[200px]">
                       {item.url}
                     </p>
                   </div>
@@ -297,7 +297,7 @@ const ChatDetailsMediaInner: React.FC<ChatDetailsMediaProps> = ({ messages, onMe
                   href={item.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-bg-active text-text-tertiary hover:text-primary transition-all duration-200 flex-shrink-0"
+                  className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-active text-muted hover:text-primary transition-all duration-200 flex-shrink-0"
                   title="Mở liên kết"
                 >
                   <ExternalLink size={16} />
@@ -312,13 +312,13 @@ const ChatDetailsMediaInner: React.FC<ChatDetailsMediaProps> = ({ messages, onMe
   return (
     <div className="flex flex-col h-full min-h-0">
       {/* Sub Tab Bar */}
-      <div className="flex border-b border-border-light flex-shrink-0 w-full">
+      <div className="flex border-b border-border flex-shrink-0 w-full">
         {tabs.map((tab) => (
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
             className={`flex-1 flex items-center justify-center gap-1.5 px-2 py-2.5 text-xs font-semibold whitespace-nowrap transition-all duration-200 relative outline-none
-              ${activeTab === tab.id ? 'text-primary' : 'text-text-tertiary hover:text-text-secondary'}`}
+              ${activeTab === tab.id ? 'text-primary' : 'text-muted hover:text-secondary'}`}
           >
             {tab.icon}
             {tab.label}
@@ -336,8 +336,8 @@ const ChatDetailsMediaInner: React.FC<ChatDetailsMediaProps> = ({ messages, onMe
       <MediaViewer
         media={viewer.items}
         initialIndex={viewer.index}
-        isOpen={viewer.isOpen}
-        onClose={() => setViewer(v => ({ ...v, isOpen: false }))}
+        open={viewer.open}
+        onOpenChange={() => setViewer(v => ({ ...v, open: false }))}
       />
     </div>
   );

@@ -20,9 +20,9 @@ export const ProfileMediaPreview: React.FC<ProfileMediaPreviewProps> = ({ media,
     })), [media]);
 
   return (
-    <div className="bg-bg-primary rounded-2xl border border-border-light p-4 hidden md:block">
+    <div className="bg-surface rounded-2xl border border-border p-4 hidden md:block">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="font-semibold text-base text-text-primary">Ảnh/Video</h3>
+        <h3 className="font-semibold text-base text-foreground">Ảnh/Video</h3>
         <button
           onClick={onSeeAll}
           className="text-xs text-primary font-semibold hover:underline transition-colors"
@@ -36,7 +36,7 @@ export const ProfileMediaPreview: React.FC<ProfileMediaPreviewProps> = ({ media,
           {media.map((item, idx) => (
             <div
               key={idx}
-              className="aspect-square rounded-xl overflow-hidden bg-bg-secondary cursor-pointer group"
+              className="aspect-square rounded-xl overflow-hidden bg-background cursor-pointer group"
               onClick={() => setSelectedIndex(idx)}
             >
               <SensitiveMediaGuard isSensitive={item.isSensitive} size="xs" className="w-full h-full">
@@ -63,8 +63,8 @@ export const ProfileMediaPreview: React.FC<ProfileMediaPreviewProps> = ({ media,
       <MediaViewer
         media={mediaViewerItems}
         initialIndex={selectedIndex}
-        isOpen={selectedIndex >= 0}
-        onClose={() => setSelectedIndex(-1)}
+        open={selectedIndex >= 0}
+        onOpenChange={() => setSelectedIndex(-1)}
       />
     </div>
   );

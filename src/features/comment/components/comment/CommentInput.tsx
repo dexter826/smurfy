@@ -112,7 +112,7 @@ export const CommentInput: React.FC<CommentInputProps> = ({
       <div className="flex-1 min-w-0">
         <form onSubmit={handleSubmit(handleFormSubmit)}>
           {/* Input bubble */}
-          <div className="bg-bg-secondary border border-border-light rounded-2xl transition-all duration-200 focus-within:border-primary/30 focus-within:bg-bg-primary">
+          <div className="bg-background border border-border rounded-2xl transition-all duration-200 focus-within:border-primary/30 focus-within:bg-surface">
             <textarea
               {...register('content')}
               ref={(e) => {
@@ -121,7 +121,7 @@ export const CommentInput: React.FC<CommentInputProps> = ({
               }}
               placeholder={placeholder}
               rows={1}
-              className="w-full bg-transparent border-none outline-none text-sm resize-none px-3.5 pt-2.5 pb-1 placeholder:text-text-tertiary max-h-32 scroll-hide text-text-primary"
+              className="w-full bg-transparent border-none outline-none text-sm resize-none px-3.5 pt-2.5 pb-1 placeholder:text-muted max-h-32 scroll-hide text-foreground"
               onKeyDown={(e) => {
                 if (e.key === 'Enter' && !e.shiftKey) {
                   e.preventDefault();
@@ -140,12 +140,12 @@ export const CommentInput: React.FC<CommentInputProps> = ({
                       <img
                         src={previewUrl || formData.image}
                         alt="Preview"
-                        className="h-20 w-auto rounded-xl object-cover border border-border-light"
+                        className="h-20 w-auto rounded-xl object-cover border border-border"
                       />
                       <button
                         type="button"
                         onClick={handleRemoveMedia}
-                        className="absolute -top-1.5 -right-1.5 w-5 h-5 bg-text-primary text-bg-primary rounded-full flex items-center justify-center shadow-md transition-colors duration-200 hover:bg-text-secondary"
+                        className="absolute -top-1.5 -right-1.5 w-5 h-5 bg-foreground text-surface rounded-full flex items-center justify-center shadow-md transition-colors duration-200 hover:bg-muted"
                       >
                         <X size={11} />
                       </button>
@@ -165,7 +165,7 @@ export const CommentInput: React.FC<CommentInputProps> = ({
                   size="sm"
                   title="Thêm ảnh"
                   disabled={false}
-                  className="text-text-tertiary hover:text-success"
+                  className="text-muted hover:text-success"
                 />
                 <EmojiPicker
                   onEmojiSelect={(emoji) =>
@@ -198,7 +198,7 @@ export const CommentInput: React.FC<CommentInputProps> = ({
                   className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors duration-200 flex-shrink-0
                     ${canSubmit
                       ? 'btn-gradient text-white shadow-sm hover:brightness-110 active:brightness-95'
-                      : 'bg-bg-tertiary text-text-tertiary cursor-not-allowed'
+                      : 'bg-surface-sunken text-muted cursor-not-allowed'
                     }`}
                 >
                   <Send size={14} className={canSubmit ? 'fill-current' : ''} />

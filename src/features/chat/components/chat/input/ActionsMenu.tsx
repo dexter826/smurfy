@@ -3,7 +3,7 @@ import { Paperclip, Mic, Plus, Sticker } from 'lucide-react';
 import { IconButton } from '@/components/ui';
 
 interface ActionsMenuProps {
-  isOpen: boolean;
+  open: boolean;
   onToggle: () => void;
   onAction: (type: 'media' | 'voice' | 'gif') => void;
   disabled?: boolean;
@@ -11,21 +11,21 @@ interface ActionsMenuProps {
 
 /** Menu các hành động đính kèm tin nhắn */
 export const ActionsMenu: React.FC<ActionsMenuProps> = ({
-  isOpen, onToggle, onAction, disabled,
+  open, onToggle, onAction, disabled,
 }) => (
   <div className="relative flex-shrink-0">
     <IconButton
       type="button"
       onClick={(e) => { e.stopPropagation(); onToggle(); }}
-      className={`transition-all duration-200 ${isOpen ? 'rotate-45' : ''}`}
-      variant={isOpen ? 'primary' : 'ghost'}
+      className={`transition-all duration-200 ${open ? 'rotate-45' : ''}`}
+      variant={open ? 'primary' : 'ghost'}
       icon={<Plus size={18} />}
       size="md"
       disabled={disabled}
     />
-    {isOpen && (
+    {open && (
       <div
-        className="absolute bottom-full left-0 mb-2 flex items-center gap-1.5 p-1.5 bg-bg-primary rounded-xl shadow-dropdown border border-border-light animate-fade-in"
+        className="absolute bottom-full left-0 mb-2 flex items-center gap-1.5 p-1.5 bg-surface rounded-xl shadow-dropdown border border-border animate-fade-in"
         style={{ zIndex: 'var(--z-dropdown)' }}
       >
         <IconButton

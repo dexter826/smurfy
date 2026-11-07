@@ -38,7 +38,7 @@ const ReactionDisplayInner: React.FC<ReactionDisplayProps> = ({
     <div
       className={`flex items-center gap-1 select-none transition-all duration-200 ${isMinimal
         ? (onClick ? 'cursor-pointer hover:opacity-80' : 'cursor-default')
-        : `px-1.5 py-0.5 bg-bg-secondary rounded-full border border-border-light shadow-sm cursor-pointer hover:bg-bg-hover hover:border-primary/30`
+        : `px-1.5 py-0.5 bg-background rounded-full border border-border shadow-sm cursor-pointer hover:bg-hover hover:border-primary/30`
         } overflow-visible ${className}`}
       onClick={(e) => {
         if (!onClick) return;
@@ -51,13 +51,13 @@ const ReactionDisplayInner: React.FC<ReactionDisplayProps> = ({
           <div
             key={emoji}
             style={{ zIndex: 10 - index }}
-            className="flex-shrink-0 flex items-center justify-center bg-bg-secondary rounded-full ring-1 ring-bg-secondary"
+            className="flex-shrink-0 flex items-center justify-center bg-background rounded-full ring-1 ring-background"
           >
             {getReactionIcon(emoji as ReactionType, "overflow-visible", iconSize)}
           </div>
         ))}
       </div>
-      <span className={`${fontSize} text-text-secondary font-semibold ml-0.5`}>
+      <span className={`${fontSize} text-secondary font-semibold ml-0.5`}>
         {reactionCount}
       </span>
     </div>

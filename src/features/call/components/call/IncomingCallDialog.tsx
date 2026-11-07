@@ -32,9 +32,9 @@ export const IncomingCallDialog: React.FC<IncomingCallDialogProps> = ({
     >
       <audio ref={audioRef} src={ringSound} loop />
 
-      <div className="w-full sm:w-auto flex flex-col items-center gap-6 px-10 py-8 bg-[#1a1f2e] rounded-t-3xl sm:rounded-3xl shadow-2xl sm:min-w-[300px] border border-white/10">
+      <div className="w-full sm:w-auto flex flex-col items-center gap-6 px-10 py-8 bg-surface-elevated rounded-t-3xl sm:rounded-3xl shadow-2xl sm:min-w-[300px] border border-border">
         {/* Label */}
-        <p className="text-white/50 text-xs font-medium tracking-widest uppercase">
+        <p className="text-muted text-xs font-medium tracking-widest uppercase">
           {callLabel}
         </p>
 
@@ -47,21 +47,21 @@ export const IncomingCallDialog: React.FC<IncomingCallDialogProps> = ({
 
         {/* Name */}
         <div className="text-center">
-          <h3 className="text-white text-xl font-semibold">{callerName}</h3>
-          <p className="text-white/50 text-sm mt-1">đang gọi cho bạn</p>
+          <h3 className="text-foreground text-xl font-semibold">{callerName}</h3>
+          <p className="text-muted text-sm mt-1">đang gọi cho bạn</p>
         </div>
 
         {/* Actions */}
         <div className="flex gap-10 mt-1">
           <CallButton
             onClick={onReject}
-            color="bg-red-500 hover:bg-red-600"
+            color="bg-danger hover:bg-danger/90"
             label="Từ chối"
             icon={<PhoneOff size={24} className="text-white" />}
           />
           <CallButton
             onClick={onAccept}
-            color="bg-green-500 hover:bg-green-600"
+            color="bg-success hover:bg-success/90"
             label="Chấp nhận"
             icon={callType === 'video'
               ? <Video size={24} className="text-white" />
@@ -87,6 +87,6 @@ const CallButton: React.FC<{
     >
       {icon}
     </button>
-    <span className="text-white/60 text-xs font-medium">{label}</span>
+    <span className="text-muted text-xs font-medium">{label}</span>
   </div>
 );

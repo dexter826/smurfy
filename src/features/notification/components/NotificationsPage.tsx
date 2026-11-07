@@ -16,7 +16,7 @@ const NotificationsPage: React.FC = () => {
     <div className="flex flex-col h-full overflow-hidden">
 
       {/* ── Header ── */}
-      <header className="flex-shrink-0 flex items-center justify-between px-4 h-16 border-b border-border-light bg-bg-primary">
+      <header className="flex-shrink-0 flex items-center justify-between px-4 h-16 border-b border-border bg-surface">
         <div className="flex items-center gap-2">
           <IconButton
             onClick={() => navigate(-1)}
@@ -25,7 +25,7 @@ const NotificationsPage: React.FC = () => {
             className="md:hidden -ml-1"
           />
           <div>
-            <h1 className="text-base font-semibold text-text-primary leading-tight">Thông báo</h1>
+            <h1 className="text-base font-semibold text-foreground leading-tight">Thông báo</h1>
             {unreadCount > 0 && (
               <p className="text-xs text-primary font-medium leading-tight">{unreadCount} thông báo mới</p>
             )}
@@ -45,7 +45,7 @@ const NotificationsPage: React.FC = () => {
           {notifications.length > 0 && (
             <button
               onClick={() => user && clearAllNotifications(user.id)}
-              className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold text-text-tertiary hover:text-error hover:bg-error/10 transition-colors duration-200"
+              className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold text-muted hover:text-danger hover:bg-danger/10 transition-colors duration-200"
             >
               <Trash2 size={15} />
               <span className="hidden sm:inline">Xóa tất cả</span>
@@ -57,11 +57,11 @@ const NotificationsPage: React.FC = () => {
       {/* ── Content ── */}
       <div className="flex-1 overflow-y-auto scroll-hide">
         <div className="max-w-2xl mx-auto md:py-5 md:px-4">
-          <div className="bg-bg-primary md:rounded-2xl md:border md:border-border-light overflow-hidden">
+          <div className="bg-surface md:rounded-2xl md:border md:border-border overflow-hidden">
             <NotificationList maxHeight="100%" />
 
             {notifications.length >= currentLimit && (
-              <div className="px-4 py-3 border-t border-border-light flex justify-center">
+              <div className="px-4 py-3 border-t border-border flex justify-center">
                 <button
                   onClick={() => user && loadMore(user.id)}
                   className="text-xs font-semibold text-primary hover:underline transition-colors duration-200"

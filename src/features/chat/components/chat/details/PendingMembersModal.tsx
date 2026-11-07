@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { User, RtdbConversation } from '@shared/types';
-import { Modal, UserAvatar, ConfirmDialog, Button, EmptyState } from '@/components/ui';
+import { Modal, UserAvatar, AlertDialog, Button, EmptyState } from '@/components/ui';
 import { Check, X, Users } from 'lucide-react';
 import { CONFIRM_MESSAGES } from '@/constants/confirmMessages';
 
 interface PendingMembersModalProps {
-  isOpen: boolean;
-  onClose: () => void;
+  open: boolean;
+  onOpenChange: () => void;
   conversation: { id: string; data: RtdbConversation };
   usersMap: Record<string, User>;
   onApproveMembers?: (uids: string[]) => Promise<void>;
@@ -15,8 +15,8 @@ interface PendingMembersModalProps {
 
 /** Modal phê duyệt thành viên chờ tham gia nhóm */
 export const PendingMembersModal: React.FC<PendingMembersModalProps> = ({
-  isOpen,
-  onClose,
+  open,
+  onOpenChange,
   conversation,
   usersMap,
   onApproveMembers,
@@ -36,7 +36,7 @@ export const PendingMembersModal: React.FC<PendingMembersModalProps> = ({
     try {
       await onApproveMembers?.(uids);
       setConfirmApproveAll(false);
-      if (pendingEntries.length <= uids.length) onClose();
+      if (pendingEntries.length <= uids.length) onOpenChange();
     } finally {
       setIsProcessing(false);
     }
@@ -47,7 +47,7 @@ export const PendingMembersModal: React.FC<PendingMembersModalProps> = ({
     setIsProcessing(true);
     try {
       await onApproveMembers?.([uid]);
-      if (pendingEntries.length === 1) onClose();
+      if (pendingEntries.length === 1) onOpenChange();
     } finally {
       setIsProcessing(false);
     }
@@ -60,7 +60,7 @@ export const PendingMembersModal: React.FC<PendingMembersModalProps> = ({
     try {
       await onRejectMembers?.([confirmReject]);
       setConfirmReject(null);
-      if (pendingEntries.length === 1) onClose();
+      if (pendingEntries.length === 1) onOpenChange();
     } finally {
       setIsProcessing(false);
     }
@@ -69,16 +69,16 @@ export const PendingMembersModal: React.FC<PendingMembersModalProps> = ({
   return (
     <>
       <Modal
-        isOpen={isOpen}
-        onClose={onClose}
+        open={open}
+        onOpenChange={onOpenChange}
         title="Yêu cầu tham gia"
-        maxWidth="md"
+        size="md"
         padding="none"
       >
         <div className="flex flex-col max-h-[70vh]">
           {/* Sub Header */}
-          <div className="px-4 py-3 bg-bg-secondary/50 border-b border-border-light flex items-center justify-between">
-            <div className="flex items-center gap-2 text-text-secondary">
+          <div className="px-4 py-3 bg-background/50 border-b border-border flex items-center justify-between">
+            <div className="flex items-center gap-2 text-secondary">
               <Users size={16} />
               <span className="text-sm font-medium">
                 {pendingEntries.length} người đang chờ duyệt
@@ -105,15 +105,15 @@ export const PendingMembersModal: React.FC<PendingMembersModalProps> = ({
                 return (
                   <div
                     key={uid}
-                    className="flex items-center gap-3 px-4 py-3.5 hover:bg-bg-hover transition-colors border-b border-border-light last:border-0"
+                    className="flex items-center gap-3 px-4 py-3.5 hover:bg-hover transition-colors border-b border-border last:border-0"
                   >
                     <UserAvatar userId={uid} src={user?.avatar?.url} name={user?.fullName} size="md" />
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-semibold text-text-primary truncate">
+                      <p className="text-sm font-semibold text-foreground truncate">
                         {user?.fullName || 'Người dùng'}
                       </p>
-                      <p className="text-xs text-text-tertiary truncate mt-0.5">
-                        Được mời bởi <span className="text-text-secondary font-medium">{inviterName}</span>
+                      <p className="text-xs text-muted truncate mt-0.5">
+                        Được mời bởi <span className="text-secondary font-medium">{inviterName}</span>
                       </p>
                     </div>
                     <div className="flex items-center gap-2">
@@ -128,7 +128,7 @@ export const PendingMembersModal: React.FC<PendingMembersModalProps> = ({
                       <button
                         onClick={() => setConfirmReject(uid)}
                         disabled={isProcessing}
-                        className="h-8 w-8 flex items-center justify-center rounded-lg bg-bg-secondary text-text-tertiary hover:bg-error/10 hover:text-error transition-colors disabled:opacity-50"
+                        className="h-8 w-8 flex items-center justify-center rounded-lg bg-background text-muted hover:bg-danger/10 hover:text-danger transition-colors disabled:opacity-50"
                       >
                         <X size={16} />
                       </button>
@@ -150,9 +150,9 @@ export const PendingMembersModal: React.FC<PendingMembersModalProps> = ({
       </Modal>
 
       {/* Reject Confirmation Dialog */}
-      <ConfirmDialog
-        isOpen={!!confirmReject}
-        onClose={() => setConfirmReject(null)}
+      <AlertDialog
+        open={!!confirmReject}
+        onOpenChange={() => setConfirmReject(null)}
         onConfirm={handleRejectSingle}
         title={CONFIRM_MESSAGES.CHAT.REJECT_MEMBER.TITLE}
         message={CONFIRM_MESSAGES.CHAT.REJECT_MEMBER.MESSAGE(
@@ -163,9 +163,9 @@ export const PendingMembersModal: React.FC<PendingMembersModalProps> = ({
       />
 
       {/* Approve All Confirmation Dialog */}
-      <ConfirmDialog
-        isOpen={confirmApproveAll}
-        onClose={() => setConfirmApproveAll(false)}
+      <AlertDialog
+        open={confirmApproveAll}
+        onOpenChange={() => setConfirmApproveAll(false)}
         onConfirm={handleApproveAll}
         title={CONFIRM_MESSAGES.CHAT.APPROVE_ALL_PENDING.TITLE}
         message={CONFIRM_MESSAGES.CHAT.APPROVE_ALL_PENDING.MESSAGE(pendingEntries.length)}

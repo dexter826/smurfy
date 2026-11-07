@@ -9,16 +9,16 @@ import { useConversationParticipants } from '@/features/chat';
 import { rtdbGroupService } from '../../../services/chat/rtdbGroupService';
 
 interface EditGroupModalProps {
-  isOpen: boolean;
+  open: boolean;
   conversation: { id: string; data: RtdbConversation; userChat: RtdbUserChat };
   currentUserId: string;
-  onClose: () => void;
+  onOpenChange: () => void;
   onSave: (updates: { name?: string; avatar?: MediaObject }) => Promise<void>;
 }
 
 /** Modal chỉnh sửa thông tin nhóm chat */
 export const EditGroupModal: React.FC<EditGroupModalProps> = ({
-  isOpen, conversation, currentUserId, onClose, onSave,
+  open, conversation, currentUserId, onOpenChange, onSave,
 }) => {
   const [groupName, setGroupName] = useState(conversation.data.name || '');
   const [groupAvatar] = useState(conversation.data.avatar?.url || '');
@@ -31,13 +31,13 @@ export const EditGroupModal: React.FC<EditGroupModalProps> = ({
 
 
   useEffect(() => {
-    if (!isOpen) return;
+    if (!open) return;
     setGroupName(conversation.data.name || '');
     setPreviewUrl(null);
     setPendingFile(null);
     setShowCropper(false);
     setCropImage(null);
-  }, [isOpen, conversation]);
+  }, [open, conversation]);
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -76,7 +76,7 @@ export const EditGroupModal: React.FC<EditGroupModalProps> = ({
       }
       await onSave(updates);
       if (previewUrl) URL.revokeObjectURL(previewUrl);
-      onClose();
+      onOpenChange();
     } catch {
       toast.error(TOAST_MESSAGES.CHAT.UPDATE_GROUP_FAILED);
     } finally {
@@ -89,13 +89,13 @@ export const EditGroupModal: React.FC<EditGroupModalProps> = ({
   return (
     <>
       <Modal
-        isOpen={isOpen}
-        onClose={onClose}
+        open={open}
+        onOpenChange={onOpenChange}
         title="Chỉnh sửa nhóm"
-        maxWidth="sm"
+        size="sm"
         footer={
           <div className="flex gap-3">
-            <Button variant="secondary" onClick={onClose}>Hủy</Button>
+            <Button variant="secondary" onClick={onOpenChange}>Hủy</Button>
             <Button
               onClick={handleSave}
               disabled={!groupName.trim() || !hasChanges || isSaving}
@@ -119,13 +119,13 @@ export const EditGroupModal: React.FC<EditGroupModalProps> = ({
               <button
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
-                className="absolute bottom-0 right-0 w-7 h-7 btn-gradient rounded-full flex items-center justify-center shadow-accent border-2 border-bg-primary"
+                className="absolute bottom-0 right-0 w-7 h-7 btn-gradient rounded-full flex items-center justify-center shadow-accent border-2 border-surface"
               >
                 <Camera size={13} className="text-white" />
               </button>
               <input ref={fileInputRef} type="file" accept="image/*" onChange={handleFileSelect} className="hidden" />
             </div>
-            <p className="text-xs text-text-tertiary mt-2">Nhấn để thay đổi ảnh nhóm</p>
+            <p className="text-xs text-muted mt-2">Nhấn để thay đổi ảnh nhóm</p>
           </div>
 
           {/* Group Name */}
@@ -134,7 +134,7 @@ export const EditGroupModal: React.FC<EditGroupModalProps> = ({
             placeholder="Nhập tên nhóm..."
             value={groupName}
             onChange={(e) => setGroupName(e.target.value)}
-            className="bg-bg-secondary"
+            className="bg-background"
           />
 
         </div>
@@ -142,7 +142,7 @@ export const EditGroupModal: React.FC<EditGroupModalProps> = ({
 
       {showCropper && cropImage && (
         <ImageCropper
-          isOpen={showCropper}
+          open={showCropper}
           image={cropImage}
           aspect={1}
           title="Cắt ảnh nhóm"

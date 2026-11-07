@@ -9,37 +9,53 @@ interface FriendItemProps {
   onUnfriend?: (friendId: string) => void;
   onMessage?: (friendId: string) => void;
   onBlock?: (friendId: string) => void;
+  isSelected?: boolean;
+  onSelect?: (friend: User) => void;
 }
 
-const FriendItemInner: React.FC<FriendItemProps> = ({ friend, onUnfriend, onMessage, onBlock }) => {
+const FriendItemInner: React.FC<FriendItemProps> = ({
+  friend,
+  onUnfriend,
+  onMessage,
+  onBlock,
+  isSelected,
+  onSelect,
+}) => {
   const navigate = useNavigate();
   const isBanned = friend.status === UserStatus.BANNED;
 
-  const handleMessage = useCallback(() => {
+  const handleClick = useCallback(() => {
     if (isBanned) return;
-    if (onMessage) onMessage(friend.id);
-    else navigate('/');
-  }, [onMessage, friend.id, navigate, isBanned]);
+    if (onSelect) {
+      onSelect(friend);
+    } else if (onMessage) {
+      onMessage(friend.id);
+    } else {
+      navigate('/');
+    }
+  }, [onSelect, onMessage, friend, navigate, isBanned]);
 
   return (
     <div
       className={`relative flex items-center justify-between px-4 py-3 transition-colors duration-200 group
-        border-b border-border-light/60 last:border-0
+        border-b border-border/60 last:border-0
         ${isBanned
           ? 'opacity-60 cursor-default'
-          : 'hover:bg-bg-hover active:bg-bg-active cursor-pointer'
+          : isSelected
+          ? 'bg-primary/10 ring-1 ring-inset ring-primary/20 cursor-pointer'
+          : 'hover:bg-hover active:bg-active cursor-pointer'
         }`}
-      onClick={handleMessage}
+      onClick={handleClick}
     >
       <div className="flex items-center gap-3 flex-1 min-w-0">
         <UserAvatar userId={friend.id} size="md" />
         <div className="min-w-0">
           <div className="flex items-center gap-1.5 flex-wrap">
-            <h3 className="text-sm font-semibold text-text-primary truncate">
+            <h3 className="text-sm font-semibold text-foreground truncate">
               {friend.fullName}
             </h3>
             {isBanned && (
-              <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-[10px] font-medium bg-error/10 text-error flex-shrink-0">
+              <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-[10px] font-medium bg-danger/10 text-danger flex-shrink-0">
                 <Lock size={9} />
                 Đã khóa
               </span>
@@ -89,7 +105,7 @@ const FriendItemInner: React.FC<FriendItemProps> = ({ friend, onUnfriend, onMess
 };
 
 const FriendItemSkeleton: React.FC = () => (
-  <div className="flex items-center justify-between px-4 py-3 border-b border-border-light/60 last:border-0">
+  <div className="flex items-center justify-between px-4 py-3 border-b border-border/60 last:border-0">
     <div className="flex items-center gap-3 flex-1">
       <Skeleton variant="circle" width={40} height={40} />
       <div className="space-y-1.5">
