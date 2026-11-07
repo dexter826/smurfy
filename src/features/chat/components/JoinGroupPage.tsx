@@ -7,8 +7,6 @@ import { useAuthStore } from '@/features/auth';
 import { useChat } from '@/hooks';
 import { toast } from '@/store/toastStore';
 import { TOAST_MESSAGES } from '@/constants';
-import { AuthBrandingPanel } from '@/components/layout/AuthBrandingPanel';
-
 
 const JoinGroupPage: React.FC = () => {
   const navigate = useNavigate();
@@ -23,7 +21,6 @@ const JoinGroupPage: React.FC = () => {
   const { fetchGroupInviteInfo, handleSelectConversation, handleJoinGroupByLink } = useChat();
 
   const token = params.token || '';
-
 
   useEffect(() => {
     if (!isInitialized || hasHandledRef.current) return;
@@ -47,9 +44,9 @@ const JoinGroupPage: React.FC = () => {
           }
           setGroupInfo(info);
         } else {
-          const msgs = { 
-            disbanded: TOAST_MESSAGES.GROUP.DISBANDED, 
-            invalid: TOAST_MESSAGES.GROUP.INVALID_LINK 
+          const msgs = {
+            disbanded: TOAST_MESSAGES.GROUP.DISBANDED,
+            invalid: TOAST_MESSAGES.GROUP.INVALID_LINK,
           };
           setErrorText(msgs[info.status as keyof typeof msgs] || TOAST_MESSAGES.GROUP.INVALID_LINK);
         }
@@ -62,7 +59,15 @@ const JoinGroupPage: React.FC = () => {
     };
 
     loadGroupInfo();
-  }, [isInitialized, token, user, navigate, location, fetchGroupInviteInfo, handleSelectConversation]);
+  }, [
+    isInitialized,
+    token,
+    user,
+    navigate,
+    location,
+    fetchGroupInviteInfo,
+    handleSelectConversation,
+  ]);
 
   useEffect(() => {
     const pendingToken = sessionStorage.getItem('pending_join_token');
@@ -76,7 +81,7 @@ const JoinGroupPage: React.FC = () => {
     if (!user) {
       sessionStorage.setItem('pending_join_token', token);
       navigate('/login', {
-        state: { redirectTo: `${location.pathname}${location.search}` }
+        state: { redirectTo: `${location.pathname}${location.search}` },
       });
       return;
     }
@@ -103,7 +108,6 @@ const JoinGroupPage: React.FC = () => {
     }
   };
 
-
   if (!isInitialized || isFetching || (!hasHandledRef.current && !errorText)) {
     return <Loading variant="page" text="Đang kiểm tra thông tin nhóm..." />;
   }
@@ -119,10 +123,10 @@ const JoinGroupPage: React.FC = () => {
             <h1 className="text-2xl font-bold text-foreground">Không thể tham gia nhóm</h1>
             <p className="text-sm text-secondary leading-relaxed px-4">{errorText}</p>
           </div>
-          <Button 
-            onClick={() => navigate('/', { replace: true })} 
+          <Button
+            onClick={() => navigate('/', { replace: true })}
             variant="secondary"
-            fullWidth 
+            fullWidth
             size="lg"
             icon={<ChevronLeft size={18} />}
           >
@@ -143,7 +147,7 @@ const JoinGroupPage: React.FC = () => {
               isGroup={true}
               members={groupInfo.members}
             />
-            
+
             <div className="space-y-2.5">
               <h1 className="text-3xl font-extrabold text-foreground tracking-tight line-clamp-2">
                 {groupInfo.name}
@@ -169,24 +173,25 @@ const JoinGroupPage: React.FC = () => {
           </div>
 
           <div className="space-y-3 pt-2">
-            <Button 
-              onClick={handleJoin} 
-              fullWidth 
-              size="lg" 
+            <Button
+              onClick={handleJoin}
+              fullWidth
+              size="lg"
               className="h-14 text-base shadow-lg shadow-primary/20"
               isLoading={isJoining}
             >
-              {!user 
-                ? 'Đăng nhập để tham gia' 
-                : (groupInfo.isPending ? 'Xem trạng thái yêu cầu' : (isJoining ? 'Đang tham gia...' : 'Tham gia ngay'))
-              }
+              {!user
+                ? 'Đăng nhập để tham gia'
+                : groupInfo.isPending
+                  ? 'Xem trạng thái yêu cầu'
+                  : isJoining
+                    ? 'Đang tham gia...'
+                    : 'Tham gia ngay'}
             </Button>
             <Button variant="ghost" onClick={() => navigate('/')} fullWidth size="lg">
               Bỏ qua
             </Button>
           </div>
-
-
         </div>
       );
     }
@@ -195,27 +200,17 @@ const JoinGroupPage: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row h-screen lg:overflow-hidden bg-background selection:bg-primary/20">
-      <AuthBrandingPanel
-        headline={<>Kết nối <br /> Nhóm mới.</>}
-        subtext="Tham gia vào những cộng đồng thú vị và chia sẻ đam mê cùng Smurfy."
-      />
+    <div className="min-h-[100dvh] bg-background selection:bg-primary/20 flex flex-col">
+      <header className="h-14 flex-shrink-0 bg-surface border-b border-default flex items-center px-4 gap-3">
+        <img src="/logo.svg" alt="Smurfy" className="h-8 w-8 object-contain" />
+        <span className="font-display font-extrabold text-foreground">Smurfy</span>
+      </header>
 
-      <div className="w-full lg:w-1/2 h-full overflow-y-auto bg-surface transition-theme scroll-hide">
-        <div className="min-h-full flex items-center justify-center p-6 md:p-12 animate-fade-in">
-          <div className="w-full max-w-[480px]">
-            {/* Mobile logo */}
-            <div className="lg:hidden flex justify-center mb-10">
-              <img src="/logo_text_blue.png" alt="Smurfy" className="h-10 object-contain" />
-            </div>
-
-            {renderContent()}
-          </div>
-        </div>
-      </div>
+      <main className="flex-1 overflow-y-auto flex flex-col items-center justify-center p-6 animate-fade-in">
+        <div className="w-full max-w-[480px]">{renderContent()}</div>
+      </main>
     </div>
   );
 };
-
 
 export default JoinGroupPage;

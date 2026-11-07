@@ -90,6 +90,7 @@ export const SearchableSelect: React.FC<SearchableSelectProps> = ({
       open={open}
       onOpenChange={setOpen}
       align="start"
+      fullWidth
       contentClassName="w-[var(--radix-popover-trigger-width)] min-w-[200px] max-w-[calc(100vw-24px)] p-0 flex flex-col"
       className={className}
       trigger={

@@ -258,6 +258,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
         if (!next) setView('days');
       }}
       align="start"
+      fullWidth
       className={className}
       contentClassName="w-[var(--radix-popover-trigger-width)] min-w-[288px] max-w-[calc(100vw-24px)] p-0 overflow-hidden"
       trigger={

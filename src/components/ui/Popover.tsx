@@ -12,6 +12,7 @@ interface PopoverProps {
   contentClassName?: string;
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
+  fullWidth?: boolean;
 }
 
 export const Popover: React.FC<PopoverProps> = ({
@@ -24,9 +25,13 @@ export const Popover: React.FC<PopoverProps> = ({
   contentClassName = '',
   open,
   onOpenChange,
+  fullWidth = false,
 }) => (
   <PopoverPrimitive.Root open={open} onOpenChange={onOpenChange}>
-    <div className={cn('relative inline-block', className)} onClick={(e) => e.stopPropagation()}>
+    <div
+      className={cn('relative', fullWidth ? 'block w-full' : 'inline-block', className)}
+      onClick={(e) => e.stopPropagation()}
+    >
       <PopoverPrimitive.Trigger asChild>{trigger}</PopoverPrimitive.Trigger>
     </div>
     <PopoverPrimitive.Portal>
