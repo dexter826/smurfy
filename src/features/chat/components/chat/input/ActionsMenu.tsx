@@ -1,11 +1,11 @@
 import React from 'react';
-import { Paperclip, Mic, Plus, Sticker } from 'lucide-react';
+import { Image as ImageIcon, Plus, Sticker } from 'lucide-react';
 import { IconButton } from '@/components/ui';
 
 interface ActionsMenuProps {
   open: boolean;
   onToggle: () => void;
-  onAction: (type: 'media' | 'voice' | 'gif') => void;
+  onAction: (type: 'media' | 'gif') => void;
   disabled?: boolean;
 }
 
@@ -31,8 +31,8 @@ export const ActionsMenu: React.FC<ActionsMenuProps> = ({
         <IconButton
           type="button"
           onClick={() => onAction('media')}
-          title="Đính kèm tệp"
-          icon={<Paperclip size={17} />}
+          title="Gửi ảnh"
+          icon={<ImageIcon size={17} />}
           size="md"
           variant="ghost"
         />
@@ -43,15 +43,6 @@ export const ActionsMenu: React.FC<ActionsMenuProps> = ({
           icon={<Sticker size={17} />}
           size="md"
           variant="ghost"
-        />
-        <IconButton
-          type="button"
-          onClick={() => onAction('voice')}
-          title="Ghi âm"
-          icon={<Mic size={17} />}
-          size="md"
-          variant="ghost"
-          disabled={disabled}
         />
       </div>
     )}

@@ -18,8 +18,7 @@ import {
   deleteDoc,
   writeBatch
 } from 'firebase/firestore';
-import { db, functions } from '@/lib/firebase/config';
-import { httpsCallable } from 'firebase/functions';
+import { db } from '@/lib/firebase/config';
 import { User, MediaObject, UserRole, UserStatus, BlockOptions, BlockedUserEntry, UserSettings, Visibility, PostType, Gender, MaritalStatus, Generation } from '@shared/types';
 import { systemPostService } from '@/features/feed';
 import { SOCIAL_MESSAGES } from '../constants/socialMessages';
@@ -72,16 +71,43 @@ export const userService = {
   /** Tìm kiếm người dùng */
   searchUsers: async (searchTerm: string, currentUserId: string): Promise<User[]> => {
     try {
-      const fn = httpsCallable<{ searchTerm: string; currentUserId: string }, { users: User[] }>(functions, 'searchUsers');
-      const result = await fn({ searchTerm, currentUserId });
-      return result.data.users;
+      const trimmed = searchTerm.trim().toLowerCase();
+      if (!trimmed) return [];
+
+      const q = query(
+        collection(db, 'users'),
+        where('status', '==', UserStatus.ACTIVE),
+        limit(50)
+      );
+      const snapshot = await getDocs(q);
+      const users = convertDocs<User>(snapshot.docs);
+
+      return users.filter(u => {
+        if (u.id === currentUserId) return false;
+        const nameMatch = u.fullName?.toLowerCase().includes(trimmed);
+        const emailMatch = u.email?.toLowerCase().includes(trimmed);
+        return nameMatch || emailMatch;
+      });
     } catch (error) {
       console.error("Lỗi tìm kiếm người dùng", error);
       return [];
     }
   },
 
-  /** Cập nhật hồ sơ */
+  /** Khóa hoặc mở khóa người dùng (Admin) */
+  banUser: async (userId: string, action: 'ban' | 'unban'): Promise<void> => {
+    try {
+      const userRef = doc(db, 'users', userId);
+      await updateDoc(userRef, {
+        status: action === 'ban' ? UserStatus.BANNED : UserStatus.ACTIVE,
+        updatedAt: serverTimestamp()
+      });
+    } catch (error) {
+      console.error("Lỗi ban/unban người dùng", error);
+      throw error;
+    }
+  },
+
   updateProfile: async (userId: string, data: Partial<User>): Promise<User> => {
     try {
       if (data.fullName !== undefined) {

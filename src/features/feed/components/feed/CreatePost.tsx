@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Image as ImageIcon, Video } from 'lucide-react';
+import { Image as ImageIcon } from 'lucide-react';
 import { PostModal } from './modals/PostModal';
 import { User, Visibility, MediaObject } from '@shared/types';
 import { Avatar, Skeleton } from '@/components/ui';
@@ -19,29 +19,22 @@ export const CreatePost: React.FC<CreatePostProps> & { Skeleton: React.FC } = ({
   const [pendingFiles, setPendingFiles] = useState<File[]>([]);
 
   const imageInputRef = useRef<HTMLInputElement>(null);
-  const videoInputRef = useRef<HTMLInputElement>(null);
 
   const onMediaSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
     if (files.length === 0) return;
 
-    const isVideo = e.target.accept.includes('video');
-    const limit = isVideo
-      ? MEDIA_CONSTRAINTS.MAX_VIDEOS_PER_POST
-      : MEDIA_CONSTRAINTS.MAX_IMAGES_PER_POST;
-    const typeLabel = isVideo ? 'VIDEO' : 'IMAGE';
+    const limit = MEDIA_CONSTRAINTS.MAX_IMAGES_PER_POST;
 
     let selectedFiles = files;
     if (files.length > limit) {
-      toast.error(
-        isVideo ? TOAST_MESSAGES.FEED.VIDEO_LIMIT(limit) : TOAST_MESSAGES.FEED.MEDIA_LIMIT(limit),
-      );
+      toast.error(TOAST_MESSAGES.FEED.MEDIA_LIMIT(limit));
       selectedFiles = files.slice(0, limit);
     }
 
     const validFiles: File[] = [];
     selectedFiles.forEach((file) => {
-      const validation = validateFile(file, typeLabel as any);
+      const validation = validateFile(file, 'IMAGE');
       if (validation.isValid) {
         validFiles.push(file);
       } else if (validation.error) {
@@ -93,13 +86,8 @@ export const CreatePost: React.FC<CreatePostProps> & { Skeleton: React.FC } = ({
         <div className="flex px-2 py-1.5">
           <ActionBtn
             icon={<ImageIcon size={19} className="text-success" />}
-            label="Ảnh"
+            label="Đăng ảnh"
             onClick={() => imageInputRef.current?.click()}
-          />
-          <ActionBtn
-            icon={<Video size={19} className="text-info" />}
-            label="Video"
-            onClick={() => videoInputRef.current?.click()}
           />
         </div>
 
@@ -107,14 +95,6 @@ export const CreatePost: React.FC<CreatePostProps> & { Skeleton: React.FC } = ({
           ref={imageInputRef}
           type="file"
           accept="image/*"
-          multiple
-          className="hidden"
-          onChange={onMediaSelect}
-        />
-        <input
-          ref={videoInputRef}
-          type="file"
-          accept="video/*"
           multiple
           className="hidden"
           onChange={onMediaSelect}

@@ -12,7 +12,7 @@
         ".write": "auth != null && ((!data.exists() && newData.child('members').child(auth.uid).val() === 'admin') || (data.exists() && data.child('members').child(auth.uid).exists() && (newData.child('lastMessage').exists() || newData.child('updatedAt').exists() || newData.child('name').exists() || newData.child('avatar').exists() || newData.child('typing').child(auth.uid).exists() || !newData.child('typing').child(auth.uid).exists() || data.child('members').child(auth.uid).val() === 'admin')) || (data.exists() && data.child('creatorId').val() === auth.uid && !newData.exists()))",
 
         "members": {
-          ".write": "auth != null && data.parent().child('members').child(auth.uid).val() === 'admin'"
+          ".write": "auth != null && (data.parent().child('members').child(auth.uid).val() === 'admin' || (!data.exists() && data.parent().child('joinApprovalMode').val() !== true))"
         },
         "creatorId": {
           ".write": "auth != null && data.parent().child('members').child(auth.uid).val() === 'admin'"
@@ -21,7 +21,7 @@
           ".write": "auth != null && data.parent().child('members').child(auth.uid).val() === 'admin'"
         },
         "pendingMembers": {
-          ".write": "auth != null && data.parent().child('members').child(auth.uid).exists()"
+          ".write": "auth != null && (data.parent().child('members').child(auth.uid).exists() || auth != null)"
         },
         "pinnedMessages": {
           ".write": "auth != null && data.parent().child('members').child(auth.uid).exists()"
@@ -37,7 +37,7 @@
         ".write": "auth != null && root.child('conversations').child($convId).child('creatorId').val() === auth.uid && !newData.exists()",
         ".indexOn": ["createdAt"],
         "$msgId": {
-          ".write": "auth != null && root.child('conversations').child($convId).child('members').child(auth.uid).exists() && root.child('conversations').child($convId).child('isDisbanded').val() !== true && (!data.exists() || (data.child('senderId').val() === auth.uid && ((!data.child('isRecalled').exists() && newData.child('isRecalled').exists()) || (!data.child('isRecalled').exists() && (now - data.child('createdAt').val() < 300000)))) || newData.child('reactions').child(auth.uid).exists() || !newData.child('reactions').child(auth.uid).exists())",
+          ".write": "auth != null && (root.child('conversations').child($convId).child('members').child(auth.uid).exists() || (!data.exists() && newData.child('type').val() === 'system')) && root.child('conversations').child($convId).child('isDisbanded').val() !== true && (!data.exists() || (data.child('senderId').val() === auth.uid && ((!data.child('isRecalled').exists() && newData.child('isRecalled').exists()) || (!data.child('isRecalled').exists() && (now - data.child('createdAt').val() < 300000)))) || newData.child('reactions').child(auth.uid).exists() || !newData.child('reactions').child(auth.uid).exists())",
           "readBy": {
             "$uid": {
               ".write": "auth != null && auth.uid === $uid && root.child('conversations').child($convId).child('members').child(auth.uid).exists()"
@@ -67,6 +67,12 @@
         "$convId": {
           ".write": "auth != null && (auth.uid === $uid || root.child('conversations').child($convId).child('members').child(auth.uid).exists() || newData.parent().parent().parent().child('conversations').child($convId).child('members').child(auth.uid).exists())"
         }
+      }
+    },
+    "invite_links": {
+      ".read": "auth != null",
+      "$token": {
+        ".write": "auth != null"
       }
     }
   }

@@ -6,8 +6,6 @@ import {
   memoryLocalCache
 } from "firebase/firestore";
 import { getDatabase } from "firebase/database";
-import { getStorage, connectStorageEmulator } from "firebase/storage";
-import { getFunctions, connectFunctionsEmulator } from "firebase/functions";
 import { connectAuthEmulator } from "firebase/auth";
 import { connectFirestoreEmulator } from "firebase/firestore";
 import { connectDatabaseEmulator } from "firebase/database";
@@ -44,16 +42,12 @@ export const db = initializeFirestore(app, {
 
 export const rtdb = getDatabase(app);
 
-export const storage = getStorage(app);
-export const functions = getFunctions(app, 'asia-southeast1');
 
 if (isLocal) {
   console.log(`--- Đang kết nối với Firebase Emulator tại ${hostname} ---`);
   connectAuthEmulator(auth, `http://${hostname}:9099`, { disableWarnings: true });
   connectFirestoreEmulator(db, hostname, 8080);
   connectDatabaseEmulator(rtdb, hostname, 9000);
-  connectStorageEmulator(storage, hostname, 9199);
-  connectFunctionsEmulator(functions, hostname, 5001);
 }
 
 export default app;

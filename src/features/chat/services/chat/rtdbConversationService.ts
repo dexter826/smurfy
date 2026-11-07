@@ -1,38 +1,83 @@
 import { ref, set, get, update, onValue, onChildRemoved, push, query, orderByChild, equalTo, serverTimestamp, remove } from 'firebase/database';
-import { httpsCallable } from 'firebase/functions';
-import { rtdb, functions } from '@/lib/firebase/config';
+import { rtdb } from '@/lib/firebase/config';
 import { RtdbConversation, RtdbUserChat } from '@shared/types';
 import { TIME_LIMITS } from '@/constants';
 import { getRtdbServerTimestamp, getServerSyncedNow } from './chatTime';
 
 export const rtdbConversationService = {
-    /**
-     * Khởi tạo hội thoại direct giữa 2 người dùng
-     */
-    initializeDirectConversation: async (user1Id: string, user2Id: string, creatorId: string): Promise<string> => {
-        try {
-            const otherUserId = creatorId === user1Id ? user2Id : user1Id;
-            const startConv = httpsCallable<{ targetUserId: string }, { convId: string }>(functions, 'startDirectConversation');
-            const result = await startConv({ targetUserId: otherUserId });
-            return result.data.convId;
-        } catch (error) {
-            console.error('[rtdbConversationService] Lỗi initializeDirectConversation:', error);
-            throw error;
-        }
-    },
-
-    /**
-     * Tạo hoặc lấy conversation 1-1 giữa 2 user
+        /**
+     * Tạo hoặc lấy conversation 1-1 giữa 2 user trực tiếp trên RTDB
      */
     getOrCreateDirect: async (user1Id: string, user2Id: string): Promise<string> => {
         try {
-            const startConv = httpsCallable<{ targetUserId: string }, { convId: string }>(functions, 'startDirectConversation');
-            const result = await startConv({ targetUserId: user2Id });
-            return result.data.convId;
+            const sortedIds = [user1Id, user2Id].sort();
+            const convId = `direct_${sortedIds[0]}_${sortedIds[1]}`;
+            const now = Date.now();
+
+            const convRef = ref(rtdb, `conversations/${convId}`);
+            const convSnap = await get(convRef);
+
+            if (!convSnap.exists()) {
+                const updates: Record<string, any> = {};
+                updates[`conversations/${convId}`] = {
+                    isGroup: false,
+                    creatorId: user1Id,
+                    members: {
+                        [user1Id]: 'admin',
+                        [user2Id]: 'member'
+                    },
+                    createdAt: now,
+                    updatedAt: now,
+                    lastMessage: null,
+                    lastMessageAt: {}
+                };
+
+                [user1Id, user2Id].forEach(uid => {
+                    updates[`user_chats/${uid}/${convId}`] = {
+                        isPinned: false,
+                        isMuted: false,
+                        isArchived: false,
+                        unreadCount: 0,
+                        lastReadMsgId: null,
+                        lastMsgTimestamp: now,
+                        clearedAt: 0,
+                        createdAt: now,
+                        updatedAt: now
+                    };
+                });
+
+                await update(ref(rtdb), updates);
+            } else {
+                const updates: Record<string, any> = {};
+                const [uc1, uc2] = await Promise.all([
+                    get(ref(rtdb, `user_chats/${user1Id}/${convId}`)),
+                    get(ref(rtdb, `user_chats/${user2Id}/${convId}`))
+                ]);
+                if (!uc1.exists()) {
+                    updates[`user_chats/${user1Id}/${convId}`] = {
+                        isPinned: false, isMuted: false, isArchived: false, unreadCount: 0,
+                        lastReadMsgId: null, lastMsgTimestamp: now, clearedAt: 0, createdAt: now, updatedAt: now
+                    };
+                }
+                if (!uc2.exists()) {
+                    updates[`user_chats/${user2Id}/${convId}`] = {
+                        isPinned: false, isMuted: false, isArchived: false, unreadCount: 0,
+                        lastReadMsgId: null, lastMsgTimestamp: now, clearedAt: 0, createdAt: now, updatedAt: now
+                    };
+                }
+                if (Object.keys(updates).length > 0) {
+                    await update(ref(rtdb), updates);
+                }
+            }
+            return convId;
         } catch (error) {
             console.error('[rtdbConversationService] Lỗi getOrCreateDirect:', error);
             throw error;
         }
+    },
+
+    initializeDirectConversation: async (user1Id: string, user2Id: string, _creatorId: string): Promise<string> => {
+        return rtdbConversationService.getOrCreateDirect(user1Id, user2Id);
     },
 
     /**

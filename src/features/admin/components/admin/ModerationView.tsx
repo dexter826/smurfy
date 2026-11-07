@@ -1,7 +1,6 @@
 import React, { useState, useMemo, useCallback } from 'react';
 import { ShieldAlert } from 'lucide-react';
-import { httpsCallable } from 'firebase/functions';
-import { functions } from '@/lib/firebase/config';
+import { userService } from '@/services/userService';
 import { AlertDialog, MediaViewer } from '@/components/ui';
 import { toast } from '@/store/toastStore';
 import {
@@ -43,14 +42,7 @@ export const ModerationView: React.FC = () => {
     setIsProcessing(true);
     try {
       const reason = `Vi phạm tiêu chuẩn cộng đồng tích lũy: ${selectedSummary.strikes} lần vi phạm trong 7 ngày gần đây.`;
-      await httpsCallable(
-        functions,
-        'banUser',
-      )({
-        userId: selectedUserId,
-        action: 'ban',
-        reason,
-      });
+      await userService.banUser(selectedUserId, 'ban');
       toast.success(`Đã đình chỉ hoạt động tài khoản ${selectedSummary.fullName}`);
       setSelectedUserId(null);
     } catch (err) {

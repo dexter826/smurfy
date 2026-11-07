@@ -1,3 +1,5 @@
+import { notificationService } from '@/features/notification/services/notificationService';
+import { NotificationType } from '@shared/types';
 import {
   doc,
   getDoc,
@@ -14,8 +16,7 @@ import {
   serverTimestamp,
   arrayRemove
 } from 'firebase/firestore';
-import { httpsCallable } from 'firebase/functions';
-import { db, functions } from '@/lib/firebase/config';
+import { db, auth } from '@/lib/firebase/config';
 import { FriendRequest, FriendRequestStatus, User, UserStatus } from '@shared/types';
 import { convertDoc, convertDocs } from '@/utils/firebaseUtils';
 import { batchGetUsers } from '@/utils/batchUtils';
@@ -98,6 +99,12 @@ export const friendService = {
       };
 
       const docRef = await addDoc(collection(db, 'friendRequests'), requestData);
+      notificationService.createInAppNotification(
+        receiverId,
+        senderId,
+        NotificationType.FRIEND_REQUEST,
+        { requestId: docRef.id }
+      );
 
       return {
         id: docRef.id,
@@ -200,6 +207,12 @@ export const friendService = {
       });
 
       await batch.commit();
+      notificationService.createInAppNotification(
+        senderId,
+        receiverId,
+        NotificationType.FRIEND_ACCEPT,
+        { requestId }
+      );
     } catch (error) {
       console.error("Lỗi chấp nhận kết bạn", error);
       throw error;
@@ -342,17 +355,42 @@ export const friendService = {
   },
 
   /** Tự động tạo gợi ý kết bạn mới */
-  generateFriendSuggestions: async (limit?: number, force: boolean = false): Promise<string[]> => {
+    /** Tự động tạo gợi ý kết bạn mới trực tiếp từ client */
+  generateFriendSuggestions: async (limitCount: number = 20, _force: boolean = false): Promise<string[]> => {
     try {
-      const fn = httpsCallable<{ limit?: number, force?: boolean }, { suggestionIds: string[] }>(
-        functions,
-        'generateFriendSuggestions'
+      const currentUserId = auth.currentUser?.uid;
+      if (!currentUserId) return [];
+
+      const [friendsSnap, blockedSnap] = await Promise.all([
+        getDocs(collection(db, 'users', currentUserId, 'friends')),
+        getDocs(collection(db, 'users', currentUserId, 'blockedUsers')),
+      ]);
+
+      const excludeIds = new Set([
+        currentUserId,
+        ...friendsSnap.docs.map(d => d.id),
+        ...blockedSnap.docs.map(d => d.id),
+      ]);
+
+      const usersQuery = query(
+        collection(db, 'users'),
+        where('status', '==', UserStatus.ACTIVE),
+        limit(limitCount + excludeIds.size)
       );
-      const result = await fn({ 
-        ...(limit !== undefined ? { limit } : {}),
-        force 
-      });
-      return result.data.suggestionIds;
+
+      const snap = await getDocs(usersQuery);
+      const suggestions = snap.docs
+        .map(d => d.id)
+        .filter(id => !excludeIds.has(id))
+        .slice(0, limitCount);
+
+      if (suggestions.length > 0) {
+        await updateDoc(doc(db, 'users', currentUserId), {
+          suggestedFriends: suggestions
+        }).catch(() => {});
+      }
+
+      return suggestions;
     } catch (error) {
       console.error("Lỗi tạo gợi ý kết bạn", error);
       return [];

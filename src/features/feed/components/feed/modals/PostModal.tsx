@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { X, Image as ImageIcon, Video, Users, Lock, Globe } from 'lucide-react';
+import { X, Image as ImageIcon, Users, Lock, Globe } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
@@ -48,7 +48,6 @@ export const PostModal: React.FC<PostModalProps> = ({
   onSubmit,
 }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const videoInputRef = useRef<HTMLInputElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const initializedRef = useRef(false);
 
@@ -123,7 +122,6 @@ export const PostModal: React.FC<PostModalProps> = ({
     setPreviews((prev) => [...prev, ...result.previews]);
     setValue('hasPendingFiles', allFiles.length > 0, { shouldDirty: true, shouldValidate: true });
     if (fileInputRef.current) fileInputRef.current.value = '';
-    if (videoInputRef.current) videoInputRef.current.value = '';
   };
 
   const handleRemoveMedia = (index: number) => {
@@ -196,14 +194,6 @@ export const PostModal: React.FC<PostModalProps> = ({
                     icon={<ImageIcon size={19} className="text-success" />}
                     size="md"
                   />
-                  <IconButton
-                    type="button"
-                    onClick={() => videoInputRef.current?.click()}
-                    title="Video"
-                    disabled={isSubmitting}
-                    icon={<Video size={19} className="text-info" />}
-                    size="md"
-                  />
                   <EmojiPicker
                     onEmojiSelect={(emoji) =>
                       insertTextAtCursor(textareaRef, formData.content || '', emoji, (t) =>
@@ -220,14 +210,6 @@ export const PostModal: React.FC<PostModalProps> = ({
                   ref={fileInputRef}
                   type="file"
                   accept="image/*"
-                  multiple
-                  onChange={(e) => processFiles(Array.from(e.target.files || []))}
-                  className="hidden"
-                />
-                <input
-                  ref={videoInputRef}
-                  type="file"
-                  accept="video/*"
                   multiple
                   onChange={(e) => processFiles(Array.from(e.target.files || []))}
                   className="hidden"

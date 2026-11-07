@@ -23,6 +23,32 @@ import { getValidatedEnvConfig } from '@/utils/validateEnv';
 import { convertDocs } from '@/utils/firebaseUtils';
 
 export const notificationService = {
+  /** Tạo thông báo in-app trực tiếp từ client */
+  createInAppNotification: async (
+    receiverId: string,
+    actorId: string,
+    type: NotificationType,
+    data?: Notification['data']
+  ): Promise<void> => {
+    try {
+      if (!receiverId || !actorId || receiverId === actorId) return;
+      const notifRef = doc(collection(db, 'notifications'));
+      await setDoc(notifRef, {
+        id: notifRef.id,
+        receiverId,
+        actorId,
+        type,
+        data: data || {},
+        isRead: false,
+        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp()
+      });
+    } catch (err) {
+      console.error('Lỗi createInAppNotification:', err);
+    }
+  },
+
+
   /** Theo dõi thông báo thời gian thực */
   subscribeToNotifications: (
     userId: string,
@@ -131,45 +157,9 @@ export const notificationService = {
   },
 
   /** Đăng ký nhận thông báo đẩy */
-  requestPushPermission: async (userId: string): Promise<string | null> => {
-    try {
-      const permission = await window.Notification.requestPermission();
-      if (permission === 'granted') {
-        const messaging = getMessaging();
-        const { firebase: fbConfig } = getValidatedEnvConfig();
-        const swUrl = `/firebase-messaging-sw.js?apiKey=${encodeURIComponent(fbConfig.apiKey)}&authDomain=${encodeURIComponent(fbConfig.authDomain)}&projectId=${encodeURIComponent(fbConfig.projectId)}&storageBucket=${encodeURIComponent(fbConfig.storageBucket)}&messagingSenderId=${encodeURIComponent(fbConfig.messagingSenderId)}&appId=${encodeURIComponent(fbConfig.appId)}`;
-
-        const registration = await navigator.serviceWorker.register(swUrl, {
-          scope: '/'
-        });
-
-        await navigator.serviceWorker.ready;
-
-        const token = await getToken(messaging, {
-          vapidKey: fbConfig.vapidKey,
-          serviceWorkerRegistration: registration
-        });
-
-        if (token) {
-          const fcmRef = doc(db, 'users', userId, 'private', 'fcm');
-          const fcmSnap = await getDoc(fcmRef);
-          await setDoc(
-            fcmRef,
-            {
-              fcmTokens: arrayUnion(token),
-              ...(fcmSnap.exists() ? {} : { createdAt: serverTimestamp() }),
-              updatedAt: serverTimestamp()
-            },
-            { merge: true }
-          );
-          return token;
-        }
-      }
-      return null;
-    } catch (err) {
-      console.error('Lỗi requestPushPermission:', err);
-      return null;
-    }
+  requestPushPermission: async (_userId: string): Promise<string | null> => {
+    // Disabled in Spark 0đ plan (no background Cloud Functions push sender)
+    return null;
   },
 
   /** Lấy thông báo hệ thống mới nhất */
