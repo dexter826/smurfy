@@ -411,8 +411,8 @@ Hệ thống bố cục theo tỷ lệ chuẩn 4px/8px kết hợp micro-spacing
 
 | Breakpoint | Chiều rộng | Bố cục và Hành vi hiển thị                                                                                                              |
 | :--------- | :--------- | :-------------------------------------------------------------------------------------------------------------------------------------- |
-| **Mobile** | < 1024px   | Header gọn 56px; thanh điều hướng đáy (Bottom Navigation) tối đa 5 mục; sidebar và panel phải ẩn; hộp thoại mở rộng toàn màn hình.       |
-| **lg**     | ≥ 1024px   | Sidebar trái 264px (điều hướng chính, icon + nhãn) hiện; khung nội dung trung tâm; bottom nav ẩn.                                        |
+| **Mobile** | < 1024px   | Top bar gọn 56px; thanh điều hướng đáy (Bottom Navigation) tối đa 5 mục; hộp thoại mở rộng toàn màn hình.                                |
+| **lg**     | ≥ 1024px   | Thanh điều hướng ngang phía trên khung nội dung trung tâm; bottom nav ẩn.                                                                |
 | **xl**     | ≥ 1280px   | Panel phải 320px (danh bạ, chi tiết tuỳ trang) hiện ở các trang cần; nội dung trung tâm giới hạn chiều rộng tối đa.                     |
 
 Bảng tin và luồng chat giới hạn chiều rộng khung đọc; đoạn văn dài không vượt 80 ký tự mỗi dòng. Không xuất hiện thanh cuộn ngang ở bất kỳ điểm ngắt nào.

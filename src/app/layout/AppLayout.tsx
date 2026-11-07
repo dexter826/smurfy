@@ -8,9 +8,9 @@ import { AlertDialog, Loading } from '@/components/ui';
 import { useLogout } from '../../hooks/utils/useLogout';
 import { CONFIRM_MESSAGES } from '../../constants';
 import { useSoundUnlock, useDocumentTitle } from './hooks/useShellEffects';
-import { appNavItems, AppSidebar } from './AppSidebar';
+import { appNavItems } from './navItems';
+import { AppTopBar } from './AppTopBar';
 import { BottomNav } from './BottomNav';
-import { MobileTopBar } from './MobileTopBar';
 import { GlobalModals } from './GlobalModals';
 
 export const AppLayout: React.FC = () => {
@@ -50,28 +50,26 @@ export const AppLayout: React.FC = () => {
   });
 
   return (
-    <div className="flex h-[100dvh] w-full bg-background overflow-hidden transition-theme">
-      <AppSidebar variant="app" items={navItems} onLogout={() => setShowLogoutConfirm(true)} />
+    <div className="flex flex-col h-[100dvh] w-full bg-background overflow-hidden transition-theme">
+      <AppTopBar items={navItems} onLogout={() => setShowLogoutConfirm(true)} />
 
-      <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
-        {!isChatRoom && <MobileTopBar />}
+      <main
+        className={`flex-1 relative flex flex-col overflow-hidden ${
+          isChatRoom ? '' : 'lg:pb-0 pb-[calc(3.5rem+env(safe-area-inset-bottom))]'
+        }`}
+      >
+        <React.Suspense fallback={<Loading variant="page" />}>
+          <Outlet />
+        </React.Suspense>
+      </main>
 
-        <main
-          className={`flex-1 relative flex flex-col overflow-hidden ${isChatRoom ? '' : 'lg:pb-0 pb-[calc(3.5rem+env(safe-area-inset-bottom))]'}`}
-        >
-          <React.Suspense fallback={<Loading variant="page" />}>
-            <Outlet />
-          </React.Suspense>
-        </main>
-
-        {!isChatRoom && (
-          <BottomNav
-            unread={totalUnread}
-            unreadNotifications={unreadNotifications}
-            newRequests={receivedRequests.length}
-          />
-        )}
-      </div>
+      {!isChatRoom && (
+        <BottomNav
+          unread={totalUnread}
+          unreadNotifications={unreadNotifications}
+          newRequests={receivedRequests.length}
+        />
+      )}
 
       <AlertDialog
         open={showLogoutConfirm}

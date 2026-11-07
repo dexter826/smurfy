@@ -5,7 +5,7 @@ import { useAuthStore } from '@/features/auth';
 import { useThemeStore, useResolvedTheme } from '../../store/themeStore';
 import { AlertDialog } from '@/components/ui';
 import { useLogout } from '../../hooks/utils/useLogout';
-import { adminNavItems, AppSidebar } from './AppSidebar';
+import { adminNavItems, AdminSidebar } from './AdminSidebar';
 
 export const AdminLayout: React.FC = () => {
   const navigate = useNavigate();
@@ -17,11 +17,7 @@ export const AdminLayout: React.FC = () => {
 
   return (
     <div className="flex h-[100dvh] w-full bg-background overflow-hidden transition-theme">
-      <AppSidebar
-        variant="admin"
-        items={adminNavItems}
-        onLogout={() => setShowLogoutConfirm(true)}
-      />
+      <AdminSidebar items={adminNavItems} onLogout={() => setShowLogoutConfirm(true)} />
 
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
         <header className="lg:hidden h-14 flex-shrink-0 bg-surface border-b border-default flex items-center justify-between px-4">
