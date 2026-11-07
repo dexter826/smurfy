@@ -1,13 +1,18 @@
+<div align="center">
+
+<img src="public/logo_text_blue.png" alt="Smurfy Social Logo" width="320" />
+
 # Smurfy Social
 
-[![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/richardlitt/standard-readme)
 [![React](https://img.shields.io/badge/React-19.2-61DAFB?style=flat-square&logo=react)](https://react.dev)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.8-3178C6?style=flat-square&logo=typescript)](https://www.typescriptlang.org)
 [![Vite](https://img.shields.io/badge/Vite-6.2-646CFF?style=flat-square&logo=vite)](https://vitejs.dev)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4-06B6D4?style=flat-square&logo=tailwindcss)](https://tailwindcss.com)
 [![Firebase](https://img.shields.io/badge/Firebase-10.13-FFCA28?style=flat-square&logo=firebase)](https://firebase.google.com)
 
-Ứng dụng mạng xã hội thời gian thực, tập trung vào trải nghiệm kết nối bạn bè, chia sẻ trạng thái và trò chuyện trực tiếp.
+**Ứng dụng mạng xã hội thời gian thực, tập trung vào trải nghiệm kết nối bạn bè, chia sẻ trạng thái và trò chuyện trực tiếp.**
+
+</div>
 
 ---
 
