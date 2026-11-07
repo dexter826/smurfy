@@ -346,7 +346,7 @@ const LoginPage: React.FC = () => {
                       <Checkbox
                         label="Ghi nhớ đăng nhập"
                         checked={rememberMe}
-                        onChange={(e) => setRememberMe(e.target.checked)}
+                        onCheckedChange={(checked) => setRememberMe(checked === true)}
                       />
                       <button
                         type="button"

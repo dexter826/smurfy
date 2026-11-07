@@ -1,12 +1,20 @@
 import React, { useCallback } from 'react';
-import { Eye, MessageCircle, Users, Lock, ChevronDown, Globe, CheckCheck, MessageSquareQuote } from 'lucide-react';
+import {
+  Eye,
+  MessageCircle,
+  Users,
+  Lock,
+  ChevronDown,
+  Globe,
+  CheckCheck,
+  MessageSquareQuote,
+} from 'lucide-react';
 import { useAuthStore } from '@/features/auth';
 import { userService } from '@/services/userService';
 import { presenceService } from '@/features/presence';
 import { Visibility } from '@shared/types';
-import { Skeleton, Dropdown, DropdownItem } from '@/components/ui';
+import { Skeleton, Dropdown, DropdownItem, Switch } from '@/components/ui';
 import SettingItem from './SettingItem';
-import Toggle from './Toggle';
 
 const PrivacySection: React.FC = () => {
   const { user: currentUser, settings, updateSettings } = useAuthStore();
@@ -25,7 +33,7 @@ const PrivacySection: React.FC = () => {
     updateSettings({ showReadReceipts: newValue });
     await userService.updateUserSettings(currentUser.id, { showReadReceipts: newValue });
   }, [currentUser, settings, updateSettings]);
-  
+
   const handleToggleAllowMessagesFromStrangers = useCallback(async () => {
     if (!currentUser || !settings) return;
     const newValue = !settings.allowMessagesFromStrangers;
@@ -33,11 +41,14 @@ const PrivacySection: React.FC = () => {
     await userService.updateUserSettings(currentUser.id, { allowMessagesFromStrangers: newValue });
   }, [currentUser, settings, updateSettings]);
 
-  const handleChangeVisibility = useCallback(async (visibility: Visibility) => {
-    if (!currentUser) return;
-    updateSettings({ defaultPostVisibility: visibility });
-    await userService.updateUserSettings(currentUser.id, { defaultPostVisibility: visibility });
-  }, [currentUser, updateSettings]);
+  const handleChangeVisibility = useCallback(
+    async (visibility: Visibility) => {
+      if (!currentUser) return;
+      updateSettings({ defaultPostVisibility: visibility });
+      await userService.updateUserSettings(currentUser.id, { defaultPostVisibility: visibility });
+    },
+    [currentUser, updateSettings],
+  );
 
   if (!settings || !currentUser) return <Skeleton height={200} className="rounded-2xl" />;
 
@@ -47,7 +58,8 @@ const PrivacySection: React.FC = () => {
     [Visibility.PRIVATE]: { label: 'Chỉ mình tôi', Icon: Lock },
   };
 
-  const { label: visibilityLabel, Icon: VisibilityIcon } = visibilityMap[settings.defaultPostVisibility] ?? visibilityMap[Visibility.FRIENDS];
+  const { label: visibilityLabel, Icon: VisibilityIcon } =
+    visibilityMap[settings.defaultPostVisibility] ?? visibilityMap[Visibility.FRIENDS];
 
   return (
     <div className="space-y-3 animate-fade-in">
@@ -55,21 +67,39 @@ const PrivacySection: React.FC = () => {
         icon={<Eye size={18} />}
         title="Trạng thái online"
         description="Cho phép người khác thấy bạn đang hoạt động"
-        action={<Toggle enabled={settings.showOnlineStatus} onToggle={handleToggleOnlineStatus} />}
+        action={
+          <Switch
+            checked={settings.showOnlineStatus}
+            onCheckedChange={handleToggleOnlineStatus}
+            aria-label="Trạng thái online"
+          />
+        }
       />
 
       <SettingItem
         icon={<CheckCheck size={18} />}
         title="Thông báo đã xem"
         description="Cho phép người khác biết khi bạn đã xem tin nhắn"
-        action={<Toggle enabled={settings.showReadReceipts} onToggle={handleToggleReadReceipts} />}
+        action={
+          <Switch
+            checked={settings.showReadReceipts}
+            onCheckedChange={handleToggleReadReceipts}
+            aria-label="Thông báo đã xem"
+          />
+        }
       />
 
       <SettingItem
         icon={<MessageSquareQuote size={18} />}
         title="Tin nhắn từ người lạ"
         description="Cho phép người lạ khởi đầu cuộc trò chuyện với bạn"
-        action={<Toggle enabled={settings.allowMessagesFromStrangers} onToggle={handleToggleAllowMessagesFromStrangers} />}
+        action={
+          <Switch
+            checked={settings.allowMessagesFromStrangers}
+            onCheckedChange={handleToggleAllowMessagesFromStrangers}
+            aria-label="Tin nhắn từ người lạ"
+          />
+        }
       />
 
       {/* Post visibility */}
@@ -79,7 +109,9 @@ const PrivacySection: React.FC = () => {
             <Users size={18} />
           </div>
           <div>
-            <h3 className="text-sm font-semibold text-foreground">Quyền riêng tư bài viết mặc định</h3>
+            <h3 className="text-sm font-semibold text-foreground">
+              Quyền riêng tư bài viết mặc định
+            </h3>
             <p className="text-xs text-muted mt-0.5">Áp dụng cho các bài viết mới của bạn</p>
           </div>
         </div>

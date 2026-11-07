@@ -163,8 +163,8 @@ export const ReportModal: React.FC = () => {
             <Checkbox
               id="report-block-user"
               checked={shouldBlock}
-              onChange={(e) => setShouldBlock(e.target.checked)}
-              className="checked:bg-danger checked:border-danger hover:border-danger/50 focus-visible:ring-danger/40"
+              onCheckedChange={(checked) => setShouldBlock(checked === true)}
+              className="data-[state=checked]:bg-danger data-[state=checked]:border-danger hover:border-danger/50 focus-visible:ring-danger/50"
             />
           </div>
           <label htmlFor="report-block-user" className="cursor-pointer flex-1 min-w-0">

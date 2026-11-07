@@ -1,4 +1,5 @@
 import React from 'react';
+import { cn } from '@/lib/cn';
 
 interface ProgressBarProps {
   progress: number;
@@ -9,9 +10,6 @@ interface ProgressBarProps {
   showPercentage?: boolean;
 }
 
-/**
- * Thanh tiến trình ngang chuẩn hóa cho toàn dự án.
- */
 export const ProgressBar: React.FC<ProgressBarProps> = ({
   progress,
   status = 'loading',
@@ -25,34 +23,44 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
   const isError = status === 'error';
 
   return (
-    <div className={`w-full flex flex-col gap-1.5 ${className}`}>
+    <div className={cn('w-full flex flex-col gap-1.5', className)}>
       {(label || showPercentage || metadata) && (
         <div className="flex items-center justify-between gap-2 px-0.5">
           {label && (
-            <span className="text-xs font-semibold text-secondary truncate">
-              {label}
-            </span>
+            <span className="text-caption font-semibold text-secondary truncate">{label}</span>
           )}
           <div className="flex items-center gap-2 ml-auto">
             {metadata && (
-              <span className="text-[10px] font-bold text-muted uppercase tracking-tight">
+              <span className="text-caption font-bold text-muted uppercase tracking-tight">
                 {metadata}
               </span>
             )}
             {showPercentage && (
-              <span className={`text-xs font-bold ${isError ? 'text-danger' : isComplete ? 'text-success' : 'text-primary'}`}>
+              <span
+                className={cn(
+                  'text-caption font-bold',
+                  isError ? 'text-danger' : isComplete ? 'text-success' : 'text-primary',
+                )}
+              >
                 {isError ? 'Lỗi' : isComplete ? 'Hoàn tất' : `${pct}%`}
               </span>
             )}
           </div>
         </div>
       )}
-      
-      <div className="w-full h-1.5 bg-surface-sunken rounded-full overflow-hidden shadow-inner">
+
+      <div
+        role="progressbar"
+        aria-valuemin={0}
+        aria-valuemax={100}
+        aria-valuenow={pct}
+        className="w-full h-1.5 bg-surface-sunken rounded-full overflow-hidden shadow-inner"
+      >
         <div
-          className={`h-full rounded-full transition-all duration-base ${
-            isError ? 'bg-danger' : isComplete ? 'bg-success' : 'btn-gradient'
-          }`}
+          className={cn(
+            'h-full rounded-full transition-all duration-base',
+            isError ? 'bg-danger' : isComplete ? 'bg-success' : 'bg-primary',
+          )}
           style={{ width: `${pct}%` }}
         />
       </div>

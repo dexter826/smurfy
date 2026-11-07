@@ -69,7 +69,6 @@ export const MobileMenuPage: React.FC = () => {
             <p className="font-semibold text-sm text-foreground">Chế độ tối</p>
             <p className="text-xs text-muted mt-0.5">{mode === 'dark' ? 'Đang bật' : 'Đang tắt'}</p>
           </div>
-          {/* Toggle switch */}
           <div className={`w-11 h-6 rounded-full p-0.5 transition-all duration-300 flex-shrink-0 ${mode === 'dark' ? 'btn-gradient' : 'bg-surface-sunken'}`}>
             <div className={`w-5 h-5 bg-white rounded-full shadow-sm transition-all duration-300 ${mode === 'dark' ? 'translate-x-5' : 'translate-x-0'}`} />
           </div>

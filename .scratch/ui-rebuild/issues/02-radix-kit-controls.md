@@ -4,7 +4,7 @@
 
 **Blocked by:** 01
 
-**Status:** ready-for-agent
+**Status:** done
 
 - [ ] Deps cài đúng danh sách trên; `cn()` dùng được; không còn primitive nào set màu hex raw
 - [ ] Mỗi control: focus ring 2px `--color-ring` visible, keyboard, touch ≥44×44, dark parity, transition 150–300ms

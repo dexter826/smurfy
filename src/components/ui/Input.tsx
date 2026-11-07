@@ -33,7 +33,7 @@ export const Input: React.FC<InputProps> = ({
       {label && (
         <label
           htmlFor={inputId}
-          className="text-xs font-semibold text-secondary ml-1 cursor-pointer"
+          className="text-caption font-semibold text-secondary ml-1 cursor-pointer"
         >
           {label}
         </label>
@@ -47,11 +47,12 @@ export const Input: React.FC<InputProps> = ({
         <input
           id={inputId}
           className={`
-            w-full bg-surface border rounded-xl transition-all duration-200 outline-none
+            w-full bg-surface border rounded-sm transition-all duration-200 outline-none
             text-foreground placeholder:text-muted
-            ${error
-              ? 'border-danger focus:ring-2 focus:ring-danger/20 focus:border-danger'
-              : 'border-border focus:ring-2 focus:ring-primary/20 focus:border-primary hover:border-border-strong'
+            ${
+              error
+                ? 'border-danger focus:ring-2 focus:ring-danger/50 focus:border-danger'
+                : 'border-border focus:ring-2 focus:ring-focus/50 focus:border-primary hover:border-border-strong'
             }
             disabled:bg-background disabled:text-muted disabled:cursor-not-allowed disabled:border-border
             ${sizeClasses[size]}
@@ -62,9 +63,7 @@ export const Input: React.FC<InputProps> = ({
           {...props}
         />
         {rightElement && (
-          <div className="absolute inset-y-0 right-0 pr-1.5 flex items-center">
-            {rightElement}
-          </div>
+          <div className="absolute inset-y-0 right-0 pr-1.5 flex items-center">{rightElement}</div>
         )}
       </div>
       {error && (
