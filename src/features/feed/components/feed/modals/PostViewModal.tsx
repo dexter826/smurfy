@@ -22,12 +22,10 @@ import {
   Skeleton,
   ReactionDetailsModal,
   MediaViewer,
-  SensitiveMediaGuard,
 } from '@/components/ui';
 import {
   Post,
   User,
-  ReportType,
   ReactionType,
   PostType,
   Visibility,

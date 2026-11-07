@@ -65,7 +65,7 @@ const MemberTile: React.FC<{ member: User; isOverflow: boolean; overflowCount: n
             <img
                 src={member.avatar.url}
                 alt=""
-                className={`w-full h-full object-cover ${member.avatar.isSensitive ? 'blur-sm' : ''}`}
+                className="w-full h-full object-cover"
                 onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
             />
         );
@@ -86,14 +86,13 @@ const AvatarInner: React.FC<AvatarProps> = ({
     isGroup, members = [], showBorder = true, onClick,
 }) => {
     const avatarUrl = typeof src === 'string' ? src : src?.url;
-    const isSensitive = typeof src === 'object' && src?.isSensitive;
     const isCompositeGrid = isGroup && members.length > 0 && (!avatarUrl || avatarUrl === '/blank-avatar.png');
 
     const renderContent = () => {
         if (avatarUrl && avatarUrl !== '/blank-avatar.png') {
             return (
                 <img
-                    className={`w-full h-full object-cover transition-opacity duration-200 ${isSensitive ? 'blur-md' : ''}`}
+                    className="w-full h-full object-cover transition-opacity duration-200"
                     src={avatarUrl}
                     alt={name}
                     onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}

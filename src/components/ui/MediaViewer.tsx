@@ -2,13 +2,11 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { ChevronLeft, ChevronRight, X, Play, Pause } from 'lucide-react';
 import { useScrollLock } from '@/hooks/utils/useScrollLock';
-import { SensitiveMediaGuard } from './SensitiveMediaGuard';
 
 interface MediaItem {
     type: 'image' | 'video';
     url: string;
     thumbnail?: string;
-    isSensitive?: boolean;
 }
 
 interface MediaViewerProps {
@@ -132,8 +130,7 @@ export const MediaViewer: React.FC<MediaViewerProps> = ({
                 )}
 
                 {current?.type === 'video' ? (
-                    <SensitiveMediaGuard isSensitive={current.isSensitive} className="w-full h-full min-h-0 min-w-0">
-                        <div className="w-full h-full flex items-center justify-center">
+                    <div className="w-full h-full flex items-center justify-center">
                             <video
                                 ref={videoRef}
                                 src={current.url}
@@ -145,10 +142,8 @@ export const MediaViewer: React.FC<MediaViewerProps> = ({
                                 onPause={() => setIsVideoPlaying(false)}
                             />
                         </div>
-                    </SensitiveMediaGuard>
                 ) : (
-                    <SensitiveMediaGuard isSensitive={current?.isSensitive} className="w-full h-full min-h-0 min-w-0">
-                        <div className="w-full h-full flex items-center justify-center">
+                                            <div className="w-full h-full flex items-center justify-center">
                             <img
                                 src={current?.url}
                                 alt={`Ảnh ${currentIndex + 1}`}
@@ -156,7 +151,6 @@ export const MediaViewer: React.FC<MediaViewerProps> = ({
                                 onClick={(e) => e.stopPropagation()}
                             />
                         </div>
-                    </SensitiveMediaGuard>
                 )}
             </div>
         </div>,
