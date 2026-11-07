@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { MoreHorizontal, Edit, Trash2, Flag } from 'lucide-react';
+import { MoreHorizontal, Edit, Trash2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { formatRelativeTime, formatDateTime } from '@/utils/dateUtils';
 import {
@@ -20,7 +20,6 @@ import {
   ReportType,
   ReactionType,
 } from '@shared/types';
-import { useReportStore } from '@/features/admin';
 import { usePostStore } from '@/store';
 import { useFriendIds, useFilteredReactions } from '@/hooks';
 import {
@@ -58,7 +57,6 @@ const PostItemInner: React.FC<PostItemProps> = ({
 }) => {
   const [isReactionsModalOpen, setIsReactionsModalOpen] = useState(false);
   const navigate = useNavigate();
-  const { openReportModal } = useReportStore();
   const { uploadingStates } = usePostStore();
   const friendIds = useFriendIds();
 
@@ -134,29 +132,18 @@ const PostItemInner: React.FC<PostItemProps> = ({
         </div>
 
         {/* Menu */}
-        {isOwner ? (
-          !isDeleted && (
-            <Dropdown trigger={<IconButton icon={<MoreHorizontal size={18} />} size="sm" />}>
-              <DropdownItem
-                icon={<Edit size={15} />}
-                label={isSystemPost ? 'Chỉnh sửa quyền riêng tư' : 'Chỉnh sửa bài viết'}
-                onClick={() => onEdit?.(post.id)}
-              />
-              <DropdownItem
-                icon={<Trash2 size={15} />}
-                label="Xóa bài viết"
-                variant="danger"
-                onClick={() => onDelete?.(post.id)}
-              />
-            </Dropdown>
-          )
-        ) : (
+        {isOwner && !isDeleted && (
           <Dropdown trigger={<IconButton icon={<MoreHorizontal size={18} />} size="sm" />}>
             <DropdownItem
-              icon={<Flag size={15} />}
-              label="Báo cáo"
+              icon={<Edit size={15} />}
+              label={isSystemPost ? 'Chỉnh sửa quyền riêng tư' : 'Chỉnh sửa bài viết'}
+              onClick={() => onEdit?.(post.id)}
+            />
+            <DropdownItem
+              icon={<Trash2 size={15} />}
+              label="Xóa bài viết"
               variant="danger"
-              onClick={() => openReportModal(ReportType.POST, post.id, post.authorId)}
+              onClick={() => onDelete?.(post.id)}
             />
           </Dropdown>
         )}

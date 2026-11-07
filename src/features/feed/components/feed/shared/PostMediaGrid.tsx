@@ -1,13 +1,10 @@
 import React, { useMemo } from 'react';
-import { ChevronRight } from 'lucide-react';
-import { IconButton, LazyImage, SensitiveMediaGuard } from '@/components/ui';
+import { LazyImage } from '@/components/ui';
 import { MediaObject } from '@shared/types';
 
 interface MediaItem {
   url: string;
-  type: string;
   thumbnailUrl?: string;
-  isSensitive?: boolean;
 }
 
 interface PostMediaGridProps {
@@ -21,9 +18,7 @@ const PostMediaGridInner: React.FC<PostMediaGridProps> = ({ media, onClick, onIt
     () =>
       media.map((m) => ({
         url: m.url,
-        type: m.mimeType.startsWith('video') ? 'video' : 'image',
         thumbnailUrl: m.thumbnailUrl,
-        isSensitive: m.isSensitive,
       })),
     [media],
   );
@@ -41,8 +36,7 @@ const PostMediaGridInner: React.FC<PostMediaGridProps> = ({ media, onClick, onIt
     const isBlob = item.url.startsWith('blob:');
 
     return (
-      <SensitiveMediaGuard
-        isSensitive={item.isSensitive}
+      <div
         className={`relative group overflow-hidden bg-surface-sunken cursor-pointer ${className}`}
       >
         <div
@@ -54,39 +48,16 @@ const PostMediaGridInner: React.FC<PostMediaGridProps> = ({ media, onClick, onIt
             }
           }}
         >
-          {item.type === 'video' ? (
-            <video
-              src={item.url}
-              poster={item.thumbnailUrl}
-              className={`w-full h-full object-cover ${isBlob ? 'blur-[2px] opacity-70' : ''}`}
-              controls={!isBlob}
-              playsInline
-              muted={isBlob}
-              preload="none"
-            />
-          ) : (
-            <LazyImage
-              src={item.url}
-              placeholder={item.thumbnailUrl}
-              alt=""
-              className={`w-full h-full object-cover ${isBlob ? 'blur-[2px] opacity-70' : ''}`}
-              wrapperClassName="w-full h-full"
-            />
-          )}
-
-          {!isBlob && item.type === 'video' && (
-            <div className="absolute top-2 right-2 p-1 bg-black/20 backdrop-blur-md rounded-full text-white pointer-events-none group-hover:opacity-0 transition-opacity">
-              <IconButton
-                icon={<ChevronRight size={14} fill="white" className="pointer-events-none" />}
-                size="sm"
-                className="!bg-transparent"
-              />
-            </div>
-          )}
-
+          <LazyImage
+            src={item.url}
+            placeholder={item.thumbnailUrl}
+            alt=""
+            className={`w-full h-full object-cover ${isBlob ? 'blur-[2px] opacity-70' : ''}`}
+            wrapperClassName="w-full h-full"
+          />
           {overlay}
         </div>
-      </SensitiveMediaGuard>
+      </div>
     );
   };
 
@@ -96,47 +67,33 @@ const PostMediaGridInner: React.FC<PostMediaGridProps> = ({ media, onClick, onIt
 
     return (
       <div className="bg-background relative select-none overflow-hidden">
-        <SensitiveMediaGuard isSensitive={item.isSensitive}>
+        <div
+          className="relative group cursor-pointer bg-black/5 flex items-center justify-center overflow-hidden max-h-[600px]"
+          onClick={(e) => {
+            if (onItemClick) {
+              e.stopPropagation();
+              onItemClick(0);
+            } else if (onClick) {
+              onClick();
+            }
+          }}
+        >
           <div
-            className="relative group cursor-pointer bg-black/5 flex items-center justify-center overflow-hidden max-h-[600px]"
-            onClick={(e) => {
-              if (onItemClick) {
-                e.stopPropagation();
-                onItemClick(0);
-              } else if (onClick) {
-                onClick();
-              }
+            className={`absolute inset-0 blur-2xl grayscale pointer-events-none transition-opacity duration-700 ${isBlob ? 'opacity-10' : 'opacity-20'}`}
+            style={{
+              backgroundImage: `url(${item.url})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
             }}
-          >
-            <div
-              className={`absolute inset-0 blur-2xl grayscale pointer-events-none transition-opacity duration-700 ${isBlob ? 'opacity-10' : 'opacity-20'}`}
-              style={{
-                backgroundImage: `url(${item.url})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-              }}
-            />
+          />
 
-            {item.type === 'video' ? (
-              <video
-                src={item.url}
-                poster={item.thumbnailUrl}
-                className={`relative z-10 w-full h-auto max-h-[600px] object-contain transition-all duration-300 ${isBlob ? 'blur-[2px] opacity-70' : ''}`}
-                controls={!isBlob}
-                playsInline
-                muted={isBlob}
-                preload="none"
-              />
-            ) : (
-              <LazyImage
-                src={item.url}
-                placeholder={item.thumbnailUrl}
-                alt=""
-                className={`relative z-10 w-full h-auto max-h-[600px] object-contain transition-all duration-300 ${isBlob ? 'blur-[2px] opacity-70' : ''}`}
-              />
-            )}
-          </div>
-        </SensitiveMediaGuard>
+          <LazyImage
+            src={item.url}
+            placeholder={item.thumbnailUrl}
+            alt=""
+            className={`relative z-10 w-full h-auto max-h-[600px] object-contain transition-all duration-300 ${isBlob ? 'blur-[2px] opacity-70' : ''}`}
+          />
+        </div>
       </div>
     );
   }

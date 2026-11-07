@@ -35,7 +35,6 @@ import {
 } from '@shared/types';
 import { CommentSection } from '@/features/comment';
 import { formatRelativeTime, formatDateTime } from '@/utils/dateUtils';
-import { useReportStore } from '@/features/admin';
 import { useFriendIds, useFilteredReactions } from '@/hooks';
 import {
   VisibilityBadge,
@@ -74,13 +73,10 @@ export const PostViewModal: React.FC<PostViewModalProps> = ({
   isLoading,
 }) => {
   const navigate = useNavigate();
-  const { openReportModal } = useReportStore();
   const friendIds = useFriendIds();
   const [activeMediaIndex, setActiveMediaIndex] = useState(0);
   const [isMediaViewerOpen, setIsMediaViewerOpen] = useState(false);
   const [isReactionsModalOpen, setIsReactionsModalOpen] = useState(false);
-  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
-  const videoRef = useRef<HTMLVideoElement>(null);
 
   const { filteredSummary, filteredCount, currentUserReaction } = useFilteredReactions(
     post?.id || '',
@@ -99,21 +95,17 @@ export const PostViewModal: React.FC<PostViewModalProps> = ({
   useEffect(() => {
     if (open) {
       setActiveMediaIndex(0);
-      setIsVideoPlaying(false);
     }
   }, [open, post?.id]);
 
   useEffect(() => {
-    setIsVideoPlaying(false);
   }, [activeMediaIndex]);
 
   const allMedia = useMemo(() => {
     if (!post) return [];
     return (post.media || []).map((m) => ({
       url: m.url,
-      type: m.mimeType.startsWith('video/') ? ('video' as const) : ('image' as const),
-      thumbnail: m.thumbnailUrl,
-      isSensitive: m.isSensitive,
+      type: 'image' as const,
     }));
   }, [post?.media]);
 
@@ -242,9 +234,6 @@ export const PostViewModal: React.FC<PostViewModalProps> = ({
           activeMediaIndex={activeMediaIndex}
           setActiveMediaIndex={setActiveMediaIndex}
           setIsMediaViewerOpen={setIsMediaViewerOpen}
-          videoRef={videoRef}
-          isVideoPlaying={isVideoPlaying}
-          setIsVideoPlaying={setIsVideoPlaying}
         />
       )}
 
@@ -300,8 +289,7 @@ export const PostViewModal: React.FC<PostViewModalProps> = ({
           </div>
 
           <div className="flex items-center gap-0.5 shrink-0 ml-auto">
-            {isOwner ? (
-              !isDeleted && (
+            {isOwner && !isDeleted && (
                 <Dropdown
                   trigger={
                     <IconButton icon={<MoreHorizontal size={18} />} size="sm" variant="ghost" />
@@ -319,21 +307,7 @@ export const PostViewModal: React.FC<PostViewModalProps> = ({
                     onClick={() => onDelete?.(post.id)}
                   />
                 </Dropdown>
-              )
-            ) : (
-              <Dropdown
-                trigger={
-                  <IconButton icon={<MoreHorizontal size={18} />} size="sm" variant="ghost" />
-                }
-              >
-                <DropdownItem
-                  icon={<Flag size={15} />}
-                  label="Báo cáo"
-                  variant="danger"
-                  onClick={() => openReportModal(ReportType.POST, post.id, post.authorId)}
-                />
-              </Dropdown>
-            )}
+              )}
             <IconButton icon={<X size={18} />} onClick={onOpenChange} variant="ghost" size="sm" />
           </div>
         </div>
@@ -397,33 +371,12 @@ export const PostViewModal: React.FC<PostViewModalProps> = ({
                             setIsMediaViewerOpen(true);
                           }}
                         >
-                          <SensitiveMediaGuard
-                            isSensitive={media.isSensitive}
-                            className="w-full h-full"
-                          >
-                            {media.type === 'video' ? (
-                              <div className="w-full h-full flex items-center justify-center bg-black">
-                                <video
-                                  src={media.url}
-                                  className="w-full h-full object-cover"
-                                  playsInline
-                                  preload="metadata"
-                                />
-                                <div className="absolute inset-0 flex items-center justify-center">
-                                  <div className="p-2 bg-black/20 backdrop-blur-sm rounded-full text-white">
-                                    <Play size={20} fill="white" />
-                                  </div>
-                                </div>
-                              </div>
-                            ) : (
-                              <img
-                                src={media.url}
-                                alt=""
-                                className="w-full h-full object-cover animate-fade-in"
-                                loading="lazy"
-                              />
-                            )}
-                          </SensitiveMediaGuard>
+                          <img
+                            src={media.url}
+                            alt=""
+                            className="w-full h-full object-cover animate-fade-in"
+                            loading="lazy"
+                          />
                         </div>
                       ))}
                     </div>

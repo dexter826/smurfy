@@ -197,9 +197,7 @@ export const postService = {
       }
 
       const user = await userService.getUserById(userId);
-      if (user?.status === UserStatus.BANNED) {
-        return { posts: [], lastDoc: null };
-      }
+
 
       if (userId !== currentUserId) {
         const blockSnap = await getDoc(doc(db, 'users', userId, 'blockedUsers', currentUserId));
@@ -271,10 +269,7 @@ export const postService = {
       const currentUser = await userService.getUserById(currentUserId);
       if (isCancelled) return;
 
-      if (user?.status === UserStatus.BANNED || currentUser?.status === UserStatus.BANNED) {
-        callback('remove', []);
-        return;
-      }
+
 
       if (userId !== currentUserId) {
         const blockedByTarget = await getDoc(
@@ -544,20 +539,7 @@ export const postService = {
     }
   },
 
-  /** Lấy thông tin bài viết cho Admin */
-  getPostByIdForAdmin: async (postId: string): Promise<Post | null> => {
-    try {
-      const postRef = doc(db, 'posts', postId);
-      const postSnap = await getDoc(postRef);
 
-      if (!postSnap.exists()) return null;
-
-      return convertDoc<Post>(postSnap);
-    } catch (error) {
-      console.error('Lỗi lấy chi tiết bài viết cho admin', error);
-      return null;
-    }
-  },
 
   /** Tải lên ảnh/video cho bài viết */
   uploadPostMedia: async (
