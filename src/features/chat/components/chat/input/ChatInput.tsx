@@ -3,7 +3,6 @@ import { Send, X, Edit2, Reply, Ban } from 'lucide-react';
 import { EmojiPicker, Button, IconButton, TextArea, MediaViewer } from '@/components/ui';
 import { MentionList } from './MentionList';
 import { FilePreview } from './FilePreview';
-import { RecordingUI } from './RecordingUI';
 import { ActionsMenu } from './ActionsMenu';
 import { GiphyPicker } from './GiphyPicker';
 import { useLinkPreview } from '@/hooks/useLinkPreview';
@@ -54,7 +53,6 @@ export const ChatInput: React.FC<ChatInputProps> = (props) => {
     inputText, setInputText, selectedFiles, isSending,
     showActions, setShowActions, showGiphy, setShowGiphy,
     playingPreview, inputRef, fileInputRef,
-    isRecording, recordingDuration, startRecording, stopRecording, cancelRecording,
     mentionsProps, onSelectMention,
     handleInputChange, handleKeyDown, handleFileSelect, handlePaste,
     handleSubmit, handlePlayVoice, removeFile,
@@ -212,14 +210,12 @@ export const ChatInput: React.FC<ChatInputProps> = (props) => {
             setShowActions(false);
             if (type === 'media') fileInputRef.current?.click(); else if (type === 'gif') setShowGiphy(true);
           }}
-          disabled={disabled || isSending || isRecording}
+          disabled={disabled || isSending}
         />
 
         <input ref={fileInputRef} type="file" accept="image/*" multiple className="hidden" onChange={handleFileSelect} />
 
-        {isRecording ? (
-          <RecordingUI duration={recordingDuration} onCancel={cancelRecording} onStop={stopRecording} />
-        ) : (
+        
           <TextArea
             ref={inputRef}
             value={inputText}

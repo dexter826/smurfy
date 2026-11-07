@@ -61,9 +61,6 @@ const ChatPage: React.FC = () => {
     handleDeleteForMe,
     handleForwardMessage,
     handleSendImage,
-    handleSendFile,
-    handleSendVideo,
-    handleSendVoice,
     handleSendGif,
     handleTyping,
     handleSearch,
@@ -250,9 +247,6 @@ const ChatPage: React.FC = () => {
               key={selectedConversationId}
               onSendText={handleSendText}
               onSendImages={handleSendImage}
-              onSendFile={handleSendFile}
-              onSendVideo={handleSendVideo}
-              onSendVoice={handleSendVoice}
               onSendGif={handleSendGif}
               onTyping={handleTyping}
               blockedMessage={blockedMessage}

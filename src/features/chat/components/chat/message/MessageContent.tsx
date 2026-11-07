@@ -2,8 +2,8 @@ import React from 'react';
 import { RtdbMessage, MessageType } from '@shared/types';
 import { parseSharedPostMessage } from '@/features/feed';
 import { 
-  TextMessage, ImageMessage, VideoMessage, GifMessage, 
-  FileMessage, VoiceMessage, CallMessage, RecalledMessage, SharedPostMessage
+  TextMessage, ImageMessage, GifMessage, 
+  RecalledMessage, SharedPostMessage
 } from './content';
 
 interface MessageContentProps {
@@ -17,7 +17,7 @@ interface MessageContentProps {
 
 /** Phân loại hiển thị nội dung theo MessageType */
 const MessageContentInner: React.FC<MessageContentProps> = ({
-  message, isMe, isGroup = false, uploadProgress,
+  message, isMe, uploadProgress,
   onOpenImage, onLoad,
 }) => {
   if (message.data.isRecalled) return <RecalledMessage isMe={isMe} />;
@@ -47,20 +47,8 @@ const MessageContentInner: React.FC<MessageContentProps> = ({
     case MessageType.IMAGE:
       return <ImageMessage message={message} isMe={isMe} uploadProgress={up} onOpenImage={onOpenImage} onLoad={onLoad} />;
 
-    case MessageType.VIDEO:
-      return <VideoMessage message={message} isMe={isMe} uploadProgress={up} onLoad={onLoad} />;
-
     case MessageType.GIF:
       return <GifMessage message={message} onLoad={onLoad} />;
-
-    case MessageType.FILE:
-      return <FileMessage message={message} isMe={isMe} uploadProgress={up} onOpenImage={onOpenImage} />;
-
-    case MessageType.VOICE:
-      return <VoiceMessage message={message} isMe={isMe} uploadProgress={up} />;
-
-    case MessageType.CALL:
-      return <CallMessage message={message} isMe={isMe} isGroup={isGroup} />;
 
     case MessageType.SYSTEM:
       return null;

@@ -14,11 +14,7 @@ export const useChatMessages = ({
   const {
     sendTextMessage,
     sendImageMessage,
-    sendFileMessage,
-    sendVideoMessage,
-    sendVoiceMessage,
     sendGifMessage,
-    sendCallMessage,
     recallMessage,
     deleteMessageForMe,
     editMessage,
@@ -41,42 +37,33 @@ export const useChatMessages = ({
     await sendImageMessage(selectedConversationId, currentUserId, files, options);
   }, [selectedConversationId, currentUserId, sendImageMessage]);
 
-  const handleSendFile = useCallback(async (file: File, replyToId?: string) => {
-    if (!selectedConversationId || !currentUserId) return;
-    await sendFileMessage(selectedConversationId, currentUserId, file, replyToId);
-  }, [selectedConversationId, currentUserId, sendFileMessage]);
-
-  const handleSendVideo = useCallback(async (file: File, replyToId?: string) => {
-    if (!selectedConversationId || !currentUserId) return;
-    await sendVideoMessage(selectedConversationId, currentUserId, file, replyToId);
-  }, [selectedConversationId, currentUserId, sendVideoMessage]);
-
-  const handleSendVoice = useCallback(async (file: File, replyToId?: string, duration?: number) => {
-    if (!selectedConversationId || !currentUserId) return;
-    await sendVoiceMessage(selectedConversationId, currentUserId, file, replyToId, duration);
-  }, [selectedConversationId, currentUserId, sendVoiceMessage]);
-
   const handleSendGif = useCallback(async (url: string, replyToId?: string) => {
     if (!selectedConversationId || !currentUserId) return;
     await sendGifMessage(selectedConversationId, currentUserId, url, replyToId);
   }, [selectedConversationId, currentUserId, sendGifMessage]);
 
-  const handleEditMessage = useCallback(async (messageId: string, text: string) => {
-    if (!selectedConversationId || !currentUserId) return;
-    await editMessage(selectedConversationId, messageId, text);
-  }, [selectedConversationId, currentUserId, editMessage]);
+  const handleEditMessage = useCallback(async (
+    messageId: string,
+    newContent: string
+  ) => {
+    if (!selectedConversationId) return;
+    await editMessage(selectedConversationId, messageId, newContent);
+  }, [selectedConversationId, editMessage]);
 
   const handleRecallMessage = useCallback(async (messageId: string) => {
-    if (!selectedConversationId || !currentUserId) return;
+    if (!selectedConversationId) return;
     await recallMessage(selectedConversationId, messageId);
-  }, [selectedConversationId, currentUserId, recallMessage]);
+  }, [selectedConversationId, recallMessage]);
 
   const handleDeleteForMe = useCallback(async (messageId: string) => {
     if (!selectedConversationId || !currentUserId) return;
     await deleteMessageForMe(selectedConversationId, messageId, currentUserId);
   }, [selectedConversationId, currentUserId, deleteMessageForMe]);
 
-  const forwardMessage = useCallback(async (conversationId: string, message: any) => {
+  const forwardMessage = useCallback(async (
+    conversationId: string,
+    message: any
+  ) => {
     if (!currentUserId) return;
     await storeForwardMessage(conversationId, currentUserId, message);
   }, [currentUserId, storeForwardMessage]);
@@ -85,15 +72,6 @@ export const useChatMessages = ({
     if (!selectedConversationId || !currentUserId) return;
     await sendTextMessage(selectedConversationId, currentUserId, text, undefined, replyToId);
   }, [selectedConversationId, currentUserId, sendTextMessage]);
-
-  const handleSendCall = useCallback(async (
-    callType: 'voice' | 'video',
-    status: 'ended' | 'missed' | 'rejected',
-    duration?: number
-  ) => {
-    if (!selectedConversationId || !currentUserId) return;
-    await sendCallMessage(selectedConversationId, currentUserId, { callType, status, duration });
-  }, [selectedConversationId, currentUserId, sendCallMessage]);
 
   const handlePinMessage = useCallback(async (messageId: string) => {
     if (!selectedConversationId) return;
@@ -108,11 +86,7 @@ export const useChatMessages = ({
   return {
     handleSendText,
     handleSendImage,
-    handleSendFile,
-    handleSendVideo,
-    handleSendVoice,
     handleSendGif,
-    handleSendCall,
     handleEditMessage,
     handleRecallMessage,
     handleDeleteForMe,

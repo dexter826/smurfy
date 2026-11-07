@@ -1,6 +1,6 @@
 import { ref, update, push } from 'firebase/database';
 import { rtdb } from '@/lib/firebase/config';
-import { RtdbMessage, MessageType, SharedPostMessagePayload, CallMessagePayload } from '@shared/types';
+import { RtdbMessage, MessageType, SharedPostMessagePayload } from '@shared/types';
 import { validateMessageContent, FileValidationError } from '@/utils/fileValidation';
 import {
     ProgressWithId,
@@ -167,76 +167,7 @@ export const messageSendService = {
         }
     },
 
-    sendVideoMessage: async (
-        convId: string,
-        senderId: string,
-        file: File,
-        options?: {
-            replyToId?: string;
-            onProgressWithId?: ProgressWithId;
-            mentions?: string[];
-            messageId?: string;
-        }
-    ): Promise<string> => {
-        try {
-            return await createAndSendMediaMessage(convId, senderId, file, MessageType.VIDEO, {
-                ...options,
-                compress: false,
-                displayContent: '[Video]'
-            });
-        } catch (error) {
-            console.error('[rtdbMessageService] Lỗi sendVideoMessage:', error);
-            throw error;
-        }
-    },
-
-    sendFileMessage: async (
-        convId: string,
-        senderId: string,
-        file: File,
-        options?: {
-            replyToId?: string;
-            onProgressWithId?: ProgressWithId;
-            mentions?: string[];
-            messageId?: string;
-        }
-    ): Promise<string> => {
-        try {
-            return await createAndSendMediaMessage(convId, senderId, file, MessageType.FILE, {
-                ...options,
-                compress: false,
-                displayContent: `[File] ${file.name}`
-            });
-        } catch (error) {
-            console.error('[rtdbMessageService] Lỗi sendFileMessage:', error);
-            throw error;
-        }
-    },
-
-    sendVoiceMessage: async (
-        convId: string,
-        senderId: string,
-        file: File,
-        options?: {
-            replyToId?: string;
-            duration?: number;
-            onProgressWithId?: ProgressWithId;
-            mentions?: string[];
-            messageId?: string;
-        }
-    ): Promise<string> => {
-        try {
-            return await createAndSendMediaMessage(convId, senderId, file, MessageType.VOICE, {
-                ...options,
-                compress: false,
-                displayContent: '[Tin nhắn thoại]',
-                voiceDuration: options?.duration,
-            });
-        } catch (error) {
-            console.error('[rtdbMessageService] Lỗi sendVoiceMessage:', error);
-            throw error;
-        }
-    },
+    
 
     sendGifMessage: async (
         convId: string,
@@ -334,51 +265,4 @@ export const messageSendService = {
         }
     },
 
-    sendCallMessage: async (
-        convId: string,
-        senderId: string,
-        payload: CallMessagePayload,
-        messageId?: string
-    ): Promise<string> => {
-        try {
-            const msgId = messageId || push(ref(rtdb, `messages/${convId}`)).key!;
-            const newMsgRef = ref(rtdb, `messages/${convId}/${msgId}`);
-
-            const content = JSON.stringify(payload);
-
-            const messageData: RtdbMessage = {
-                senderId,
-                type: MessageType.CALL,
-                content,
-                media: [],
-                mentions: [],
-                isForwarded: false,
-                isEdited: false,
-                isRecalled: false,
-                deletedBy: {},
-                readBy: {},
-                deliveredTo: {},
-                reactions: {},
-                createdAt: getServerSyncedNow(),
-                updatedAt: getServerSyncedNow()
-            };
-
-            const conversation = await ensureConversationExists(convId, senderId);
-            if (!conversation) throw new Error('Conversation not found');
-
-            const updates = getConversationUpdatePaths(convId, senderId, messageData, content, conversation, msgId);
-            updates[`messages/${convId}/${msgId}`] = {
-                ...messageData,
-                createdAt: getRtdbServerTimestamp(),
-                updatedAt: getRtdbServerTimestamp()
-            };
-
-            await update(ref(rtdb), updates);
-
-            return msgId;
-        } catch (error) {
-            console.error('[rtdbMessageService] Lỗi sendCallMessage:', error);
-            throw error;
-        }
-    }
-};
+    };

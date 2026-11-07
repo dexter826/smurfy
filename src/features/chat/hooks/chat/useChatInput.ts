@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import { useRtdbChatStore } from '@/store';
-import { useAudioRecorder } from './useAudioRecorder';
 import { useMentions } from './useMentions';
 import { toast } from '@/store/toastStore';
 import { TOAST_MESSAGES, FILE_LIMITS, TIME_LIMITS, VALIDATION } from '@/constants';
@@ -367,11 +366,6 @@ export const useChatInput = ({
     playingPreview,
     inputRef,
     fileInputRef,
-    isRecording,
-    recordingDuration,
-    startRecording,
-    stopRecording,
-    cancelRecording,
     mentionsProps,
     onSelectMention,
     handleInputChange,

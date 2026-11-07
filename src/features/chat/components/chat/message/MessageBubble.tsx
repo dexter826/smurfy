@@ -130,7 +130,7 @@ const MessageBubbleInner: React.FC<MessageBubbleProps> = ({
   }, [message.data.deliveredTo, currentUserId, isGroup, partnerStatus]);
 
   const isPartnerBanned = !isGroup && partnerStatus === UserStatus.BANNED;
-  const isInteractionDisabled = isBlocked || isPartnerBanned;
+  const isInteractionDisabled = isBlocked;
 
   const canEdit =
     isMe &&
@@ -392,7 +392,7 @@ const MessageBubbleInner: React.FC<MessageBubbleProps> = ({
                   setShowActions(false);
                 }}
                 isBlocked={isBlocked}
-                isPartnerBanned={isPartnerBanned}
+                
                 isPinned={isPinned}
                 onPin={onPin}
                 onUnpin={onUnpin}
