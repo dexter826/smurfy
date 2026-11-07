@@ -130,8 +130,8 @@ const SettingsPage: React.FC = () => {
       <aside className="hidden md:flex flex-col w-[280px] lg:w-[320px] border-r border-border bg-surface flex-shrink-0">
         <div className="h-16 px-5 border-b border-border flex items-center">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 btn-gradient rounded-xl flex items-center justify-center shadow-accent flex-shrink-0">
-              <Settings size={16} className="text-white" />
+            <div className="w-8 h-8 bg-primary text-on-primary rounded-xl flex items-center justify-center shadow-xs flex-shrink-0">
+              <Settings size={16} />
             </div>
             <h1 className="text-base font-semibold text-foreground">Cài đặt</h1>
           </div>
@@ -152,7 +152,6 @@ const SettingsPage: React.FC = () => {
                 {icon}
               </span>
               <span className="flex-1">{label}</span>
-
             </button>
           ))}
         </nav>

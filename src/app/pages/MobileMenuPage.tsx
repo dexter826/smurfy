@@ -17,11 +17,8 @@ export const MobileMenuPage: React.FC = () => {
 
   return (
     <div className="flex flex-col h-full overflow-y-auto w-full bg-background">
-
       {/* ── Profile Header ── */}
-      <div
-        className="bg-surface border-b border-border px-4 py-4 flex-shrink-0"
-      >
+      <div className="bg-surface border-b border-border px-4 py-4 flex-shrink-0">
         <div className="flex items-center gap-3.5">
           {user && (
             <UserAvatar
@@ -40,7 +37,6 @@ export const MobileMenuPage: React.FC = () => {
 
       {/* ── Menu Items ── */}
       <div className="flex-1 p-3 space-y-1.5">
-
         <MenuItem
           icon={<UserIcon size={20} />}
           iconBg="bg-surface-sunken text-secondary"
@@ -69,8 +65,16 @@ export const MobileMenuPage: React.FC = () => {
             <p className="font-semibold text-sm text-foreground">Chế độ tối</p>
             <p className="text-xs text-muted mt-0.5">{mode === 'dark' ? 'Đang bật' : 'Đang tắt'}</p>
           </div>
-          <div className={`w-11 h-6 rounded-full p-0.5 transition-all duration-300 flex-shrink-0 ${mode === 'dark' ? 'btn-gradient' : 'bg-surface-sunken'}`}>
-            <div className={`w-5 h-5 bg-white rounded-full shadow-sm transition-all duration-300 ${mode === 'dark' ? 'translate-x-5' : 'translate-x-0'}`} />
+          <div
+            className={`w-11 h-6 rounded-full p-0.5 transition-colors duration-200 flex-shrink-0 ${
+              mode === 'dark' ? 'bg-primary' : 'bg-surface-sunken'
+            }`}
+          >
+            <div
+              className={`w-5 h-5 bg-white rounded-full shadow-xs transition-transform duration-200 ${
+                mode === 'dark' ? 'translate-x-5' : 'translate-x-0'
+              }`}
+            />
           </div>
         </button>
 

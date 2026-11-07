@@ -24,42 +24,46 @@ interface EditProfileModalProps {
 
 const MARITAL_STATUS_OPTIONS = Object.entries(MARITAL_STATUS_LABELS).map(([value, label]) => ({
   value: value as MaritalStatus,
-  label
+  label,
 }));
 
 const GENDER_OPTIONS = Object.entries(GENDER_LABELS).map(([value, label]) => ({
   value: value as Gender,
-  label
+  label,
 }));
 
-
-
 export const EditProfileModal: React.FC<EditProfileModalProps> = ({
-  user, open, onOpenChange, onSave,
+  user,
+  open,
+  onOpenChange,
+  onSave,
 }) => {
   const [saving, setSaving] = useState(false);
   const [provinces, setProvinces] = useState<SearchableOption[]>([]);
 
-  // Chuyển schools.json thành options một lần duy nhất
-  const schoolOptions = useMemo<SearchableOption[]>(() =>
-    schoolsData.map(s => ({ value: s.name, label: s.name, code: s.code })),
-    []
+  const schoolOptions = useMemo<SearchableOption[]>(
+    () => schoolsData.map((s) => ({ value: s.name, label: s.name, code: s.code })),
+    [],
   );
   const [interestInput, setInterestInput] = useState('');
 
   const {
-    register, handleSubmit, setValue, watch, reset,
-    formState: { errors, isDirty },
+    register,
+    handleSubmit,
+    setValue,
+    watch,
+    reset,
+    formState: { errors },
   } = useForm<ProfileFormValues>({
     resolver: zodResolver(profileSchema),
     defaultValues: {
       fullName: user.fullName,
       bio: user.bio || '',
       location: user.location || '',
-      gender: user.gender || '' as any,
+      gender: (user.gender || '') as any,
       dob: user.dob ? toDate(user.dob)?.getTime() : undefined,
       school: user.school || '',
-      maritalStatus: user.maritalStatus || '' as any,
+      maritalStatus: (user.maritalStatus || '') as any,
       interests: user.interests || [],
       generation: user.generation || Generation.UNKNOWN,
       profilePrivacy: user.profilePrivacy || {
@@ -81,10 +85,10 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
       fullName: user.fullName,
       bio: user.bio || '',
       location: user.location || '',
-      gender: user.gender || '' as any,
+      gender: (user.gender || '') as any,
       dob: user.dob ? toDate(user.dob)?.getTime() : undefined,
       school: user.school || '',
-      maritalStatus: user.maritalStatus || '' as any,
+      maritalStatus: (user.maritalStatus || '') as any,
       interests: user.interests || [],
       generation: user.generation || Generation.UNKNOWN,
       profilePrivacy: user.profilePrivacy || {
@@ -98,11 +102,13 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
     });
     setInterestInput('');
     fetch(API_ENDPOINTS.PROVINCES)
-      .then(r => r.json())
+      .then((r) => r.json())
       .then((data: { name: string }[]) =>
-        setProvinces(data.map(p => ({ value: p.name, label: p.name })))
+        setProvinces(data.map((p) => ({ value: p.name, label: p.name }))),
       )
-      .catch(() => { /* silent */ });
+      .catch(() => {
+        /* silent */
+      });
   }, [open, user, reset]);
 
   const handleAddInterest = useCallback(() => {
@@ -114,20 +120,26 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
     setInterestInput('');
   }, [interestInput, formData.interests, setValue]);
 
-  const handleRemoveInterest = useCallback((tag: string) => {
-    setValue(
-      'interests',
-      (formData.interests ?? []).filter(t => t !== tag),
-      { shouldDirty: true }
-    );
-  }, [formData.interests, setValue]);
+  const handleRemoveInterest = useCallback(
+    (tag: string) => {
+      setValue(
+        'interests',
+        (formData.interests ?? []).filter((t) => t !== tag),
+        { shouldDirty: true },
+      );
+    },
+    [formData.interests, setValue],
+  );
 
-  const handleInterestKeyDown = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      handleAddInterest();
-    }
-  }, [handleAddInterest]);
+  const handleInterestKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLInputElement>) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        handleAddInterest();
+      }
+    },
+    [handleAddInterest],
+  );
 
   const handleSave = async (data: ProfileFormValues) => {
     setSaving(true);
@@ -159,7 +171,13 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
     if (firstError?.message) toast.error(firstError.message as string);
   };
 
-  const FieldWrapper: React.FC<{ label: string; privacyKey: keyof ProfilePrivacy; children: React.ReactNode; required?: boolean }> = ({ label, privacyKey, children, required }) => (
+  const FieldWrapper: React.FC<{
+    label: string;
+    privacyKey: keyof ProfilePrivacy;
+    children: React.ReactNode;
+    required?: boolean;
+    error?: string;
+  }> = ({ label, privacyKey, children, required, error }) => (
     <div className="flex flex-col gap-1.5">
       <div className="flex justify-between items-center px-1">
         <label className="text-xs font-semibold text-secondary cursor-pointer">
@@ -167,10 +185,17 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
         </label>
         <ProfilePrivacySelector
           value={formData.profilePrivacy?.[privacyKey] || Visibility.FRIENDS}
-          onChange={(val) => setValue('profilePrivacy', { ...formData.profilePrivacy, [privacyKey]: val } as any, { shouldDirty: true })}
+          onChange={(val) =>
+            setValue(
+              'profilePrivacy',
+              { ...formData.profilePrivacy, [privacyKey]: val } as any,
+              { shouldDirty: true },
+            )
+          }
         />
       </div>
       {children}
+      {error && <p className="text-xs text-danger px-1 mt-0.5">{error}</p>}
     </div>
   );
 
@@ -215,7 +240,9 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
               label="Giới thiệu"
               {...register('bio')}
               onChange={(e) =>
-                setValue('bio', e.target.value.slice(0, VALIDATION.BIO_MAX_LENGTH), { shouldDirty: true })
+                setValue('bio', e.target.value.slice(0, VALIDATION.BIO_MAX_LENGTH), {
+                  shouldDirty: true,
+                })
               }
               error={errors.bio?.message}
               placeholder="Nhập vài dòng giới thiệu về bản thân..."
@@ -235,32 +262,46 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
           </div>
 
           <div>
-            <FieldWrapper label="Tỉnh/Thành phố" privacyKey="location">
+            <FieldWrapper
+              label="Tỉnh/Thành phố"
+              privacyKey="location"
+              error={errors.location?.message}
+            >
               <SearchableSelect
                 value={formData.location || ''}
                 onChange={(val) => setValue('location', val, { shouldDirty: true })}
                 options={provinces}
                 placeholder="Chọn tỉnh/thành phố"
                 searchPlaceholder="Tìm tỉnh/thành phố..."
+                error={errors.location?.message}
                 size="lg"
               />
             </FieldWrapper>
           </div>
 
           <div>
-            <FieldWrapper label="Giới tính" privacyKey="gender">
+            <FieldWrapper
+              label="Giới tính"
+              privacyKey="gender"
+              error={errors.gender?.message}
+            >
               <Select
                 value={formData.gender || ''}
                 onChange={(val) => setValue('gender', val as Gender, { shouldDirty: true })}
                 options={GENDER_OPTIONS}
                 placeholder="Chọn giới tính"
+                error={errors.gender?.message}
                 size="lg"
               />
             </FieldWrapper>
           </div>
 
           <div>
-            <FieldWrapper label="Ngày sinh" privacyKey="dob">
+            <FieldWrapper
+              label="Ngày sinh"
+              privacyKey="dob"
+              error={errors.dob?.message}
+            >
               <DatePicker
                 value={formData.dob}
                 onChange={(ts) => {
@@ -277,22 +318,29 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
             </FieldWrapper>
           </div>
 
-
-
           <div>
-            <FieldWrapper label="Tình trạng hôn nhân" privacyKey="maritalStatus">
+            <FieldWrapper
+              label="Tình trạng hôn nhân"
+              privacyKey="maritalStatus"
+              error={errors.maritalStatus?.message}
+            >
               <Select
                 value={formData.maritalStatus || ''}
                 onChange={(val) => setValue('maritalStatus', val as MaritalStatus, { shouldDirty: true })}
                 options={MARITAL_STATUS_OPTIONS}
                 placeholder="Chọn tình trạng"
+                error={errors.maritalStatus?.message}
                 size="lg"
               />
             </FieldWrapper>
           </div>
 
           <div className="col-span-1 sm:col-span-2">
-            <FieldWrapper label="Trường học / Nơi học" privacyKey="school">
+            <FieldWrapper
+              label="Trường học / Nơi học"
+              privacyKey="school"
+              error={errors.school?.message}
+            >
               <SearchableSelect
                 value={formData.school || ''}
                 onChange={(val) => setValue('school', val, { shouldDirty: true })}
@@ -317,7 +365,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
                 onKeyDown={handleInterestKeyDown}
                 placeholder="Nhập sở thích rồi nhấn Enter..."
                 maxLength={VALIDATION.INTEREST_MAX_LENGTH}
-                className="flex-1 px-3 py-2 text-sm rounded-xl border border-border bg-background text-foreground placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-colors"
+                className="flex-1 px-3.5 py-2 text-sm rounded-xl border border-border bg-background text-foreground placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-colors"
               />
               <Button
                 type="button"
@@ -329,12 +377,15 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
                 Thêm
               </Button>
             </div>
+            {errors.interests?.message && (
+              <p className="text-xs text-danger px-1 mt-1">{errors.interests.message}</p>
+            )}
             {(formData.interests?.length ?? 0) > 0 && (
               <div className="flex flex-wrap gap-1.5 mt-2">
-                {formData.interests?.map(tag => (
+                {formData.interests?.map((tag) => (
                   <span
                     key={tag}
-                    className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary"
+                    className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary border border-primary/20"
                   >
                     {tag}
                     <button

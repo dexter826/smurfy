@@ -9,17 +9,31 @@ interface FriendItemProps {
   onUnfriend?: (friendId: string) => void;
   onMessage?: (friendId: string) => void;
   onBlock?: (friendId: string) => void;
+  isSelected?: boolean;
+  onSelect?: (friend: User) => void;
 }
 
-const FriendItemInner: React.FC<FriendItemProps> = ({ friend, onUnfriend, onMessage, onBlock }) => {
+const FriendItemInner: React.FC<FriendItemProps> = ({
+  friend,
+  onUnfriend,
+  onMessage,
+  onBlock,
+  isSelected,
+  onSelect,
+}) => {
   const navigate = useNavigate();
   const isBanned = friend.status === UserStatus.BANNED;
 
-  const handleMessage = useCallback(() => {
+  const handleClick = useCallback(() => {
     if (isBanned) return;
-    if (onMessage) onMessage(friend.id);
-    else navigate('/');
-  }, [onMessage, friend.id, navigate, isBanned]);
+    if (onSelect) {
+      onSelect(friend);
+    } else if (onMessage) {
+      onMessage(friend.id);
+    } else {
+      navigate('/');
+    }
+  }, [onSelect, onMessage, friend, navigate, isBanned]);
 
   return (
     <div
@@ -27,9 +41,11 @@ const FriendItemInner: React.FC<FriendItemProps> = ({ friend, onUnfriend, onMess
         border-b border-border/60 last:border-0
         ${isBanned
           ? 'opacity-60 cursor-default'
+          : isSelected
+          ? 'bg-primary/10 ring-1 ring-inset ring-primary/20 cursor-pointer'
           : 'hover:bg-hover active:bg-active cursor-pointer'
         }`}
-      onClick={handleMessage}
+      onClick={handleClick}
     >
       <div className="flex items-center gap-3 flex-1 min-w-0">
         <UserAvatar userId={friend.id} size="md" />
