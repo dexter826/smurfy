@@ -20,6 +20,7 @@
 
 - [Bối cảnh](#bối-cảnh)
 - [Tính năng](#tính-năng)
+- [Cấu trúc thư mục](#cấu-trúc-thư-mục)
 - [Cài đặt](#cài-đặt)
 - [Cấu hình](#cấu-hình)
 - [Sử dụng](#sử-dụng)
@@ -56,6 +57,29 @@ Smurfy Social là nền tảng mạng xã hội kết hợp giữa bảng tin ch
 - **Lời mời kết bạn**: Gửi, nhận, chấp nhận hoặc từ chối lời mời kết nối.
 - **Gợi ý kết bạn**: Tự động gợi ý người dùng dựa trên mạng lưới bạn chung.
 - **Quản lý quan hệ**: Xem danh sách bạn bè, hủy kết bạn và chặn khi cần thiết.
+
+---
+
+## Cấu trúc thư mục
+
+```text
+smurfy/
+├── public/                 # Tài nguyên tĩnh (logo, biểu tượng, âm thanh thông báo)
+├── shared/                 # Định nghĩa kiểu dữ liệu dùng chung (TypeScript types)
+├── src/
+│   ├── app/                # Thiết lập gốc, layout giao diện và định tuyến (routing)
+│   ├── components/         # Các UI component dùng chung
+│   ├── constants/          # Hằng số cấu hình toàn cục
+│   ├── features/           # Các module tính năng (auth, chat, feed, friend, profile...)
+│   ├── hooks/              # Custom React hooks tái sử dụng
+│   ├── lib/                # Cấu hình SDK Firebase (Auth, Firestore, RTDB)
+│   ├── services/           # Dịch vụ tích hợp bên ngoài và xử lý dữ liệu
+│   ├── store/              # Quản lý trạng thái ứng dụng (Zustand stores)
+│   └── utils/              # Các hàm tiện ích hỗ trợ
+├── database.rules.json     # Quy tắc bảo mật Firebase Realtime Database
+├── firestore.rules         # Quy tắc bảo mật dữ liệu Cloud Firestore
+└── firebase.json           # Cấu hình Firebase Hosting, Database và Emulator
+```
 
 ---
 
