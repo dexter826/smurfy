@@ -1,5 +1,5 @@
 import React from 'react';
-import { Ban, Settings2, MessageSquareOff, PhoneOff, EyeOff, Eye } from 'lucide-react';
+import { Ban, Settings2, MessageSquareOff, EyeOff, Eye } from 'lucide-react';
 import { User, BlockOptions, BlockedUserEntry } from '@shared/types';
 import { UserAvatar, Button, Skeleton, EmptyState } from '@/components/ui';
 
@@ -21,7 +21,6 @@ const BLOCK_TAG_MAP: {
   color: string;
 }[] = [
     { key: 'blockMessages', icon: <MessageSquareOff size={10} />, label: 'Chặn tin nhắn', color: 'text-danger bg-danger/10 border-danger/20' },
-    { key: 'blockCalls', icon: <PhoneOff size={10} />, label: 'Chặn cuộc gọi', color: 'text-danger bg-danger/10 border-danger/20 opacity-90' },
     { key: 'blockViewMyActivity', icon: <Eye size={10} />, label: 'Ẩn bài của tôi', color: 'text-warning bg-warning/10 border-warning/20' },
     { key: 'hideTheirActivity', icon: <EyeOff size={10} />, label: 'Ẩn bài của họ', color: 'text-warning bg-warning/10 border-warning/20 opacity-90' },
   ];

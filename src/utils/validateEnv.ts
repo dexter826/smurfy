@@ -13,9 +13,6 @@ interface EnvConfig {
     api: {
         provincesUrl: string;
     };
-    zegocloud: {
-        appId: number;
-    };
 }
 
 interface ValidationResult {
@@ -34,7 +31,6 @@ const requiredEnvVars = [
     'VITE_FIREBASE_DATABASE_URL',
     'VITE_FIREBASE_VAPID_KEY',
     'VITE_PROVINCES_API_URL',
-    'VITE_ZEGO_APP_ID',
 ] as const;
 
 const optionalEnvVars = [
@@ -105,9 +101,6 @@ export function getValidatedEnvConfig(): EnvConfig {
         },
         api: {
             provincesUrl: import.meta.env.VITE_PROVINCES_API_URL,
-        },
-        zegocloud: {
-            appId: Number(import.meta.env.VITE_ZEGO_APP_ID),
         },
     };
 }

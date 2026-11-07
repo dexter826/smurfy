@@ -16,8 +16,6 @@ interface MessageListProps {
   onForward?: (message: { id: string; data: RtdbMessage }) => void;
   onReply?: (message: { id: string; data: RtdbMessage }) => void;
   onEdit?: (message: { id: string; data: RtdbMessage }) => void;
-  onCall?: (isVideo: boolean) => void;
-  onJoinCall?: (callType: 'voice' | 'video') => void;
   chatName: string;
   avatarSrc?: string;
   partner?: User;
@@ -31,7 +29,7 @@ interface MessageListProps {
 const MessageListInner: React.FC<MessageListProps> = ({
   messages, currentUserId, usersMap, conversation, participants,
   lastReadByMap, onRecall, onDeleteForMe, onForward, onReply, onEdit,
-  onCall, onJoinCall, chatName, avatarSrc, partner,
+  chatName, avatarSrc, partner,
   isBlocked = false, partnerStatus, onContentLoad, onMarkAsRead,
 }) => {
   const { pinMessage, unpinMessage } = useRtdbChatStore();
@@ -119,11 +117,6 @@ const MessageListInner: React.FC<MessageListProps> = ({
               const showName = shouldShowName(msg, index, group.messages);
               const isLastMessage = msg.id === messages[messages.length - 1]?.id;
 
-              let isVideoCall = false;
-              if (onCall) {
-                try { isVideoCall = JSON.parse(msg.data.content)?.callType === 'video'; } catch { }
-              }
-
               return (
                 <MessageBubble
                   key={msg.id}
@@ -139,8 +132,6 @@ const MessageListInner: React.FC<MessageListProps> = ({
                   onForward={onForward}
                   onReply={onReply}
                   onEdit={onEdit}
-                  onCall={onCall ? () => onCall(isVideoCall) : undefined}
-                  onJoinCall={onJoinCall}
                   currentUserId={currentUserId}
                   usersMap={usersMap}
                   isGroup={conversation.data.isGroup}

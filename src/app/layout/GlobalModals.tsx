@@ -8,17 +8,12 @@ import { PostViewModal, PostModal } from '@/features/feed';
 import {
   SharePostModal,
   JoinGroupModal,
-  IncomingCallDialog,
-  OutgoingCallDialog,
-  CallWindow,
-  useCallManager,
 } from '@/features/chat';
 import { usePostStore, toast, useLoadingStore, useRtdbChatStore } from '../../store';
 import { usePostNavigation } from '../../hooks/usePostNavigation';
 import { useUserCache } from '../../store/userCacheStore';
 import { useSharePostStore } from '@/features/feed';
 import { TOAST_MESSAGES } from '../../constants';
-import { useCallStore } from '@/features/call';
 import { useGroupInvite } from './hooks/useGroupInvite';
 
 export const GlobalModals: React.FC = () => {
@@ -92,10 +87,6 @@ export const GlobalModals: React.FC = () => {
     }
   }, [selectedPost, usersMap, fetchUsers]);
 
-  const callEndReason = useCallStore((s) => s.callEndReason);
-  const { phase, session, incomingSignal, acceptCall, rejectCall, endCall, dismissEndedCall } =
-    useCallManager(user?.id || '');
-
   const { invite, closeInvite } = useGroupInvite();
 
   const handleJoin = async () => {
@@ -161,42 +152,6 @@ export const GlobalModals: React.FC = () => {
         confirmLabel="Xóa ngay"
         variant="danger"
       />
-
-      {phase === 'incoming' && incomingSignal && (
-        <IncomingCallDialog
-          callerName={incomingSignal.callerName!}
-          callerId={incomingSignal.callerId}
-          callType={incomingSignal.callType}
-          isGroupCall={incomingSignal.isGroupCall}
-          onAccept={acceptCall}
-          onReject={rejectCall}
-        />
-      )}
-
-      {phase === 'outgoing' && session && (
-        <OutgoingCallDialog
-          calleeName={session.calleeName || 'Đang gọi...'}
-          calleeId={session.participants[0]}
-          calleeAvatar={session.calleeAvatar}
-          callType={session.callType}
-          isGroupCall={session.isGroupCall}
-          endReason={callEndReason}
-          onCancel={() => endCall('missed')}
-          onDismiss={dismissEndedCall}
-        />
-      )}
-
-      {user && phase === 'in-call' && session && (
-        <CallWindow
-          roomId={session.conversationId}
-          userId={user.id}
-          userName={user.fullName}
-          userAvatar={user.avatar?.url ?? ''}
-          isGroupCall={session.isGroupCall}
-          callType={session.callType}
-          onOpenChange={() => endCall('ended')}
-        />
-      )}
 
       {user && (
         <JoinGroupModal

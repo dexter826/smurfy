@@ -13,18 +13,16 @@ interface MessageContentProps {
   uploadProgress: Record<string, { progress: number; error?: boolean; localUrls?: string[] }>;
   onOpenImage: (index: number) => void;
   onLoad?: () => void;
-  onCall?: () => void;
-  onJoinCall?: (callType: 'voice' | 'video') => void;
 }
 
 /** Phân loại hiển thị nội dung theo MessageType */
 const MessageContentInner: React.FC<MessageContentProps> = ({
   message, isMe, isGroup = false, uploadProgress,
-  onOpenImage, onLoad, onCall, onJoinCall,
+  onOpenImage, onLoad,
 }) => {
   if (message.data.isRecalled) return <RecalledMessage isMe={isMe} />;
 
-  const { type, content, isEdited, createdAt, reactions } = message.data;
+  const { type, content, isEdited, reactions } = message.data;
   const up = uploadProgress[message.id];
 
   switch (type) {
@@ -62,7 +60,7 @@ const MessageContentInner: React.FC<MessageContentProps> = ({
       return <VoiceMessage message={message} isMe={isMe} uploadProgress={up} />;
 
     case MessageType.CALL:
-      return <CallMessage message={message} isMe={isMe} isGroup={isGroup} onCall={onCall} onJoinCall={onJoinCall} />;
+      return <CallMessage message={message} isMe={isMe} isGroup={isGroup} />;
 
     case MessageType.SYSTEM:
       return null;

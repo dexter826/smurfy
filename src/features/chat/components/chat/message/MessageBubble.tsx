@@ -42,8 +42,6 @@ interface MessageBubbleProps {
   lastReadByUsers?: User[];
   isBlocked?: boolean;
   partnerStatus?: UserStatus;
-  onCall?: () => void;
-  onJoinCall?: (callType: 'voice' | 'video') => void;
   conversationId: string;
   allMessages?: Array<{ id: string; data: RtdbMessage }>;
   onContentLoad?: () => void;
@@ -72,8 +70,6 @@ const MessageBubbleInner: React.FC<MessageBubbleProps> = ({
   lastReadByUsers = [],
   isBlocked = false,
   partnerStatus,
-  onCall,
-  onJoinCall,
   conversationId,
   allMessages = [],
   onContentLoad,
@@ -282,8 +278,6 @@ const MessageBubbleInner: React.FC<MessageBubbleProps> = ({
                     uploadProgress={uploadProgress}
                     onOpenImage={setSelectedImageIndex}
                     onLoad={handleContentLoad}
-                    onCall={onCall}
-                    onJoinCall={onJoinCall}
                   />
                 </div>
 

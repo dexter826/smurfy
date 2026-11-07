@@ -8,7 +8,5 @@ export { useMentions } from './useMentions';
 export { useConversationItem } from './useConversationItem';
 export { useConversationGroups } from './useConversationGroups';
 export { useConversationParticipants } from './useConversationParticipants';
-export { useCallManager } from '@/features/call';
-export { useCallSounds } from '@/features/call';
 export { useMessageStatus } from './useMessageStatus';
 export * from './useShareTargets';

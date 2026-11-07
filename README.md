@@ -45,7 +45,6 @@ Dự án được xây dựng theo kiến trúc **Client-side SPA** với Fireba
 - Xây dựng real-time features với **Firebase Realtime Database**
 - Viết server-side logic với **Firebase Cloud Functions**
 - Thiết kế bảo mật dữ liệu với **Firestore Security Rules**
-- Tích hợp dịch vụ bên thứ ba (**ZegoCloud**, **Giphy API**)
 
 > **Lưu ý:** Đây là dự án khóa luận, không dùng cho mục đích thương mại. Dữ liệu sử dụng phục vụ mục đích demo và kiểm thử.
 
@@ -68,7 +67,6 @@ Dự án được xây dựng theo kiến trúc **Client-side SPA** với Fireba
 - Reactions trên từng tin nhắn
 - Xem trước link URL (Link preview)
 - Hiển thị trạng thái online/offline và chỉ báo "đang nhập..."
-- Gọi video / giọng nói 1-1 qua ZegoCloud
 
 ### 📰 Feed & Bài viết
 
@@ -126,7 +124,6 @@ graph TB
     end
 
     subgraph External["🔌 Dịch vụ ngoài"]
-        Zego["ZegoCloud\nVideo / Voice Call"]
         Giphy["Giphy API\nGIF Search"]
         LinkPreview["LinkPreview API\nURL Preview"]
     end
@@ -139,7 +136,6 @@ graph TB
     Services --> RTDB
     Services --> Storage
     Services --> Functions
-    Services --> Zego
     Services --> Giphy
     Services --> LinkPreview
     FCM -.->|Push| UI
@@ -340,8 +336,6 @@ VITE_FIREBASE_MEASUREMENT_ID=G-XXXXXXXXXX
 VITE_FIREBASE_DATABASE_URL=https://your-project-default-rtdb.firebaseio.com
 VITE_FIREBASE_VAPID_KEY=BNH...
 
-# ── ZegoCloud (Video Call) ──────────────────────────────────
-VITE_ZEGO_APP_ID=123456789
 
 # ── API ngoài ───────────────────────────────────────────────
 VITE_PROVINCES_API_URL=https://provinces.open-api.vn/api/
@@ -355,7 +349,6 @@ VITE_GIPHY_API_KEY=abc123
 | -------------------------- | ----------------------------------------------------------------------- |
 | Các biến `VITE_FIREBASE_*` | Firebase Console → Project Settings → General → Your apps               |
 | `VITE_FIREBASE_VAPID_KEY`  | Project Settings → Cloud Messaging → Web Push certificates              |
-| `VITE_ZEGO_APP_ID`         | [console.zegocloud.com](https://console.zegocloud.com) → Projects       |
 | `VITE_LINKPREVIEW_API_KEY` | [linkpreview.net](https://linkpreview.net) → Đăng ký tài khoản miễn phí |
 | `VITE_GIPHY_API_KEY`       | [developers.giphy.com](https://developers.giphy.com) → Create App       |
 
@@ -417,7 +410,6 @@ smurf_social/
 │       ├── friends/           # Callable: tạo gợi ý kết bạn (cosine similarity)
 │       ├── admin/             # Callable: ban user, resolve/reject report
 │       ├── search/            # Callable: tìm kiếm người dùng
-│       ├── call/              # Callable: sinh Zego token cho video call
 │       ├── scheduled/         # Scheduled job: dọn dữ liệu cũ định kỳ
 │       └── index.ts           # Export tất cả functions
 ├── shared/                    # Types dùng chung giữa client và functions
@@ -479,12 +471,11 @@ git merge feat/ten-thanh-vien/ten-tinh-nang
 - [x] Feed bài viết (tạo, chỉnh sửa, xóa)
 - [x] Reactions và bình luận lồng nhau
 
-### Giai đoạn 3 — Nhắn tin & Gọi ✅
+### Giai đoạn 3 — Nhắn tin & Thời gian thực ✅
 
 - [x] Chat 1-1 real-time (Firebase RTDB)
 - [x] Chat nhóm
 - [x] Hỗ trợ đa định dạng tin nhắn (ảnh, file, voice, GIF)
-- [x] Gọi video / giọng nói (ZegoCloud)
 
 ### Giai đoạn 4 — Hoàn thiện ✅
 

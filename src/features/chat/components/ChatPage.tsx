@@ -9,7 +9,6 @@ import { useAuthStore } from '@/features/auth';
 import { useFriendIds, useBlockedUsers } from '@/hooks';
 import { friendService } from '@/features/friend';
 import { useConversationMemberSettings } from '@/features/chat';
-import { useCallManager } from '@/features/chat';
 import { toast } from '@/store/toastStore';
 import { TOAST_MESSAGES } from '@/constants';
 import {
@@ -47,8 +46,6 @@ const ChatPage: React.FC = () => {
     usersMap,
     isBlocked,
     isBlockedByMe,
-    isCallBlockedByMe,
-    isCallBlockedByPartner,
     partnerStatus,
     blockedMessage,
     forwardingMessage,
@@ -87,7 +84,6 @@ const ChatPage: React.FC = () => {
     hasMoreMessages,
     handleLoadMoreMessages,
     friendRequestStatus,
-    canCall,
     receivedRequests,
     sentRequests,
     participants,
@@ -134,53 +130,7 @@ const ChatPage: React.FC = () => {
     modal.closeBlockModal();
   };
 
-  const { startCall, joinActiveCall } = useCallManager(currentUser?.id || '');
 
-  const partner = selectedConversation?.data.isGroup
-    ? null
-    : participants.find((p) => p.id !== currentUser?.id);
-
-  const handleInitiateCall = async (type: 'voice' | 'video') => {
-    if (!selectedConversationId || !currentUser) return;
-    const isGroup = selectedConversation?.data.isGroup || false;
-    const recipientIds = isGroup
-      ? Object.keys(selectedConversation?.data.members || {}).filter((id) => id !== currentUser.id)
-      : partner
-        ? [partner.id]
-        : [];
-    if (recipientIds.length === 0) return;
-    if (!isGroup) {
-      if (isCallBlockedByMe) {
-        toast.error(TOAST_MESSAGES.CHAT.CALL_BLOCKED_BY_ME);
-        return;
-      }
-      if (isCallBlockedByPartner) {
-        toast.error(TOAST_MESSAGES.CHAT.CALL_BLOCKED_BY_PARTNER);
-        return;
-      }
-    }
-    const result = await startCall(
-      recipientIds,
-      currentUser.fullName,
-      currentUser.avatar?.url ?? '',
-      type,
-      selectedConversationId,
-      isGroup,
-      !isGroup ? partner?.fullName : selectedConversation?.data.name || 'Cuộc gọi nhóm',
-      !isGroup ? partner?.avatar?.url : selectedConversation?.data.avatar?.url,
-      isCallBlockedByPartner,
-      isCallBlockedByMe,
-    );
-    if (result && !result.success) {
-      const messages: Record<string, string> = {
-        busy: TOAST_MESSAGES.CHAT.CALL_BUSY,
-        blocked: TOAST_MESSAGES.CHAT.CALL_BLOCKED_BY_PARTNER,
-        not_friend: TOAST_MESSAGES.CHAT.CALL_NOT_FRIEND,
-        already_in_call: TOAST_MESSAGES.CHAT.CALL_ALREADY_IN,
-      };
-      toast.error(messages[result.reason ?? ''] ?? TOAST_MESSAGES.CHAT.CALL_FAILED);
-    }
-  };
 
   if (!currentUser) return <MessengerSkeleton />;
 
@@ -294,10 +244,6 @@ const ChatPage: React.FC = () => {
               onUnblock={chat.handleUnblock}
               onManageBlock={modal.openBlockModal}
               shouldShowBlockBanner={shouldShowBlockBanner}
-              onCall={(isVideo) => handleInitiateCall(isVideo ? 'video' : 'voice')}
-              onVideoCall={() => handleInitiateCall('video')}
-              canCall={canCall}
-              onJoinCall={(callType) => joinActiveCall(selectedConversation.id, callType)}
               handleMarkAsRead={handleMarkAsRead}
             />
             <ChatInput

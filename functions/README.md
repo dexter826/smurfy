@@ -29,19 +29,6 @@ Các function dành riêng cho quyền quản trị viên.
 - **`rejectReport`**: Gọi khi admin từ chối báo cáo vi phạm. Đóng báo cáo mà không có hành động.
 - **`banUser`**: Gọi để khóa tài khoản người dùng ngay lập tức.
 
-## Call (Cuộc gọi Video/Voice)
-
-- **`generateZegoToken`**: Gọi trực tiếp (Callable Function) từ client để lấy token xác thực SDK ZegoCloud cho chức năng gọi điện.
-  - **Request Payload**:
-    ```json
-    {
-      "roomId": "string",
-      "userId": "string",
-      "userName": "string"
-    }
-    ```
-  - **Response**: `{ "token": "string" }`
-
 ## Search & System
 
 - **`searchUsers`**: Gọi trực tiếp (Callable Function) từ client khi người dùng tìm kiếm bạn bè theo email exact match, có lọc block hai chiều.
