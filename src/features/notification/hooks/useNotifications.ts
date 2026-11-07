@@ -25,7 +25,7 @@ export const useNotifications = () => {
 
             if (lastMsg.timestamp > prevTimestamp) {
                 const isNotMe = lastMsg.senderId !== user.id;
-                const isNotSilent = lastMsg.type !== 'system' && lastMsg.type !== 'call';
+                const isNotSilent = lastMsg.type !== 'system';
                 const isNotMuted = !conv.userChat?.isMuted;
                 const isNotSelected = selectedConversationId !== conv.id;
                 const isTabHidden = document.visibilityState === 'hidden';

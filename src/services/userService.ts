@@ -25,7 +25,7 @@ import { compressImage } from '../utils/imageUtils';
 import { withRetry } from '../utils/retryUtils';
 import { uploadWithProgress, ProgressCallback, deleteStorageFile } from '../utils/uploadUtils';
 import { PAGINATION, IMAGE_COMPRESSION, STORAGE_PATHS } from '../constants';
-import { convertDoc } from '../utils/firebaseUtils';
+import { convertDoc, convertDocs } from '../utils/firebaseUtils';
 import {
   validateUserName,
   validateBio,

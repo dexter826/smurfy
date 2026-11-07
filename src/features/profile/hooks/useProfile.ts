@@ -63,10 +63,6 @@ export const useProfile = () => {
 
   const handleMessage = useCallback(async (bypassSettingsCheck: boolean = false) => {
     if (!currentUser || !profile) return;
-    if (profile.status === 'banned') {
-      toast.error(TOAST_MESSAGES.CHAT.BLOCKED_USER);
-      return;
-    }
 
     if (block.isMessageBlockedByPartner) {
       toast.error(TOAST_MESSAGES.CHAT.BLOCKED_USER);
