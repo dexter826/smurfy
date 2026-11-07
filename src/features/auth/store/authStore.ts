@@ -31,7 +31,6 @@ interface AuthState {
   blockedUsers: Record<string, BlockOptions>;
   isPendingVerification: boolean;
   isInitialized: boolean;
-  isBanned: boolean;
   login: (email: string, pass: string, remember?: boolean) => Promise<void>;
   register: (email: string, pass: string, name: string, dob: number, generation: Generation) => Promise<void>;
   resetPassword: (email: string) => Promise<void>;
@@ -54,7 +53,6 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   blockedUsers: {},
   isPendingVerification: false,
   isInitialized: false,
-  isBanned: false,
 
   /** Cập nhật thông tin người dùng. */
   setUser: (user) => set({ user }),
@@ -124,7 +122,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   },
 
   /** Đăng xuất khỏi hệ thống. */
-  logout: async (keepBanned = false) => {
+  logout: async () => {
     const { user } = get();
 
     try {
@@ -139,8 +137,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     } finally {
       set({
         user: null,
-        isPendingVerification: false,
-        isBanned: keepBanned ? get().isBanned : false
+        isPendingVerification: false
       });
     }
   },
@@ -180,11 +177,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
             userService.getUserSettings(firebaseUser.uid)
           ]);
           if (userData) {
-            if (userData.status === UserStatus.BANNED) {
-              set({ user: userData, isBanned: true, isInitialized: true });
-              await get().logout(true);
-              return;
-            }
+
 
             set({
               user: userData,
@@ -331,14 +324,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       userUnsubscribe = userService.subscribeToUser(
         uid,
         async (updatedUser) => {
-          if (updatedUser.status === UserStatus.BANNED) {
-            if (userUnsubscribe) { userUnsubscribe(); userUnsubscribe = null; }
-            if (settingsUnsubscribe) { settingsUnsubscribe(); settingsUnsubscribe = null; }
 
-            set({ user: updatedUser, isBanned: true });
-            await get().logout(true);
-            return;
-          }
 
           const currentBlocked = get().blockedUsers;
           set({ user: updatedUser, blockedUsers: currentBlocked });
@@ -391,11 +377,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
           ]);
 
           if (userData) {
-            if (userData.status === UserStatus.BANNED) {
-              set({ user: userData, isInitialized: true, isBanned: true });
-              await get().logout(true);
-              return;
-            }
+
 
             set({
               user: userData,
@@ -417,11 +399,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
           useLoadingStore.getState().setLoading("auth", false);
         }
       } else {
-        if (get().isBanned) {
-          set({ isInitialized: true });
-          useLoadingStore.getState().setLoading("auth", false);
-          return;
-        }
+
         resetAllStores();
         set({ user: null, isInitialized: true });
         useLoadingStore.getState().setLoading("auth", false);

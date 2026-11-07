@@ -45,9 +45,6 @@ export const ShareTargetItem: React.FC<ShareTargetItemProps> = ({
     isGroup && entry.type === 'conversation' ? Object.keys(entry.item.data.members) : [];
   const groupParticipants = useConversationParticipants(participantIds);
 
-  if (entry.type === 'conversation' && !isGroup && partner?.status === UserStatus.BANNED) {
-    return null;
-  }
 
   if (variant === 'horizontal') {
     return (
