@@ -9,7 +9,6 @@ import {
   Visibility,
   Generation,
   MediaObject,
-  UserRole,
 } from '@shared/types';
 import { userService } from '@/services/userService';
 import { authService } from '../services/authService';

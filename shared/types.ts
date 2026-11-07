@@ -3,9 +3,10 @@
 
 import { Timestamp } from 'firebase/firestore';
 
-export enum UserStatus {
-  ACTIVE = 'active',
-}
+export type UserStatus = 'active';
+export const UserStatus = {
+  ACTIVE: 'active' as const,
+};
 
 export enum Gender {
   MALE = 'male',
@@ -59,8 +60,6 @@ export enum NotificationType {
 export enum PostStatus {
   ACTIVE = 'active',
   DELETED = 'deleted',
-  PENDING = 'pending',
-  POLICY_VIOLATION = 'policy_violation',
 }
 
 export enum PostType {
@@ -72,12 +71,6 @@ export enum PostType {
 export enum CommentStatus {
   ACTIVE = 'active',
   DELETED = 'deleted',
-  PENDING = 'pending',
-  POLICY_VIOLATION = 'policy_violation',
-}
-
-export enum UserRole {
-  USER = 'user',
 }
 
 export enum MaritalStatus {
@@ -181,7 +174,6 @@ export interface User extends BaseEntity {
   gender?: Gender;
   dob?: Timestamp;
   status: UserStatus;
-  role: UserRole;
   bio?: string;
   cover?: MediaObject;
   updatedAt: Timestamp;

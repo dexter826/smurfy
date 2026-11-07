@@ -114,12 +114,6 @@ const PostItemInner: React.FC<PostItemProps> = ({
             <span title={formatDateTime(post.createdAt)}>{formatRelativeTime(post.createdAt)}</span>
             <span className="opacity-40">·</span>
             <VisibilityBadge visibility={post.visibility} size={11} />
-            {post.status === PostStatus.PENDING && (
-              <>
-                <span className="opacity-40">·</span>
-                <span className="text-muted font-medium">Đang xử lý...</span>
-              </>
-            )}
           </div>
         </div>
 
@@ -184,7 +178,7 @@ const PostItemInner: React.FC<PostItemProps> = ({
 
       {/* ── Reactions & comments ── */}
       {canShowInteractions && (
-        <div className={post.status === PostStatus.PENDING ? 'opacity-50 pointer-events-none' : ''}>
+        <div>
           <InteractionActions
             reactionSummary={filteredSummary}
             reactionCount={filteredCount}

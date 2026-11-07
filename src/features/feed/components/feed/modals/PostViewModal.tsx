@@ -103,8 +103,7 @@ export const PostViewModal: React.FC<PostViewModalProps> = ({
   const isSystemPost =
     post?.type === PostType.AVATAR_UPDATE || post?.type === PostType.COVER_UPDATE;
   const isFriend = (post && friendIds?.includes(post.authorId)) || false;
-  const isViolation = (post?.status as any) === 'policy_violation';
-  const isDeleted = post?.status === PostStatus.DELETED || isViolation;
+  const isDeleted = post?.status === PostStatus.DELETED;
   const canAccessByVisibility =
     !post ||
     isOwner ||
@@ -144,12 +143,10 @@ export const PostViewModal: React.FC<PostViewModalProps> = ({
             <AlertCircle size={24} className="text-muted" />
           </div>
           <h3 className="text-lg font-semibold text-foreground mb-2">
-            {isViolation ? 'Nội dung đã bị gỡ' : 'Không thể truy cập bài viết'}
+            Không thể truy cập bài viết
           </h3>
           <p className="text-sm text-secondary leading-relaxed">
-            {isViolation
-              ? 'Bài viết này đã bị gỡ do vi phạm tiêu chuẩn cộng đồng.'
-              : 'Bài viết đã bị xóa hoặc bạn không còn quyền xem nội dung này.'}
+            Bài viết đã bị xóa hoặc bạn không còn quyền xem nội dung này.
           </p>
           <button
             type="button"
@@ -269,12 +266,6 @@ export const PostViewModal: React.FC<PostViewModalProps> = ({
               </span>
               <span className="opacity-40">·</span>
               <VisibilityBadge visibility={post.visibility} size={11} />
-              {post.status === PostStatus.PENDING && (
-                <>
-                  <span className="opacity-40">·</span>
-                  <span className="text-muted font-medium">Đang xử lý...</span>
-                </>
-              )}
             </div>
           </div>
 
@@ -312,10 +303,8 @@ export const PostViewModal: React.FC<PostViewModalProps> = ({
           onProfileClick={onOpenChange}
           postOwnerId={post.authorId}
           totalCommentCount={post.commentCount}
-          readonly={!canShowInteractions || post.status === PostStatus.PENDING}
-          readonlyMessage={
-            post.status === PostStatus.PENDING ? 'Bài viết đang được xử lý.' : readonlyMessage
-          }
+          readonly={!canShowInteractions}
+          readonlyMessage={readonlyMessage}
           header={
             <div className="flex flex-col">
               {/* Post text (Displayed first on mobile) */}
@@ -382,11 +371,7 @@ export const PostViewModal: React.FC<PostViewModalProps> = ({
 
               {/* Reaction actions */}
               {canShowInteractions && (
-                <div
-                  className={
-                    post.status === PostStatus.PENDING ? 'opacity-50 pointer-events-none' : ''
-                  }
-                >
+                <div>
                   <InteractionActions
                     reactionSummary={filteredSummary}
                     reactionCount={filteredCount}

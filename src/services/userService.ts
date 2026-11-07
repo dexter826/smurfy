@@ -20,7 +20,6 @@ import { db } from '@/lib/firebase/config';
 import {
   User,
   MediaObject,
-  UserRole,
   UserStatus,
   BlockOptions,
   BlockedUserEntry,
@@ -138,7 +137,6 @@ export const userService = {
         avatar: data.avatar || { url: '', fileName: '', mimeType: '', size: 0, isSensitive: false },
         cover: data.cover || { url: '', fileName: '', mimeType: '', size: 0, isSensitive: false },
         status: UserStatus.ACTIVE,
-        role: UserRole.USER,
         school: data.school || '',
         interests: data.interests || [],
         generation: data.generation || Generation.UNKNOWN,

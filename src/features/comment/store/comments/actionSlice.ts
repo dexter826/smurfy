@@ -17,8 +17,7 @@ export const createActionSlice: StateCreator<CommentStoreState, [], [], any> = (
       previewUrl = URL.createObjectURL(image);
     }
 
-    const hasImage = !!image;
-    const initialStatus = hasImage ? CommentStatus.PENDING : CommentStatus.ACTIVE;
+    const initialStatus = CommentStatus.ACTIVE;
 
     const opt: Comment = {
       id: realId,

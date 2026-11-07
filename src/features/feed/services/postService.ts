@@ -173,7 +173,7 @@ export const postService = {
         ? query(
             collection(db, 'posts'),
             where('authorId', '==', userId),
-            where('status', 'in', [PostStatus.ACTIVE, PostStatus.PENDING]),
+            where('status', '==', PostStatus.ACTIVE),
             orderBy('createdAt', 'desc'),
             limit(limitCount),
           )
@@ -241,7 +241,7 @@ export const postService = {
       ? query(
           collection(db, 'posts'),
           where('authorId', '==', userId),
-          where('status', 'in', [PostStatus.ACTIVE, PostStatus.PENDING]),
+          where('status', '==', PostStatus.ACTIVE),
           orderBy('createdAt', 'desc'),
           limit(limitCount),
         )
@@ -340,14 +340,11 @@ export const postService = {
 
       const postRef = predefinedId ? doc(db, 'posts', predefinedId) : doc(collection(db, 'posts'));
 
-      const hasMedia = postData.media && postData.media.length > 0;
-      const initialStatus = hasMedia ? PostStatus.PENDING : PostStatus.ACTIVE;
-
       const dataToSave: any = {
         authorId: postData.authorId,
         type: postData.type || PostType.REGULAR,
         content: postData.content || '',
-        status: initialStatus,
+        status: PostStatus.ACTIVE,
         visibility: postData.visibility || Visibility.FRIENDS,
         commentCount: 0,
         createdAt: postData.createdAt || serverTimestamp(),
@@ -481,14 +478,6 @@ export const postService = {
       if (data.status === PostStatus.DELETED) return null;
 
       const isOwner = data.authorId === currentUserId;
-
-      if (
-        (data.status === PostStatus.PENDING || data.status === PostStatus.POLICY_VIOLATION) &&
-        !isOwner
-      ) {
-        return null;
-      }
-
       const isSystemPost =
         data.type === PostType.AVATAR_UPDATE || data.type === PostType.COVER_UPDATE;
 

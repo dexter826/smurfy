@@ -20,16 +20,8 @@ import {
   onSnapshot,
 } from 'firebase/firestore';
 import { db } from '@/lib/firebase/config';
-import {
-  Comment,
-  ReactionType,
-  ReactionDoc,
-  CommentStatus,
-  MediaObject,
-  UserStatus,
-} from '@shared/types';
+import { Comment, ReactionType, ReactionDoc, CommentStatus, MediaObject } from '@shared/types';
 import { PAGINATION, IMAGE_COMPRESSION, STORAGE_PATHS } from '@/constants';
-import { useAuthStore } from '@/features/auth';
 import { batchGetUsers } from '@/utils/batchUtils';
 import { compressImage } from '@/utils/imageUtils';
 import { uploadWithProgress } from '@/utils/uploadUtils';
@@ -60,9 +52,7 @@ export const commentService = {
     sortOrder: 'asc' | 'desc' = 'desc',
   ) => {
     try {
-      const currentUserId = useAuthStore.getState().user?.id;
-
-      let activeQ = query(
+      let q = query(
         collection(db, 'comments'),
         where('postId', '==', postId),
         where('parentId', '==', null),
@@ -72,38 +62,12 @@ export const commentService = {
       );
 
       if (lastDoc) {
-        activeQ = query(activeQ, startAfter(lastDoc));
+        q = query(q, startAfter(lastDoc));
       }
 
-      let pendingPromise = Promise.resolve({ docs: [] as any[] });
-      if (currentUserId) {
-        const pendingQ = query(
-          collection(db, 'comments'),
-          where('postId', '==', postId),
-          where('parentId', '==', null),
-          where('authorId', '==', currentUserId),
-          where('status', '==', CommentStatus.PENDING),
-          orderBy('createdAt', sortOrder),
-        );
-        pendingPromise = getDocs(pendingQ);
-      }
-
-      const [activeSnapshot, pendingSnapshot] = await Promise.all([
-        getDocs(activeQ),
-        pendingPromise,
-      ]);
-
-      const hasMore = activeSnapshot.docs.length > limitCount;
-      const activeDocs = hasMore ? activeSnapshot.docs.slice(0, limitCount) : activeSnapshot.docs;
-      const pendingDocs = pendingSnapshot.docs;
-
-      const mergedDocs = [...pendingDocs, ...activeDocs];
-      const seenIds = new Set<string>();
-      const docsToProcess = mergedDocs.filter((doc) => {
-        if (seenIds.has(doc.id)) return false;
-        seenIds.add(doc.id);
-        return true;
-      });
+      const snapshot = await getDocs(q);
+      const hasMore = snapshot.docs.length > limitCount;
+      const docsToProcess = hasMore ? snapshot.docs.slice(0, limitCount) : snapshot.docs;
 
       const authorIds = [...new Set(docsToProcess.map((d) => d.data().authorId))];
       const usersMap = await batchGetUsers(authorIds);
@@ -123,7 +87,7 @@ export const commentService = {
 
       return {
         comments,
-        lastDoc: activeDocs[activeDocs.length - 1] || null,
+        lastDoc: docsToProcess[docsToProcess.length - 1] || null,
         hasMore,
       };
     } catch (error) {
@@ -141,9 +105,7 @@ export const commentService = {
     lastDoc?: DocumentSnapshot,
   ) => {
     try {
-      const currentUserId = useAuthStore.getState().user?.id;
-
-      let activeQ = query(
+      let q = query(
         collection(db, 'comments'),
         where('postId', '==', postId),
         where('parentId', '==', commentId),
@@ -153,38 +115,12 @@ export const commentService = {
       );
 
       if (lastDoc) {
-        activeQ = query(activeQ, startAfter(lastDoc));
+        q = query(q, startAfter(lastDoc));
       }
 
-      let pendingPromise = Promise.resolve({ docs: [] as any[] });
-      if (currentUserId) {
-        const pendingQ = query(
-          collection(db, 'comments'),
-          where('postId', '==', postId),
-          where('parentId', '==', commentId),
-          where('authorId', '==', currentUserId),
-          where('status', '==', CommentStatus.PENDING),
-          orderBy('createdAt', 'asc'),
-        );
-        pendingPromise = getDocs(pendingQ);
-      }
-
-      const [activeSnapshot, pendingSnapshot] = await Promise.all([
-        getDocs(activeQ),
-        pendingPromise,
-      ]);
-
-      const hasMore = activeSnapshot.docs.length > limitCount;
-      const activeDocs = hasMore ? activeSnapshot.docs.slice(0, limitCount) : activeSnapshot.docs;
-      const pendingDocs = pendingSnapshot.docs;
-
-      const mergedDocs = [...pendingDocs, ...activeDocs];
-      const seenIds = new Set<string>();
-      const docsToProcess = mergedDocs.filter((doc) => {
-        if (seenIds.has(doc.id)) return false;
-        seenIds.add(doc.id);
-        return true;
-      });
+      const snapshot = await getDocs(q);
+      const hasMore = snapshot.docs.length > limitCount;
+      const docsToProcess = hasMore ? snapshot.docs.slice(0, limitCount) : snapshot.docs;
 
       const authorIds = [...new Set(docsToProcess.map((d) => d.data().authorId))];
       const usersMap = await batchGetUsers(authorIds);
@@ -204,7 +140,7 @@ export const commentService = {
 
       return {
         replies,
-        lastDoc: activeDocs[activeDocs.length - 1] || null,
+        lastDoc: docsToProcess[docsToProcess.length - 1] || null,
         hasMore,
       };
     } catch (error) {
@@ -228,7 +164,7 @@ export const commentService = {
   ): Promise<string> => {
     try {
       validateCommentContent(content);
-      const initialStatus = image ? CommentStatus.PENDING : CommentStatus.ACTIVE;
+      const initialStatus = CommentStatus.ACTIVE;
       const commentData: any = {
         postId,
         authorId: userId,
