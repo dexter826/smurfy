@@ -3,13 +3,8 @@ import { rtdb } from '@/lib/firebase/config';
 import { RtdbMessage, RtdbConversation, MessageType, MediaObject } from '@shared/types';
 import { IMAGE_COMPRESSION } from '@/constants';
 import { compressImage } from '@/utils/imageUtils';
-import { uploadWithProgress, UploadProgress, generateVideoThumbnail } from '@/utils/uploadUtils';
-import {
-    validateImageFile,
-    validateVideoFile,
-    validateChatFile,
-    validateVoiceFile
-} from '@/utils/fileValidation';
+import { uploadWithProgress, UploadProgress } from '@/utils/uploadUtils';
+import { validateImageFile } from '@/utils/fileValidation';
 import { rtdbConversationService } from '../rtdbConversationService';
 import { getRtdbServerTimestamp, getServerSyncedNow } from '../chatTime';
 
@@ -141,10 +136,7 @@ export async function createAndSendMediaMessage(
         content?: string;
     }
 ): Promise<string> {
-    if (type === MessageType.IMAGE) validateImageFile(file);
-    else if (type === MessageType.VIDEO) validateVideoFile(file);
-    else if (type === MessageType.FILE) validateChatFile(file);
-    else if (type === MessageType.VOICE) validateVoiceFile(file);
+    validateImageFile(file);
 
     let uploadFile: File = file;
     if (options.compress && type === MessageType.IMAGE) {
@@ -168,9 +160,7 @@ export async function createAndSendMediaMessage(
     const messageData: RtdbMessage = {
         senderId,
         type,
-        content: options.content !== undefined 
-            ? options.content 
-            : (type === MessageType.FILE ? '' : (type === MessageType.VOICE && options.voiceDuration ? String(options.voiceDuration) : '')),
+        content: options.content || '',
         media: [mediaPlaceholder],
         mentions: options.mentions || [],
         isForwarded: false,
@@ -188,16 +178,7 @@ export async function createAndSendMediaMessage(
 
     const path = `chats/${convId}/${createdAt}_${file.name}`;
     
-    const thumbPromise = type === MessageType.VIDEO ? (async () => {
-        try {
-            const thumbFile = await generateVideoThumbnail(file);
-            const thumbPath = `thumbnails/${senderId}/${createdAt}_${thumbFile.name}`;
-            return await uploadWithProgress(thumbPath, thumbFile);
-        } catch (e) {
-            console.error('[rtdbMessageService] Lỗi tạo/up thumbnail video:', e);
-            return undefined;
-        }
-    })() : Promise.resolve(undefined);
+    
 
     const uploadPromise = (async () => {
         try {
@@ -216,12 +197,12 @@ export async function createAndSendMediaMessage(
         }
     })();
 
-    const [url, thumbnailUrl] = await Promise.all([uploadPromise, thumbPromise]);
+    const url = await uploadPromise;
 
     const mediaObject: MediaObject = {
         ...mediaPlaceholder,
         url,
-        ...(thumbnailUrl && { thumbnailUrl })
+        
     };
 
     const finalMessageData: RtdbMessage = {
