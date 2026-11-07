@@ -4,7 +4,6 @@ export const isFullyBlocked = (options?: BlockOptions): boolean => {
   if (!options) return false;
   return (
     options.blockMessages === true &&
-    options.blockCalls === true &&
     options.blockViewMyActivity === true &&
     options.hideTheirActivity === true
   );

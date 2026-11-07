@@ -96,7 +96,7 @@ const LoginPage: React.FC = () => {
       return;
     }
     if (err.code === 'auth/user-disabled') {
-      navigate('/banned');
+      setAuthError(TOAST_MESSAGES.AUTH.ERRORS.USER_DISABLED);
       return;
     }
 

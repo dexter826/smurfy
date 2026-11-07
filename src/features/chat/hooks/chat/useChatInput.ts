@@ -158,24 +158,23 @@ export const useChatInput = ({
 
       const newFiles: FilePreviewItem[] = [];
       files.forEach((file) => {
-        let fileType: 'image' | 'video' | 'file' = 'file';
-        if (file.type.startsWith('image/')) fileType = 'image';
-        else if (file.type.startsWith('video/')) fileType = 'video';
+        if (!file.type.startsWith('image/')) {
+          toast.error('Hệ thống chỉ hỗ trợ gửi hình ảnh');
+          return;
+        }
 
-        const limitType = fileType === 'image' ? 'IMAGE' : fileType === 'video' ? 'VIDEO' : 'FILE';
-        const validation = validateFile(file, limitType);
+        const validation = validateFile(file, 'IMAGE');
         if (!validation.isValid) {
           if (validation.error) toast.error(validation.error);
           return;
         }
 
-        const preview =
-          fileType === 'image' || fileType === 'video' ? URL.createObjectURL(file) : undefined;
+        const preview = URL.createObjectURL(file);
         newFiles.push({
           id: `${file.name}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
           file,
           preview,
-          type: fileType,
+          type: 'image',
         });
       });
 

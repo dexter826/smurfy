@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { User, RtdbConversation, RtdbUserChat, UserStatus } from '@shared/types';
+import { User, RtdbConversation, RtdbUserChat } from '@shared/types';
 import {
   UserAvatar,
   UserStatusText,
@@ -17,7 +17,6 @@ import {
   UserMinus,
   ShieldPlus,
   ShieldMinus,
-  Lock,
   Users,
   ChevronRight,
 } from 'lucide-react';
@@ -125,23 +124,21 @@ export const ChatDetailsMemberList: React.FC<ChatDetailsMemberListProps> = ({
           const isCurrentUser = member.id === currentUserId;
           const role = getMemberRole(member.id);
           const canManage = canManageMember(member.id);
-          const isBanned = false;
 
           return (
             <div
               key={member.id}
-              className={`flex items-center gap-3 px-4 py-2.5 transition-colors duration-200 group
-                ${isBanned ? 'opacity-60' : 'hover:bg-hover active:bg-active'}`}
+              className="flex items-center gap-3 px-4 py-2.5 transition-colors duration-200 group hover:bg-hover active:bg-active"
             >
               <div
-                onClick={() => !isCurrentUser && !isBanned && onMemberClick?.(member.id)}
-                className={`flex items-center gap-3 flex-1 min-w-0 ${!isCurrentUser && !isBanned ? 'cursor-pointer' : ''}`}
+                onClick={() => !isCurrentUser && onMemberClick?.(member.id)}
+                className={`flex items-center gap-3 flex-1 min-w-0 ${!isCurrentUser ? 'cursor-pointer' : ''}`}
               >
                 <UserAvatar
                   userId={member.id}
                   size="sm"
-                  showStatus={!isBanned}
-                  onClick={() => !isBanned && navigate(`/profile/${member.id}`)}
+                  showStatus
+                  onClick={() => navigate(`/profile/${member.id}`)}
                 />
 
                 <div className="flex-1 min-w-0">
@@ -161,21 +158,13 @@ export const ChatDetailsMemberList: React.FC<ChatDetailsMemberListProps> = ({
                     {role === 'admin' && (
                       <Shield size={13} className="text-info flex-shrink-0" aria-label="Admin" />
                     )}
-                    {isBanned && (
-                      <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-[10px] font-medium bg-danger/10 text-danger flex-shrink-0">
-                        <Lock size={9} />
-                        Đã khóa
-                      </span>
-                    )}
                   </div>
 
-                  {!isBanned && (
-                    <UserStatusText
-                      userId={member.id}
-                      initialStatus={member.status}
-                      className="text-xs"
-                    />
-                  )}
+                  <UserStatusText
+                    userId={member.id}
+                    initialStatus={member.status}
+                    className="text-xs"
+                  />
                 </div>
               </div>
 
