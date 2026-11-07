@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { User as UserIcon, Settings, Moon, Sun, LogOut, ChevronRight, Shield } from 'lucide-react';
 import { useAuthStore } from '@/features/auth';
 import { useThemeStore, useResolvedTheme } from '@/store/themeStore';
-import { UserAvatar, ConfirmDialog } from '@/components/ui';
+import { UserAvatar, AlertDialog } from '@/components/ui';
 import { useLogout } from '@/hooks/utils/useLogout';
 
 export const MobileMenuPage: React.FC = () => {
@@ -102,9 +102,9 @@ export const MobileMenuPage: React.FC = () => {
         </button>
       </div>
 
-      <ConfirmDialog
-        isOpen={showLogoutConfirm}
-        onClose={() => setShowLogoutConfirm(false)}
+      <AlertDialog
+        open={showLogoutConfirm}
+        onOpenChange={() => setShowLogoutConfirm(false)}
         onConfirm={handleConfirmLogout}
         title="Đăng xuất"
         message="Bạn có chắc chắn muốn rời khỏi phiên làm việc này?"

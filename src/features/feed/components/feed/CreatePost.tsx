@@ -107,8 +107,8 @@ export const CreatePost: React.FC<CreatePostProps> & { Skeleton: React.FC } = ({
       </div>
 
       <PostModal
-        isOpen={showCreateModal}
-        onClose={handleClose}
+        open={showCreateModal}
+        onOpenChange={handleClose}
         currentUser={currentUser}
         initialFiles={pendingFiles}
         onSubmit={handleCreatePost}

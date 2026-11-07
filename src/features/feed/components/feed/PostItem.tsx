@@ -211,8 +211,8 @@ const PostItemInner: React.FC<PostItemProps> = ({
       )}
 
       <ReactionDetailsModal
-        isOpen={isReactionsModalOpen}
-        onClose={() => setIsReactionsModalOpen(false)}
+        open={isReactionsModalOpen}
+        onOpenChange={() => setIsReactionsModalOpen(false)}
         sourceId={post.id}
         sourceType="post"
         currentUserId={currentUser.id}

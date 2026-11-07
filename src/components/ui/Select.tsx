@@ -32,7 +32,7 @@ export const Select: React.FC<SelectProps> = ({
   disabled = false, className = '',
   variant = 'default', size = 'md',
 }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [open, setIsOpen] = useState(false);
   const [pos, setPos] = useState<{
     top?: number; bottom?: number; left: number; width: number; openUp: boolean;
   } | null>(null);
@@ -42,7 +42,7 @@ export const Select: React.FC<SelectProps> = ({
   const selectedOption = options.find(opt => opt.value === value);
 
   useLayoutEffect(() => {
-    if (!isOpen || !containerRef.current || !menuRef.current) return;
+    if (!open || !containerRef.current || !menuRef.current) return;
 
     const containerEl = containerRef.current;
     const menuEl = menuRef.current;
@@ -76,9 +76,9 @@ export const Select: React.FC<SelectProps> = ({
       window.removeEventListener('scroll', update, true);
       window.removeEventListener('resize', update);
     };
-  }, [isOpen]);
+  }, [open]);
 
-  useClickOutside([containerRef, menuRef], () => setIsOpen(false), isOpen);
+  useClickOutside([containerRef, menuRef], () => setIsOpen(false), open);
 
   const sizeClasses: Record<NonNullable<SelectProps['size']>, string> = {
     sm: 'min-h-[36px] px-3 text-sm',
@@ -87,7 +87,7 @@ export const Select: React.FC<SelectProps> = ({
   };
 
   const variantClasses: Record<NonNullable<SelectProps['variant']>, string> = {
-    default: `bg-surface border ${isOpen ? 'border-primary ring-2 ring-primary/20' : 'border-border hover:border-border-strong'}`,
+    default: `bg-surface border ${open ? 'border-primary ring-2 ring-primary/20' : 'border-border hover:border-border-strong'}`,
     ghost: 'bg-transparent border-none hover:bg-hover',
   };
 
@@ -101,7 +101,7 @@ export const Select: React.FC<SelectProps> = ({
 
       <div
         role="combobox"
-        aria-expanded={isOpen}
+        aria-expanded={open}
         aria-haspopup="listbox"
         onClick={() => !disabled && setIsOpen(prev => !prev)}
         className={`
@@ -122,11 +122,11 @@ export const Select: React.FC<SelectProps> = ({
         </div>
         <ChevronDown
           size={size === 'sm' ? 14 : 18}
-          className={`text-muted transition-transform duration-200 flex-shrink-0 ml-2 ${isOpen ? 'rotate-180' : ''}`}
+          className={`text-muted transition-transform duration-200 flex-shrink-0 ml-2 ${open ? 'rotate-180' : ''}`}
         />
       </div>
 
-      {isOpen && createPortal(
+      {open && createPortal(
         <div
           ref={menuRef}
           role="listbox"

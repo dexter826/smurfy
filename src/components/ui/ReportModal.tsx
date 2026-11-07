@@ -18,7 +18,7 @@ import { reportService } from '@/features/admin';
 
 export const ReportModal: React.FC = () => {
   const { user } = useAuthStore();
-  const { isOpen, data: reportContext, isSubmitting: isStoreSubmitting, closeReportModal, submitReport } = useReportStore();
+  const { isOpen: open, data: reportContext, isSubmitting: isStoreSubmitting, closeReportModal, submitReport } = useReportStore();
 
   const [selectedImages, setSelectedImages] = useState<File[]>([]);
   const [previewUrls, setPreviewUrls] = useState<string[]>([]);
@@ -46,7 +46,7 @@ export const ReportModal: React.FC = () => {
   const formData = watch();
 
   useEffect(() => {
-    if (isOpen) {
+    if (open) {
       reset({
         reason: '',
         description: '',
@@ -56,7 +56,7 @@ export const ReportModal: React.FC = () => {
       setPreviewUrls([]);
       setShouldBlock(false);
     }
-  }, [isOpen, reset]);
+  }, [open, reset]);
 
   // Thu hồi URL preview.
   useEffect(() => {
@@ -212,10 +212,10 @@ export const ReportModal: React.FC = () => {
 
   return (
     <Modal
-      isOpen={isOpen}
-      onClose={handleClose}
+      open={open}
+      onOpenChange={handleClose}
       title={isUserReport ? "Báo cáo người dùng" : "Báo cáo vi phạm"}
-      maxWidth="sm"
+      size="sm"
       footer={modalFooter}
     >
       <form id="report-form" onSubmit={handleSubmit(onFormSubmit)} className="space-y-4">

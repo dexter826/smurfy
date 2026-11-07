@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { X, MessageCircle, ChevronDown, ListFilter } from 'lucide-react';
-import { Button, ConfirmDialog, UploadProgress, Dropdown, DropdownItem, EmptyState } from '@/components/ui';
+import { Button, AlertDialog, UploadProgress, Dropdown, DropdownItem, EmptyState } from '@/components/ui';
 import { CONFIRM_MESSAGES, TOAST_MESSAGES } from '@/constants';
 import { toast } from '@/store/toastStore';
 import { Comment, User, ReportType, MediaObject } from '@shared/types';
@@ -323,9 +323,9 @@ export const CommentSection: React.FC<CommentSectionProps> = ({
         </div>
       )}
 
-      <ConfirmDialog
-        isOpen={!!commentToDelete}
-        onClose={() => setCommentToDelete(null)}
+      <AlertDialog
+        open={!!commentToDelete}
+        onOpenChange={() => setCommentToDelete(null)}
         onConfirm={handleDeleteConfirm}
         title={CONFIRM_MESSAGES.FEED.DELETE_COMMENT.TITLE}
         message={CONFIRM_MESSAGES.FEED.DELETE_COMMENT.MESSAGE(

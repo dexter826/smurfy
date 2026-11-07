@@ -34,7 +34,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
   label, value, onChange, error,
   placeholder = 'Chọn ngày', disabled = false, className = '', size = 'md',
 }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [open, setIsOpen] = useState(false);
   const [view, setView] = useState<'days' | 'months' | 'years'>('days');
   const [pos, setPos] = useState<{ top?: number; bottom?: number; left: number; width?: number; openUp: boolean } | null>(null);
   const [currentMonth, setCurrentMonth] = useState(value ? new Date(value) : new Date());
@@ -58,7 +58,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
   }, []);
 
   useLayoutEffect(() => {
-    if (!isOpen) { setPos(null); setView('days'); return; }
+    if (!open) { setPos(null); setView('days'); return; }
     calcPos();
     window.addEventListener('scroll', calcPos, true);
     window.addEventListener('resize', calcPos);
@@ -66,9 +66,9 @@ export const DatePicker: React.FC<DatePickerProps> = ({
       window.removeEventListener('scroll', calcPos, true);
       window.removeEventListener('resize', calcPos);
     };
-  }, [isOpen, calcPos]);
+  }, [open, calcPos]);
 
-  useClickOutside([containerRef, dropdownRef], () => setIsOpen(false), isOpen);
+  useClickOutside([containerRef, dropdownRef], () => setIsOpen(false), open);
 
   const navigate = (direction: 'next' | 'prev') => {
     if (view === 'days') {
@@ -214,11 +214,11 @@ export const DatePicker: React.FC<DatePickerProps> = ({
         <label className="text-xs font-semibold text-secondary ml-1 cursor-pointer">{label}</label>
       )}
       <div
-        onClick={() => !disabled && setIsOpen(!isOpen)}
+        onClick={() => !disabled && setIsOpen(!open)}
         className={`
           w-full flex items-center justify-between rounded-xl border outline-none transition-all duration-200 bg-surface
           ${sizeClasses[size]}
-          ${isOpen ? 'border-primary ring-2 ring-primary/20' : 'border-border hover:border-border-strong'}
+          ${open ? 'border-primary ring-2 ring-primary/20' : 'border-border hover:border-border-strong'}
           ${error ? 'border-danger ring-2 ring-danger/10' : ''}
           ${disabled ? 'opacity-50 cursor-not-allowed bg-background' : 'cursor-pointer'}
         `}
@@ -229,7 +229,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
         <CalendarIcon size={18} className="text-muted flex-shrink-0" />
       </div>
 
-      {isOpen && createPortal(
+      {open && createPortal(
         <div
           ref={dropdownRef}
           onClick={(e) => e.stopPropagation()}

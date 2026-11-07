@@ -5,7 +5,7 @@ import { useUserCache } from '@/store/userCacheStore';
 import { useLoadingStore } from '@/store/loadingStore';
 import { BlockOptions } from '@shared/types';
 import { usePostStore } from '@/store';
-import { ConfirmDialog } from '@/components/ui';
+import { AlertDialog } from '@/components/ui';
 import { CONFIRM_MESSAGES } from '@/constants';
 import { userService } from '@/services/userService';
 import { toast } from '@/store/toastStore';
@@ -213,9 +213,9 @@ const SettingsPage: React.FC = () => {
       </div>
 
       {/* ── Dialogs ── */}
-      <ConfirmDialog
-        isOpen={!!unblockUserId}
-        onClose={() => setUnblockUserId(null)}
+      <AlertDialog
+        open={!!unblockUserId}
+        onOpenChange={() => setUnblockUserId(null)}
         onConfirm={handleUnblock}
         title={CONFIRM_MESSAGES.FRIEND.UNBLOCK.TITLE}
         message={CONFIRM_MESSAGES.FRIEND.UNBLOCK.MESSAGE(
@@ -226,19 +226,19 @@ const SettingsPage: React.FC = () => {
 
       {manageBlockTarget && (
         <BlockOptionsModal
-          isOpen
+          open
           targetId={manageBlockTarget.user.id}
           targetName={manageBlockTarget.user.fullName}
           initialOptions={manageBlockTarget.options}
           onApply={handleUpdateBlockOptions}
           onUnblock={() => handleUpdateBlockOptions({ blockMessages: false, blockCalls: false, blockViewMyActivity: false, hideTheirActivity: false })}
-          onClose={() => setManageBlockTarget(null)}
+          onOpenChange={() => setManageBlockTarget(null)}
         />
       )}
 
       <ChangePasswordModal
-        isOpen={isChangePasswordOpen}
-        onClose={() => setIsChangePasswordOpen(false)}
+        open={isChangePasswordOpen}
+        onOpenChange={() => setIsChangePasswordOpen(false)}
       />
     </div>
   );

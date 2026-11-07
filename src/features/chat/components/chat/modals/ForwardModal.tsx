@@ -7,15 +7,15 @@ import { useShareTargets } from '@/features/chat';
 import { ShareTargetItem } from '@/features/feed';
 
 interface ForwardModalProps {
-  isOpen: boolean;
-  onClose: () => void;
+  open: boolean;
+  onOpenChange: () => void;
   message: { id: string; data: RtdbMessage } | null;
   currentUserId: string;
 }
 
 /** Modal chuyển tiếp tin nhắn */
 export const ForwardModal: React.FC<ForwardModalProps> = ({
-  isOpen, onClose, message, currentUserId,
+  open, onOpenChange, message, currentUserId,
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedConversationIds, setSelectedConversationIds] = useState<Set<string>>(new Set());
@@ -27,15 +27,15 @@ export const ForwardModal: React.FC<ForwardModalProps> = ({
     recentItems, 
     friendItems, 
     usersMap 
-  } = useShareTargets(currentUserId, searchTerm, isOpen);
+  } = useShareTargets(currentUserId, searchTerm, open);
 
   useEffect(() => {
-    if (!isOpen) {
+    if (!open) {
       setSearchTerm('');
       setSelectedConversationIds(new Set());
       setIsSubmitting(false);
     }
-  }, [isOpen]);
+  }, [open]);
 
   if (!message) return null;
 
@@ -62,7 +62,7 @@ export const ForwardModal: React.FC<ForwardModalProps> = ({
         targetIds.map(conversationId => forwardMessage(conversationId, currentUserId, message.data))
       );
       setSelectedConversationIds(new Set());
-      onClose();
+      onOpenChange();
     } finally {
       setIsSubmitting(false);
     }
@@ -82,13 +82,13 @@ export const ForwardModal: React.FC<ForwardModalProps> = ({
 
   return (
     <Modal
-      isOpen={isOpen}
-      onClose={onClose}
+      open={open}
+      onOpenChange={onOpenChange}
       title="Chuyển tiếp tin nhắn"
-      maxWidth="sm"
+      size="sm"
       footer={
         <div className="flex gap-2 w-full">
-          <Button variant="secondary" fullWidth onClick={onClose} disabled={isSubmitting}>
+          <Button variant="secondary" fullWidth onClick={onOpenChange} disabled={isSubmitting}>
             Hủy
           </Button>
           <Button fullWidth onClick={handleForward} disabled={selectedConversationIds.size === 0 || isSubmitting}>

@@ -14,9 +14,9 @@ interface ChatDetailsPanelProps {
   messages: Array<{ id: string; data: RtdbMessage }>;
   currentUserId: string;
   usersMap: Record<string, User>;
-  isOpen: boolean;
+  open: boolean;
   isBlocked?: boolean;
-  onClose: () => void;
+  onOpenChange: () => void;
   onToggleMute?: () => void;
   onTogglePin?: () => void;
   onToggleBlock?: () => void;
@@ -45,7 +45,7 @@ type TabId = 'info' | 'members' | 'media' | 'search';
 /** Bảng thông tin chi tiết hội thoại. */
 export const ChatDetailsPanel: React.FC<ChatDetailsPanelProps> = ({
   conversation, messages, currentUserId, usersMap,
-  isOpen, isBlocked, onClose,
+  open, isBlocked, onOpenChange,
   onToggleMute, onTogglePin, onToggleBlock, onToggleArchive, onToggleMarkUnread,
   onDelete, onMemberClick, onMessageClick, onLeaveGroup, onEditGroup,
   onAddMember, onRemoveMember, onPromoteToAdmin, onDemoteFromAdmin,
@@ -135,13 +135,13 @@ export const ChatDetailsPanel: React.FC<ChatDetailsPanelProps> = ({
     }
   };
 
-  if (!isOpen) return null;
+  if (!open) return null;
 
   return (
     <>
       {/* Mobile Backdrop */}
       <div
-        onClick={onClose}
+        onClick={onOpenChange}
         className="fixed inset-0 bg-overlay backdrop-blur-sm md:hidden"
         style={{ zIndex: 'var(--z-overlay)' }}
       />
@@ -154,7 +154,7 @@ export const ChatDetailsPanel: React.FC<ChatDetailsPanelProps> = ({
         {/* Panel Header */}
         <div className="flex items-center justify-between px-4 h-16 border-b border-border flex-shrink-0">
           <h2 className="text-sm font-semibold text-foreground">Chi tiết</h2>
-          <IconButton onClick={onClose} icon={<X size={18} />} size="md" />
+          <IconButton onClick={onOpenChange} icon={<X size={18} />} size="md" />
         </div>
 
         {/* Tab Bar */}

@@ -7,7 +7,7 @@ import { useSharePostStore } from '@/store';
 import { useLoadingStore } from '@/store/loadingStore';
 import { Visibility, MediaObject, Post } from '@shared/types';
 import { useFeed, usePostNavigation } from '@/hooks';
-import { ConfirmDialog, EmptyState } from '@/components/ui';
+import { AlertDialog, EmptyState } from '@/components/ui';
 import { useFriendIds } from '@/hooks/utils';
 import { CONFIRM_MESSAGES } from '@/constants';
 
@@ -123,16 +123,16 @@ const FeedPage: React.FC = () => {
       </div>
 
       <PostModal
-        isOpen={!!showEditModal}
-        onClose={() => setShowEditModal(null)}
+        open={!!showEditModal}
+        onOpenChange={() => setShowEditModal(null)}
         currentUser={currentUser}
         initialPost={editPost}
         onSubmit={handleEditPost}
       />
 
-      <ConfirmDialog
-        isOpen={!!postToDelete}
-        onClose={() => setPostToDelete(null)}
+      <AlertDialog
+        open={!!postToDelete}
+        onOpenChange={() => setPostToDelete(null)}
         onConfirm={handleDeletePost}
         title={CONFIRM_MESSAGES.FEED.DELETE_POST.TITLE}
         message={CONFIRM_MESSAGES.FEED.DELETE_POST.MESSAGE}

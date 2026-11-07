@@ -4,7 +4,7 @@ import {
   Volume2, User as UserIcon, MessageSquare,
 } from 'lucide-react';
 import { RtdbConversation, RtdbUserChat, ReactionType, UserStatus } from '@shared/types';
-import { Dropdown, DropdownItem, ConfirmDialog, UserAvatar, IconButton, BannedBadge } from '@/components/ui';
+import { Dropdown, DropdownItem, AlertDialog, UserAvatar, IconButton, BannedBadge } from '@/components/ui';
 import { useConversationItem } from '@/features/chat';
 import { useConversationMemberSettings } from '@/features/chat';
 import { MessageStatus } from '../message/MessageStatus';
@@ -188,7 +188,7 @@ const ConversationItemInner: React.FC<ConversationItemProps> = ({
       {/* Context Menu */}
       <div className={`md:absolute md:top-2 md:right-2 flex-shrink-0 transition-all duration-200 ${isMenuOpen ? 'opacity-100 md:z-10' : 'opacity-100 md:opacity-0 md:group-hover:opacity-100'}`}>
         <Dropdown
-          isOpen={isMenuOpen}
+          open={isMenuOpen}
           onOpenChange={setIsMenuOpen}
           trigger={
             <IconButton
@@ -252,9 +252,9 @@ const ConversationItemInner: React.FC<ConversationItemProps> = ({
         </Dropdown>
       </div>
 
-      <ConfirmDialog
-        isOpen={showConfirm}
-        onClose={() => setShowConfirm(false)}
+      <AlertDialog
+        open={showConfirm}
+        onOpenChange={() => setShowConfirm(false)}
         onConfirm={() => {
           onDelete?.();
           setShowConfirm(false);

@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import { X, Image as ImageIcon, Video, Users, Lock, Globe } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { UserAvatar, Button, EmojiPicker, Select, Modal, IconButton, ConfirmDialog } from '@/components/ui';
+import { UserAvatar, Button, EmojiPicker, Select, Modal, IconButton, AlertDialog } from '@/components/ui';
 import { toast } from '@/store/toastStore';
 import { validateFile } from '@/utils';
 import { User, Post, Visibility, MediaObject, PostType } from '@shared/types';
@@ -15,8 +15,8 @@ import { useLinkPreview } from '@/hooks/useLinkPreview';
 import { LinkPreviewCard } from '@/components/shared/LinkPreviewCard';
 
 interface PostModalProps {
-  isOpen: boolean;
-  onClose: () => void;
+  open: boolean;
+  onOpenChange: () => void;
   currentUser: User;
   initialPost?: Post;
   initialFiles?: File[];
@@ -31,7 +31,7 @@ interface PostModalProps {
 const EMPTY_FILES: File[] = [];
 
 export const PostModal: React.FC<PostModalProps> = ({
-  isOpen, onClose, currentUser, initialPost,
+  open, onOpenChange, currentUser, initialPost,
   initialFiles = EMPTY_FILES, onSubmit,
 }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -63,7 +63,7 @@ export const PostModal: React.FC<PostModalProps> = ({
   const linkPreview = useLinkPreview(isEdit ? '' : (formData.content || ''));
 
   useEffect(() => {
-    if (isOpen && !initializedRef.current) {
+    if (open && !initializedRef.current) {
       if (isEdit && initialPost) {
         reset({
           content: initialPost.content,
@@ -84,15 +84,15 @@ export const PostModal: React.FC<PostModalProps> = ({
       }
       initializedRef.current = true;
     }
-    if (!isOpen && initializedRef.current) {
+    if (!open && initializedRef.current) {
       initializedRef.current = false;
       previews.forEach(p => URL.revokeObjectURL(p.url));
       setPreviews([]);
       setPendingFiles([]);
     }
-  }, [isOpen, isEdit, initialPost?.id, initialFiles, reset]);
+  }, [open, isEdit, initialPost?.id, initialFiles, reset]);
 
-  useAutoResizeTextarea(textareaRef, formData.content || '', isOpen);
+  useAutoResizeTextarea(textareaRef, formData.content || '', open);
 
   const processFiles = (files: File[]) => {
     if (files.length === 0) return;
@@ -189,17 +189,17 @@ export const PostModal: React.FC<PostModalProps> = ({
       data.content || '', data.media, data.visibility,
       pendingFiles
     );
-    onClose();
+    onOpenChange();
   };
 
   const handleCloseAttempt = () => {
     const hasContent = !!formData.content?.trim();
     const hasMedia = formData.media.length > 0 || pendingFiles.length > 0;
     if (hasContent || hasMedia) setShowDiscardConfirm(true);
-    else onClose();
+    else onOpenChange();
   };
 
-  if (!isOpen) return null;
+  if (!open) return null;
 
   const allPreviews = [
     ...formData.media.map(m => ({
@@ -219,10 +219,10 @@ export const PostModal: React.FC<PostModalProps> = ({
   return (
     <>
       <Modal
-        isOpen={isOpen}
-        onClose={handleCloseAttempt}
+        open={open}
+        onOpenChange={handleCloseAttempt}
         title={isSystemPost ? 'Chỉnh sửa quyền riêng tư' : isEdit ? 'Chỉnh sửa bài viết' : 'Tạo bài viết'}
-        maxWidth="2xl"
+        size="2xl"
         padding="none"
         fullScreen="mobile"
         footer={
@@ -427,10 +427,10 @@ export const PostModal: React.FC<PostModalProps> = ({
         </div>
       </Modal>
 
-      <ConfirmDialog
-        isOpen={showDiscardConfirm}
-        onClose={() => setShowDiscardConfirm(false)}
-        onConfirm={() => { setShowDiscardConfirm(false); onClose(); }}
+      <AlertDialog
+        open={showDiscardConfirm}
+        onOpenChange={() => setShowDiscardConfirm(false)}
+        onConfirm={() => { setShowDiscardConfirm(false); onOpenChange(); }}
         title="Hủy bỏ bài viết?"
         message="Nội dung bạn đang soạn sẽ bị mất. Bạn có chắc chắn muốn thoát?"
         confirmLabel="Hủy bỏ"

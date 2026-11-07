@@ -12,7 +12,7 @@ import { reportService } from '../../services/reportService';
 import { userService } from '@/services/userService';
 import { postService } from '@/features/feed';
 import { commentService } from '@/features/comment';
-import { Button, UserAvatar, Skeleton, IconButton, ConfirmDialog, MediaViewer, EmptyState } from '@/components/ui';
+import { Button, UserAvatar, Skeleton, IconButton, AlertDialog, MediaViewer, EmptyState } from '@/components/ui';
 import { PostMediaGrid } from '@/features/feed';
 import { REPORT_CONFIG, TOAST_MESSAGES, CONFIRM_MESSAGES } from '@/constants';
 import { formatRelativeTime, formatDateTime } from '@/utils/dateUtils';
@@ -21,18 +21,18 @@ import { useAuthStore } from '@/features/auth';
 
 interface ReportDetailModalProps {
   reportId: string;
-  onClose: () => void;
+  onOpenChange: () => void;
 }
 
 type ActionType = 'resolve' | 'reject' | 'warn' | 'ban';
 
 interface ViewerState {
-  isOpen: boolean;
+  open: boolean;
   media: { type: 'image' | 'video'; url: string }[];
   index: number;
 }
 
-const VIEWER_CLOSED: ViewerState = { isOpen: false, media: [], index: 0 };
+const VIEWER_CLOSED: ViewerState = { open: false, media: [], index: 0 };
 
 const TYPE_CONFIG: Record<ReportType, { label: string; icon: React.ReactNode; color: string }> = {
   [ReportType.POST]: { label: 'Bài viết', icon: <FileText size={13} />, color: 'bg-info/10 text-info' },
@@ -103,7 +103,7 @@ const UserRow: React.FC<{ user: User | null; isLoading: boolean }> = ({ user, is
 };
 
 /** Modal chi tiết và xử lý báo cáo vi phạm */
-export const ReportDetailModal: React.FC<ReportDetailModalProps> = ({ reportId, onClose }) => {
+export const ReportDetailModal: React.FC<ReportDetailModalProps> = ({ reportId, onOpenChange }) => {
   const { user: currentUser } = useAuthStore();
   const [report, setReport] = useState<Report | null>(null);
   const [reporter, setReporter] = useState<User | null>(null);
@@ -121,7 +121,7 @@ export const ReportDetailModal: React.FC<ReportDetailModalProps> = ({ reportId, 
       setIsLoading(true);
       try {
         const data = await reportService.getReportById(reportId);
-        if (!data) { toast.error(TOAST_MESSAGES.REPORT.NOT_FOUND); onClose(); return; }
+        if (!data) { toast.error(TOAST_MESSAGES.REPORT.NOT_FOUND); onOpenChange(); return; }
         setReport(data);
 
         const [rep, owner, res] = await Promise.all([
@@ -153,7 +153,7 @@ export const ReportDetailModal: React.FC<ReportDetailModalProps> = ({ reportId, 
       }
     };
     load();
-  }, [reportId, onClose]);
+  }, [reportId, onOpenChange]);
 
   const handleAction = useCallback(async () => {
     if (!report || !pendingAction || !currentUser) return;
@@ -195,10 +195,10 @@ export const ReportDetailModal: React.FC<ReportDetailModalProps> = ({ reportId, 
       setIsProcessing(false);
       setPendingAction(null);
     }
-  }, [report, pendingAction, currentUser, onClose]);
+  }, [report, pendingAction, currentUser, onOpenChange]);
 
   const openViewer = useCallback((media: ViewerState['media'], index = 0) => {
-    setViewer({ isOpen: true, media, index });
+    setViewer({ open: true, media, index });
   }, []);
 
   if (!report && !isLoading) return null;
@@ -230,7 +230,7 @@ export const ReportDetailModal: React.FC<ReportDetailModalProps> = ({ reportId, 
       <div
         className="fixed inset-0 bg-black/60 backdrop-blur-md flex items-center justify-center p-4 animate-fade-in"
         style={{ zIndex: 'var(--z-modal)' }}
-        onClick={onClose}
+        onClick={onOpenChange}
       >
         <div
           className="bg-surface w-full max-w-4xl max-h-[92vh] rounded-2xl shadow-xl border border-border flex flex-col overflow-hidden"
@@ -254,7 +254,7 @@ export const ReportDetailModal: React.FC<ReportDetailModalProps> = ({ reportId, 
             </div>
             <div className="flex items-center gap-2">
               {!isLoading && report && <StatusBadge status={report.status} />}
-              <IconButton icon={<X size={18} />} onClick={onClose} variant="ghost" size="sm" />
+              <IconButton icon={<X size={18} />} onClick={onOpenChange} variant="ghost" size="sm" />
             </div>
           </div>
 
@@ -535,7 +535,7 @@ export const ReportDetailModal: React.FC<ReportDetailModalProps> = ({ reportId, 
                       </div>
                     </>
                   ) : (
-                    <Button variant="secondary" fullWidth onClick={onClose}>
+                    <Button variant="secondary" fullWidth onClick={onOpenChange}>
                       Đóng
                     </Button>
                   )}
@@ -547,9 +547,9 @@ export const ReportDetailModal: React.FC<ReportDetailModalProps> = ({ reportId, 
       </div>
 
       {pendingAction && (
-        <ConfirmDialog
-          isOpen
-          onClose={() => setPendingAction(null)}
+        <AlertDialog
+          open
+          onOpenChange={() => setPendingAction(null)}
           onConfirm={handleAction}
           title={ACTION_CONFIRM[pendingAction].title}
           message={getConfirmMessage()}
@@ -560,8 +560,8 @@ export const ReportDetailModal: React.FC<ReportDetailModalProps> = ({ reportId, 
       <MediaViewer
         media={viewer.media}
         initialIndex={viewer.index}
-        isOpen={viewer.isOpen}
-        onClose={() => setViewer(VIEWER_CLOSED)}
+        open={viewer.open}
+        onOpenChange={() => setViewer(VIEWER_CLOSED)}
       />
     </>
   );

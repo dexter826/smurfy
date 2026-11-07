@@ -181,13 +181,13 @@ export const BirthdayWidget: React.FC = () => {
       </div>
 
       <Modal 
-        isOpen={isModalOpen} 
-        onClose={() => setIsModalOpen(false)}
+        open={isModalOpen} 
+        onOpenChange={() => setIsModalOpen(false)}
         title="Sinh nhật hôm nay"
-        maxWidth="md"
+        size="md"
         padding="none"
       >
-        <div className="max-h-[70vh] overflow-y-auto divide-y divide-border-light scroll-hide">
+        <div className="max-h-[70vh] overflow-y-auto divide-y divide-border scroll-hide">
           {friendsWithBirthday.map((friend) => (
             <BirthdayRow 
               key={friend.id} 

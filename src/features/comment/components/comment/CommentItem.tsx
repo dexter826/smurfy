@@ -264,7 +264,7 @@ const CommentItemInner: React.FC<CommentItemProps> = ({
                           size="xs"
                           autoClose={false}
                           onSelect={handleReact}
-                          onClose={() => setShowReactions(false)}
+                          onOpenChange={() => setShowReactions(false)}
                         />
                       </div>
                     )}
@@ -373,8 +373,8 @@ const CommentItemInner: React.FC<CommentItemProps> = ({
 
       {showReactionDetails && filteredCount > 0 && (
         <ReactionDetailsModal
-          isOpen={showReactionDetails}
-          onClose={() => setShowReactionDetails(false)}
+          open={showReactionDetails}
+          onOpenChange={() => setShowReactionDetails(false)}
           sourceId={comment.id}
           sourceType="comment"
           currentUserId={currentUser.id}

@@ -17,8 +17,8 @@ import { Visibility, ProfilePrivacy } from '@shared/types';
 
 interface EditProfileModalProps {
   user: User;
-  isOpen: boolean;
-  onClose: () => void;
+  open: boolean;
+  onOpenChange: () => void;
   onSave: (data: Partial<User>) => Promise<void>;
 }
 
@@ -35,7 +35,7 @@ const GENDER_OPTIONS = Object.entries(GENDER_LABELS).map(([value, label]) => ({
 
 
 export const EditProfileModal: React.FC<EditProfileModalProps> = ({
-  user, isOpen, onClose, onSave,
+  user, open, onOpenChange, onSave,
 }) => {
   const [saving, setSaving] = useState(false);
   const [provinces, setProvinces] = useState<SearchableOption[]>([]);
@@ -76,7 +76,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
   const formData = watch();
 
   useEffect(() => {
-    if (!isOpen) return;
+    if (!open) return;
     reset({
       fullName: user.fullName,
       bio: user.bio || '',
@@ -103,7 +103,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
         setProvinces(data.map(p => ({ value: p.name, label: p.name })))
       )
       .catch(() => { /* silent */ });
-  }, [isOpen, user, reset]);
+  }, [open, user, reset]);
 
   const handleAddInterest = useCallback(() => {
     const tag = interestInput.trim();
@@ -146,7 +146,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
       };
       await onSave(payload);
       toast.success(TOAST_MESSAGES.PROFILE.UPDATE_SUCCESS);
-      onClose();
+      onOpenChange();
     } catch {
       toast.error(TOAST_MESSAGES.PROFILE.UPDATE_FAILED);
     } finally {
@@ -176,14 +176,14 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
 
   return (
     <Modal
-      isOpen={isOpen}
-      onClose={onClose}
+      open={open}
+      onOpenChange={onOpenChange}
       title="Chỉnh sửa trang cá nhân"
-      maxWidth="2xl"
+      size="2xl"
       fullScreen="mobile"
       footer={
         <>
-          <Button variant="secondary" onClick={onClose} disabled={saving}>
+          <Button variant="secondary" onClick={onOpenChange} disabled={saving}>
             Hủy
           </Button>
           <Button

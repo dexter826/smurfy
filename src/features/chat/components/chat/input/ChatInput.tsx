@@ -152,7 +152,7 @@ export const ChatInput: React.FC<ChatInputProps> = (props) => {
                 setShowGiphy(false);
                 onCancelAction();
               }}
-              onClose={() => setShowGiphy(false)}
+              onOpenChange={() => setShowGiphy(false)}
             />
           </div>
         </div>
@@ -206,7 +206,7 @@ export const ChatInput: React.FC<ChatInputProps> = (props) => {
         )}
 
         <ActionsMenu
-          isOpen={showActions}
+          open={showActions}
           onToggle={() => setShowActions(!showActions)}
           onAction={(type) => {
             setShowActions(false);
@@ -265,8 +265,8 @@ export const ChatInput: React.FC<ChatInputProps> = (props) => {
       <MediaViewer
         media={mediaPreviewItems}
         initialIndex={previewMediaIndex ?? 0}
-        isOpen={previewMediaIndex !== null}
-        onClose={() => setPreviewMediaIndex(null)}
+        open={previewMediaIndex !== null}
+        onOpenChange={() => setPreviewMediaIndex(null)}
       />
     </div>
   );

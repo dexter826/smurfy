@@ -18,8 +18,8 @@ interface PostViewModalProps {
   post: Post | null;
   author: User | null;
   currentUser: User;
-  isOpen: boolean;
-  onClose: () => void;
+  open: boolean;
+  onOpenChange: () => void;
   onReact: (postId: string, reaction: ReactionType | 'REMOVE') => void;
   onEdit?: (postId: string) => void;
   onDelete?: (postId: string) => void;
@@ -28,7 +28,7 @@ interface PostViewModalProps {
 }
 
 export const PostViewModal: React.FC<PostViewModalProps> = ({
-  post, author, currentUser, isOpen, onClose,
+  post, author, currentUser, open, onOpenChange,
   onReact, onEdit, onDelete, onShare, isLoading,
 }) => {
   const navigate = useNavigate();
@@ -45,15 +45,15 @@ export const PostViewModal: React.FC<PostViewModalProps> = ({
   );
 
   const handleProfileClick = useCallback(() => {
-    if (author?.id) { onClose(); navigate(`/profile/${author.id}`); }
-  }, [author?.id, onClose, navigate]);
+    if (author?.id) { onOpenChange(); navigate(`/profile/${author.id}`); }
+  }, [author?.id, onOpenChange, navigate]);
 
   useEffect(() => {
-    if (isOpen) {
+    if (open) {
       setActiveMediaIndex(0);
       setIsVideoPlaying(false);
     }
-  }, [isOpen, post?.id]);
+  }, [open, post?.id]);
 
   useEffect(() => {
     setIsVideoPlaying(false);
@@ -98,7 +98,7 @@ export const PostViewModal: React.FC<PostViewModalProps> = ({
     return undefined;
   }, [post, isSystemPost, isOwner, isFriend, isDeleted]);
 
-  if (!isOpen) return null;
+  if (!open) return null;
 
   const shouldShowSkeleton = !!isLoading;
   const isCinema = post ? (post.media?.length ?? 0) > 0 : false;
@@ -106,10 +106,10 @@ export const PostViewModal: React.FC<PostViewModalProps> = ({
   if ((!post || isDeleted) && !shouldShowSkeleton) {
     return (
       <Modal
-        isOpen={isOpen}
-        onClose={onClose}
+        open={open}
+        onOpenChange={onOpenChange}
         showHeader={false}
-        maxWidth="md"
+        size="md"
         padding="none"
       >
         <div className="p-8 text-center">
@@ -126,7 +126,7 @@ export const PostViewModal: React.FC<PostViewModalProps> = ({
           </p>
           <button
             type="button"
-            onClick={onClose}
+            onClick={onOpenChange}
             className="mt-5 px-4 py-2 rounded-lg border border-border text-sm font-semibold text-foreground hover:bg-hover transition-colors"
           >
             Đóng
@@ -142,10 +142,10 @@ export const PostViewModal: React.FC<PostViewModalProps> = ({
   if (shouldShowSkeleton) {
     return (
       <Modal
-        isOpen={isOpen}
-        onClose={onClose}
+        open={open}
+        onOpenChange={onOpenChange}
         showHeader={false}
-        maxWidth={isCinema ? 'full' : '2xl'}
+        size={isCinema ? 'full' : '2xl'}
         padding="none"
         fullScreen={isCinema ? true : 'mobile'}
         bodyClassName={`overflow-hidden flex flex-col h-full ${isCinema ? 'lg:flex-row' : ''}`}
@@ -179,10 +179,10 @@ export const PostViewModal: React.FC<PostViewModalProps> = ({
 
   return (
     <Modal
-      isOpen={isOpen}
-      onClose={onClose}
+      open={open}
+      onOpenChange={onOpenChange}
       showHeader={false}
-      maxWidth={hasMedia ? 'full' : '2xl'}
+      size={hasMedia ? 'full' : '2xl'}
       padding="none"
       fullScreen={hasMedia ? true : 'mobile'}
       bodyClassName={`overflow-hidden flex flex-col ${hasMedia ? 'lg:flex-row h-full' : 'h-auto max-h-[90vh]'}`}
@@ -363,7 +363,7 @@ export const PostViewModal: React.FC<PostViewModalProps> = ({
                 />
               </Dropdown>
             )}
-            <IconButton icon={<X size={18} />} onClick={onClose} variant="ghost" size="sm" />
+            <IconButton icon={<X size={18} />} onClick={onOpenChange} variant="ghost" size="sm" />
           </div>
         </div>
 
@@ -374,7 +374,7 @@ export const PostViewModal: React.FC<PostViewModalProps> = ({
           variant="cinema"
           autoFocus={canShowInteractions}
           className="flex-1 min-h-0"
-          onProfileClick={onClose}
+          onProfileClick={onOpenChange}
           postOwnerId={post.authorId}
           totalCommentCount={post.commentCount}
           readonly={!canShowInteractions || post.status === PostStatus.PENDING}
@@ -481,8 +481,8 @@ export const PostViewModal: React.FC<PostViewModalProps> = ({
       </div>
 
       <ReactionDetailsModal
-        isOpen={isReactionsModalOpen}
-        onClose={() => setIsReactionsModalOpen(false)}
+        open={isReactionsModalOpen}
+        onOpenChange={() => setIsReactionsModalOpen(false)}
         sourceId={post.id}
         sourceType="post"
         currentUserId={currentUser.id}
@@ -491,8 +491,8 @@ export const PostViewModal: React.FC<PostViewModalProps> = ({
       <MediaViewer
         media={allMedia}
         initialIndex={activeMediaIndex}
-        isOpen={isMediaViewerOpen}
-        onClose={() => setIsMediaViewerOpen(false)}
+        open={isMediaViewerOpen}
+        onOpenChange={() => setIsMediaViewerOpen(false)}
       />
     </Modal>
   );

@@ -15,14 +15,14 @@ const VIEWPORT_PAD = 12;
 export const NotificationDropdown: React.FC = () => {
   const { user } = useAuthStore();
   const { unreadCount, markAllAsRead } = useNotificationStore();
-  const [isOpen, setIsOpen] = useState(false);
+  const [open, setIsOpen] = useState(false);
   const [pos, setPos] = useState<{ top: number; left: number } | null>(null);
   const triggerRef = useRef<HTMLDivElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
 
   const close = useCallback(() => setIsOpen(false), []);
-  useClickOutside([triggerRef, menuRef], close, isOpen);
+  useClickOutside([triggerRef, menuRef], close, open);
 
   const calcPos = useCallback(() => {
     if (!triggerRef.current) return;
@@ -36,7 +36,7 @@ export const NotificationDropdown: React.FC = () => {
   }, []);
 
   useLayoutEffect(() => {
-    if (!isOpen) return;
+    if (!open) return;
     calcPos();
     window.addEventListener('scroll', calcPos, true);
     window.addEventListener('resize', calcPos);
@@ -44,7 +44,7 @@ export const NotificationDropdown: React.FC = () => {
       window.removeEventListener('scroll', calcPos, true);
       window.removeEventListener('resize', calcPos);
     };
-  }, [isOpen, calcPos]);
+  }, [open, calcPos]);
 
   const handleViewAll = useCallback(() => {
     navigate('/notifications');
@@ -65,10 +65,10 @@ export const NotificationDropdown: React.FC = () => {
         }
         variant="ghost"
         title="Thông báo"
-        className={`text-white/70 hover:bg-white/10 hover:text-white transition-all duration-200 active:bg-white/20 ${isOpen ? 'bg-white/20 text-white' : ''}`}
+        className={`text-white/70 hover:bg-white/10 hover:text-white transition-all duration-200 active:bg-white/20 ${open ? 'bg-white/20 text-white' : ''}`}
       />
 
-      {isOpen && createPortal(
+      {open && createPortal(
         <div
           ref={menuRef}
           className="fixed bg-surface rounded-2xl shadow-2xl border border-border-default overflow-hidden animate-in fade-in zoom-in-95 duration-200"

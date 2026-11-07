@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { MessageSquare } from 'lucide-react';
-import { BlockOptionsModal, ConfirmDialog, EmptyState } from '@/components/ui';
+import { BlockOptionsModal, AlertDialog, EmptyState } from '@/components/ui';
 import { User } from '@shared/types';
 import { useChat } from '@/hooks';
 import { useLoadingStore } from '@/store/loadingStore';
@@ -292,9 +292,9 @@ const ChatPage: React.FC = () => {
           messages={currentMessages}
           currentUserId={currentUser.id}
           usersMap={usersMap}
-          isOpen={showDetails}
+          open={showDetails}
           isBlocked={isBlocked}
-          onClose={() => setShowDetails(false)}
+          onOpenChange={() => setShowDetails(false)}
           onToggleMute={() => handleMute(selectedConversation.id, !(selectedMemberSettings?.isMuted || false))}
           onTogglePin={() => handlePin(selectedConversation.id, !(selectedMemberSettings?.isPinned || false))}
           onToggleArchive={() => handleArchive(selectedConversation.id, !(selectedMemberSettings?.isArchived || false))}
@@ -332,57 +332,57 @@ const ChatPage: React.FC = () => {
       )}
 
       <CreateGroupModal
-        isOpen={showCreateGroup}
+        open={showCreateGroup}
         currentUserId={currentUser.id}
-        onClose={() => setShowCreateGroup(false)}
+        onOpenChange={() => setShowCreateGroup(false)}
         onCreateGroup={handleCreateGroup}
       />
 
       {selectedConversation && (
         <AddMemberModal
-          isOpen={showAddMember}
+          open={showAddMember}
           conversation={selectedConversation}
           currentUserId={currentUser.id}
-          onClose={() => setShowAddMember(false)}
+          onOpenChange={() => setShowAddMember(false)}
           onAddMembers={handleInviteMembers}
         />
       )}
 
       {selectedConversation?.data.isGroup && (
         <EditGroupModal
-          isOpen={showEditGroup}
+          open={showEditGroup}
           conversation={selectedConversation}
           currentUserId={currentUser.id}
-          onClose={() => setShowEditGroup(false)}
+          onOpenChange={() => setShowEditGroup(false)}
           onSave={handleEditGroup}
         />
       )}
 
       {selectedConversation?.data.isGroup && (
         <TransferAdminModal
-          isOpen={showAssignAdmin}
+          open={showAssignAdmin}
           mode="transfer_and_leave"
           conversation={selectedConversation}
           currentUserId={currentUser.id}
-          onClose={() => setShowAssignAdmin(false)}
+          onOpenChange={() => setShowAssignAdmin(false)}
           onConfirm={handleAssignAdminAndLeave}
         />
       )}
 
       {selectedConversation?.data.isGroup && (
         <TransferAdminModal
-          isOpen={showTransferCreator}
+          open={showTransferCreator}
           mode="transfer_only"
           conversation={selectedConversation}
           currentUserId={currentUser.id}
-          onClose={() => setShowTransferCreator(false)}
+          onOpenChange={() => setShowTransferCreator(false)}
           onConfirm={handleTransferCreator}
         />
       )}
 
       <ForwardModal
-        isOpen={!!forwardingMessage}
-        onClose={() => setForwardingMessage(null)}
+        open={!!forwardingMessage}
+        onOpenChange={() => setForwardingMessage(null)}
         message={forwardingMessage}
         currentUserId={currentUser.id}
       />
@@ -391,13 +391,13 @@ const ChatPage: React.FC = () => {
 
       {(partner || blockTarget) && (
         <BlockOptionsModal
-          isOpen={isBlockModalOpen}
+          open={isBlockModalOpen}
           targetId={blockTarget?.id ?? partner?.id ?? ''}
           targetName={blockTarget?.name ?? partner?.fullName ?? ''}
           initialOptions={blockTarget ? useAuthStore.getState().blockedUsers[blockTarget.id] : myBlockOptions}
           onApply={async (opts) => { await handleApplyBlock(opts, blockTarget?.id); closeBlockModal(); }}
           onUnblock={confirmUnblock}
-          onClose={closeBlockModal}
+          onOpenChange={closeBlockModal}
         />
       )}
 

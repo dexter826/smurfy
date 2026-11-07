@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '@/features/auth';
-import { Button, ConfirmDialog, BlockOptionsModal } from '@/components/ui';
+import { Button, AlertDialog, BlockOptionsModal } from '@/components/ui';
 import { CONFIRM_MESSAGES } from '@/constants';
 import { PostModal } from '@/features/feed';
 import { usePostStore, useSharePostStore } from '@/store';
@@ -212,24 +212,24 @@ const ProfilePage: React.FC = () => {
 
       <EditProfileModal
         user={profile}
-        isOpen={isEditModalOpen}
-        onClose={() => setIsEditModalOpen(false)}
+        open={isEditModalOpen}
+        onOpenChange={() => setIsEditModalOpen(false)}
         onSave={handleSaveProfile}
       />
 
       {currentUser && (
         <PostModal
-          isOpen={!!showEditModal}
-          onClose={() => setShowEditModal(null)}
+          open={!!showEditModal}
+          onOpenChange={() => setShowEditModal(null)}
           currentUser={currentUser}
           initialPost={posts.find(p => p.id === showEditModal) || undefined}
           onSubmit={handleEditPost}
         />
       )}
 
-      <ConfirmDialog
-        isOpen={!!postToDelete}
-        onClose={() => setPostToDelete(null)}
+      <AlertDialog
+        open={!!postToDelete}
+        onOpenChange={() => setPostToDelete(null)}
         onConfirm={handleDeletePost}
         title={CONFIRM_MESSAGES.FEED.DELETE_POST.TITLE}
         message={CONFIRM_MESSAGES.FEED.DELETE_POST.MESSAGE}
@@ -238,9 +238,9 @@ const ProfilePage: React.FC = () => {
       />
 
       {confirmType && (
-        <ConfirmDialog
-          isOpen
-          onClose={() => setConfirmType(null)}
+        <AlertDialog
+          open
+          onOpenChange={() => setConfirmType(null)}
           onConfirm={async () => { await confirmActions[confirmType](); setConfirmType(null); }}
           title={confirmConfig[confirmType].title}
           message={confirmConfig[confirmType].message}
@@ -250,13 +250,13 @@ const ProfilePage: React.FC = () => {
       )}
 
       <BlockOptionsModal
-        isOpen={isBlockModalOpen}
+        open={isBlockModalOpen}
         targetId={profile.id}
         targetName={profile.fullName}
         initialOptions={currentBlockOptions}
         onApply={handleApplyBlock}
         onUnblock={confirmUnblock}
-        onClose={closeBlockModal}
+        onOpenChange={closeBlockModal}
       />
 
     </div>

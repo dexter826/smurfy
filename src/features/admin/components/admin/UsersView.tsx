@@ -4,7 +4,7 @@ import { User, UserStatus } from '@shared/types';
 import { userService } from '@/services/userService';
 import { functions } from '@/lib/firebase/config';
 import { httpsCallable } from 'firebase/functions';
-import { UserAvatar, Skeleton, IconButton, Select, ConfirmDialog, EmptyState } from '@/components/ui';
+import { UserAvatar, Skeleton, IconButton, Select, AlertDialog, EmptyState } from '@/components/ui';
 import { CONFIRM_MESSAGES, TOAST_MESSAGES } from '@/constants';
 import { toast } from '@/store/toastStore';
 import { useNavigate } from 'react-router-dom';
@@ -16,13 +16,13 @@ const STATUS_OPTIONS = [
 ];
 
 interface ConfirmState {
-  isOpen: boolean;
+  open: boolean;
   type: 'ban' | 'unban';
   userId: string;
   userName: string;
 }
 
-const CONFIRM_CLOSED: ConfirmState = { isOpen: false, type: 'ban', userId: '', userName: '' };
+const CONFIRM_CLOSED: ConfirmState = { open: false, type: 'ban', userId: '', userName: '' };
 
 /** Card hiển thị chỉ số người dùng */
 const StatCard: React.FC<{ label: string; value: number; color: string }> = ({ label, value, color }) => (
@@ -210,7 +210,7 @@ export const UsersView: React.FC = () => {
                       {user.status === UserStatus.BANNED ? (
                         <IconButton
                           icon={<Unlock size={15} />}
-                          onClick={() => setConfirm({ isOpen: true, type: 'unban', userId: user.id, userName: user.fullName })}
+                          onClick={() => setConfirm({ open: true, type: 'unban', userId: user.id, userName: user.fullName })}
                           variant="ghost"
                           size="sm"
                           className="text-success hover:bg-success/10"
@@ -218,7 +218,7 @@ export const UsersView: React.FC = () => {
                       ) : (
                         <IconButton
                           icon={<Lock size={15} />}
-                          onClick={() => setConfirm({ isOpen: true, type: 'ban', userId: user.id, userName: user.fullName })}
+                          onClick={() => setConfirm({ open: true, type: 'ban', userId: user.id, userName: user.fullName })}
                           variant="ghost"
                           size="sm"
                           className="hover:text-danger hover:bg-danger/10"
@@ -240,7 +240,7 @@ export const UsersView: React.FC = () => {
                       <th className="px-5 py-3.5 text-xs font-semibold text-secondary uppercase tracking-wider text-right">Thao tác</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-border-light/60">
+                  <tbody className="divide-y divide-border/60">
                     {filteredUsers.map(user => (
                       <tr key={`table-${user.id}`} className="hover:bg-background/40 transition-colors duration-150">
                         <td className="px-5 py-3.5 align-middle">
@@ -286,7 +286,7 @@ export const UsersView: React.FC = () => {
                             {user.status === UserStatus.BANNED ? (
                               <IconButton
                                 icon={<Unlock size={16} />}
-                                onClick={() => setConfirm({ isOpen: true, type: 'unban', userId: user.id, userName: user.fullName })}
+                                onClick={() => setConfirm({ open: true, type: 'unban', userId: user.id, userName: user.fullName })}
                                 variant="ghost"
                                 size="sm"
                                 className="text-success hover:bg-success/10"
@@ -295,7 +295,7 @@ export const UsersView: React.FC = () => {
                             ) : (
                               <IconButton
                                 icon={<Lock size={16} />}
-                                onClick={() => setConfirm({ isOpen: true, type: 'ban', userId: user.id, userName: user.fullName })}
+                                onClick={() => setConfirm({ open: true, type: 'ban', userId: user.id, userName: user.fullName })}
                                 variant="ghost"
                                 size="sm"
                                 className="hover:text-danger hover:bg-danger/10"
@@ -314,9 +314,9 @@ export const UsersView: React.FC = () => {
         </div>
       </div>
 
-      <ConfirmDialog
-        isOpen={confirm.isOpen}
-        onClose={() => setConfirm(CONFIRM_CLOSED)}
+      <AlertDialog
+        open={confirm.open}
+        onOpenChange={() => setConfirm(CONFIRM_CLOSED)}
         onConfirm={handleConfirmAction}
         title={confirm.type === 'ban'
           ? CONFIRM_MESSAGES.ADMIN.BAN_USER.TITLE

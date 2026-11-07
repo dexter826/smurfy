@@ -7,7 +7,7 @@ import { Dropdown, DropdownItem } from './index';
 import { getCroppedImg } from '@/utils/imageUtils';
 
 interface ImageCropperProps {
-  isOpen: boolean;
+  open: boolean;
   image: string;
   aspect?: number;
   title?: string;
@@ -19,7 +19,7 @@ interface ImageCropperProps {
 }
 
 export const ImageCropper: React.FC<ImageCropperProps> = ({
-  isOpen,
+  open,
   image,
   aspect = 1,
   title = 'Cắt ảnh',
@@ -87,10 +87,10 @@ export const ImageCropper: React.FC<ImageCropperProps> = ({
 
   return (
     <Modal
-      isOpen={isOpen}
-      onClose={onCancel}
+      open={open}
+      onOpenChange={onCancel}
       title={title}
-      maxWidth="lg"
+      size="lg"
       padding="none"
       footer={
         <div className="flex flex-col w-full gap-4">

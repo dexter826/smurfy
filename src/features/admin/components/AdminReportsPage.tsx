@@ -30,7 +30,7 @@ const AdminReportsPage: React.FC = () => {
       {selectedReportId && (
         <ReportDetailModal
           reportId={selectedReportId}
-          onClose={() => setSelectedReportId(null)}
+          onOpenChange={() => setSelectedReportId(null)}
         />
       )}
     </div>

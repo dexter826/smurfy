@@ -4,7 +4,7 @@ import { collection, query, where, onSnapshot } from 'firebase/firestore';
 import { httpsCallable } from 'firebase/functions';
 import { db, functions } from '@/lib/firebase/config';
 import { User, Post, Comment, Report, UserStatus, PostStatus, CommentStatus, ReportStatus, REPORT_REASON_LABELS } from '@shared/types';
-import { UserAvatar, Skeleton, EmptyState, Button, ConfirmDialog, SensitiveMediaGuard, MediaViewer } from '@/components/ui';
+import { UserAvatar, Skeleton, EmptyState, Button, AlertDialog, SensitiveMediaGuard, MediaViewer } from '@/components/ui';
 import { useUserCache } from '@/store/userCacheStore';
 import { formatRelativeTime } from '@/utils/dateUtils';
 import { toast } from '@/store/toastStore';
@@ -688,9 +688,9 @@ export const ModerationView: React.FC = () => {
       </div>
 
       {/* Confirmation Dialog */}
-      <ConfirmDialog
-        isOpen={isConfirmOpen}
-        onClose={() => setIsConfirmOpen(false)}
+      <AlertDialog
+        open={isConfirmOpen}
+        onOpenChange={() => setIsConfirmOpen(false)}
         onConfirm={handleBanUser}
         title="Xác nhận khóa tài khoản"
         message={selectedSummary ? `Tài khoản ${selectedSummary.fullName} sẽ bị đình chỉ hoạt động vĩnh viễn trên hệ thống.` : ''}
@@ -703,8 +703,8 @@ export const ModerationView: React.FC = () => {
         <MediaViewer
           media={viewerMedia}
           initialIndex={viewerIndex}
-          isOpen={isViewerOpen}
-          onClose={() => setIsViewerOpen(false)}
+          open={isViewerOpen}
+          onOpenChange={() => setIsViewerOpen(false)}
         />
       )}
     </div>

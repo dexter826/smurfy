@@ -3,7 +3,7 @@ import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { Shield, Users, Flag, LogOut, Moon, Sun, ChevronLeft, LayoutDashboard, ShieldAlert } from 'lucide-react';
 import { useAuthStore } from '@/features/auth';
 import { useThemeStore, useResolvedTheme } from '../../store/themeStore';
-import { ConfirmDialog, UserAvatar } from '@/components/ui';
+import { AlertDialog, UserAvatar } from '@/components/ui';
 import { useLogout } from '../../hooks/utils/useLogout';
 
 const navItems = [
@@ -159,9 +159,9 @@ export const AdminLayout: React.FC = () => {
         </main>
       </div>
 
-      <ConfirmDialog
-        isOpen={showLogoutConfirm}
-        onClose={() => setShowLogoutConfirm(false)}
+      <AlertDialog
+        open={showLogoutConfirm}
+        onOpenChange={() => setShowLogoutConfirm(false)}
         onConfirm={handleConfirmLogout}
         title="Đăng xuất Admin"
         message="Bạn có chắc chắn muốn thoát khỏi phiên làm việc quản trị?"

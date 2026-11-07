@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { Post, User, Visibility, MediaObject } from '@shared/types';
 import { PostItem, CreatePost, PostModal } from '@/features/feed';
-import { ConfirmDialog, EmptyState } from '@/components/ui';
+import { AlertDialog, EmptyState } from '@/components/ui';
 import { usePostStore } from '@/store';
 import { useUserPosts, useIntersectionObserver } from '@/hooks';
 import { FileText } from 'lucide-react';
@@ -91,16 +91,16 @@ export const PostsTab: React.FC<PostsTabProps> = ({
       )}
 
       <PostModal
-        isOpen={!!showEditModal}
-        onClose={() => setShowEditModal(null)}
+        open={!!showEditModal}
+        onOpenChange={() => setShowEditModal(null)}
         currentUser={currentUser}
         initialPost={posts.find(p => p.id === showEditModal)}
         onSubmit={handleEditPost}
       />
 
-      <ConfirmDialog
-        isOpen={!!postToDelete}
-        onClose={() => setPostToDelete(null)}
+      <AlertDialog
+        open={!!postToDelete}
+        onOpenChange={() => setPostToDelete(null)}
         onConfirm={handleDelete}
         title="Xóa bài viết"
         message="Bạn có chắc chắn muốn xóa bài viết này?"

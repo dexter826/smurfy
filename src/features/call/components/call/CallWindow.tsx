@@ -11,17 +11,17 @@ interface CallWindowProps {
   userAvatar?: string;
   callType: 'voice' | 'video';
   isGroupCall?: boolean;
-  onClose: () => void;
+  onOpenChange: () => void;
 }
 
 export const CallWindow: React.FC<CallWindowProps> = ({
-  roomId, userId, userName, userAvatar, callType, isGroupCall = false, onClose,
+  roomId, userId, userName, userAvatar, callType, isGroupCall = false, onOpenChange,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const zegoRef = useRef<ZegoUIKitPrebuilt | null>(null);
-  const onCloseRef = useRef(onClose);
+  const onCloseRef = useRef(onOpenChange);
 
-  useEffect(() => { onCloseRef.current = onClose; }, [onClose]);
+  useEffect(() => { onCloseRef.current = onOpenChange; }, [onOpenChange]);
 
   useEffect(() => {
     if (!containerRef.current) return;

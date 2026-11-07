@@ -7,16 +7,16 @@ import { GROUP_LIMITS } from '@/constants';
 import { toast } from '@/store/toastStore';
 
 interface AddMemberModalProps {
-  isOpen: boolean;
+  open: boolean;
   conversation: { id: string; data: RtdbConversation; userChat: RtdbUserChat };
   currentUserId: string;
-  onClose: () => void;
+  onOpenChange: () => void;
   onAddMembers: (userIds: string[]) => Promise<void>;
 }
 
 /** Modal thêm thành viên vào nhóm chat */
 export const AddMemberModal: React.FC<AddMemberModalProps> = ({
-  isOpen, conversation, currentUserId, onClose, onAddMembers,
+  open, conversation, currentUserId, onOpenChange, onAddMembers,
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [friends, setFriends] = useState<User[]>([]);
@@ -34,7 +34,7 @@ export const AddMemberModal: React.FC<AddMemberModalProps> = ({
   const willRequireApproval = approvalMode && !isAdminOrCreator;
 
   useEffect(() => {
-    if (!isOpen) return;
+    if (!open) return;
     setSelectedIds([]);
     setSearchTerm('');
     setIsLoading(true);
@@ -44,7 +44,7 @@ export const AddMemberModal: React.FC<AddMemberModalProps> = ({
       ))
       .catch(() => { })
       .finally(() => setIsLoading(false));
-  }, [isOpen]);
+  }, [open]);
 
   const toggleSelect = (userId: string) => {
     const isSelecting = !selectedIds.includes(userId);
@@ -62,7 +62,7 @@ export const AddMemberModal: React.FC<AddMemberModalProps> = ({
     setIsAdding(true);
     try {
       await onAddMembers(selectedIds);
-      onClose();
+      onOpenChange();
     } catch {
     } finally {
       setIsAdding(false);
@@ -77,14 +77,14 @@ export const AddMemberModal: React.FC<AddMemberModalProps> = ({
 
   return (
     <Modal
-      isOpen={isOpen}
-      onClose={onClose}
+      open={open}
+      onOpenChange={onOpenChange}
       title="Thêm thành viên"
-      maxWidth="md"
+      size="md"
       fullScreen="mobile"
       footer={
         <div className="flex gap-3">
-          <Button variant="secondary" onClick={onClose}>Hủy</Button>
+          <Button variant="secondary" onClick={onOpenChange}>Hủy</Button>
           <Button
             onClick={handleAdd}
             disabled={selectedIds.length === 0 || isAdding}

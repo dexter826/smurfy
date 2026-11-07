@@ -5,17 +5,17 @@ import { Modal, Button, UserAvatar, Select } from '@/components/ui';
 import { useConversationParticipants } from '@/features/chat';
 
 interface TransferAdminModalProps {
-  isOpen: boolean;
+  open: boolean;
   conversation: { id: string; data: RtdbConversation; userChat: RtdbUserChat };
   currentUserId: string;
   mode?: 'transfer_only' | 'transfer_and_leave';
-  onClose: () => void;
+  onOpenChange: () => void;
   onConfirm: (newAdminId: string) => Promise<void>;
 }
 
 /** Modal chuyển quyền trưởng nhóm chat */
 export const TransferAdminModal: React.FC<TransferAdminModalProps> = ({
-  isOpen, conversation, currentUserId, mode = 'transfer_and_leave', onClose, onConfirm,
+  open, conversation, currentUserId, mode = 'transfer_and_leave', onOpenChange, onConfirm,
 }) => {
   const [selectedId, setSelectedId] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -32,20 +32,20 @@ export const TransferAdminModal: React.FC<TransferAdminModalProps> = ({
     setIsSubmitting(true);
     try {
       await onConfirm(selectedId);
-      onClose();
+      onOpenChange();
     } catch { /* silent */ }
     finally { setIsSubmitting(false); }
   };
 
   return (
     <Modal
-      isOpen={isOpen}
-      onClose={onClose}
+      open={open}
+      onOpenChange={onOpenChange}
       title={isTransferOnly ? 'Chuyển quyền trưởng nhóm' : 'Chọn trưởng nhóm mới'}
-      maxWidth="sm"
+      size="sm"
       footer={
         <div className="flex gap-3">
-          <Button variant="secondary" onClick={onClose}>Hủy</Button>
+          <Button variant="secondary" onClick={onOpenChange}>Hủy</Button>
           <Button
             variant="danger"
             onClick={handleConfirm}

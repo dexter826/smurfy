@@ -6,7 +6,7 @@ import { getReactionIcon } from '@/features/chat';
 import { soundManager } from '@/services/soundManager';
 interface ReactionSelectorProps {
   onSelect: (emoji: ReactionType | 'REMOVE') => void;
-  onClose?: () => void;
+  onOpenChange?: () => void;
   className?: string;
   currentReaction?: string | ReactionType | null;
   size?: 'xs' | 'sm' | 'md';
@@ -14,15 +14,15 @@ interface ReactionSelectorProps {
 }
 
 const ReactionSelectorInner: React.FC<ReactionSelectorProps> = ({
-  onSelect, onClose, className = '', currentReaction, size = 'sm', autoClose = true,
+  onSelect, onOpenChange, className = '', currentReaction, size = 'sm', autoClose = true,
 }) => {
   const isXs = size === 'xs';
   const isSmall = size === 'sm';
   const closeTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   const handleMouseLeave = () => {
-    if (onClose) {
-      closeTimerRef.current = setTimeout(() => onClose(), 500);
+    if (onOpenChange) {
+      closeTimerRef.current = setTimeout(() => onOpenChange(), 500);
     }
   };
 
@@ -47,7 +47,7 @@ const ReactionSelectorInner: React.FC<ReactionSelectorProps> = ({
     >
       {currentReaction && (
         <button
-          onClick={(e) => { e.stopPropagation(); onSelect('REMOVE'); onClose?.(); }}
+          onClick={(e) => { e.stopPropagation(); onSelect('REMOVE'); onOpenChange?.(); }}
           className={`${isXs ? 'w-8 h-8' : isSmall ? 'w-10 h-10' : 'w-12 h-12'} flex items-center justify-center transition-all duration-200 rounded-full hover:bg-hover active:scale-90`}
           title="Gỡ cảm xúc"
         >
@@ -61,7 +61,7 @@ const ReactionSelectorInner: React.FC<ReactionSelectorProps> = ({
             e.stopPropagation(); 
             soundManager.play('reaction');
             onSelect(emoji); 
-            onClose?.(); 
+            onOpenChange?.(); 
           }}
           className={`${isXs ? 'w-8 h-8' : isSmall ? 'w-10 h-10' : 'w-12 h-12'} flex items-center justify-center transition-all duration-200 rounded-full hover:bg-hover hover:-translate-y-1 hover:scale-110 active:scale-95 origin-bottom`}
         >

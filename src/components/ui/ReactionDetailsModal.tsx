@@ -7,8 +7,8 @@ import { collection, getDocs } from 'firebase/firestore';
 import { db } from '@/lib/firebase/config';
 
 interface ReactionDetailsModalProps {
-  isOpen: boolean;
-  onClose: () => void;
+  open: boolean;
+  onOpenChange: () => void;
   reactions?: Record<string, string | ReactionType>;
   sourceId?: string;
   sourceType?: 'post' | 'comment' | 'message';
@@ -16,8 +16,8 @@ interface ReactionDetailsModalProps {
 }
 
 export const ReactionDetailsModal: React.FC<ReactionDetailsModalProps> = ({
-  isOpen,
-  onClose,
+  open,
+  onOpenChange,
   reactions: reactionsProp,
   sourceId,
   sourceType,
@@ -31,7 +31,7 @@ export const ReactionDetailsModal: React.FC<ReactionDetailsModalProps> = ({
 
   // Tải từ subcollection khi POST/COMMENT context
   useEffect(() => {
-    if (!isOpen) return;
+    if (!open) return;
 
     // Ưu tiên sử dụng reactions từ prop (Chat hoặc khi Ref cho Posts/Comments đã có sẵn)
     if (reactionsProp) {
@@ -56,7 +56,7 @@ export const ReactionDetailsModal: React.FC<ReactionDetailsModalProps> = ({
           setReactions({});
         });
     }
-  }, [isOpen, sourceId, sourceType, reactionsProp]);
+  }, [open, sourceId, sourceType, reactionsProp]);
 
   const reactionEntries = useMemo(() => Object.entries(reactions), [reactions]);
 
@@ -74,7 +74,7 @@ export const ReactionDetailsModal: React.FC<ReactionDetailsModalProps> = ({
   }, [reactionCounts]);
 
   useEffect(() => {
-    if (!isOpen || reactionEntries.length === 0) return;
+    if (!open || reactionEntries.length === 0) return;
 
     const loadUsers = async () => {
       setIsLoading(true);
@@ -90,7 +90,7 @@ export const ReactionDetailsModal: React.FC<ReactionDetailsModalProps> = ({
     };
 
     loadUsers();
-  }, [isOpen, reactionEntries]);
+  }, [open, reactionEntries]);
 
   const displayList = useMemo(() => {
     const list = reactionEntries
@@ -106,10 +106,10 @@ export const ReactionDetailsModal: React.FC<ReactionDetailsModalProps> = ({
 
   return (
     <Modal
-      isOpen={isOpen}
-      onClose={onClose}
+      open={open}
+      onOpenChange={onOpenChange}
       title="Cảm xúc"
-      maxWidth="sm"
+      size="sm"
       bodyClassName="!p-0"
     >
       <div className="flex flex-col h-[500px] max-h-[70vh]">

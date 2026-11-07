@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import { Flag, Clock, CheckCircle, XCircle, AlertTriangle, FileText, MessageSquare, User as UserIcon, Trash2, Lock, X } from 'lucide-react';
 import { Report, ReportStatus, ReportType } from '@shared/types';
-import { UserAvatar, Skeleton, Select, IconButton, ConfirmDialog, EmptyState } from '@/components/ui';
+import { UserAvatar, Skeleton, Select, IconButton, AlertDialog, EmptyState } from '@/components/ui';
 import { REPORT_CONFIG, TOAST_MESSAGES, CONFIRM_MESSAGES } from '@/constants';
 import { formatRelativeTime } from '@/utils/dateUtils';
 import { useAdminReports } from '../../hooks/useAdminReports';
@@ -309,7 +309,7 @@ export const ReportsView: React.FC<ReportsViewProps> = ({ onSelectReport }) => {
                       <th className="px-5 py-3.5 text-xs font-semibold text-secondary uppercase tracking-wider text-right">Thao tác</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-border-light/60">
+                  <tbody className="divide-y divide-border/60">
                     {reports.map(report => {
                       const reporter = getUser(report.reporterId);
                       const reasonConfig = REPORT_CONFIG.REASONS[report.reason as keyof typeof REPORT_CONFIG.REASONS];
@@ -397,9 +397,9 @@ export const ReportsView: React.FC<ReportsViewProps> = ({ onSelectReport }) => {
       </div>
 
       {pendingAction && (
-        <ConfirmDialog
-          isOpen
-          onClose={() => {
+        <AlertDialog
+          open
+          onOpenChange={() => {
             setPendingAction(null);
             setSelectedReport(null);
           }}

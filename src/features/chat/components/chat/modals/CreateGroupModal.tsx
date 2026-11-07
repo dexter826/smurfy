@@ -12,15 +12,15 @@ import { toast } from '@/store/toastStore';
 import { GROUP_LIMITS } from '@/constants';
 
 interface CreateGroupModalProps {
-  isOpen: boolean;
+  open: boolean;
   currentUserId: string;
-  onClose: () => void;
+  onOpenChange: () => void;
   onCreateGroup: (memberIds: string[], groupName: string, groupAvatar?: File) => Promise<void>;
 }
 
 /** Modal tạo nhóm chat mới */
 export const CreateGroupModal: React.FC<CreateGroupModalProps> = ({
-  isOpen, currentUserId, onClose, onCreateGroup,
+  open, currentUserId, onOpenChange, onCreateGroup,
 }) => {
   const [step, setStep] = useState<'select' | 'details'>('select');
   const [searchTerm, setSearchTerm] = useState('');
@@ -43,7 +43,7 @@ export const CreateGroupModal: React.FC<CreateGroupModalProps> = ({
   const formData = watch();
 
   useEffect(() => {
-    if (!isOpen) return;
+    if (!open) return;
     setStep('select');
     setSearchTerm('');
     setPreviewUrl(null);
@@ -54,7 +54,7 @@ export const CreateGroupModal: React.FC<CreateGroupModalProps> = ({
       .then(setFriends)
       .catch(() => { })
       .finally(() => setIsLoading(false));
-  }, [isOpen, reset]);
+  }, [open, reset]);
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -112,7 +112,7 @@ export const CreateGroupModal: React.FC<CreateGroupModalProps> = ({
     try {
       await onCreateGroup(data.memberIds, data.name.trim(), pendingFile || undefined);
       if (previewUrl) URL.revokeObjectURL(previewUrl);
-      onClose();
+      onOpenChange();
     } catch {
       // silent
     }
@@ -262,10 +262,10 @@ export const CreateGroupModal: React.FC<CreateGroupModalProps> = ({
   return (
     <>
       <Modal
-        isOpen={isOpen}
-        onClose={onClose}
+        open={open}
+        onOpenChange={onOpenChange}
         title={step === 'select' ? 'Tạo nhóm mới' : 'Thông tin nhóm'}
-        maxWidth="md"
+        size="md"
         fullScreen="mobile"
         footer={
           <div className="flex gap-3">
@@ -298,7 +298,7 @@ export const CreateGroupModal: React.FC<CreateGroupModalProps> = ({
 
       {showCropper && cropImage && (
         <ImageCropper
-          isOpen={showCropper}
+          open={showCropper}
           image={cropImage}
           aspect={1}
           title="Cắt ảnh nhóm"

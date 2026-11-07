@@ -10,13 +10,13 @@ import { AlertTriangle } from 'lucide-react';
 import { isFullyBlocked } from '@/lib/block/blockUtils';
 
 interface BlockOptionsModalProps {
-  isOpen: boolean;
+  open: boolean;
   targetId: string;
   targetName: string;
   initialOptions?: Partial<BlockOptions>;
   onApply: (options: BlockOptions) => Promise<void>;
   onUnblock?: () => Promise<void>;
-  onClose: () => void;
+  onOpenChange: () => void;
 }
 
 const DEFAULT_OPTIONS: BlockOptions = {
@@ -27,13 +27,13 @@ const DEFAULT_OPTIONS: BlockOptions = {
 };
 
 export const BlockOptionsModal: React.FC<BlockOptionsModalProps> = ({
-  isOpen,
+  open,
   targetId,
   targetName,
   initialOptions,
   onApply,
   onUnblock,
-  onClose,
+  onOpenChange,
 }) => {
   const friends = useContactStore(state => state.friends);
   const isFriend = React.useMemo(() => friends.some(f => f.id === targetId), [friends, targetId]);
@@ -42,7 +42,7 @@ export const BlockOptionsModal: React.FC<BlockOptionsModalProps> = ({
   const [isActivityExpanded, setIsActivityExpanded] = useState(false);
 
   useEffect(() => {
-    if (isOpen) {
+    if (open) {
       setOptions({
         blockMessages: initialOptions?.blockMessages ?? false,
         blockCalls: initialOptions?.blockCalls ?? false,
@@ -53,11 +53,11 @@ export const BlockOptionsModal: React.FC<BlockOptionsModalProps> = ({
         (initialOptions?.blockViewMyActivity ?? false) || (initialOptions?.hideTheirActivity ?? false)
       );
     }
-  }, [isOpen, initialOptions]);
+  }, [open, initialOptions]);
 
-  useScrollLock(isOpen);
+  useScrollLock(open);
 
-  if (!isOpen) return null;
+  if (!open) return null;
 
   const toggleOption = (key: keyof BlockOptions) => {
     setOptions(prev => ({ ...prev, [key]: !prev[key] }));
@@ -72,7 +72,7 @@ export const BlockOptionsModal: React.FC<BlockOptionsModalProps> = ({
       } else {
         await onApply(options);
       }
-      onClose();
+      onOpenChange();
     } finally {
       setIsLoading(false);
     }
@@ -128,7 +128,7 @@ export const BlockOptionsModal: React.FC<BlockOptionsModalProps> = ({
     >
       <div
         className="fixed inset-0 bg-overlay backdrop-blur-sm animate-fade-in"
-        onClick={onClose}
+        onClick={onOpenChange}
       />
       <div className="relative bg-surface w-full max-w-md rounded-t-2xl sm:rounded-2xl shadow-xl overflow-hidden animate-fade-in">
         <div className="flex items-center justify-between px-5 py-4 border-b border-border">
@@ -141,7 +141,7 @@ export const BlockOptionsModal: React.FC<BlockOptionsModalProps> = ({
               <p className="text-xs text-muted">Chọn các hạn chế muốn áp dụng</p>
             </div>
           </div>
-          <IconButton icon={<X size={20} />} onClick={onClose} size="lg" />
+          <IconButton icon={<X size={20} />} onClick={onOpenChange} size="lg" />
         </div>
 
         <div className="px-5 py-4 space-y-2.5 max-h-[60vh] overflow-y-auto overscroll-contain">
@@ -233,7 +233,7 @@ export const BlockOptionsModal: React.FC<BlockOptionsModalProps> = ({
         )}
 
         <div className="px-6 py-5 border-t border-border-default flex gap-3 pb-[calc(20px+env(safe-area-inset-bottom))] sm:pb-6">
-          <Button variant="secondary" onClick={onClose} className="flex-1 font-semibold h-11">
+          <Button variant="secondary" onClick={onOpenChange} className="flex-1 font-semibold h-11">
             Hủy
           </Button>
           <Button

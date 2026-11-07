@@ -50,7 +50,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
   const { openReportModal } = useReportStore();
 
   const [cropState, setCropState] = useState<{
-    isOpen: boolean; type: 'avatar' | 'cover'; image: string;
+    open: boolean; type: 'avatar' | 'cover'; image: string;
   } | null>(null);
 
   const openFilePicker = (type: 'avatar' | 'cover') => {
@@ -65,7 +65,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
     const validation = validateFile(file, type === 'avatar' ? 'AVATAR' : 'COVER');
     if (!validation.isValid) { if (validation.error) toast.error(validation.error); return; }
     const blobUrl = URL.createObjectURL(file);
-    setCropState({ isOpen: true, type, image: blobUrl });
+    setCropState({ open: true, type, image: blobUrl });
     e.target.value = '';
   };
 
@@ -311,7 +311,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
 
       {cropState && (
         <ImageCropper
-          isOpen={cropState.isOpen}
+          open={cropState.open}
           image={cropState.image}
           aspect={cropState.type === 'avatar' ? 1 : 16 / 9}
           title={cropState.type === 'avatar' ? 'Cắt ảnh đại diện' : 'Cắt ảnh bìa'}

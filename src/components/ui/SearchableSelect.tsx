@@ -34,7 +34,7 @@ export const SearchableSelect: React.FC<SearchableSelectProps> = ({
   disabled = false, className = '', size = 'md',
   allowCustomValue = false,
 }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [open, setIsOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [pos, setPos] = useState<{
     top?: number; bottom?: number; left: number; width: number; openUp: boolean;
@@ -75,7 +75,7 @@ export const SearchableSelect: React.FC<SearchableSelectProps> = ({
   }, []);
 
   useLayoutEffect(() => {
-    if (!isOpen) { setPos(null); return; }
+    if (!open) { setPos(null); return; }
     calcPos();
     setTimeout(() => inputRef.current?.focus(), 0);
     window.addEventListener('scroll', calcPos, true);
@@ -84,12 +84,12 @@ export const SearchableSelect: React.FC<SearchableSelectProps> = ({
       window.removeEventListener('scroll', calcPos, true);
       window.removeEventListener('resize', calcPos);
     };
-  }, [isOpen, calcPos]);
+  }, [open, calcPos]);
 
   useClickOutside([containerRef, menuRef], () => {
     setIsOpen(false);
     setQuery('');
-  }, isOpen);
+  }, open);
 
   const handleOpen = () => {
     if (!disabled) setIsOpen(prev => !prev);
@@ -131,14 +131,14 @@ export const SearchableSelect: React.FC<SearchableSelectProps> = ({
 
       <div
         role="combobox"
-        aria-expanded={isOpen}
+        aria-expanded={open}
         aria-haspopup="listbox"
         onClick={handleOpen}
         className={`
           w-full flex items-center justify-between outline-none transition-all duration-200
           rounded-xl font-normal bg-surface border cursor-pointer
           ${sizeClasses[size]}
-          ${isOpen ? 'border-primary ring-2 ring-primary/20' : 'border-border hover:border-border-strong'}
+          ${open ? 'border-primary ring-2 ring-primary/20' : 'border-border hover:border-border-strong'}
           ${error ? 'border-danger ring-2 ring-danger/10' : ''}
           ${disabled ? 'opacity-50 cursor-not-allowed bg-background' : ''}
         `}
@@ -159,12 +159,12 @@ export const SearchableSelect: React.FC<SearchableSelectProps> = ({
           )}
           <ChevronDown
             size={size === 'sm' ? 14 : 18}
-            className={`text-muted transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
+            className={`text-muted transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
           />
         </div>
       </div>
 
-      {isOpen && createPortal(
+      {open && createPortal(
         <div
           ref={menuRef}
           role="listbox"

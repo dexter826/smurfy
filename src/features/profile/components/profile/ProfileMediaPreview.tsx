@@ -63,8 +63,8 @@ export const ProfileMediaPreview: React.FC<ProfileMediaPreviewProps> = ({ media,
       <MediaViewer
         media={mediaViewerItems}
         initialIndex={selectedIndex}
-        isOpen={selectedIndex >= 0}
-        onClose={() => setSelectedIndex(-1)}
+        open={selectedIndex >= 0}
+        onOpenChange={() => setSelectedIndex(-1)}
       />
     </div>
   );

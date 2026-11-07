@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { User, RtdbConversation, RtdbUserChat, UserStatus } from '@shared/types';
 import {
   UserAvatar, UserStatusText, Dropdown, DropdownItem,
-  ConfirmDialog, IconButton,
+  AlertDialog, IconButton,
 } from '@/components/ui';
 import {
   Crown, Shield, UserPlus, MoreVertical,
@@ -159,7 +159,7 @@ export const ChatDetailsMemberList: React.FC<ChatDetailsMemberListProps> = ({
               {/* Context menu */}
               {canManage && (
                 <Dropdown
-                  isOpen={menuOpenId === member.id}
+                  open={menuOpenId === member.id}
                   onOpenChange={(open) => setMenuOpenId(open ? member.id : null)}
                   trigger={
                     <IconButton
@@ -200,8 +200,8 @@ export const ChatDetailsMemberList: React.FC<ChatDetailsMemberListProps> = ({
 
       {/* Pending Members Modal */}
       <PendingMembersModal
-        isOpen={showPendingModal}
-        onClose={() => setShowPendingModal(false)}
+        open={showPendingModal}
+        onOpenChange={() => setShowPendingModal(false)}
         conversation={conversation}
         usersMap={usersMap}
         onApproveMembers={onApproveMembers}
@@ -209,9 +209,9 @@ export const ChatDetailsMemberList: React.FC<ChatDetailsMemberListProps> = ({
       />
 
       {/* Remove Member Confirmation */}
-      <ConfirmDialog
-        isOpen={!!confirmRemove}
-        onClose={() => setConfirmRemove(null)}
+      <AlertDialog
+        open={!!confirmRemove}
+        onOpenChange={() => setConfirmRemove(null)}
         onConfirm={() => { if (confirmRemove) onRemoveMember?.(confirmRemove); setConfirmRemove(null); }}
         title="Xóa thành viên"
         message="Bạn có chắc chắn muốn xóa thành viên này khỏi nhóm?"

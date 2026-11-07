@@ -88,8 +88,8 @@ interface DropdownProps {
   align?: 'left' | 'right';
   className?: string;
   menuClassName?: string;
-  isOpen?: boolean;
-  onOpenChange?: (isOpen: boolean) => void;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
   matchTriggerWidth?: boolean;
   zIndex?: string;
 }
@@ -100,7 +100,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
   align = 'right',
   className = '',
   menuClassName = '',
-  isOpen: controlledIsOpen,
+  open: controlledIsOpen,
   onOpenChange,
   matchTriggerWidth = false,
   zIndex,
@@ -113,17 +113,17 @@ export const Dropdown: React.FC<DropdownProps> = ({
   const menuRef = useRef<HTMLDivElement>(null);
 
   const isControlled = controlledIsOpen !== undefined;
-  const isOpen = isControlled ? controlledIsOpen : internalIsOpen;
+  const open = isControlled ? controlledIsOpen : internalIsOpen;
 
   const handleOpenChange = useCallback((next: boolean) => {
     if (!isControlled) setInternalIsOpen(next);
     onOpenChange?.(next);
   }, [isControlled, onOpenChange]);
 
-  useClickOutside([triggerRef, menuRef], () => handleOpenChange(false), isOpen);
+  useClickOutside([triggerRef, menuRef], () => handleOpenChange(false), open);
 
   useLayoutEffect(() => {
-    if (!isOpen || !triggerRef.current || !menuRef.current) return;
+    if (!open || !triggerRef.current || !menuRef.current) return;
 
     const triggerEl = triggerRef.current;
     const menuEl = menuRef.current;
@@ -149,20 +149,20 @@ export const Dropdown: React.FC<DropdownProps> = ({
       window.removeEventListener('scroll', update, true);
       window.removeEventListener('resize', update);
     };
-  }, [isOpen, align, matchTriggerWidth]);
+  }, [open, align, matchTriggerWidth]);
 
   const zStyle = zIndex ? { zIndex } : { zIndex: 'var(--z-popover)' };
 
   return (
     <div className={`relative inline-block ${className}`} ref={triggerRef}>
       <div
-        onClick={(e) => { e.stopPropagation(); handleOpenChange(!isOpen); }}
+        onClick={(e) => { e.stopPropagation(); handleOpenChange(!open); }}
         className="cursor-pointer"
       >
         {trigger}
       </div>
 
-      {isOpen && createPortal(
+      {open && createPortal(
         <div
           ref={menuRef}
           role="menu"

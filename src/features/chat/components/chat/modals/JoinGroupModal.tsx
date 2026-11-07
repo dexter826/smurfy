@@ -4,8 +4,8 @@ import { MediaObject } from '@shared/types';
 import { Modal, Button, Avatar } from '@/components/ui';
 
 interface JoinGroupModalProps {
-  isOpen: boolean;
-  onClose: () => void;
+  open: boolean;
+  onOpenChange: () => void;
   onJoin: () => void;
   isLoading?: boolean;
   groupInfo: {
@@ -23,7 +23,7 @@ interface JoinGroupModalProps {
  * Modal hiển thị thông tin chi tiết của nhóm trước khi người dùng xác nhận tham gia
  */
 export const JoinGroupModal: React.FC<JoinGroupModalProps> = ({
-  isOpen, onClose, onJoin, isLoading, groupInfo
+  open, onOpenChange, onJoin, isLoading, groupInfo
 }) => {
   if (!groupInfo) return null;
 
@@ -31,7 +31,7 @@ export const JoinGroupModal: React.FC<JoinGroupModalProps> = ({
 
   const renderFooter = (
     <div className="flex gap-3 w-full">
-      <Button variant="secondary" onClick={onClose} className="flex-1">
+      <Button variant="secondary" onClick={onOpenChange} className="flex-1">
         Bỏ qua
       </Button>
       {!isMember && !isPending && (
@@ -54,10 +54,10 @@ export const JoinGroupModal: React.FC<JoinGroupModalProps> = ({
 
   return (
     <Modal
-      isOpen={isOpen}
-      onClose={onClose}
+      open={open}
+      onOpenChange={onOpenChange}
       title="Tham gia nhóm"
-      maxWidth="sm"
+      size="sm"
       footer={renderFooter}
     >
       <div className="flex flex-col items-center py-4 space-y-6">

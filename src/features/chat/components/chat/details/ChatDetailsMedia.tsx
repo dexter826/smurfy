@@ -12,7 +12,7 @@ interface ChatDetailsMediaProps {
 type MediaTab = 'images' | 'videos' | 'files' | 'voice' | 'links';
 
 interface MediaViewerState {
-  isOpen: boolean;
+  open: boolean;
   index: number;
   items: { type: 'image' | 'video'; url: string; thumbnail?: string }[];
 }
@@ -36,7 +36,7 @@ const formatDuration = (seconds?: string | number) => {
 /** Hiển thị phương tiện (ảnh, video, file) trong hội thoại */
 const ChatDetailsMediaInner: React.FC<ChatDetailsMediaProps> = ({ messages, onMessageClick }) => {
   const [activeTab, setActiveTab] = useState<MediaTab>('images');
-  const [viewer, setViewer] = useState<MediaViewerState>({ isOpen: false, index: 0, items: [] });
+  const [viewer, setViewer] = useState<MediaViewerState>({ open: false, index: 0, items: [] });
 
   const sortedMessages = useMemo(
     () => [...messages].sort((a, b) => b.data.createdAt - a.data.createdAt),
@@ -139,7 +139,7 @@ const ChatDetailsMediaInner: React.FC<ChatDetailsMediaProps> = ({ messages, onMe
               <button
                 key={item.key}
                 type="button"
-                onClick={() => setViewer({ isOpen: true, index, items: imageViewerItems })}
+                onClick={() => setViewer({ open: true, index, items: imageViewerItems })}
                 className="aspect-square overflow-hidden hover:opacity-85 active:opacity-70 transition-opacity duration-200 group relative"
               >
                 <LazyImage
@@ -163,7 +163,7 @@ const ChatDetailsMediaInner: React.FC<ChatDetailsMediaProps> = ({ messages, onMe
               <button
                 key={item.key}
                 type="button"
-                onClick={() => setViewer({ isOpen: true, index, items: videoViewerItems })}
+                onClick={() => setViewer({ open: true, index, items: videoViewerItems })}
                 className="aspect-video rounded-lg overflow-hidden bg-surface-sunken relative group"
               >
                 <video
@@ -336,8 +336,8 @@ const ChatDetailsMediaInner: React.FC<ChatDetailsMediaProps> = ({ messages, onMe
       <MediaViewer
         media={viewer.items}
         initialIndex={viewer.index}
-        isOpen={viewer.isOpen}
-        onClose={() => setViewer(v => ({ ...v, isOpen: false }))}
+        open={viewer.open}
+        onOpenChange={() => setViewer(v => ({ ...v, open: false }))}
       />
     </div>
   );

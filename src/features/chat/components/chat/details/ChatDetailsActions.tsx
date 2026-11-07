@@ -6,7 +6,7 @@ import {
   Crown, Shield, ToggleLeft, ToggleRight, ShieldCheck, Search, Link2, RotateCcw,
   Copy, Check, QrCode,
 } from 'lucide-react';
-import { ConfirmDialog } from '@/components/ui';
+import { AlertDialog } from '@/components/ui';
 import { useReportStore } from '@/features/admin';
 import { CONFIRM_MESSAGES } from '@/constants/confirmMessages';
 import { useConversationMemberSettings } from '@/features/chat';
@@ -294,9 +294,9 @@ export const ChatDetailsActions: React.FC<ChatDetailsActionsProps> = ({
         </div>
       </div>
 
-      <ConfirmDialog
-        isOpen={showDeleteConfirm}
-        onClose={() => setShowDeleteConfirm(false)}
+      <AlertDialog
+        open={showDeleteConfirm}
+        onOpenChange={() => setShowDeleteConfirm(false)}
         onConfirm={() => onDelete?.()}
         title={isDisbandAction
           ? CONFIRM_MESSAGES.CHAT.DISBAND_GROUP.TITLE
@@ -310,9 +310,9 @@ export const ChatDetailsActions: React.FC<ChatDetailsActionsProps> = ({
         variant="danger"
       />
 
-      <ConfirmDialog
-        isOpen={showLeaveConfirm}
-        onClose={() => setShowLeaveConfirm(false)}
+      <AlertDialog
+        open={showLeaveConfirm}
+        onOpenChange={() => setShowLeaveConfirm(false)}
         onConfirm={() => onLeaveGroup?.()}
         title={CONFIRM_MESSAGES.CHAT.LEAVE_GROUP.TITLE}
         message={CONFIRM_MESSAGES.CHAT.LEAVE_GROUP.MESSAGE}
@@ -320,9 +320,9 @@ export const ChatDetailsActions: React.FC<ChatDetailsActionsProps> = ({
         variant="danger"
       />
 
-      <ConfirmDialog
-        isOpen={showApprovalOffConfirm}
-        onClose={() => setShowApprovalOffConfirm(false)}
+      <AlertDialog
+        open={showApprovalOffConfirm}
+        onOpenChange={() => setShowApprovalOffConfirm(false)}
         onConfirm={() => { onToggleApprovalMode?.(false); setShowApprovalOffConfirm(false); }}
         title={CONFIRM_MESSAGES.CHAT.TOGGLE_APPROVAL_OFF.TITLE}
         message={CONFIRM_MESSAGES.CHAT.TOGGLE_APPROVAL_OFF.MESSAGE}
@@ -330,9 +330,9 @@ export const ChatDetailsActions: React.FC<ChatDetailsActionsProps> = ({
         variant="danger"
       />
 
-      <ConfirmDialog
-        isOpen={showTransferConfirm}
-        onClose={() => setShowTransferConfirm(false)}
+      <AlertDialog
+        open={showTransferConfirm}
+        onOpenChange={() => setShowTransferConfirm(false)}
         onConfirm={() => { onTransferCreator?.(); setShowTransferConfirm(false); }}
         title={CONFIRM_MESSAGES.CHAT.TRANSFER_CREATOR.TITLE}
         message={CONFIRM_MESSAGES.CHAT.TRANSFER_CREATOR.MESSAGE}
@@ -340,9 +340,9 @@ export const ChatDetailsActions: React.FC<ChatDetailsActionsProps> = ({
         variant="danger"
       />
 
-      <ConfirmDialog
-        isOpen={showResetInviteConfirm}
-        onClose={() => setShowResetInviteConfirm(false)}
+      <AlertDialog
+        open={showResetInviteConfirm}
+        onOpenChange={() => setShowResetInviteConfirm(false)}
         onConfirm={handleResetInvite}
         title="Reset link tham gia"
         message="Link hiện tại sẽ bị vô hiệu ngay lập tức. Bạn có muốn tiếp tục?"
@@ -351,8 +351,8 @@ export const ChatDetailsActions: React.FC<ChatDetailsActionsProps> = ({
       />
 
       <QRCodeModal
-        isOpen={showQRCode}
-        onClose={() => setShowQRCode(false)}
+        open={showQRCode}
+        onOpenChange={() => setShowQRCode(false)}
         value={conversation.data.inviteLink ? `${window.location.origin}/join/${conversation.data.inviteLink}` : ''}
         avatarSrc={conversation.data.avatar}
         avatarName={conversation.data.name}

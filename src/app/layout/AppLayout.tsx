@@ -6,7 +6,7 @@ import { useThemeStore, useResolvedTheme } from '../../store/themeStore';
 import { useRtdbChatStore } from '../../store';
 import { useContactStore } from '@/features/friend';
 import { useLoadingStore } from '../../store/loadingStore';
-import { UserAvatar, ConfirmDialog, IconButton, Loading } from '@/components/ui';
+import { UserAvatar, AlertDialog, IconButton, Loading } from '@/components/ui';
 import { ReactionType, Post } from '@shared/types';
 import { PostViewModal, PostModal } from '@/features/feed';
 import { SharePostModal, JoinGroupModal } from '@/features/chat';
@@ -410,9 +410,9 @@ export const AppLayout: React.FC = () => {
         </nav>
       )}
 
-      <ConfirmDialog
-        isOpen={showLogoutConfirm}
-        onClose={() => setShowLogoutConfirm(false)}
+      <AlertDialog
+        open={showLogoutConfirm}
+        onOpenChange={() => setShowLogoutConfirm(false)}
         onConfirm={handleConfirmLogout}
         title={CONFIRM_MESSAGES.AUTH.LOGOUT.TITLE}
         message={CONFIRM_MESSAGES.AUTH.LOGOUT.MESSAGE}
@@ -421,8 +421,8 @@ export const AppLayout: React.FC = () => {
 
       {user && (
         <PostViewModal
-          isOpen={!!postId}
-          onClose={closePost}
+          open={!!postId}
+          onOpenChange={closePost}
           post={selectedPost}
           author={selectedPost ? usersMap[selectedPost.authorId] : null}
           currentUser={user}
@@ -436,8 +436,8 @@ export const AppLayout: React.FC = () => {
 
       {user && (
         <SharePostModal
-          isOpen={!!postToShare}
-          onClose={closeSharePost}
+          open={!!postToShare}
+          onOpenChange={closeSharePost}
           post={postToShare}
           authorName={shareAuthorName}
           currentUserId={user.id}
@@ -446,17 +446,17 @@ export const AppLayout: React.FC = () => {
 
       {user && (
         <PostModal
-          isOpen={!!showEditModal}
-          onClose={() => setShowEditModal(null)}
+          open={!!showEditModal}
+          onOpenChange={() => setShowEditModal(null)}
           currentUser={user}
           initialPost={posts.find(p => p.id === showEditModal) || selectedPost || undefined}
           onSubmit={handleEditPost}
         />
       )}
 
-      <ConfirmDialog
-        isOpen={!!postToDelete}
-        onClose={() => setPostToDelete(null)}
+      <AlertDialog
+        open={!!postToDelete}
+        onOpenChange={() => setPostToDelete(null)}
         onConfirm={handleDeletePost}
         title="Xóa bài viết"
         message="Bạn có chắc chắn muốn xóa bài viết này? Hành động này không thể hoàn tác."
@@ -496,14 +496,14 @@ export const AppLayout: React.FC = () => {
           userAvatar={user.avatar?.url ?? ''}
           isGroupCall={session.isGroupCall}
           callType={session.callType}
-          onClose={() => endCall('ended')}
+          onOpenChange={() => endCall('ended')}
         />
       )}
 
       {user && (
         <JoinGroupModal
-          isOpen={!!globalInviteInfo.info}
-          onClose={() => {
+          open={!!globalInviteInfo.info}
+          onOpenChange={() => {
             if (globalInviteInfo.token) {
               processedTokensRef.current.add(globalInviteInfo.token);
             }

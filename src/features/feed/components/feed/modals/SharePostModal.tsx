@@ -10,8 +10,8 @@ import { useShareTargets } from '@/features/chat';
 import { ShareTargetItem } from './ShareTargetItem';
 
 interface SharePostModalProps {
-  isOpen: boolean;
-  onClose: () => void;
+  open: boolean;
+  onOpenChange: () => void;
   post: Post | null;
   authorName: string;
   currentUserId: string;
@@ -19,8 +19,8 @@ interface SharePostModalProps {
 
 /** Modal chia sẻ bài viết vào tin nhắn chat */
 export const SharePostModal: React.FC<SharePostModalProps> = ({
-  isOpen,
-  onClose,
+  open,
+  onOpenChange,
   post,
   authorName,
   currentUserId,
@@ -35,15 +35,15 @@ export const SharePostModal: React.FC<SharePostModalProps> = ({
     recentItems, 
     friendItems, 
     usersMap 
-  } = useShareTargets(currentUserId, searchTerm, isOpen);
+  } = useShareTargets(currentUserId, searchTerm, open);
 
   useEffect(() => {
-    if (!isOpen) {
+    if (!open) {
       setSearchTerm('');
       setSelectedConversationIds(new Set());
       setIsSubmitting(false);
     }
-  }, [isOpen]);
+  }, [open]);
 
   const isPrivatePost = post?.visibility === Visibility.PRIVATE;
   const canSubmit = selectedConversationIds.size > 0 && !!post && !isPrivatePost && !isSubmitting;
@@ -75,7 +75,7 @@ export const SharePostModal: React.FC<SharePostModalProps> = ({
       const hasSuccess = results.some(result => result.status === 'fulfilled');
       if (hasSuccess) {
         setSelectedConversationIds(new Set());
-        onClose();
+        onOpenChange();
       } else {
         toast.error(TOAST_MESSAGES.CHAT.SHARE_POST_FAILED);
       }
@@ -86,13 +86,13 @@ export const SharePostModal: React.FC<SharePostModalProps> = ({
 
   return (
     <Modal
-      isOpen={isOpen}
-      onClose={onClose}
+      open={open}
+      onOpenChange={onOpenChange}
       title="Chia sẻ vào tin nhắn"
-      maxWidth="sm"
+      size="sm"
       footer={
         <div className="flex gap-2 w-full">
-          <Button variant="secondary" fullWidth onClick={onClose} disabled={isSubmitting}>
+          <Button variant="secondary" fullWidth onClick={onOpenChange} disabled={isSubmitting}>
             Hủy
           </Button>
           <Button fullWidth onClick={handleSubmit} disabled={!canSubmit}>

@@ -171,7 +171,7 @@ export const DashboardView: React.FC = () => {
                   className="py-10"
                 />
               ) : (
-                <div className="divide-y divide-border-light">
+                <div className="divide-y divide-border">
                   {recentReports.map(report => {
                      const reporter = getUser(report.reporterId);
                      const reasonConfig = REPORT_CONFIG.REASONS[report.reason as keyof typeof REPORT_CONFIG.REASONS];

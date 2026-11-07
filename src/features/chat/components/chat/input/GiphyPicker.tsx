@@ -4,7 +4,7 @@ import { IconButton, EmptyState } from '@/components/ui';
 
 interface GiphyPickerProps {
   onSelect: (url: string) => void;
-  onClose: () => void;
+  onOpenChange: () => void;
 }
 
 interface GiphyImage {
@@ -24,7 +24,7 @@ interface GiphyImage {
 
 import { GIPHY_CONFIG } from '@/constants/appConfig';
 
-export const GiphyPicker: React.FC<GiphyPickerProps> = ({ onSelect, onClose }) => {
+export const GiphyPicker: React.FC<GiphyPickerProps> = ({ onSelect, onOpenChange }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [gifs, setGifs] = useState<GiphyImage[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -95,7 +95,7 @@ export const GiphyPicker: React.FC<GiphyPickerProps> = ({ onSelect, onClose }) =
         </div>
         <IconButton
           icon={<X size={18} />}
-          onClick={onClose}
+          onClick={onOpenChange}
           size="sm"
           variant="ghost"
           className="text-muted hover:text-foreground"

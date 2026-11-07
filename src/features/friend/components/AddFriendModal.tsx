@@ -29,11 +29,11 @@ const SearchResultSkeleton = () => (
 );
 
 interface AddFriendModalProps {
-  isOpen: boolean;
-  onClose: () => void;
+  open: boolean;
+  onOpenChange: () => void;
 }
 
-export const AddFriendModal: React.FC<AddFriendModalProps> = ({ isOpen, onClose }) => {
+export const AddFriendModal: React.FC<AddFriendModalProps> = ({ open, onOpenChange }) => {
   const navigate = useNavigate();
   const { user: currentUser } = useAuthStore();
   const {
@@ -72,8 +72,8 @@ export const AddFriendModal: React.FC<AddFriendModalProps> = ({ isOpen, onClose 
     setFoundUser(null);
     setNotFound(false);
     clearSearchResults();
-    onClose();
-  }, [onClose, clearSearchResults]);
+    onOpenChange();
+  }, [onOpenChange, clearSearchResults]);
 
   const withLoading = async (fn: () => Promise<void>) => {
     setActionLoading(true);
@@ -240,7 +240,7 @@ export const AddFriendModal: React.FC<AddFriendModalProps> = ({ isOpen, onClose 
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={handleClose} title="Tìm kiếm người dùng" maxWidth="md" fullScreen="mobile">
+    <Modal open={open} onOpenChange={handleClose} title="Tìm kiếm người dùng" size="md" fullScreen="mobile">
       <div className="space-y-5">
         <div className="flex gap-2">
           <Input

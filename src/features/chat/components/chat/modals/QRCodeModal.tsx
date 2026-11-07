@@ -6,8 +6,8 @@ import { toast } from '@/store/toastStore';
 import { TOAST_MESSAGES } from '@/constants';
 
 interface QRCodeModalProps {
-  isOpen: boolean;
-  onClose: () => void;
+  open: boolean;
+  onOpenChange: () => void;
   value: string; // The URL to encode
   title?: string;
   subtitle?: string;
@@ -16,8 +16,8 @@ interface QRCodeModalProps {
 }
 
 export const QRCodeModal: React.FC<QRCodeModalProps> = ({
-  isOpen,
-  onClose,
+  open,
+  onOpenChange,
   value,
   title = 'Mã QR của nhóm',
   subtitle = 'Quét mã để tham gia nhóm nhanh chóng',
@@ -89,10 +89,10 @@ export const QRCodeModal: React.FC<QRCodeModalProps> = ({
 
   return (
     <Modal
-      isOpen={isOpen}
-      onClose={onClose}
+      open={open}
+      onOpenChange={onOpenChange}
       title={title}
-      maxWidth="sm"
+      size="sm"
       footer={renderFooter}
     >
       <div className="flex flex-col items-center py-5 space-y-5">

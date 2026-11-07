@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { User, RtdbConversation } from '@shared/types';
-import { Modal, UserAvatar, ConfirmDialog, Button, EmptyState } from '@/components/ui';
+import { Modal, UserAvatar, AlertDialog, Button, EmptyState } from '@/components/ui';
 import { Check, X, Users } from 'lucide-react';
 import { CONFIRM_MESSAGES } from '@/constants/confirmMessages';
 
 interface PendingMembersModalProps {
-  isOpen: boolean;
-  onClose: () => void;
+  open: boolean;
+  onOpenChange: () => void;
   conversation: { id: string; data: RtdbConversation };
   usersMap: Record<string, User>;
   onApproveMembers?: (uids: string[]) => Promise<void>;
@@ -15,8 +15,8 @@ interface PendingMembersModalProps {
 
 /** Modal phê duyệt thành viên chờ tham gia nhóm */
 export const PendingMembersModal: React.FC<PendingMembersModalProps> = ({
-  isOpen,
-  onClose,
+  open,
+  onOpenChange,
   conversation,
   usersMap,
   onApproveMembers,
@@ -36,7 +36,7 @@ export const PendingMembersModal: React.FC<PendingMembersModalProps> = ({
     try {
       await onApproveMembers?.(uids);
       setConfirmApproveAll(false);
-      if (pendingEntries.length <= uids.length) onClose();
+      if (pendingEntries.length <= uids.length) onOpenChange();
     } finally {
       setIsProcessing(false);
     }
@@ -47,7 +47,7 @@ export const PendingMembersModal: React.FC<PendingMembersModalProps> = ({
     setIsProcessing(true);
     try {
       await onApproveMembers?.([uid]);
-      if (pendingEntries.length === 1) onClose();
+      if (pendingEntries.length === 1) onOpenChange();
     } finally {
       setIsProcessing(false);
     }
@@ -60,7 +60,7 @@ export const PendingMembersModal: React.FC<PendingMembersModalProps> = ({
     try {
       await onRejectMembers?.([confirmReject]);
       setConfirmReject(null);
-      if (pendingEntries.length === 1) onClose();
+      if (pendingEntries.length === 1) onOpenChange();
     } finally {
       setIsProcessing(false);
     }
@@ -69,10 +69,10 @@ export const PendingMembersModal: React.FC<PendingMembersModalProps> = ({
   return (
     <>
       <Modal
-        isOpen={isOpen}
-        onClose={onClose}
+        open={open}
+        onOpenChange={onOpenChange}
         title="Yêu cầu tham gia"
-        maxWidth="md"
+        size="md"
         padding="none"
       >
         <div className="flex flex-col max-h-[70vh]">
@@ -150,9 +150,9 @@ export const PendingMembersModal: React.FC<PendingMembersModalProps> = ({
       </Modal>
 
       {/* Reject Confirmation Dialog */}
-      <ConfirmDialog
-        isOpen={!!confirmReject}
-        onClose={() => setConfirmReject(null)}
+      <AlertDialog
+        open={!!confirmReject}
+        onOpenChange={() => setConfirmReject(null)}
         onConfirm={handleRejectSingle}
         title={CONFIRM_MESSAGES.CHAT.REJECT_MEMBER.TITLE}
         message={CONFIRM_MESSAGES.CHAT.REJECT_MEMBER.MESSAGE(
@@ -163,9 +163,9 @@ export const PendingMembersModal: React.FC<PendingMembersModalProps> = ({
       />
 
       {/* Approve All Confirmation Dialog */}
-      <ConfirmDialog
-        isOpen={confirmApproveAll}
-        onClose={() => setConfirmApproveAll(false)}
+      <AlertDialog
+        open={confirmApproveAll}
+        onOpenChange={() => setConfirmApproveAll(false)}
         onConfirm={handleApproveAll}
         title={CONFIRM_MESSAGES.CHAT.APPROVE_ALL_PENDING.TITLE}
         message={CONFIRM_MESSAGES.CHAT.APPROVE_ALL_PENDING.MESSAGE(pendingEntries.length)}

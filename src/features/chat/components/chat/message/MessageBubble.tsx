@@ -4,7 +4,7 @@ import { Smile, RefreshCw, AlertCircle, Pin } from 'lucide-react';
 import { RtdbMessage, User, MessageType, UserStatus } from '@shared/types';
 import {
   UserAvatar, ReactionDisplay, ReactionSelector,
-  Modal, UserStatusText, ConfirmDialog, MediaViewer, ReactionDetailsModal,
+  Modal, UserStatusText, AlertDialog, MediaViewer, ReactionDetailsModal,
 } from '@/components/ui';
 import { useRtdbChatStore } from '@/store';
 import { getMessageDisplayContent } from '@/utils/chatUtils';
@@ -177,8 +177,8 @@ const MessageBubbleInner: React.FC<MessageBubbleProps> = ({
             className={`relative group/message w-fit max-w-full`}
           >
             <ReactionDetailsModal
-              isOpen={showReactionDetails}
-              onClose={() => setShowReactionDetails(false)}
+              open={showReactionDetails}
+              onOpenChange={() => setShowReactionDetails(false)}
               sourceId={message.id}
               sourceType="message"
               reactions={message.data.reactions}
@@ -308,7 +308,7 @@ const MessageBubbleInner: React.FC<MessageBubbleProps> = ({
                           toggleReaction(conversationId, message.id, currentUserId, emoji);
                           setShowActions(false);
                         }}
-                        onClose={() => setShowReactionSelector(false)}
+                        onOpenChange={() => setShowReactionSelector(false)}
                         autoClose={false}
                         className="relative shadow-xl animate-fade-in"
                         currentReaction={myReaction}
@@ -371,10 +371,10 @@ const MessageBubbleInner: React.FC<MessageBubbleProps> = ({
 
               {isGroup && lastReadByUsers.length > 0 && (
                 <Modal
-                  isOpen={showReaders}
-                  onClose={() => setShowReaders(false)}
+                  open={showReaders}
+                  onOpenChange={() => setShowReaders(false)}
                   title="Người đã xem"
-                  maxWidth="sm"
+                  size="sm"
                 >
                   <div className="space-y-2">
                     {lastReadByUsers.map(reader => (
@@ -412,13 +412,13 @@ const MessageBubbleInner: React.FC<MessageBubbleProps> = ({
             }]
         }
         initialIndex={selectedImageIndex ?? 0}
-        isOpen={selectedImageIndex !== null}
-        onClose={() => setSelectedImageIndex(null)}
+        open={selectedImageIndex !== null}
+        onOpenChange={() => setSelectedImageIndex(null)}
       />
 
-      <ConfirmDialog
-        isOpen={showRecallConfirm}
-        onClose={() => setShowRecallConfirm(false)}
+      <AlertDialog
+        open={showRecallConfirm}
+        onOpenChange={() => setShowRecallConfirm(false)}
         onConfirm={() => onRecall?.(message.id)}
         title="Thu hồi tin nhắn"
         message="Tin nhắn này sẽ bị thu hồi đối với tất cả mọi người trong cuộc trò chuyện."

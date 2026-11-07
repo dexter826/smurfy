@@ -11,11 +11,11 @@ import { TOAST_MESSAGES } from '@/constants';
 import { changePasswordSchema, ChangePasswordFormValues } from '@/utils/validation';
 
 interface ChangePasswordModalProps {
-  isOpen: boolean;
-  onClose: () => void;
+  open: boolean;
+  onOpenChange: () => void;
 }
 
-const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({ isOpen, onClose }) => {
+const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({ open, onOpenChange }) => {
   const [showPasswords, setShowPasswords] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -40,7 +40,7 @@ const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({ isOpen, onClo
       toast.success(TOAST_MESSAGES.AUTH.CHANGE_PASSWORD_SUCCESS);
       setTimeout(async () => {
         await logout();
-        onClose();
+        onOpenChange();
         navigate('/login');
       }, 2000);
     } catch (err: unknown) {
@@ -53,9 +53,9 @@ const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({ isOpen, onClo
     } finally {
       setIsLoading(false);
     }
-  }, [logout, onClose, navigate]);
+  }, [logout, onOpenChange, navigate]);
 
-  if (!isOpen) return null;
+  if (!open) return null;
 
   const passwordType = showPasswords ? 'text' : 'password';
   const hasErrors = Object.keys(errors).length > 0;
@@ -73,14 +73,14 @@ const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({ isOpen, onClo
 
   return (
     <Modal
-      isOpen={isOpen}
-      onClose={onClose}
+      open={open}
+      onOpenChange={onOpenChange}
       title="Đổi mật khẩu"
-      maxWidth="md"
+      size="md"
       fullScreen="mobile"
       footer={
         <div className="flex gap-3 w-full">
-          <Button variant="secondary" onClick={onClose} disabled={isLoading} className="flex-1">
+          <Button variant="secondary" onClick={onOpenChange} disabled={isLoading} className="flex-1">
             Hủy
           </Button>
           <Button

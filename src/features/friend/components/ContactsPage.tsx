@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { UserPlus, Users, Search, Bell, ArrowUpDown, Sparkles, RefreshCw } from 'lucide-react';
 import { useContacts } from '../hooks/useContacts';
-import { Button, Input, ConfirmDialog, BlockOptionsModal, EmptyState } from '@/components/ui';
+import { Button, Input, AlertDialog, BlockOptionsModal, EmptyState } from '@/components/ui';
 import { CONFIRM_MESSAGES, TOAST_MESSAGES } from '@/constants';
 import { FriendRequestItem, FriendItem, AddFriendModal, SuggestionItem } from '.';
 import { useAuthStore } from '@/features/auth';
@@ -374,11 +374,11 @@ const ContactsPage: React.FC = () => {
         </div>
       </div>
 
-      <AddFriendModal isOpen={showAddModal} onClose={() => setShowAddModal(false)} />
+      <AddFriendModal open={showAddModal} onOpenChange={() => setShowAddModal(false)} />
 
-      <ConfirmDialog
-        isOpen={!!unfriendId}
-        onClose={() => setUnfriendId(null)}
+      <AlertDialog
+        open={!!unfriendId}
+        onOpenChange={() => setUnfriendId(null)}
         onConfirm={onUnfriendConfirm}
         title={CONFIRM_MESSAGES.FRIEND.UNFRIEND.TITLE}
         message={CONFIRM_MESSAGES.FRIEND.UNFRIEND.MESSAGE(
@@ -390,13 +390,13 @@ const ContactsPage: React.FC = () => {
 
       {blockTarget && (
         <BlockOptionsModal
-          isOpen
+          open
           targetId={blockTarget.id}
           targetName={blockTarget.fullName}
           initialOptions={currentBlockOptions}
           onApply={onApplyBlock}
           onUnblock={onUnblock}
-          onClose={() => setBlockTarget(null)}
+          onOpenChange={() => setBlockTarget(null)}
         />
       )}
 
