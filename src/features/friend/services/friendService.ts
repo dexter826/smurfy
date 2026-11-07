@@ -14,10 +14,11 @@ import {
   onSnapshot,
   writeBatch,
   serverTimestamp,
-  arrayRemove
+  arrayRemove,
+  limit
 } from 'firebase/firestore';
 import { db, auth } from '@/lib/firebase/config';
-import { FriendRequest, FriendRequestStatus, User } from '@shared/types';
+import { FriendRequest, FriendRequestStatus, User, UserStatus } from '@shared/types';
 import { convertDoc, convertDocs } from '@/utils/firebaseUtils';
 import { batchGetUsers } from '@/utils/batchUtils';
 import { userService } from '@/services/userService';
@@ -100,7 +101,7 @@ export const friendService = {
         receiverId,
         senderId,
         NotificationType.FRIEND_REQUEST,
-        { requestId: docRef.id }
+        { friendRequestId: docRef.id }
       );
 
       return {
@@ -208,7 +209,7 @@ export const friendService = {
         senderId,
         receiverId,
         NotificationType.FRIEND_ACCEPT,
-        { requestId }
+        { friendRequestId: requestId }
       );
     } catch (error) {
       console.error("Lỗi chấp nhận kết bạn", error);
