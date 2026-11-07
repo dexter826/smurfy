@@ -3,6 +3,7 @@ export * from './UserStatusText';
 export * from './Checkbox';
 export * from './Switch';
 export * from './Tooltip';
+export * from './Popover';
 export * from './Badge';
 export * from './Button';
 export * from './IconButton';

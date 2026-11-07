@@ -1,86 +1,50 @@
-import React, { useState, useRef, useLayoutEffect, useCallback } from 'react';
-import { createPortal } from 'react-dom';
-import { useClickOutside } from '@/hooks/utils';
+import React from 'react';
+import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu';
+import { cn } from '@/lib/cn';
 
 interface DropdownItemProps {
   icon?: React.ReactNode;
   label: string;
-  onClick: () => void;
+  onClick?: () => void;
   variant?: 'default' | 'danger';
+  disabled?: boolean;
   className?: string;
 }
 
 export const DropdownItem: React.FC<DropdownItemProps> = ({
-  icon, label, onClick, variant = 'default', className = '',
+  icon,
+  label,
+  onClick,
+  variant = 'default',
+  disabled,
+  className = '',
 }) => (
-  <button
-    type="button"
-    onClick={onClick}
-    className={`
-      w-full px-4 py-2.5 text-left text-sm flex items-center gap-3
-      transition-colors duration-fast font-medium
-      hover:bg-hover active:bg-active
-      first:rounded-t-[inherit] last:rounded-b-[inherit]
-      ${variant === 'danger' ? 'text-danger' : 'text-foreground'}
-      ${className}
-    `}
+  <DropdownMenuPrimitive.Item
+    disabled={disabled}
+    onSelect={onClick}
+    className={cn(
+      'flex w-full cursor-pointer select-none items-center gap-3 px-4 py-2.5 text-left text-sm font-medium outline-none',
+      'transition-colors duration-fast data-[highlighted]:bg-hover data-[highlighted]:text-foreground',
+      variant === 'danger'
+        ? 'text-danger data-[highlighted]:bg-danger-soft data-[highlighted]:text-danger'
+        : 'text-foreground',
+      className,
+    )}
   >
     {icon && (
-      <span className={`flex-shrink-0 ${variant === 'danger' ? 'text-danger' : 'text-secondary'}`}>
+      <span
+        className={cn('flex-shrink-0', variant === 'danger' ? 'text-danger' : 'text-secondary')}
+      >
         {icon}
       </span>
     )}
-    <span className="truncate flex-1">{label}</span>
-  </button>
+    <span className="flex-1 truncate">{label}</span>
+  </DropdownMenuPrimitive.Item>
 );
 
-interface DropdownPosition {
-  top?: number;
-  bottom?: number;
-  left?: number;
-  right?: number;
-  transformOrigin: string;
-}
-
-const MENU_GAP = 6;
-const VIEWPORT_PADDING = 12;
-const MIN_MENU_WIDTH = 180;
-
-function calcPosition(
-  triggerRect: DOMRect,
-  menuWidth: number,
-  menuHeight: number,
-  align: 'left' | 'right'
-): DropdownPosition {
-  const vw = window.innerWidth;
-  const vh = window.innerHeight;
-  const spaceBelow = vh - triggerRect.bottom - MENU_GAP;
-  const spaceAbove = triggerRect.top - VIEWPORT_PADDING;
-  const openUp = spaceBelow < menuHeight && spaceAbove > spaceBelow;
-
-  const pos: DropdownPosition = {
-    transformOrigin: align === 'right' ? 'top right' : 'top left',
-  };
-
-  if (openUp) {
-    pos.bottom = vh - triggerRect.top + MENU_GAP;
-    pos.transformOrigin = align === 'right' ? 'bottom right' : 'bottom left';
-  } else {
-    pos.top = triggerRect.bottom + MENU_GAP;
-  }
-
-  if (align === 'right') {
-    pos.right = vw - triggerRect.right;
-    if (vw - (pos.right ?? 0) - menuWidth < VIEWPORT_PADDING) {
-      pos.right = undefined;
-      pos.left = VIEWPORT_PADDING;
-    }
-  } else {
-    pos.left = Math.max(VIEWPORT_PADDING, Math.min(triggerRect.left, vw - menuWidth - VIEWPORT_PADDING));
-  }
-
-  return pos;
-}
+export const DropdownSeparator: React.FC<{ className?: string }> = ({ className = '' }) => (
+  <DropdownMenuPrimitive.Separator className={cn('h-px bg-border-default', className)} />
+);
 
 interface DropdownProps {
   trigger: React.ReactNode;
@@ -91,7 +55,7 @@ interface DropdownProps {
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
   matchTriggerWidth?: boolean;
-  zIndex?: string;
+  sideOffset?: number;
 }
 
 export const Dropdown: React.FC<DropdownProps> = ({
@@ -100,94 +64,36 @@ export const Dropdown: React.FC<DropdownProps> = ({
   align = 'right',
   className = '',
   menuClassName = '',
-  open: controlledIsOpen,
+  open,
   onOpenChange,
   matchTriggerWidth = false,
-  zIndex,
-}) => {
-  const [internalIsOpen, setInternalIsOpen] = useState(false);
-  const [position, setPosition] = useState<DropdownPosition | null>(null);
-  const [menuWidth, setMenuWidth] = useState<number | undefined>(undefined);
-
-  const triggerRef = useRef<HTMLDivElement>(null);
-  const menuRef = useRef<HTMLDivElement>(null);
-
-  const isControlled = controlledIsOpen !== undefined;
-  const open = isControlled ? controlledIsOpen : internalIsOpen;
-
-  const handleOpenChange = useCallback((next: boolean) => {
-    if (!isControlled) setInternalIsOpen(next);
-    onOpenChange?.(next);
-  }, [isControlled, onOpenChange]);
-
-  useClickOutside([triggerRef, menuRef], () => handleOpenChange(false), open);
-
-  useLayoutEffect(() => {
-    if (!open || !triggerRef.current || !menuRef.current) return;
-
-    const triggerEl = triggerRef.current;
-    const menuEl = menuRef.current;
-
-    const update = () => {
-      const triggerRect = triggerEl.getBoundingClientRect();
-      const mw = matchTriggerWidth ? triggerRect.width : Math.max(menuEl.offsetWidth, MIN_MENU_WIDTH);
-      const mh = menuEl.offsetHeight;
-      setMenuWidth(matchTriggerWidth ? triggerRect.width : undefined);
-      setPosition(calcPosition(triggerRect, mw, mh, align));
-    };
-
-    update();
-
-    const ro = new ResizeObserver(update);
-    ro.observe(menuEl);
-    ro.observe(triggerEl);
-    window.addEventListener('scroll', update, true);
-    window.addEventListener('resize', update);
-
-    return () => {
-      ro.disconnect();
-      window.removeEventListener('scroll', update, true);
-      window.removeEventListener('resize', update);
-    };
-  }, [open, align, matchTriggerWidth]);
-
-  const zStyle = zIndex ? { zIndex } : { zIndex: 'var(--z-popover)' };
-
-  return (
-    <div className={`relative inline-block ${className}`} ref={triggerRef}>
-      <div
-        onClick={(e) => { e.stopPropagation(); handleOpenChange(!open); }}
-        className="cursor-pointer"
-      >
-        {trigger}
-      </div>
-
-      {open && createPortal(
-        <div
-          ref={menuRef}
-          role="menu"
-          onClick={(e) => { e.stopPropagation(); handleOpenChange(false); }}
-          className={`
-            fixed min-w-[${MIN_MENU_WIDTH}px] w-max max-w-[calc(100vw-24px)]
-            bg-surface border border-border rounded-xl
-            shadow-dropdown overflow-hidden animate-fade-in
-            ${menuClassName}
-          `}
-          style={{
-            ...zStyle,
-            top: position?.top !== undefined ? `${position.top}px` : undefined,
-            bottom: position?.bottom !== undefined ? `${position.bottom}px` : undefined,
-            left: position?.left !== undefined ? `${position.left}px` : undefined,
-            right: position?.right !== undefined ? `${position.right}px` : undefined,
-            width: menuWidth ? `${menuWidth}px` : undefined,
-            transformOrigin: position?.transformOrigin ?? (align === 'right' ? 'top right' : 'top left'),
-            visibility: position ? 'visible' : 'hidden',
-          }}
-        >
-          {children}
-        </div>,
-        document.body
-      )}
+  sideOffset = 6,
+}) => (
+  <DropdownMenuPrimitive.Root open={open} onOpenChange={onOpenChange}>
+    <div className={cn('relative inline-block', className)} onClick={(e) => e.stopPropagation()}>
+      <DropdownMenuPrimitive.Trigger asChild>{trigger}</DropdownMenuPrimitive.Trigger>
     </div>
-  );
-};
+    <DropdownMenuPrimitive.Portal>
+      <DropdownMenuPrimitive.Content
+        align={align === 'right' ? 'end' : 'start'}
+        sideOffset={sideOffset}
+        collisionPadding={12}
+        className={cn(
+          'z-popover min-w-[180px] max-w-[calc(100vw-24px)] rounded-md border border-border',
+          'bg-surface-elevated shadow-dropdown overflow-hidden animate-fade-in outline-none',
+          menuClassName,
+        )}
+        style={
+          matchTriggerWidth
+            ? {
+                width: 'var(--radix-dropdown-menu-trigger-width)',
+                minWidth: 'var(--radix-dropdown-menu-trigger-width)',
+              }
+            : undefined
+        }
+      >
+        {children}
+      </DropdownMenuPrimitive.Content>
+    </DropdownMenuPrimitive.Portal>
+  </DropdownMenuPrimitive.Root>
+);

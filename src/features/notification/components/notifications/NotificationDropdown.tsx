@@ -1,125 +1,75 @@
-import React, { useRef, useState, useLayoutEffect, useCallback } from 'react';
-import { createPortal } from 'react-dom';
+import React, { useCallback, useState } from 'react';
 import { Bell } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { useClickOutside } from '@/hooks/utils';
 import { useNotificationStore } from '../../store/notificationStore';
 import { useAuthStore } from '@/features/auth';
-import { IconButton } from '@/components/ui';
+import { IconButton, Popover } from '@/components/ui';
 import { NotificationList } from './NotificationList';
-
-const MENU_WIDTH = 380;
-const MENU_GAP = 8;
-const VIEWPORT_PAD = 12;
 
 export const NotificationDropdown: React.FC = () => {
   const { user } = useAuthStore();
   const { unreadCount, markAllAsRead } = useNotificationStore();
-  const [open, setIsOpen] = useState(false);
-  const [pos, setPos] = useState<{ top: number; left: number } | null>(null);
-  const triggerRef = useRef<HTMLDivElement>(null);
-  const menuRef = useRef<HTMLDivElement>(null);
+  const [open, setOpen] = useState(false);
   const navigate = useNavigate();
-
-  const close = useCallback(() => setIsOpen(false), []);
-  useClickOutside([triggerRef, menuRef], close, open);
-
-  const calcPos = useCallback(() => {
-    if (!triggerRef.current) return;
-    const rect = triggerRef.current.getBoundingClientRect();
-    const vw = window.innerWidth;
-    const left = Math.max(
-      VIEWPORT_PAD,
-      Math.min(rect.right - MENU_WIDTH, vw - MENU_WIDTH - VIEWPORT_PAD)
-    );
-    setPos({ top: rect.bottom + MENU_GAP, left });
-  }, []);
-
-  useLayoutEffect(() => {
-    if (!open) return;
-    calcPos();
-    window.addEventListener('scroll', calcPos, true);
-    window.addEventListener('resize', calcPos);
-    return () => {
-      window.removeEventListener('scroll', calcPos, true);
-      window.removeEventListener('resize', calcPos);
-    };
-  }, [open, calcPos]);
 
   const handleViewAll = useCallback(() => {
     navigate('/notifications');
-    close();
-  }, [navigate, close]);
+    setOpen(false);
+  }, [navigate]);
 
   return (
-    <div ref={triggerRef} className="relative">
-      <IconButton
-        onClick={() => setIsOpen(prev => !prev)}
-        icon={
-          <div className="relative">
-            <Bell size={20} />
-            {unreadCount > 0 && (
-              <span className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-danger rounded-full ring-2 ring-primary" />
-            )}
-          </div>
-        }
-        variant="ghost"
-        title="Thông báo"
-        className={`text-white/70 hover:bg-white/10 hover:text-white transition-all duration-200 active:bg-white/20 ${open ? 'bg-white/20 text-white' : ''}`}
-      />
-
-      {open && createPortal(
-        <div
-          ref={menuRef}
-          className="fixed bg-surface rounded-2xl shadow-2xl border border-border-default overflow-hidden animate-in fade-in zoom-in-95 duration-200"
-          style={{
-            zIndex: 'var(--z-popover)',
-            top: pos ? `${pos.top}px` : undefined,
-            left: pos ? `${pos.left}px` : undefined,
-            width: `${MENU_WIDTH}px`,
-            maxWidth: `calc(100vw - ${VIEWPORT_PAD * 2}px)`,
-            visibility: pos ? 'visible' : 'hidden',
-          }}
-        >
-          {/* Header */}
-          <div className="flex items-center justify-between px-5 py-4 border-b border-border-default bg-surface">
-            <div>
-              <h3 className="text-[15px] font-bold text-foreground tracking-tight">
-                Thông báo
-              </h3>
+    <Popover
+      open={open}
+      onOpenChange={setOpen}
+      align="end"
+      contentClassName="w-[380px] max-w-[calc(100vw-24px)] p-0"
+      trigger={
+        <IconButton
+          icon={
+            <div className="relative">
+              <Bell size={20} />
               {unreadCount > 0 && (
-                <p className="text-[11px] font-semibold text-primary mt-0.5">
-                  Bạn có {unreadCount} thông báo mới
-                </p>
+                <span className="absolute -top-0.5 -right-0.5 h-2 w-2 rounded-full bg-danger ring-2 ring-primary" />
               )}
             </div>
-            {unreadCount > 0 && (
-              <button
-                type="button"
-                onClick={() => user && markAllAsRead(user.id)}
-                className="text-[12px] font-bold text-primary hover:bg-primary/5 px-2.5 py-1.5 rounded-lg transition-all duration-200"
-              >
-                Đọc tất cả
-              </button>
-            )}
-          </div>
+          }
+          variant="ghost"
+          title="Thông báo"
+          className={`text-white/70 hover:bg-white/10 hover:text-white transition-all duration-200 active:bg-white/20 ${open ? 'bg-white/20 text-white' : ''}`}
+        />
+      }
+    >
+      <div className="flex items-center justify-between border-b border-border-default bg-surface px-5 py-4">
+        <div>
+          <h3 className="text-sm font-bold tracking-tight text-foreground">Thông báo</h3>
+          {unreadCount > 0 && (
+            <p className="mt-0.5 text-caption font-semibold text-primary">
+              Bạn có {unreadCount} thông báo mới
+            </p>
+          )}
+        </div>
+        {unreadCount > 0 && (
+          <button
+            type="button"
+            onClick={() => user && markAllAsRead(user.id)}
+            className="rounded-sm px-2.5 py-1.5 text-caption font-bold text-primary transition-colors duration-200 hover:bg-primary-soft"
+          >
+            Đọc tất cả
+          </button>
+        )}
+      </div>
 
-          {/* List */}
-          <NotificationList onItemClick={close} maxHeight="420px" />
+      <NotificationList onItemClick={() => setOpen(false)} maxHeight="420px" />
 
-          {/* Footer */}
-          <div className="p-2 border-t border-border-default bg-background/30">
-            <button
-              type="button"
-              className="flex items-center justify-center w-full py-2.5 text-[13px] font-bold text-secondary hover:text-primary hover:bg-primary/5 rounded-xl transition-all duration-200"
-              onClick={handleViewAll}
-            >
-              Xem tất cả thông báo
-            </button>
-          </div>
-        </div>,
-        document.body
-      )}
-    </div>
+      <div className="border-t border-border-default bg-background/30 p-2">
+        <button
+          type="button"
+          className="w-full rounded-sm py-2.5 text-sm font-bold text-secondary transition-colors duration-200 hover:bg-primary-soft hover:text-primary"
+          onClick={handleViewAll}
+        >
+          Xem tất cả thông báo
+        </button>
+      </div>
+    </Popover>
   );
 };

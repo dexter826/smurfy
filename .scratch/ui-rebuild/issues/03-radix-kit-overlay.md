@@ -4,7 +4,7 @@
 
 **Blocked by:** 02
 
-**Status:** ready-for-agent
+**Status:** done
 
 - [ ] Mọi modal/dropdown/select hiện có mở/đóng đúng qua Radix: Esc, click-outside, focus trap, focus return
 - [ ] Chat input + MediaViewer không bị scroll-lock lệch khi modal mở
