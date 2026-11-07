@@ -36,7 +36,6 @@ import {
   uploadWithProgress,
   ProgressCallback,
   deleteStorageFiles,
-  generateVideoThumbnail,
 } from '@/utils/uploadUtils';
 import { convertDoc, convertDocs } from '@/utils/firebaseUtils';
 import { getSafeMillis } from '@/utils/timestampHelpers';
@@ -44,7 +43,6 @@ import { filterBlockedItems } from '@/lib/block/blockUtils';
 import {
   validatePostContent,
   validateImageFile,
-  validateVideoFile,
   FileValidationError,
 } from '@/utils/fileValidation';
 
@@ -541,7 +539,7 @@ export const postService = {
 
 
 
-  /** Tải lên ảnh/video cho bài viết */
+  /** Tải lên ảnh cho bài viết */
   uploadPostMedia: async (
     files: File[],
     userId: string,
@@ -551,10 +549,8 @@ export const postService = {
       for (const file of files) {
         if (file.type.startsWith('image/')) {
           validateImageFile(file);
-        } else if (file.type.startsWith('video/')) {
-          validateVideoFile(file);
         } else {
-          throw new FileValidationError('File phải là ảnh hoặc video');
+          throw new FileValidationError('File phải là ảnh');
         }
       }
 
@@ -563,31 +559,15 @@ export const postService = {
 
       const uploadPromises = files.map(async (originalFile, i) => {
         let file = originalFile;
-        const isVideo = file.type.startsWith('video/');
-        const typeFolder = isVideo ? 'videos' : 'images';
         const createdAt = Date.now();
         const fileName = `${createdAt}_${file.name}`;
-        const path = `${STORAGE_PATHS.POSTS}/${userId}/${typeFolder}/${fileName}`;
-
-        let thumbnailUrl: string | undefined = undefined;
+        const path = `${STORAGE_PATHS.POSTS}/${userId}/images/${fileName}`;
 
         if (isImageFile(file)) {
           file = await compressImage(file, IMAGE_COMPRESSION.POST);
         }
-        const thumbPromise = isVideo
-          ? (async () => {
-              try {
-                const thumbFile = await generateVideoThumbnail(file);
-                const thumbPath = `thumbnails/${userId}/${createdAt}_${thumbFile.name}`;
-                return await uploadWithProgress(thumbPath, thumbFile);
-              } catch (e) {
-                console.error('Lỗi tạo/up thumbnail:', e);
-                return undefined;
-              }
-            })()
-          : Promise.resolve(undefined);
 
-        const uploadPromise = withRetry(() =>
+        const url = await withRetry(() =>
           uploadWithProgress(path, file, (progress) => {
             progressMap.set(i, progress.progress);
             const totalProgress =
@@ -596,16 +576,12 @@ export const postService = {
           }),
         );
 
-        const [url, thumbUrlResult] = await Promise.all([uploadPromise, thumbPromise]);
-        thumbnailUrl = thumbUrlResult;
-
         return {
           url,
           fileName,
           mimeType: file.type,
           size: file.size,
           isSensitive: false,
-          ...(thumbnailUrl && { thumbnailUrl }),
         } as MediaObject;
       });
 
