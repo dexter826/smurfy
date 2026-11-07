@@ -11,12 +11,6 @@ export const useNotifications = () => {
     const prevConversationsRef = useRef(conversations);
 
     useEffect(() => {
-        if (!user?.id) return;
-
-        notificationService.requestPushPermission(user.id);
-    }, [user?.id]);
-
-    useEffect(() => {
         if (!user?.id || conversations === prevConversationsRef.current) {
             prevConversationsRef.current = conversations;
             return;

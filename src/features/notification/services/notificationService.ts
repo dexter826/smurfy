@@ -156,29 +156,9 @@ export const notificationService = {
     }
   },
 
-  /** Đăng ký nhận thông báo đẩy */
-  requestPushPermission: async (_userId: string): Promise<string | null> => {
-    // Disabled in Spark 0đ plan (no background Cloud Functions push sender)
-    return null;
-  },
+  
 
-  /** Lấy thông báo hệ thống mới nhất */
-  getLatestSystemNotifications: async (userId: string): Promise<Notification[]> => {
-    try {
-      const q = query(
-        collection(db, 'notifications'),
-        where('receiverId', '==', userId),
-        where('type', '==', NotificationType.REPORT),
-        orderBy('createdAt', 'desc'),
-        limit(5)
-      );
-      const snapshot = await getDocs(q);
-      return convertDocs<Notification>(snapshot.docs);
-    } catch (err) {
-      console.error('Lỗi getLatestSystemNotifications:', err);
-      return [];
-    }
-  },
+  
 
   /** Lấy nội dung hiển thị thông báo */
   getNotificationText: (notification: Notification): string => {
@@ -193,7 +173,6 @@ export const notificationService = {
         return `đã gửi lời mời kết bạn.`;
       case NotificationType.FRIEND_ACCEPT:
         return `đã chấp nhận lời mời kết bạn.`;
-      case NotificationType.REPORT:
       case NotificationType.SYSTEM:
         return notification.data.contentSnippet || "Thông báo hệ thống mới.";
       default:

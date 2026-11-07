@@ -19,10 +19,7 @@ export const NotificationList: React.FC<NotificationListProps> = ({
   const notifications = useNotificationStore(state => state.notifications);
   const isLoading = useLoadingStore(state => state.loadingStates['notifications']);
 
-  const visible = notifications.filter(n => {
-    if (n.type !== NotificationType.REPORT) return true;
-    return !(n.data?.contentSnippet ?? '').includes('bị khóa');
-  });
+  const visible = notifications;
 
   if (isLoading && visible.length === 0) return <NotificationSkeleton />;
 

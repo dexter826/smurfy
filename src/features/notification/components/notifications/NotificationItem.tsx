@@ -1,5 +1,5 @@
 import React, { useEffect, useCallback } from 'react';
-import { Trash2, Bell, ShieldAlert, Check } from 'lucide-react';
+import { Trash2, Bell, Check } from 'lucide-react';
 import { formatRelativeTime, formatDateTime } from '@/utils/dateUtils';
 import { Notification, NotificationType } from '@shared/types';
 import { UserAvatar, Skeleton } from '@/components/ui';
@@ -42,11 +42,6 @@ const NotificationItemInner: React.FC<NotificationItemProps> = ({ notification, 
         break;
       case NotificationType.FRIEND_ACCEPT:
         navigate(`/profile/${notification.actorId}`);
-        break;
-      case NotificationType.REPORT:
-        if (currentUser?.role === 'admin') {
-          navigate('/admin/reports');
-        }
         break;
       case NotificationType.SYSTEM:
         navigate('/notifications');
@@ -94,17 +89,8 @@ const NotificationItemInner: React.FC<NotificationItemProps> = ({ notification, 
         {!isSystem ? (
           <UserAvatar userId={notification.actorId} size="md" showStatus={false} />
         ) : (
-          <div className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 shadow-sm
-            ${notification.type === NotificationType.REPORT
-              ? 'bg-danger/10 text-danger'
-              : 'bg-primary/10 text-primary'
-            }`}
-          >
-            {notification.type === NotificationType.REPORT ? (
-              <ShieldAlert size={20} strokeWidth={2.5} />
-            ) : (
-              <Bell size={20} strokeWidth={2.5} />
-            )}
+          <div className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 shadow-sm bg-primary/10 text-primary">
+            <Bell size={20} strokeWidth={2.5} />
           </div>
         )}
 

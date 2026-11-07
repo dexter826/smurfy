@@ -184,13 +184,6 @@ export const useNotificationStore = create<NotificationState>()(
         };
 
         set({ _unsubscribe: wrappedUnsubscribe });
-
-        if (window.Notification?.permission === 'default') {
-          notificationService.requestPushPermission(userId).catch(err => {
-            console.warn("Lỗi push permission:", err);
-          });
-        }
-
         return wrappedUnsubscribe;
       },
 
