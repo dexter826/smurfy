@@ -23,7 +23,11 @@ interface JoinGroupModalProps {
  * Modal hiển thị thông tin chi tiết của nhóm trước khi người dùng xác nhận tham gia
  */
 export const JoinGroupModal: React.FC<JoinGroupModalProps> = ({
-  open, onOpenChange, onJoin, isLoading, groupInfo
+  open,
+  onOpenChange,
+  onJoin,
+  isLoading,
+  groupInfo,
 }) => {
   if (!groupInfo) return null;
 
@@ -62,34 +66,32 @@ export const JoinGroupModal: React.FC<JoinGroupModalProps> = ({
     >
       <div className="flex flex-col items-center py-4 space-y-6">
         {/* Group Avatar */}
-          <Avatar
-            src={avatar}
-            name={name}
-            size="xl"
-            isGroup={true}
-            members={members}
-            className="relative z-10"
-          />
+        <Avatar
+          src={avatar}
+          name={name}
+          size="xl"
+          isGroup={true}
+          members={members}
+          className="relative z-10"
+        />
 
         {/* Group Info */}
         <div className="text-center space-y-2 relative z-10 w-full px-2">
-          <h2 className="text-xl font-bold text-foreground line-clamp-2">
-            {name}
-          </h2>
-          
+          <h2 className="text-xl font-bold text-foreground line-clamp-2">{name}</h2>
+
           <div className="flex items-center justify-center gap-4 text-sm text-secondary">
             <div className="flex items-center gap-1.5">
               <Users size={14} className="text-primary" />
               <span>{memberCount} thành viên</span>
             </div>
-            
+
             {joinApprovalMode ? (
-              <div className="flex items-center gap-1.5 text-amber-500">
+              <div className="flex items-center gap-1.5 text-warning">
                 <Clock size={14} />
                 <span>Cần duyệt</span>
               </div>
             ) : (
-              <div className="flex items-center gap-1.5 text-green-500">
+              <div className="flex items-center gap-1.5 text-success">
                 <ShieldCheck size={14} />
                 <span>Tham gia ngay</span>
               </div>
@@ -99,12 +101,12 @@ export const JoinGroupModal: React.FC<JoinGroupModalProps> = ({
 
         {/* Status Badge */}
         {isMember && (
-          <div className="px-3 py-1 bg-green-500/10 text-green-500 text-xs font-semibold rounded-full border border-green-500/20">
+          <div className="px-3 py-1 bg-success-soft text-success text-caption font-semibold rounded-full border border-success/20">
             Bạn đã là thành viên
           </div>
         )}
         {isPending && (
-          <div className="px-3 py-1 bg-amber-500/10 text-amber-500 text-xs font-semibold rounded-full border border-amber-500/20">
+          <div className="px-3 py-1 bg-warning-soft text-warning text-caption font-semibold rounded-full border border-warning/20">
             Yêu cầu đang chờ phê duyệt
           </div>
         )}
@@ -112,10 +114,9 @@ export const JoinGroupModal: React.FC<JoinGroupModalProps> = ({
         {/* Description/Note */}
         {!isMember && !isPending && (
           <p className="text-xs text-muted text-center leading-relaxed max-w-[280px]">
-            {joinApprovalMode 
-              ? "Yêu cầu tham gia của bạn sẽ được Quản trị viên xem xét trước khi vào nhóm."
-              : "Bạn có thể bắt đầu trò chuyện ngay sau khi nhấn nút tham gia."
-            }
+            {joinApprovalMode
+              ? 'Yêu cầu tham gia của bạn sẽ được Quản trị viên xem xét trước khi vào nhóm.'
+              : 'Bạn có thể bắt đầu trò chuyện ngay sau khi nhấn nút tham gia.'}
           </p>
         )}
       </div>

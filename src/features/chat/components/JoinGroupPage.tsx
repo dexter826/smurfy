@@ -158,12 +158,12 @@ const JoinGroupPage: React.FC = () => {
                   <span>{groupInfo.memberCount} thành viên</span>
                 </div>
                 {groupInfo.joinApprovalMode ? (
-                  <div className="flex items-center gap-1.5 text-amber-500 bg-amber-500/5 px-3 py-1.5 rounded-full border border-amber-500/10">
+                  <div className="flex items-center gap-1.5 text-warning bg-warning-soft px-3 py-1.5 rounded-full border border-warning/20">
                     <Clock size={16} />
                     <span>Cần xét duyệt</span>
                   </div>
                 ) : (
-                  <div className="flex items-center gap-1.5 text-green-500 bg-green-500/5 px-3 py-1.5 rounded-full border border-green-500/10">
+                  <div className="flex items-center gap-1.5 text-success bg-success-soft px-3 py-1.5 rounded-full border border-success/20">
                     <ShieldCheck size={16} />
                     <span>Tham gia ngay</span>
                   </div>

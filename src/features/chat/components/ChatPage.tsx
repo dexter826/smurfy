@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { MessageSquare } from 'lucide-react';
-import { BlockOptionsModal, AlertDialog, EmptyState } from '@/components/ui';
+import { EmptyState } from '@/components/ui';
 import { User } from '@shared/types';
 import { useChat } from '@/hooks';
 import { useLoadingStore } from '@/store/loadingStore';
@@ -13,59 +13,107 @@ import { useCallManager } from '@/features/chat';
 import { toast } from '@/store/toastStore';
 import { TOAST_MESSAGES } from '@/constants';
 import {
-  ConversationList, ChatBox, ChatInput, ChatDetailsPanel,
-  CreateGroupModal, AddMemberModal, EditGroupModal,
-  TransferAdminModal, ForwardModal, MessengerSkeleton,
-  JoinGroupModal, DragDropZone
+  ConversationList,
+  ChatBox,
+  ChatInput,
+  ChatDetailsPanel,
+  MessengerSkeleton,
+  DragDropZone,
+  ChatModals,
+  useChatModalState,
 } from '../components/chat';
 
 import { scrollToMessage } from '@/utils';
 
 const ChatPage: React.FC = () => {
   const navigate = useNavigate();
+  const chat = useChat();
   const {
-    currentUser, conversations, filteredConversations,
-    selectedConversationId, selectedConversation,
-    currentMessages, currentTypingUsers, isLoading,
-    viewMode, setViewMode, isSearchFocused, setSearchFocused,
-    searchResults, searchHistory, archivedCount, usersMap,
-    isBlocked, isBlockedByMe, isCallBlockedByMe, isCallBlockedByPartner,
-    partnerStatus, blockedMessage, forwardingMessage, setForwardingMessage,
-    replyingTo, setReplyingTo, editingMessage, setEditingMessage,
-    handleSelectConversation, handleSendText, handleEditMessage,
-    handleRecallMessage, handleDeleteForMe, handleForwardMessage,
-    handleSendImage, handleSendFile, handleSendVideo, handleSendVoice, handleSendGif,
-    handleTyping, handleSearch, handlePin, handleMute, handleArchive,
-    handleMarkUnread, handleDelete, handleMarkAllRead,
-    handleApplyBlock, handleUnblock, shouldShowBlockBanner, myBlockOptions,
-    handleCreateGroup, handleAddMembers, handleInviteMembers, handleRemoveMember,
-    handleLeaveGroup, handleAssignAdminAndLeave, handlePromoteToAdmin,
-    handleDemoteFromAdmin, handleEditGroup, handleDisbandGroup,
-    handleCopyInviteLink, handleResetInviteLink,
-    handleJoinGroupByLink, fetchGroupInviteInfo,
-    handleApproveMembers, handleRejectMembers, handleToggleApprovalMode, handleTransferCreator,
+    currentUser,
+    conversations,
+    filteredConversations,
+    selectedConversationId,
+    selectedConversation,
+    currentMessages,
+    currentTypingUsers,
+    isLoading,
+    viewMode,
+    setViewMode,
+    isSearchFocused,
+    setSearchFocused,
+    searchResults,
+    searchHistory,
+    archivedCount,
+    usersMap,
+    isBlocked,
+    isBlockedByMe,
+    isCallBlockedByMe,
+    isCallBlockedByPartner,
+    partnerStatus,
+    blockedMessage,
+    forwardingMessage,
+    setForwardingMessage,
+    replyingTo,
+    setReplyingTo,
+    editingMessage,
+    setEditingMessage,
+    handleSelectConversation,
+    handleSendText,
+    handleEditMessage,
+    handleRecallMessage,
+    handleDeleteForMe,
+    handleForwardMessage,
+    handleSendImage,
+    handleSendFile,
+    handleSendVideo,
+    handleSendVoice,
+    handleSendGif,
+    handleTyping,
+    handleSearch,
+    handlePin,
+    handleMute,
+    handleArchive,
+    handleMarkUnread,
+    handleDelete,
+    handleMarkAllRead,
+    shouldShowBlockBanner,
+    myBlockOptions,
+    addToSearchHistory,
+    removeFromSearchHistory,
+    clearSearchHistory,
+    getOrCreateConversation,
+    setIsChatVisible,
+    isLoadingMore,
+    hasMoreMessages,
+    handleLoadMoreMessages,
+    friendRequestStatus,
+    canCall,
+    receivedRequests,
+    sentRequests,
+    participants,
+    handleMarkAsRead,
+    isLoadingSettings,
+  } = chat;
 
-    addToSearchHistory, removeFromSearchHistory, clearSearchHistory,
-    getOrCreateConversation, setIsChatVisible,
-    isLoadingMore, hasMoreMessages, handleLoadMoreMessages,
-    friendRequestStatus, canCall, receivedRequests, sentRequests, participants,
-    handleMarkAsRead, isLoadingSettings,
-  } = useChat();
-
-  const isSearching = useLoadingStore(state => state.loadingStates['contacts.search']);
+  const isSearching = useLoadingStore((state) => state.loadingStates['contacts.search']);
   const friendIds = useFriendIds();
   const selectedMemberSettings = useConversationMemberSettings(
-    selectedConversationId || '', currentUser?.id || ''
+    selectedConversationId || '',
+    currentUser?.id || '',
   );
+  const modal = useChatModalState();
+  const [showDetails, setShowDetails] = useState(false);
 
   useEffect(() => {
     setIsChatVisible(true);
-    return () => { setIsChatVisible(false); handleSelectConversation(null); };
+    return () => {
+      setIsChatVisible(false);
+      handleSelectConversation(null);
+    };
   }, [setIsChatVisible, handleSelectConversation]);
 
   const [searchParams] = useSearchParams();
   const convIdFromUrl = searchParams.get('conv');
-  const joinTokenFromUrl = searchParams.get('joinToken');
 
   useEffect(() => {
     if (!convIdFromUrl) return;
@@ -73,60 +121,55 @@ const ChatPage: React.FC = () => {
     navigate('/', { replace: true });
   }, [convIdFromUrl, handleSelectConversation, navigate]);
 
-
-
-  const [showDetails, setShowDetails] = useState(false);
-  const [showCreateGroup, setShowCreateGroup] = useState(false);
-  const [showAddMember, setShowAddMember] = useState(false);
-  const [showEditGroup, setShowEditGroup] = useState(false);
-  const [showAssignAdmin, setShowAssignAdmin] = useState(false);
-  const [showTransferCreator, setShowTransferCreator] = useState(false);
-
-  const [isBlockModalOpen, setIsBlockModalOpen] = useState(false);
-  const [blockTarget, setBlockTarget] = useState<{ id: string; name: string } | null>(null);
-
-
   const handleSelectUserFromSearch = (user: User, bypassSettingsCheck: boolean = false) => {
     if (!currentUser) return;
-    
+
     addToSearchHistory(user);
     getOrCreateConversation(currentUser.id, user.id);
     setSearchFocused(false);
   };
 
-
-  const openBlockModal = (partnerId?: string, partnerName?: string) => {
-    if (partnerId && partnerName) {
-      setBlockTarget({ id: partnerId, name: partnerName });
-    }
-    setIsBlockModalOpen(true);
+  const confirmUnblockPartner = async () => {
+    await chat.handleUnblock(modal.blockTarget?.id);
+    modal.closeBlockModal();
   };
-  const closeBlockModal = () => { setIsBlockModalOpen(false); setBlockTarget(null); };
-  const confirmUnblock = async () => { await handleUnblock(blockTarget?.id); closeBlockModal(); };
 
   const { startCall, joinActiveCall } = useCallManager(currentUser?.id || '');
 
   const partner = selectedConversation?.data.isGroup
     ? null
-    : participants.find(p => p.id !== currentUser?.id);
+    : participants.find((p) => p.id !== currentUser?.id);
 
   const handleInitiateCall = async (type: 'voice' | 'video') => {
     if (!selectedConversationId || !currentUser) return;
     const isGroup = selectedConversation?.data.isGroup || false;
     const recipientIds = isGroup
-      ? Object.keys(selectedConversation?.data.members || {}).filter(id => id !== currentUser.id)
-      : (partner ? [partner.id] : []);
+      ? Object.keys(selectedConversation?.data.members || {}).filter((id) => id !== currentUser.id)
+      : partner
+        ? [partner.id]
+        : [];
     if (recipientIds.length === 0) return;
     if (!isGroup) {
-      if (isCallBlockedByMe) { toast.error(TOAST_MESSAGES.CHAT.CALL_BLOCKED_BY_ME); return; }
-      if (isCallBlockedByPartner) { toast.error(TOAST_MESSAGES.CHAT.CALL_BLOCKED_BY_PARTNER); return; }
+      if (isCallBlockedByMe) {
+        toast.error(TOAST_MESSAGES.CHAT.CALL_BLOCKED_BY_ME);
+        return;
+      }
+      if (isCallBlockedByPartner) {
+        toast.error(TOAST_MESSAGES.CHAT.CALL_BLOCKED_BY_PARTNER);
+        return;
+      }
     }
     const result = await startCall(
-      recipientIds, currentUser.fullName, currentUser.avatar?.url ?? '',
-      type, selectedConversationId, isGroup,
-      !isGroup ? partner?.fullName : (selectedConversation?.data.name || 'Cuộc gọi nhóm'),
+      recipientIds,
+      currentUser.fullName,
+      currentUser.avatar?.url ?? '',
+      type,
+      selectedConversationId,
+      isGroup,
+      !isGroup ? partner?.fullName : selectedConversation?.data.name || 'Cuộc gọi nhóm',
       !isGroup ? partner?.avatar?.url : selectedConversation?.data.avatar?.url,
-      isCallBlockedByPartner, isCallBlockedByMe
+      isCallBlockedByPartner,
+      isCallBlockedByMe,
     );
     if (result && !result.success) {
       const messages: Record<string, string> = {
@@ -146,17 +189,18 @@ const ChatPage: React.FC = () => {
   };
 
   const handleAcceptFriendRequest = async (userId: string) => {
-    const request = receivedRequests.find(r => r.senderId === userId);
-    if (request) await friendService.acceptFriendRequest(request.id, request.senderId, currentUser.id);
+    const request = receivedRequests.find((r) => r.senderId === userId);
+    if (request)
+      await friendService.acceptFriendRequest(request.id, request.senderId, currentUser.id);
   };
 
   const handleDeclineFriendRequest = async (userId: string) => {
-    const request = receivedRequests.find(r => r.senderId === userId);
+    const request = receivedRequests.find((r) => r.senderId === userId);
     if (request) await friendService.rejectFriendRequest(request.id);
   };
 
   const handleCancelFriendRequest = async (userId: string) => {
-    const request = sentRequests.find(r => r.receiverId === userId);
+    const request = sentRequests.find((r) => r.receiverId === userId);
     if (request) await friendService.cancelFriendRequest(request.id);
   };
 
@@ -165,11 +209,12 @@ const ChatPage: React.FC = () => {
     navigate('/', { replace: true });
   };
 
-
   return (
     <div className="flex h-full w-full overflow-hidden">
       {/* ── Conversation list panel ── */}
-      <div className={`${selectedConversationId ? 'hidden md:flex' : 'flex'} md:w-[300px] lg:w-[360px] flex-shrink-0 w-full`}>
+      <div
+        className={`${selectedConversationId ? 'hidden md:flex' : 'flex'} md:w-[300px] lg:w-[360px] flex-shrink-0 w-full`}
+      >
         <ConversationList
           conversations={filteredConversations}
           selectedId={selectedConversationId}
@@ -180,7 +225,7 @@ const ChatPage: React.FC = () => {
           viewMode={viewMode}
           archivedCount={archivedCount}
           onViewModeChange={setViewMode}
-          onBlock={openBlockModal}
+          onBlock={modal.openBlockModal}
           isSearchFocused={isSearchFocused}
           onSearchFocus={setSearchFocused}
           searchResults={searchResults}
@@ -189,7 +234,7 @@ const ChatPage: React.FC = () => {
           onClearHistory={clearSearchHistory}
           onSelectUser={handleSelectUserFromSearch}
           onSelectConversation={(id) => {
-            const conv = conversations.find(c => c.id === id);
+            const conv = conversations.find((c) => c.id === id);
             if (conv) addToSearchHistory(conv);
             handleSelectConversation(id);
             setSearchFocused(false);
@@ -201,12 +246,14 @@ const ChatPage: React.FC = () => {
           onMarkUnread={handleMarkUnread}
           onDelete={handleDelete}
           onMarkAllRead={handleMarkAllRead}
-          onNewGroup={() => setShowCreateGroup(true)}
+          onNewGroup={() => modal.setShowCreateGroup(true)}
         />
       </div>
 
       {/* ── Chat area ── */}
-      <div className={`flex-1 flex flex-col min-w-0 ${selectedConversationId ? 'flex' : 'hidden md:flex'}`}>
+      <div
+        className={`flex-1 flex flex-col min-w-0 bg-chat ${selectedConversationId ? 'flex' : 'hidden md:flex'}`}
+      >
         {selectedConversation ? (
           <DragDropZone disabled={!!blockedMessage || !!selectedConversation?.data.isDisbanded}>
             <ChatBox
@@ -223,13 +270,19 @@ const ChatPage: React.FC = () => {
               onRecall={handleRecallMessage}
               onDeleteForMe={handleDeleteForMe}
               onForward={handleForwardMessage}
-              onReply={(msg) => { setReplyingTo(msg); setEditingMessage(null); }}
-              onEdit={(msg) => { setEditingMessage(msg); setReplyingTo(null); }}
+              onReply={(msg) => {
+                setReplyingTo(msg);
+                setEditingMessage(null);
+              }}
+              onEdit={(msg) => {
+                setEditingMessage(msg);
+                setReplyingTo(null);
+              }}
               onAddFriend={handleSendFriendRequest}
               onAcceptFriend={handleAcceptFriendRequest}
               onDeclineFriend={handleDeclineFriendRequest}
               onCancelFriend={handleCancelFriendRequest}
-              onBlock={openBlockModal}
+              onBlock={modal.openBlockModal}
               isLoading={isLoading}
               isLoadingMore={isLoadingMore}
               hasMoreMessages={hasMoreMessages}
@@ -238,8 +291,8 @@ const ChatPage: React.FC = () => {
               isBlockedByMe={isBlockedByMe}
               partnerStatus={partnerStatus}
               myBlockOptions={myBlockOptions}
-              onUnblock={handleUnblock}
-              onManageBlock={openBlockModal}
+              onUnblock={chat.handleUnblock}
+              onManageBlock={modal.openBlockModal}
               shouldShowBlockBanner={shouldShowBlockBanner}
               onCall={(isVideo) => handleInitiateCall(isVideo ? 'video' : 'voice')}
               onVideoCall={() => handleInitiateCall('video')}
@@ -257,7 +310,7 @@ const ChatPage: React.FC = () => {
               onSendGif={handleSendGif}
               onTyping={handleTyping}
               blockedMessage={blockedMessage}
-              onManageBlock={openBlockModal}
+              onManageBlock={modal.openBlockModal}
               isBlockedByMe={isBlockedByMe}
               replyingTo={replyingTo}
               editingMessage={editingMessage}
@@ -267,8 +320,13 @@ const ChatPage: React.FC = () => {
               isGroup={selectedConversation.data.isGroup}
               isDisbanded={selectedConversation.data.isDisbanded}
               onDeleteConversation={() => handleDelete(selectedConversation.id)}
-              onCancelAction={() => { setReplyingTo(null); setEditingMessage(null); }}
-              onEditMessage={editingMessage ? (text) => handleEditMessage(editingMessage.id, text) : undefined}
+              onCancelAction={() => {
+                setReplyingTo(null);
+                setEditingMessage(null);
+              }}
+              onEditMessage={
+                editingMessage ? (text) => handleEditMessage(editingMessage.id, text) : undefined
+              }
               conversationId={selectedConversationId}
               isLoadingSettings={isLoadingSettings}
             />
@@ -295,114 +353,59 @@ const ChatPage: React.FC = () => {
           open={showDetails}
           isBlocked={isBlocked}
           onOpenChange={() => setShowDetails(false)}
-          onToggleMute={() => handleMute(selectedConversation.id, !(selectedMemberSettings?.isMuted || false))}
-          onTogglePin={() => handlePin(selectedConversation.id, !(selectedMemberSettings?.isPinned || false))}
-          onToggleArchive={() => handleArchive(selectedConversation.id, !(selectedMemberSettings?.isArchived || false))}
+          onToggleMute={() =>
+            handleMute(selectedConversation.id, !(selectedMemberSettings?.isMuted || false))
+          }
+          onTogglePin={() =>
+            handlePin(selectedConversation.id, !(selectedMemberSettings?.isPinned || false))
+          }
+          onToggleArchive={() =>
+            handleArchive(selectedConversation.id, !(selectedMemberSettings?.isArchived || false))
+          }
           onToggleMarkUnread={() => handleMarkUnread(selectedConversation.id, false)}
-          onToggleBlock={openBlockModal}
+          onToggleBlock={modal.openBlockModal}
           onDelete={() => {
-            if (selectedConversation.data.isGroup && selectedConversation.data.creatorId === currentUser.id) {
-              handleDisbandGroup();
+            if (
+              selectedConversation.data.isGroup &&
+              selectedConversation.data.creatorId === currentUser.id
+            ) {
+              chat.handleDisbandGroup();
             } else {
               handleDelete(selectedConversation.id);
             }
           }}
           onLeaveGroup={() => {
-            const result = handleLeaveGroup();
+            const result = chat.handleLeaveGroup();
             if (result && 'then' in result) {
               (result as Promise<{ needAssignAdmin: boolean }>).then((res) => {
-                if (res?.needAssignAdmin) setShowAssignAdmin(true);
+                if (res?.needAssignAdmin) modal.setShowAssignAdmin(true);
               });
             }
           }}
-          onEditGroup={() => setShowEditGroup(true)}
-          onAddMember={() => setShowAddMember(true)}
-          onRemoveMember={handleRemoveMember}
-          onPromoteToAdmin={handlePromoteToAdmin}
-          onDemoteFromAdmin={handleDemoteFromAdmin}
-          onApproveMembers={handleApproveMembers}
-          onRejectMembers={handleRejectMembers}
-          onToggleApprovalMode={handleToggleApprovalMode}
-          onTransferCreator={() => setShowTransferCreator(true)}
-          onCopyInviteLink={handleCopyInviteLink}
-          onResetInviteLink={handleResetInviteLink}
+          onEditGroup={() => modal.setShowEditGroup(true)}
+          onAddMember={() => modal.setShowAddMember(true)}
+          onRemoveMember={chat.handleRemoveMember}
+          onPromoteToAdmin={chat.handlePromoteToAdmin}
+          onDemoteFromAdmin={chat.handleDemoteFromAdmin}
+          onApproveMembers={chat.handleApproveMembers}
+          onRejectMembers={chat.handleRejectMembers}
+          onToggleApprovalMode={chat.handleToggleApprovalMode}
+          onTransferCreator={() => modal.setShowTransferCreator(true)}
+          onCopyInviteLink={chat.handleCopyInviteLink}
+          onResetInviteLink={chat.handleResetInviteLink}
           onMemberClick={(userId) => navigate(`/profile/${userId}`)}
           onMessageClick={(messageId) => scrollToMessage(messageId)}
         />
       )}
 
-      <CreateGroupModal
-        open={showCreateGroup}
-        currentUserId={currentUser.id}
-        onOpenChange={() => setShowCreateGroup(false)}
-        onCreateGroup={handleCreateGroup}
+      <ChatModals
+        modal={modal}
+        chat={chat}
+        selectedConversation={selectedConversation ?? null}
+        currentUserId={currentUser?.id ?? ''}
+        partner={partner ?? null}
+        myBlockOptions={myBlockOptions}
       />
-
-      {selectedConversation && (
-        <AddMemberModal
-          open={showAddMember}
-          conversation={selectedConversation}
-          currentUserId={currentUser.id}
-          onOpenChange={() => setShowAddMember(false)}
-          onAddMembers={handleInviteMembers}
-        />
-      )}
-
-      {selectedConversation?.data.isGroup && (
-        <EditGroupModal
-          open={showEditGroup}
-          conversation={selectedConversation}
-          currentUserId={currentUser.id}
-          onOpenChange={() => setShowEditGroup(false)}
-          onSave={handleEditGroup}
-        />
-      )}
-
-      {selectedConversation?.data.isGroup && (
-        <TransferAdminModal
-          open={showAssignAdmin}
-          mode="transfer_and_leave"
-          conversation={selectedConversation}
-          currentUserId={currentUser.id}
-          onOpenChange={() => setShowAssignAdmin(false)}
-          onConfirm={handleAssignAdminAndLeave}
-        />
-      )}
-
-      {selectedConversation?.data.isGroup && (
-        <TransferAdminModal
-          open={showTransferCreator}
-          mode="transfer_only"
-          conversation={selectedConversation}
-          currentUserId={currentUser.id}
-          onOpenChange={() => setShowTransferCreator(false)}
-          onConfirm={handleTransferCreator}
-        />
-      )}
-
-      <ForwardModal
-        open={!!forwardingMessage}
-        onOpenChange={() => setForwardingMessage(null)}
-        message={forwardingMessage}
-        currentUserId={currentUser.id}
-      />
-
-
-
-      {(partner || blockTarget) && (
-        <BlockOptionsModal
-          open={isBlockModalOpen}
-          targetId={blockTarget?.id ?? partner?.id ?? ''}
-          targetName={blockTarget?.name ?? partner?.fullName ?? ''}
-          initialOptions={blockTarget ? useAuthStore.getState().blockedUsers[blockTarget.id] : myBlockOptions}
-          onApply={async (opts) => { await handleApplyBlock(opts, blockTarget?.id); closeBlockModal(); }}
-          onUnblock={confirmUnblock}
-          onOpenChange={closeBlockModal}
-        />
-      )}
-
-
-
     </div>
   );
 };

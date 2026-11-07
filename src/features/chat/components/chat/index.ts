@@ -26,3 +26,4 @@ export { ChatBoxHeader } from './ChatBoxHeader';
 export { MessageList } from './MessageList';
 export { TypingIndicator } from './TypingIndicator';
 export { MentionList } from './input/MentionList';
+export { ChatModals, useChatModalState } from './ChatModals';
