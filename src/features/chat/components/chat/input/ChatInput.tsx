@@ -244,7 +244,6 @@ export const ChatInput: React.FC<ChatInputProps> = (props) => {
               </div>
             }
           />
-        )}
 
         {/* Send Button */}
         <button
