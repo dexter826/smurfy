@@ -68,7 +68,9 @@ export const postService = {
       if (!userId) return { posts: [], lastDoc: null, hasMore: false };
 
       let feedQuery = query(
-        collection(db, 'users', userId, 'feeds'),
+        collection(db, 'posts'),
+        where('status', '==', PostStatus.ACTIVE),
+        where('visibility', '==', Visibility.PUBLIC),
         orderBy('createdAt', 'desc'),
         limit(limitCount + 1),
       );
@@ -83,25 +85,7 @@ export const postService = {
         return { posts: [], lastDoc: null, hasMore: false };
       }
 
-      const postIds = feedSnapshot.docs.map((doc) => doc.data().postId);
-      const postPromises = postIds.map((id) => getDoc(doc(db, 'posts', id)));
-      const postResults = await Promise.allSettled(postPromises);
-
-      const posts: Post[] = [];
-      for (const result of postResults) {
-        if (result.status === 'fulfilled' && result.value.exists()) {
-          const postData = result.value.data();
-          if (
-            postData.status === PostStatus.ACTIVE ||
-            (postData.status === PostStatus.PENDING && postData.authorId === userId)
-          ) {
-            posts.push(convertDoc<Post>(result.value));
-          }
-        }
-      }
-
-      posts.sort((a, b) => getSafeMillis(b.createdAt) - getSafeMillis(a.createdAt));
-
+      const posts: Post[] = feedSnapshot.docs.map((d) => convertDoc<Post>(d));
       const blockedUsersMap = await userService.getBlockedUsers(userId);
       const filteredPosts = filterBlockedItems(posts, blockedUsersMap);
 
@@ -110,12 +94,12 @@ export const postService = {
 
       const lastPost = finalPosts[finalPosts.length - 1];
       const lastVisible = lastPost
-        ? feedSnapshot.docs.find((d) => d.data().postId === lastPost.id) || null
+        ? feedSnapshot.docs.find((d) => d.id === lastPost.id) || null
         : null;
 
       return { posts: finalPosts, lastDoc: lastVisible, hasMore };
     } catch (error) {
-      console.error('Lỗi lấy feed từ fan-out', error);
+      console.error('Lỗi lấy feed trực tiếp', error);
       return { posts: [], lastDoc: null, hasMore: false };
     }
   },
@@ -129,7 +113,9 @@ export const postService = {
     if (!userId) return () => {};
 
     const feedQuery = query(
-      collection(db, 'users', userId, 'feeds'),
+      collection(db, 'posts'),
+      where('status', '==', PostStatus.ACTIVE),
+      where('visibility', '==', Visibility.PUBLIC),
       orderBy('createdAt', 'desc'),
       limit(limitCount),
     );
@@ -137,67 +123,31 @@ export const postService = {
     return onSnapshot(
       feedQuery,
       async (snapshot) => {
-        const addedIds = snapshot
-          .docChanges()
-          .filter((c) => c.type === 'added')
-          .map((c) => c.doc.data().postId);
+        const blockedUsersMap = await userService.getBlockedUsers(userId);
 
-        if (addedIds.length > 0) {
-          const postPromises = addedIds.map((id) => getDoc(doc(db, 'posts', id)));
-          const postResults = await Promise.allSettled(postPromises);
+        const addedPosts = filterBlockedItems(
+          snapshot
+            .docChanges()
+            .filter((c) => c.type === 'added')
+            .map((c) => convertDoc<Post>(c.doc)),
+          blockedUsersMap,
+        );
+        if (addedPosts.length > 0) callback('add', addedPosts);
 
-          const posts: Post[] = [];
-          for (const result of postResults) {
-            if (result.status === 'fulfilled' && result.value.exists()) {
-              const postData = result.value.data();
-              if (
-                postData.status === PostStatus.ACTIVE ||
-                (postData.status === PostStatus.PENDING && postData.authorId === userId)
-              ) {
-                posts.push(convertDoc<Post>(result.value));
-              }
-            }
-          }
-
-          if (posts.length > 0) callback('add', posts);
-        }
+        const modifiedPosts = filterBlockedItems(
+          snapshot
+            .docChanges()
+            .filter((c) => c.type === 'modified')
+            .map((c) => convertDoc<Post>(c.doc)),
+          blockedUsersMap,
+        );
+        if (modifiedPosts.length > 0) callback('update', modifiedPosts);
 
         const removedIds = snapshot
           .docChanges()
           .filter((c) => c.type === 'removed')
-          .map((c) => c.doc.data().postId);
-
-        if (removedIds.length > 0) {
-          callback(
-            'remove',
-            removedIds.map((id) => ({ id }) as Post),
-          );
-        }
-
-        const modifiedIds = snapshot
-          .docChanges()
-          .filter((c) => c.type === 'modified')
-          .map((c) => c.doc.data().postId);
-
-        if (modifiedIds.length > 0) {
-          const postPromises = modifiedIds.map((id) => getDoc(doc(db, 'posts', id)));
-          const postResults = await Promise.allSettled(postPromises);
-
-          const posts: Post[] = [];
-          for (const result of postResults) {
-            if (result.status === 'fulfilled' && result.value.exists()) {
-              const postData = result.value.data();
-              if (
-                postData.status === PostStatus.ACTIVE ||
-                (postData.status === PostStatus.PENDING && postData.authorId === userId)
-              ) {
-                posts.push(convertDoc<Post>(result.value));
-              }
-            }
-          }
-
-          if (posts.length > 0) callback('update', posts);
-        }
+          .map((c) => ({ id: c.doc.id }) as Post);
+        if (removedIds.length > 0) callback('remove', removedIds);
       },
       (error) => {
         console.error('[postService] Lỗi subscribe feed:', error);

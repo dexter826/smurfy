@@ -1,36 +1,23 @@
-import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
-import { storage } from '@/lib/firebase/config';
 import { FILE_LIMITS, FileLimitType, TOAST_MESSAGES } from '../constants';
 
 // Kiểm tra dung lượng và loại file hợp lệ
 export const validateFile = (file: File, type: FileLimitType): { isValid: boolean; error?: string } => {
-  const limit = FILE_LIMITS[type];
+  const limit = FILE_LIMITS[type] || 5 * 1024 * 1024;
   
-  // 1. Kiểm tra loại file (MIME type)
+  // Chỉ chấp nhận hình ảnh
   const isImage = file.type.startsWith('image/');
-  const isVideo = file.type.startsWith('video/');
-  
-  if (type === 'IMAGE' || type === 'AVATAR' || type === 'COVER') {
-    if (!isImage) {
-      return {
-        isValid: false,
-        error: TOAST_MESSAGES.MEDIA.INVALID_FILE
-      };
-    }
-  } else if (type === 'VIDEO') {
-    if (!isVideo) {
-      return {
-        isValid: false,
-        error: TOAST_MESSAGES.MEDIA.INVALID_VIDEO_FORMAT
-      };
-    }
+  if (!isImage) {
+    return {
+      isValid: false,
+      error: TOAST_MESSAGES.MEDIA.INVALID_FILE
+    };
   }
 
-  // 2. Kiểm tra dung lượng
+  // Kiểm tra dung lượng
   if (file.size > limit) {
     const mbLimit = limit / (1024 * 1024);
-    const labels: Record<string, string> = { IMAGE: 'Ảnh', AVATAR: 'Ảnh đại diện', COVER: 'Ảnh bìa', FILE: 'File', VIDEO: 'Video' };
-    const typeLabel = labels[type] || 'File';
+    const labels: Record<string, string> = { IMAGE: 'Ảnh', AVATAR: 'Ảnh đại diện', COVER: 'Ảnh bìa', FILE: 'Ảnh', VIDEO: 'Ảnh' };
+    const typeLabel = labels[type] || 'Ảnh';
       
     return {
       isValid: false,
@@ -39,8 +26,6 @@ export const validateFile = (file: File, type: FileLimitType): { isValid: boolea
   }
   return { isValid: true };
 };
-
-
 
 export interface UploadProgress {
   progress: number;
@@ -51,67 +36,96 @@ export interface UploadProgress {
 
 export type ProgressCallback = (progress: UploadProgress) => void;
 
+/**
+ * Tải ảnh lên ImgBB (hoặc fallback Base64 Data URL nếu chưa có API key)
+ */
 export const uploadWithProgress = (
-  path: string,
+  _path: string,
   file: File,
   onProgress?: ProgressCallback,
 ): Promise<string> => {
   return new Promise((resolve, reject) => {
-    const storageRef = ref(storage, path);
-    const uploadTask = uploadBytesResumable(storageRef, file);
+    const apiKey = import.meta.env.VITE_IMGBB_API_KEY;
 
-    uploadTask.on(
-      'state_changed',
-      (snapshot) => {
-        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+    if (!apiKey || apiKey === 'your_imgbb_api_key' || apiKey.trim() === '') {
+      // Fallback base64 Data URL nếu chưa cấu hình API key
+      const reader = new FileReader();
+      reader.onprogress = (e) => {
+        if (e.lengthComputable) {
+          onProgress?.({
+            progress: (e.loaded / e.total) * 100,
+            bytesTransferred: e.loaded,
+            totalBytes: e.total,
+            state: 'running',
+          });
+        }
+      };
+      reader.onload = () => {
+        onProgress?.({
+          progress: 100,
+          bytesTransferred: file.size,
+          totalBytes: file.size,
+          state: 'success',
+        });
+        resolve(reader.result as string);
+      };
+      reader.onerror = () => reject(new Error('Không thể đọc tệp ảnh'));
+      reader.readAsDataURL(file);
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('image', file);
+
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', `https://api.imgbb.com/1/upload?key=${encodeURIComponent(apiKey)}`);
+
+    xhr.upload.onprogress = (e) => {
+      if (e.lengthComputable) {
+        const progress = (e.loaded / e.total) * 100;
         onProgress?.({
           progress,
-          bytesTransferred: snapshot.bytesTransferred,
-          totalBytes: snapshot.totalBytes,
-          state: snapshot.state as UploadProgress['state'],
+          bytesTransferred: e.loaded,
+          totalBytes: e.total,
+          state: 'running',
         });
-      },
-      (error) => {
-        reject(new Error(`Lỗi tải lên Firebase Storage: ${error.message}`));
-      },
-      async () => {
-        try {
-          const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-          onProgress?.({
-            progress: 100,
-            bytesTransferred: file.size,
-            totalBytes: file.size,
-            state: 'success',
-          });
-          resolve(downloadURL);
-        } catch (error) {
-          reject(new Error('Không lấy được URL sau khi tải lên'));
-        }
       }
-    );
+    };
+
+    xhr.onload = () => {
+      if (xhr.status >= 200 && xhr.status < 300) {
+        try {
+          const res = JSON.parse(xhr.responseText);
+          if (res.success && res.data?.url) {
+            onProgress?.({
+              progress: 100,
+              bytesTransferred: file.size,
+              totalBytes: file.size,
+              state: 'success',
+            });
+            resolve(res.data.display_url || res.data.url);
+          } else {
+            reject(new Error(res.error?.message || 'Lỗi tải ảnh lên ImgBB'));
+          }
+        } catch {
+          reject(new Error('Phản hồi không hợp lệ từ ImgBB'));
+        }
+      } else {
+        reject(new Error(`ImgBB HTTP lỗi ${xhr.status}: ${xhr.statusText}`));
+      }
+    };
+
+    xhr.onerror = () => {
+      reject(new Error('Lỗi kết nối mạng khi tải ảnh lên ImgBB'));
+    };
+
+    xhr.send(formData);
   });
 };
 
-// Xóa file trên Storage theo URL (bỏ qua URL không phải Firebase)
-export const deleteStorageFile = async (url: string): Promise<void> => {
-  if (!url || !url.includes('firebasestorage.googleapis.com')) return;
-  try {
-    const { ref: storageRef, deleteObject } = await import('firebase/storage');
-    const path = decodeURIComponent(new URL(url).pathname.split('/o/')[1]?.split('?')[0] ?? '');
-    if (!path) return;
-    const fileRef = storageRef(storage, path);
-    await deleteObject(fileRef);
-  } catch (error) {
-    // Log để debug — không throw để tránh crash flow chính
-    console.error('[Storage] Xóa file thất bại:', url, error);
-  }
-};
+export const deleteStorageFile = async (_url: string): Promise<void> => {};
+export const deleteStorageFiles = async (_urls: string[]): Promise<void[]> => [];
 
-// Xóa nhiều file cùng lúc
-export const deleteStorageFiles = (urls: string[]): Promise<void[]> =>
-  Promise.all(urls.filter(Boolean).map(deleteStorageFile));
-
-// Định dạng bytes thành chuỗi dễ đọc
 export const formatBytes = (bytes: number): string => {
   if (bytes === 0) return "0 B";
   const k = 1024;
@@ -120,47 +134,4 @@ export const formatBytes = (bytes: number): string => {
   return `${parseFloat((bytes / Math.pow(k, i)).toFixed(1))} ${sizes[i]}`;
 };
 
-// Trích xuất thumbnail từ Video bằng Canvas ở phía Client
-export const generateVideoThumbnail = (file: File): Promise<File> => {
-  return new Promise((resolve, reject) => {
-    const video = document.createElement('video');
-    video.preload = 'metadata';
-    video.autoplay = false;
-    video.muted = true;
-    
-    const url = URL.createObjectURL(file);
-    video.src = url;
-
-    video.onloadedmetadata = () => {
-      video.currentTime = Math.min(1, video.duration / 2);
-    };
-
-    video.onseeked = () => {
-      const canvas = document.createElement('canvas');
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
-      const ctx = canvas.getContext('2d');
-      
-      if (ctx) {
-        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-        canvas.toBlob((blob) => {
-          URL.revokeObjectURL(url);
-          if (blob) {
-            const thumbnailFile = new File([blob], file.name.replace(/\.[^/.]+$/, "") + "_thumb.jpg", { type: 'image/jpeg' });
-            resolve(thumbnailFile);
-          } else {
-            reject(new Error("Could not create thumbnail blob"));
-          }
-        }, 'image/jpeg', 0.8);
-      } else {
-        URL.revokeObjectURL(url);
-        reject(new Error("Could not get canvas context"));
-      }
-    };
-
-    video.onerror = (e) => {
-      URL.revokeObjectURL(url);
-      reject(new Error("Error loading video to generate thumbnail"));
-    };
-  });
-};
+export const generateVideoThumbnail = async (file: File): Promise<File> => file;

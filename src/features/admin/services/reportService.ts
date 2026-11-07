@@ -1,5 +1,7 @@
 import {
   collection,
+  updateDoc,
+  deleteDoc,
   addDoc,
   getDocs,
   getDoc,
@@ -14,8 +16,7 @@ import {
   QueryConstraint,
   serverTimestamp
 } from 'firebase/firestore';
-import { db, functions } from '@/lib/firebase/config';
-import { httpsCallable } from 'firebase/functions';
+import { db } from '@/lib/firebase/config';
 import { Report, ReportType, ReportStatus, MediaObject } from '@shared/types';
 import { PAGINATION, IMAGE_COMPRESSION } from '@/constants';
 import { uploadWithProgress, ProgressCallback } from '@/utils/uploadUtils';
@@ -178,14 +179,48 @@ export const reportService = {
     resolution: string = 'Đã xử lý',
     action: 'delete_content' | 'warn_user' | 'ban_user' = 'delete_content'
   ): Promise<void> => {
-    const fn = httpsCallable(functions, 'resolveReport');
-    await fn({ reportId, resolution, action });
+    const reportRef = doc(db, 'reports', reportId);
+    const reportSnap = await getDoc(reportRef);
+    if (!reportSnap.exists()) return;
+    const reportData = reportSnap.data();
+
+    // Perform action
+    if (action === 'delete_content') {
+      if (reportData.targetType === ReportType.POST) {
+        await updateDoc(doc(db, 'posts', reportData.targetId), {
+          status: 'deleted',
+          updatedAt: serverTimestamp()
+        }).catch(() => {});
+      } else if (reportData.targetType === ReportType.COMMENT) {
+        await updateDoc(doc(db, 'comments', reportData.targetId), {
+          status: 'deleted',
+          updatedAt: serverTimestamp()
+        }).catch(() => {});
+      }
+    } else if (action === 'ban_user' && reportData.targetOwnerId) {
+      await updateDoc(doc(db, 'users', reportData.targetOwnerId), {
+        status: 'banned',
+        updatedAt: serverTimestamp()
+      }).catch(() => {});
+    }
+
+    await updateDoc(reportRef, {
+      status: ReportStatus.RESOLVED,
+      resolution,
+      actionTaken: action,
+      resolvedAt: serverTimestamp(),
+      updatedAt: serverTimestamp()
+    });
   },
 
   /** Từ chối báo cáo (Admin) */
   rejectReport: async (reportId: string): Promise<void> => {
-    const fn = httpsCallable(functions, 'rejectReport');
-    await fn({ reportId });
+    const reportRef = doc(db, 'reports', reportId);
+    await updateDoc(reportRef, {
+      status: ReportStatus.REJECTED,
+      resolvedAt: serverTimestamp(),
+      updatedAt: serverTimestamp()
+    });
   },
 
   /** Thống kê báo cáo (Admin) */

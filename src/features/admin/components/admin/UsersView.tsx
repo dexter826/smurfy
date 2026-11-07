@@ -2,8 +2,6 @@ import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { Users, Search, Lock, Unlock, Eye } from 'lucide-react';
 import { User, UserStatus } from '@shared/types';
 import { userService } from '@/services/userService';
-import { functions } from '@/lib/firebase/config';
-import { httpsCallable } from 'firebase/functions';
 import { UserAvatar, Skeleton, IconButton, Select, AlertDialog, EmptyState } from '@/components/ui';
 import { CONFIRM_MESSAGES, TOAST_MESSAGES } from '@/constants';
 import { toast } from '@/store/toastStore';
@@ -61,7 +59,7 @@ export const UsersView: React.FC = () => {
   const handleConfirmAction = useCallback(async () => {
     const { type, userId, userName } = confirm;
     try {
-      await httpsCallable(functions, 'banUser')({ userId, action: type });
+      await userService.banUser(userId, type);
       toast.success(
         type === 'ban'
           ? TOAST_MESSAGES.ADMIN.BAN_SUCCESS(userName)

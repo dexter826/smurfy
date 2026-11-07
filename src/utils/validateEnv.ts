@@ -35,6 +35,7 @@ const requiredEnvVars = [
 
 const optionalEnvVars = [
     'VITE_FIREBASE_MEASUREMENT_ID',
+    'VITE_IMGBB_API_KEY',
 ] as const;
 
 export function validateEnvironment(): ValidationResult {

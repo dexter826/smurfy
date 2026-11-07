@@ -210,14 +210,12 @@ export const ChatInput: React.FC<ChatInputProps> = (props) => {
           onToggle={() => setShowActions(!showActions)}
           onAction={(type) => {
             setShowActions(false);
-            if (type === 'media') fileInputRef.current?.click();
-            else if (type === 'voice') startRecording();
-            else if (type === 'gif') setShowGiphy(true);
+            if (type === 'media') fileInputRef.current?.click(); else if (type === 'gif') setShowGiphy(true);
           }}
           disabled={disabled || isSending || isRecording}
         />
 
-        <input ref={fileInputRef} type="file" multiple className="hidden" onChange={handleFileSelect} />
+        <input ref={fileInputRef} type="file" accept="image/*" multiple className="hidden" onChange={handleFileSelect} />
 
         {isRecording ? (
           <RecordingUI duration={recordingDuration} onCancel={cancelRecording} onStop={stopRecording} />
