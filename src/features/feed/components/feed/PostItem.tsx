@@ -17,7 +17,6 @@ import {
   Visibility,
   PostType,
   User,
-  ReportType,
   ReactionType,
 } from '@shared/types';
 import { usePostStore } from '@/store';

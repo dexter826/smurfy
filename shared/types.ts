@@ -5,7 +5,6 @@ import { Timestamp } from 'firebase/firestore';
 
 export enum UserStatus {
     ACTIVE = "active",
-    BANNED = "banned",
 }
 
 export enum Gender {
@@ -43,11 +42,7 @@ export enum MessageType {
     TEXT = "text",
     SHARE_POST = "share_post",
     IMAGE = "image",
-    VIDEO = "video",
-    FILE = "file",
-    VOICE = "voice",
     SYSTEM = "system",
-    CALL = "call",
     GIF = "gif",
 }
 
@@ -56,47 +51,10 @@ export enum NotificationType {
     COMMENT = "comment",
     FRIEND_REQUEST = "friend_request",
     SYSTEM = "system",
-    REPORT = "report",
     CHAT = "chat",
     MENTION = "mention",
     FRIEND_ACCEPT = "friend_accept",
 }
-
-export enum ReportType {
-    POST = "post",
-    COMMENT = "comment",
-    USER = "user",
-}
-
-export enum ReportReason {
-    SPAM = "spam",
-    HARASSMENT = "harassment",
-    HATE_SPEECH = "hate_speech",
-    SENSITIVE = "sensitive",
-    SCAM_IMPERSONATION = "scam_impersonation",
-    OTHER = "other",
-}
-
-export enum ReportStatus {
-    PENDING = "pending",
-    RESOLVED = "resolved",
-    REJECTED = "rejected",
-}
-
-export const REPORT_TYPE_LABELS: Record<ReportType, string> = {
-    [ReportType.POST]: 'Bài viết',
-    [ReportType.COMMENT]: 'Bình luận',
-    [ReportType.USER]: 'Người dùng',
-};
-
-export const REPORT_REASON_LABELS: Record<ReportReason, string> = {
-    [ReportReason.SPAM]: 'Spam / Nội dung rác',
-    [ReportReason.HARASSMENT]: 'Quấy rối / Làm phiền',
-    [ReportReason.HATE_SPEECH]: 'Ngôn từ thù ghét',
-    [ReportReason.SENSITIVE]: 'Nội dung nhạy cảm / Khiêu dâm',
-    [ReportReason.SCAM_IMPERSONATION]: 'Lừa đảo / Giả mạo',
-    [ReportReason.OTHER]: 'Lý do khác',
-};
 
 export enum PostStatus {
     ACTIVE = "active",
@@ -120,7 +78,6 @@ export enum CommentStatus {
 
 export enum UserRole {
     USER = "user",
-    ADMIN = "admin",
 }
 
 export enum MaritalStatus {
@@ -169,7 +126,6 @@ export interface NotificationPayload {
     commentId?: string;
     friendRequestId?: string;
     contentSnippet?: string;
-    reportId?: string;
 }
 
 // ========== BASE ENTITIES ==========
@@ -377,21 +333,6 @@ export interface Notification extends BaseEntity {
     data: NotificationPayload;
     isRead: boolean;
     updatedAt: Timestamp;
-}
-
-export interface Report extends BaseEntity {
-    reporterId: string;
-    targetType: ReportType;
-    targetId: string;
-    targetOwnerId: string;
-    reason: ReportReason;
-    description?: string;
-    images?: MediaObject[];
-    status: ReportStatus;
-    updatedAt: Timestamp;
-    resolvedAt?: Timestamp;
-    resolvedBy?: string;
-    resolution?: string;
 }
 
 // ========== BLOCK OPTIONS ==========

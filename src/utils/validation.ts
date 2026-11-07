@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { VALIDATION, GROUP_LIMITS, REPORT_CONFIG, MEDIA_CONSTRAINTS, USER_LIMITS, DATE_CONSTANTS } from '../constants/appConfig';
-import { ReportReason, Visibility, Gender, MaritalStatus, PostType, Generation } from '@shared/types';
+import { Visibility, Gender, MaritalStatus, PostType, Generation } from '@shared/types';
 
 // Schema cho Đăng nhập
 export const loginSchema = z.object({
@@ -122,24 +122,6 @@ export const postSchema = z.object({
   path: ["content"],
 });
 
-// Schema cho Báo cáo
-export const reportSchema = z.object({
-  reason: z.string().min(1, 'Vui lòng chọn lý do báo cáo'),
-  description: z.string()
-    .max(REPORT_CONFIG.DESCRIPTION_MAX_LENGTH, `Mô tả không được quá ${REPORT_CONFIG.DESCRIPTION_MAX_LENGTH} ký tự`)
-    .optional()
-    .or(z.literal('')),
-  images: z.array(z.string())
-    .max(REPORT_CONFIG.MAX_IMAGES_PER_REPORT, `Chỉ được tải lên tối đa ${REPORT_CONFIG.MAX_IMAGES_PER_REPORT} ảnh bằng chứng`)
-    .optional(),
-}).refine(data => {
-  if (data.reason === ReportReason.OTHER && !data.description?.trim()) return false;
-  return true;
-}, {
-  message: "Vui lòng mô tả chi tiết lý do",
-  path: ["description"],
-});
-
 // Schema cho Nhóm chat
 export const groupSchema = z.object({
   name: z.string()
@@ -170,7 +152,6 @@ export type ProfileFormValues = z.infer<typeof profileSchema>;
 export type OnboardingFormValues = z.infer<typeof onboardingSchema>;
 export type ChangePasswordFormValues = z.infer<typeof changePasswordSchema>;
 export type PostFormValues = z.infer<typeof postSchema>;
-export type ReportFormValues = z.infer<typeof reportSchema>;
 export type GroupFormValues = z.infer<typeof groupSchema>;
 export type CommentFormValues = z.infer<typeof commentSchema>;
 
