@@ -4,7 +4,7 @@
 
 **Blocked by:** None
 
-**Status:** ready-for-agent
+**Status:** done
 
 - [ ] `@tailwindcss/vite` thay PostCSS config; `tailwind.config.js` xoá, mọi theme về `@theme` trong CSS
 - [ ] Đầy đủ token light + dark theo bảng DESIGN.md §2, không còn token rose/`#0068FF`
