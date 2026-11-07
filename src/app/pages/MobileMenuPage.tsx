@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { User as UserIcon, Settings, Moon, Sun, LogOut, ChevronRight, Shield } from 'lucide-react';
+import { User as UserIcon, Settings, Moon, Sun, LogOut, ChevronRight } from 'lucide-react';
 import { useAuthStore } from '@/features/auth';
 import { useThemeStore, useResolvedTheme } from '@/store/themeStore';
 import { UserAvatar, AlertDialog } from '@/components/ui';

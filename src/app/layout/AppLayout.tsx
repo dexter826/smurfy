@@ -43,7 +43,7 @@ export const AppLayout: React.FC = () => {
 
   const isAdmin = user?.role === 'admin';
   const isChatRoom = location.pathname === '/' && !!selectedConversationId;
-  const navItems = appNavItems(isAdmin, {
+  const navItems = appNavItems(false, {
     unread: totalUnread,
     requests: receivedRequests.length,
     notifications: unreadNotifications,
