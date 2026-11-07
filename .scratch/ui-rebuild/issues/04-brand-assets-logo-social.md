@@ -1,15 +1,18 @@
-# 04: Brand assets — logo system + social images
+# 04: Brand assets — chuẩn hóa logo hiện tại thành bộ kit
 
-**What to build:** Thiết kế bộ nhận diện mới cho Smurfy theo workflow Design mode của skill `logo-design` (script tại `.agents/skills/logo-design/scripts/`). Brief đã có sẵn: tên Smurfy, mascot smurf xanh, adjectives friendly/playful/modern, brand color `#4C9EEB` + `on-primary` `#0B1220` (DESIGN.md §1-2). Quy trình: research clichés category social/chat → 8-12 concept một câu → chọn 3 concept khác nhau nhất → build SVG đen trước → `svg_audit` + `preview_sheet` (ít nhất 2 vòng refine) → **checkpoint: trình concept sheet cho user duyệt** → sau duyệt build kit: symbol + wordmark (lockup ngang + xếp chồng), favicon.ico, app-icon 192/512 + masked-icon.svg, og-image 1200×630, twitter-image, logo_text_white/blue, default cover-image.
+**What to build:** Chuẩn hóa logo hiện tại của app thành bộ kit đầy đủ theo design system mới (Assets mode của skill `logo-design`). Phân tích design gốc: hai đầu smurf vẽ tay doodle nét trắng dày (round caps) trên tile bo góc + wordmark "Smurfy" bold sans — cặp "quirky mark + neutral type" chuẩn theo mark-types §10. Giữ nguyên artwork gốc, chuẩn hóa vào hệ màu mới. Không design mới từ đầu (quyết định user sau 3 vòng concept không đạt).
 
 **Blocked by:** 01
 
-**Status:** ready-for-agent
+**Status:** done
 
-- [ ] 3 concept SVG đen, audit sạch (không live text, không raster, không filter), đọc được ở 16px
-- [ ] Concept checkpoint: sheet + một dòng ý tưởng mỗi concept + recommendation trình user, chờ duyệt trước khi build kit
-- [ ] Kit sau duyệt đủ: symbol, wordmark, lockups, favicon.ico, icon 192/512, masked-icon.svg, og-image 1200×630, twitter-image, logo_text variants, default cover
-- [ ] File name khớp reference hiện có trong `index.html`/manifest (`logo_text_white.png`, `logo.svg`, `og-image.png`, `twitter-image.png`…) hoặc cập nhật reference cùng commit
-- [ ] `export_variants.py --web-icons` chạy được; hướng dẫn dùng 1 trang (clear space, min size, misuse)
-- [ ] Một màu khi in đơn sắc vẫn đọc được (black/white/brand-mono variants)
-
+- [x] Symbol master: `smurfy-symbol-tile.svg` — tile `#4C9EEB` rx 54 + doodle gốc giữ nguyên (render khớp design cũ, interior path đổi sang màu tile thay vì `#0269FE` cũ)
+- [x] Symbol mono variants: tile đen (`#0B1220`) + tile trắng cho dark/print
+- [x] Wordmark Nunito 800: trắng (dark bg) + `#2367A8` primary-strong (light bg) + `#0B1220` — 955×240 khớp kích thước file cũ
+- [x] Lockup horizontal (symbol tile + wordmark) SVG + PNG
+- [x] favicon.ico (16/32/48) + apple-touch-icon 180 + logo192
+- [x] Bổ sung PWA icons bị thiếu: `pwa-192x192.png` + `pwa-512x512.png` (vite.config đã reference từ trước nhưng file không tồn tại) + `masked-icon.svg` maskable (full-bleed tile, doodle scale 0.72 safe-zone)
+- [x] og-image + twitter-image 1200×630: dark card (#12161F) — symbol tile + wordmark Nunito 800 trắng + tagline "Nhắn tin. Kết bạn. Chia sẻ." (#7FB6EF), decor circles cornflower opacity thấp. Chỉ dùng primitives + text (không doodle path trên nền khác tile — tránh gãy nét), thiết kế lại toàn bộ theo chỉ đạo user
+- [x] Tất cả file name giữ nguyên reference hiện có (`logo.svg`, `favicon.ico`, `logo_text_white.png`, `logo_text_blue.png`, `logo192.png`, `og-image.png`, `twitter-image.png`, `apple-touch-icon.png`) — không cần sửa app code
+- [x] Doodle căn giữa chính xác theo ink bounds đo bằng `svg_audit` (center 256.2, 255.7): `logo.svg` dùng tile inset margin 36 (đúng tỷ lệ gốc), PWA/maskable dùng full-bleed với doodle scale quanh đúng tâm
+- [x] File rác quá trình tạo kit đã xoá sạch khỏi `.scratch/`
