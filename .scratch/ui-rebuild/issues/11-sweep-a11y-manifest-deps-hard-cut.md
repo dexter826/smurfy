@@ -4,12 +4,11 @@
 
 **Blocked by:** 10
 
-**Status:** ready-for-agent
+**Status:** ready-for-human
 
-- [ ] `grep` không còn hex raw ngoài token trong `src/`; raw palette class = 0
-- [ ] Zoom không bị disable; meta theme-color = `#4C9EEB` khớp token; 1 manifest duy nhất trỏ đúng assets ticket 04
-- [ ] `styled-components` + `dexie` khỏi package.json; `vite build` xanh sau xoá
-- [ ] 7 trục sweep cuối: naming residue, code chết chỉ đánh dấu không tự xoá, hooks thuần tách khỏi JSX để test được
-- [ ] Checklist web-design-guidelines chạy qua các trang chính, findings P1 xử lý xong
-- [ ] PR tổng: mô tả thay đổi
-
+- [x] `grep` không còn hex raw ngoài token trong `src/`; raw palette class = 0
+- [x] Zoom không bị disable; meta theme-color = `#4C9EEB` khớp token; 1 manifest duy nhất trỏ đúng assets ticket 04
+- [x] `styled-components` + `dexie` khỏi package.json; `vite build` xanh sau xoá
+- [x] 7 trục sweep cuối: naming residue, code chết chỉ đánh dấu không tự xoá, hooks thuần tách khỏi JSX để test được
+- [x] Checklist web-design-guidelines chạy qua các trang chính, findings P1 xử lý xong
+- [x] PR tổng: mô tả thay đổi

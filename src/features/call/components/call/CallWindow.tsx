@@ -104,7 +104,7 @@ export const CallWindow: React.FC<CallWindowProps> = ({
   return (
     <div
       ref={containerRef}
-      style={{ position: 'fixed', inset: 0, zIndex: 150, width: '100%', height: '100%', background: '#000' }}
+      className="fixed inset-0 w-full h-full bg-black z-[150]"
     />
   );
 };

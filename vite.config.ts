@@ -17,12 +17,22 @@ export default defineConfig(({ mode }) => {
         svgr(),
         VitePWA({
           registerType: 'autoUpdate',
-          includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'masked-icon.svg'],
+          includeAssets: [
+            'favicon.ico',
+            'apple-touch-icon.png',
+            'masked-icon.svg',
+            'logo.svg',
+            'og-image.png',
+            'twitter-image.png'
+          ],
           manifest: {
-            name: 'Smurf Social',
-            short_name: 'Smurf',
-            description: 'Mạng xã hội Smurf - Kết nối cộng đồng',
-            theme_color: '#3b82f6',
+            name: 'Smurfy',
+            short_name: 'Smurfy',
+            description: 'Mạng xã hội kết nối cộng đồng Smurfy',
+            theme_color: '#4C9EEB',
+            background_color: '#f7f9fc',
+            display: 'standalone',
+            start_url: '/',
             icons: [
               {
                 src: 'pwa-192x192.png',
@@ -94,7 +104,7 @@ export default defineConfig(({ mode }) => {
                 if (id.includes('firebase') || id.includes('@firebase')) return 'vendor-firebase-core';
                 if (id.includes('react-hook-form') || id.includes('zod') || id.includes('@hookform')) return 'vendor-form';
                 if (id.includes('emoji-picker-react')) return 'vendor-emoji';
-                if (id.includes('styled-components') || id.includes('react-easy-crop')) return 'vendor-media';
+                if (id.includes('react-easy-crop')) return 'vendor-media';
                 if (id.includes('lucide-react')) return 'vendor-icons';
                 if (id.includes('date-fns') || id.includes('react-loading-skeleton')) return 'vendor-ui';
                 if (id.includes('@zegocloud')) return 'vendor-zegocloud';

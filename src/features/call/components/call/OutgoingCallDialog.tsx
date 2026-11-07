@@ -20,13 +20,13 @@ const endReasonConfig = {
     icon: <PhoneMissed size={26} className="text-white" />,
     label: 'Đang bận',
     subtitle: 'Người dùng đang trong cuộc gọi khác',
-    btnColor: 'bg-orange-500 hover:bg-orange-600',
+    btnColor: 'bg-warning hover:bg-warning/90',
   },
   rejected: {
     icon: <PhoneOff size={26} className="text-white" />,
     label: 'Từ chối',
     subtitle: 'Cuộc gọi bị từ chối',
-    btnColor: 'bg-red-500 hover:bg-red-600',
+    btnColor: 'bg-danger hover:bg-danger/90',
   },
 } as const;
 
@@ -57,9 +57,9 @@ export const OutgoingCallDialog: React.FC<OutgoingCallDialogProps> = ({
     >
       <audio ref={audioRef} src={waitRingSound} loop />
 
-      <div className="w-full sm:w-auto flex flex-col items-center gap-6 px-10 py-10 bg-[#1a1f2e] rounded-t-3xl sm:rounded-3xl shadow-2xl sm:min-w-[300px] border border-white/10">
+      <div className="w-full sm:w-auto flex flex-col items-center gap-6 px-10 py-10 bg-surface-elevated rounded-t-3xl sm:rounded-3xl shadow-2xl sm:min-w-[300px] border border-border">
         {/* Label */}
-        <p className="text-white/50 text-xs font-medium tracking-widest uppercase">
+        <p className="text-muted text-xs font-medium tracking-widest uppercase">
           {callType === 'video' ? 'Cuộc gọi video' : 'Cuộc gọi thoại'}
         </p>
 
@@ -74,14 +74,14 @@ export const OutgoingCallDialog: React.FC<OutgoingCallDialogProps> = ({
 
         {/* Name + status */}
         <div className="text-center">
-          <h3 className="text-white text-xl font-semibold">{calleeName}</h3>
+          <h3 className="text-foreground text-xl font-semibold">{calleeName}</h3>
           {config ? (
             <div className="mt-2 space-y-0.5">
-              <p className="text-sm font-semibold text-white/80">{config.label}</p>
-              <p className="text-xs text-white/40">{config.subtitle}</p>
+              <p className="text-sm font-semibold text-foreground/80">{config.label}</p>
+              <p className="text-xs text-muted">{config.subtitle}</p>
             </div>
           ) : (
-            <p className="text-white/50 text-sm mt-1 tabular-nums">
+            <p className="text-muted text-sm mt-1 tabular-nums">
               Đang gọi{dots}
             </p>
           )}
@@ -99,7 +99,7 @@ export const OutgoingCallDialog: React.FC<OutgoingCallDialogProps> = ({
         ) : (
           <button
             onClick={onCancel}
-            className="w-16 h-16 rounded-full bg-red-500 hover:bg-red-600 flex items-center justify-center transition-all duration-200 shadow-lg active:scale-95"
+            className="w-16 h-16 rounded-full bg-danger hover:bg-danger/90 flex items-center justify-center transition-all duration-200 shadow-lg active:scale-95"
             title="Hủy cuộc gọi"
           >
             <PhoneOff size={24} className="text-white" />
