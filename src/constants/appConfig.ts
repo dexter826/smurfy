@@ -1,5 +1,5 @@
 import { getValidatedEnvConfig } from '../utils/validateEnv';
-import { ReactionType } from '../../shared/types';
+import { ReactionType } from '@shared/types';
 
 /** Cấu hình phân trang cho các danh sách */
 export const PAGINATION = {

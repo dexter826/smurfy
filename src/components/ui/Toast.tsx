@@ -1,6 +1,6 @@
 import React from 'react';
 import { X, CheckCircle, AlertCircle, Info, AlertTriangle } from 'lucide-react';
-import { useToastStore, ToastType } from '../../store/toastStore';
+import { useToastStore, ToastType } from '@/store/toastStore';
 import { IconButton } from './IconButton';
 
 const toastConfig: Record<ToastType, { icon: React.ReactNode; bar: string }> = {

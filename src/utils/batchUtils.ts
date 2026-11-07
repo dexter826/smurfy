@@ -1,6 +1,6 @@
 import { getDocs, query, collection, where, documentId } from 'firebase/firestore';
-import { db } from '../firebase/config';
-import { User } from '../../shared/types';
+import { db } from '@/lib/firebase/config';
+import { User } from '@shared/types';
 import { FIREBASE_LIMITS } from '../constants/appConfig';
 import { convertDocs } from './firebaseUtils';
 

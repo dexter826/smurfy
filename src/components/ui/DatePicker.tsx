@@ -1,6 +1,6 @@
 import React, { useState, useRef, useLayoutEffect, useCallback } from 'react';
 import { createPortal } from 'react-dom';
-import { useClickOutside } from '../../hooks/utils';
+import { useClickOutside } from '@/hooks/utils';
 import { Calendar as CalendarIcon, ChevronLeft, ChevronRight } from 'lucide-react';
 import {
   format, addMonths, subMonths, startOfMonth, endOfMonth,

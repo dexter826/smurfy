@@ -1,5 +1,5 @@
 import React from 'react';
-import { RtdbMessage, MessageType } from '../../shared/types';
+import { RtdbMessage, MessageType } from '@shared/types';
 
 /**
  * Logic chuyển đổi tin nhắn thành nhãn hiển thị (Snippet)

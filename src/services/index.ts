@@ -1,8 +1,8 @@
-export { authService } from './authService';
-export { commentService } from './commentService';
-export { friendService } from './friendService';
-export { notificationService } from './notificationService';
-export { postService } from './postService';
-export { reportService } from './reportService';
+export { authService } from '@/features/auth';
+export { commentService } from '@/features/comment';
+export { friendService } from '@/features/friend';
+export { notificationService } from '@/features/notification';
+export { postService } from '@/features/feed';
+export { reportService } from '@/features/admin';
 export { userService } from './userService';
-export { presenceService } from './presenceService';
+export { presenceService } from '@/features/presence';

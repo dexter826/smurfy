@@ -1,17 +1,17 @@
 export * from './utils';
 
-export * from './chat';
+export * from '@/features/chat';
 
-export * from './profile';
+export * from '@/features/profile';
 
-export { useFeed } from './useFeed';
-export { useChat } from './useChat';
-export { useContacts } from './useContacts';
-export { useProfile } from './useProfile';
-export { useUserPosts } from './useUserPosts';
-export { useAdminReports } from './useAdminReports';
+export { useFeed } from '@/features/feed';
+export { useChat } from '@/features/chat';
+export { useContacts } from '@/features/friend';
+export { useProfile } from '@/features/profile';
+export { useUserPosts } from '@/features/feed';
+export { useAdminReports } from '@/features/admin';
 export { useLoading } from './useLoading';
-export { usePresence } from './usePresence';
+export { usePresence } from '@/features/presence';
 export { useFilteredReactions } from './useFilteredReactions';
 export { usePostNavigation } from './usePostNavigation';
 export { useLinkPreview } from './useLinkPreview';

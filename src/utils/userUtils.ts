@@ -1,4 +1,4 @@
-import { Generation } from '../../shared/types';
+import { Generation } from '@shared/types';
 import { GENERATION_THRESHOLDS } from '../constants/appConfig';
 
 export const calculateGeneration = (dob: number | Date | null | undefined): Generation => {

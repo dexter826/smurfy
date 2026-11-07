@@ -1,6 +1,6 @@
 import React, { useState, useRef, useLayoutEffect, useMemo, useCallback } from 'react';
 import { createPortal } from 'react-dom';
-import { useClickOutside } from '../../hooks/utils';
+import { useClickOutside } from '@/hooks/utils';
 import { ChevronDown, Search, X, Check } from 'lucide-react';
 
 export interface SearchableOption {

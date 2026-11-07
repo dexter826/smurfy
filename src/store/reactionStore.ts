@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { ReactionType } from '../../shared/types';
+import { ReactionType } from '@shared/types';
 
 interface ReactionState {
     optimisticReactions: Record<string, ReactionType | null>;

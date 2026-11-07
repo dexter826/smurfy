@@ -1,5 +1,5 @@
 import React from 'react';
-import { formatBytes } from '../../utils/uploadUtils';
+import { formatBytes } from '@/utils/uploadUtils';
 import { ProgressBar } from './ProgressBar';
 
 interface UploadProgressProps {

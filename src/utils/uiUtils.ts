@@ -1,5 +1,5 @@
 import { RefObject } from 'react';
-import { ReactionType } from '../../shared/types';
+import { ReactionType } from '@shared/types';
 
 // Cuộn đến tin nhắn và hiệu ứng highlight
 export const scrollToMessage = (messageId: string) => {

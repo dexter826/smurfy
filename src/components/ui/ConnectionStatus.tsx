@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { WifiOff, Wifi, Loader2 } from 'lucide-react';
-import { useConnectionStatus } from '../../hooks/utils/useConnectionStatus';
+import { useConnectionStatus } from '@/hooks/utils/useConnectionStatus';
 
 export const ConnectionStatus: React.FC = () => {
     const { isFullyConnected, isOnline, isFirebaseConnected } = useConnectionStatus();
