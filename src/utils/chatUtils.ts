@@ -18,16 +18,8 @@ export const getMessageDisplayContent = (message: RtdbMessage): string => {
             if (message.content?.startsWith(prefix)) return message.content;
             return message.content ? `${prefix} ${message.content.replace(/@\[([^\]]+)\]/g, '@$1')}` : prefix;
         }
-        case MessageType.VIDEO:
-            return message.content?.startsWith('[Video]') ? message.content : '[Video]';
         case MessageType.GIF:
             return message.content?.startsWith('[GIF]') ? message.content : '[GIF]';
-        case MessageType.FILE:
-            return message.content?.startsWith('[File]') ? message.content : `[File] ${message.media?.[0]?.fileName || ''}`;
-        case MessageType.VOICE:
-            return message.content?.startsWith('[Tin nhắn thoại]') ? message.content : '[Tin nhắn thoại]';
-        case MessageType.CALL:
-            return message.content?.startsWith('[Cuộc gọi]') ? message.content : '[Cuộc gọi]';
         case MessageType.SYSTEM:
             return message.content;
         default:

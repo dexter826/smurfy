@@ -124,42 +124,7 @@ export const useConversationItem = ({
 
     const content = lastMessage.content;
 
-    if (lastMessage.type === MessageType.CALL) {
-      const isMine = lastMessage.senderId === currentUserId;
-      const isGroup = conversation.data.isGroup;
-      try {
-        const parsed = JSON.parse(content);
-        const status = parsed.status;
-
-        if (isGroup) {
-          if (status === 'started') return 'Cuộc gọi nhóm đang diễn ra';
-          if (status === 'ended') {
-            const timeStr = parsed.duration
-              ? ` • ${Math.floor(parsed.duration / 60)}:${(parsed.duration % 60).toString().padStart(2, '0')}`
-              : '';
-            return `Cuộc gọi nhóm${timeStr}`;
-          }
-          return 'Cuộc gọi nhóm đã kết thúc';
-        }
-
-        // 1-1
-        if (status === 'missed') {
-          return 'Cuộc gọi nhỡ';
-        }
-        if (status === 'rejected') {
-          return isMine ? 'Cuộc gọi bị từ chối' : 'Cuộc gọi';
-        }
-        if (status === 'ended') {
-          const timeStr = parsed.duration
-            ? ` (${Math.floor(parsed.duration / 60)}:${(parsed.duration % 60).toString().padStart(2, '0')})`
-            : '';
-          return isMine ? `Cuộc gọi đi${timeStr}` : `Cuộc gọi đến${timeStr}`;
-        }
-        return 'Cuộc gọi';
-      } catch {
-        return 'Cuộc gọi';
-      }
-    }
+    
 
     return getMessageDisplayContent({ 
         type: lastMessage.type, 

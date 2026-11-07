@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Smile, RefreshCw, AlertCircle, Pin } from 'lucide-react';
-import { RtdbMessage, User, MessageType, UserStatus } from '@shared/types';
+import { RtdbMessage, User, MessageType } from '@shared/types';
 import {
   UserAvatar,
   ReactionDisplay,
@@ -95,7 +95,6 @@ const MessageBubbleInner: React.FC<MessageBubbleProps> = ({
   const isMedia = useMemo(
     () =>
       message.data.type === MessageType.IMAGE ||
-      message.data.type === MessageType.VIDEO ||
       message.data.type === MessageType.GIF,
     [message.data.type],
   );
@@ -124,12 +123,9 @@ const MessageBubbleInner: React.FC<MessageBubbleProps> = ({
   }, [sender?.id, navigate]);
 
   const isDelivered = useMemo(() => {
-    if (!isGroup && partnerStatus === UserStatus.BANNED) return false;
     if (!message.data.deliveredTo) return false;
     return Object.keys(message.data.deliveredTo).some((uid) => uid !== currentUserId);
   }, [message.data.deliveredTo, currentUserId, isGroup, partnerStatus]);
-
-  const isPartnerBanned = !isGroup && partnerStatus === UserStatus.BANNED;
   const isInteractionDisabled = isBlocked;
 
   const canEdit =
@@ -303,7 +299,7 @@ const MessageBubbleInner: React.FC<MessageBubbleProps> = ({
             </div>
 
             {/* Reaction Badge Emoji Button */}
-            {!message.data.isRecalled && message.data.type !== MessageType.CALL && (
+            {!message.data.isRecalled && (
               <div
                 className={`absolute -bottom-3 flex items-center gap-1 ${isMe ? 'left-2' : 'right-2'}`}
                 style={{ zIndex: 10 }}
@@ -465,15 +461,12 @@ const MessageBubbleInner: React.FC<MessageBubbleProps> = ({
         media={
           message.data.media && message.data.media.length > 0
             ? message.data.media.map((m) => ({
-                type: m.mimeType?.startsWith('video/') ? ('video' as const) : ('image' as const),
+                type: 'image' as const,
                 url: m.url,
               }))
             : [
                 {
-                  type:
-                    message.data.type === MessageType.VIDEO
-                      ? ('video' as const)
-                      : ('image' as const),
+                  type: 'image' as const,
                   url: message.data.content,
                 },
               ]

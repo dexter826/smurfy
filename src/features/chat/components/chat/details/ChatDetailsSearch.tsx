@@ -37,7 +37,6 @@ export const ChatDetailsSearch: React.FC<ChatDetailsSearchProps> = ({
       .filter((msg) => {
         if (
           msg.data.type === MessageType.SYSTEM ||
-          msg.data.type === MessageType.CALL ||
           msg.data.isRecalled
         ) {
           return false;
@@ -51,10 +50,7 @@ export const ChatDetailsSearch: React.FC<ChatDetailsSearchProps> = ({
           ? `${sharedPostPayload.authorName} ${sharedPostPayload.snippet}`.toLowerCase()
           : msg.data.content?.toLowerCase();
 
-        const contentMatch = contentToSearch?.includes(term);
-        const fileNameMatch = msg.data.type === MessageType.FILE &&
-          (msg.data.media || []).some(m => m.fileName?.toLowerCase().includes(term));
-        return contentMatch || fileNameMatch;
+        return !!contentToSearch?.includes(term);
       })
       .sort((a, b) => b.data.createdAt - a.data.createdAt)
       .slice(0, PAGINATION.MESSAGES);

@@ -39,7 +39,7 @@ export const MessageActions: React.FC<MessageActionsProps> = ({
         ${isMe ? 'right-full mr-1.5' : 'left-full ml-1.5'}
       `}
     >
-      {!isInteractionDisabled && message.data.type !== MessageType.CALL && (
+      {!isInteractionDisabled && (
         <IconButton
           icon={<Reply size={14} />}
           size="sm"

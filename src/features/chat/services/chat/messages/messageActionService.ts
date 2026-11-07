@@ -142,21 +142,9 @@ export const messageActionService = {
                 } else {
                     displayContent = srcMsg.content ? `[Hình ảnh] ${srcMsg.content}` : '[Hình ảnh]';
                 }
-            } else if (srcMsg.type === MessageType.VIDEO) {
-                displayContent = '[Video]';
-            } else if (srcMsg.type === MessageType.FILE) {
-                displayContent = `[File] ${srcMsg.media?.[0]?.fileName || 'Tài liệu'}`;
-            } else if (srcMsg.type === MessageType.VOICE) {
-                displayContent = '[Tin nhắn thoại]';
             } else if (srcMsg.type === MessageType.SHARE_POST) {
                 displayContent = '[Chia sẻ bài viết]';
-            } else if (srcMsg.type === MessageType.CALL) {
-                try {
-                    const parsed = JSON.parse(srcMsg.content) as { callType?: 'voice' | 'video' };
-                    displayContent = parsed.callType === 'video' ? '[Cuộc gọi video]' : '[Cuộc gọi thoại]';
-                } catch {
-                    displayContent = '[Cuộc gọi]';
-                }
+            
             }
 
             const conversation = await ensureConversationExists(targetConvId, senderId);

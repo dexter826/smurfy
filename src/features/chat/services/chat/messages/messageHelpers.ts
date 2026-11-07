@@ -104,7 +104,7 @@ export function getConversationUpdatePaths(
         updates[`conversations/${convId}/lastMessageAt/${senderId}`] = getRtdbServerTimestamp();
     }
 
-    const isSilentMessage = messageData.type === MessageType.SYSTEM || messageData.type === MessageType.CALL;
+    const isSilentMessage = messageData.type === MessageType.SYSTEM;
 
     for (const memberId of memberIds) {
         updates[`user_chats/${memberId}/${convId}/lastMsgTimestamp`] = getRtdbServerTimestamp();

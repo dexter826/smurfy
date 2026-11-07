@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { RtdbMessage, RtdbConversation, User, UserStatus } from '@shared/types';
+import { RtdbMessage, RtdbConversation, User } from '@shared/types';
 import { useAuthStore } from '@/features/auth';
 
 interface UseMessageStatusOptions {
@@ -33,23 +33,11 @@ export function useMessageStatus({
         [conversation.data.members]
     );
 
-    const isPartnerBanned = useMemo(() => {
-        if (conversation.data.isGroup) return false;
-        if (partnerStatus === UserStatus.BANNED) return true;
-        const memberIds = [...activeMembers].filter(uid => uid !== currentUserId);
-        const partnerId = memberIds[0];
-        if (!partnerId) return false;
-        return usersMap[partnerId]?.status === UserStatus.BANNED;
-    }, [conversation.data.isGroup, partnerStatus, activeMembers, currentUserId, usersMap]);
+    
 
     const eligibleMemberIds = useMemo(() => {
-        if (isPartnerBanned) return [];
-        return [...activeMembers].filter(uid => {
-            if (uid === currentUserId) return false;
-            const user = usersMap[uid];
-            return !user || user.status !== UserStatus.BANNED;
-        });
-    }, [isPartnerBanned, activeMembers, currentUserId, usersMap]);
+        return [...activeMembers].filter(uid => uid !== currentUserId);
+    }, [activeMembers, currentUserId]);
 
     const lastReadByMap = useMemo(() => {
         const map: Record<string, User[]> = {};

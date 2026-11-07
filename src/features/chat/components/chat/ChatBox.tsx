@@ -85,20 +85,15 @@ export const ChatBox: React.FC<ChatBoxProps> = ({
     ? conversation.data.avatar?.url
     : partner?.avatar?.url;
 
-  const isPartnerBanned = partnerStatus === UserStatus.BANNED || partner?.status === UserStatus.BANNED;
-
   const isMessageRequest = useMemo(() =>
     !conversation.data.isGroup &&
     partner !== null && partner !== undefined &&
-    !isPartnerBanned &&
     !currentUserFriendIds.includes(partner.id) &&
     !isBlockedByMe && !isBlocked,
     [conversation.data.isGroup, partner, currentUserFriendIds, isBlockedByMe, isBlocked]
   );
 
-  const resolvedPartnerStatus = isPartnerBanned
-    ? UserStatus.BANNED
-    : (partnerStatus ?? partner?.status);
+  const resolvedPartnerStatus = partnerStatus ?? partner?.status;
 
   const isFriend = useMemo(() =>
     conversation.data.isGroup
