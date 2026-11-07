@@ -12,13 +12,13 @@ const ProfilePrivacySelector: React.FC<ProfilePrivacySelectorProps> = ({ value, 
   const options = [
     { value: Visibility.PUBLIC, icon: Globe, label: 'Công khai', color: 'text-primary' },
     { value: Visibility.FRIENDS, icon: Users, label: 'Bạn bè', color: 'text-primary' },
-    { value: Visibility.PRIVATE, icon: Lock, label: 'Chỉ mình tôi', color: 'text-text-tertiary' },
+    { value: Visibility.PRIVATE, icon: Lock, label: 'Chỉ mình tôi', color: 'text-muted' },
   ];
 
   return (
     <div className="flex flex-col gap-1">
-      {label && <span className="text-xs text-text-tertiary font-bold ml-1 uppercase tracking-tighter">{label}</span>}
-      <div className="flex items-center gap-1 bg-bg-secondary p-1 rounded-xl border border-border-light w-fit">
+      {label && <span className="text-xs text-muted font-bold ml-1 uppercase tracking-tighter">{label}</span>}
+      <div className="flex items-center gap-1 bg-background p-1 rounded-xl border border-border w-fit">
         {options.map((opt) => {
           const Icon = opt.icon;
           const isActive = value === opt.value;
@@ -30,8 +30,8 @@ const ProfilePrivacySelector: React.FC<ProfilePrivacySelectorProps> = ({ value, 
               title={opt.label}
               className={`p-1.5 rounded-lg transition-all duration-200 ${
                 isActive 
-                  ? `bg-bg-primary shadow-sm border border-border-light ${opt.color}` 
-                  : 'text-text-tertiary hover:text-text-secondary'
+                  ? `bg-surface shadow-sm border border-border ${opt.color}` 
+                  : 'text-muted hover:text-secondary'
               }`}
             >
               <Icon size={14} />

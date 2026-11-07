@@ -73,20 +73,20 @@ export const CreatePost: React.FC<CreatePostProps> & { Skeleton: React.FC } = ({
 
   return (
     <>
-      <div className="bg-bg-primary rounded-2xl border border-border-light transition-theme mb-3 md:mb-4 overflow-hidden">
+      <div className="bg-surface rounded-2xl border border-border transition-theme mb-3 md:mb-4 overflow-hidden">
         {/* Input row */}
         <div className="flex items-center gap-3 px-4 pt-4 pb-3">
           <Avatar src={currentUser.avatar?.url} name={currentUser.fullName} size="md" />
           <button
             onClick={() => setShowCreateModal(true)}
-            className="flex-1 text-left px-4 h-11 bg-bg-secondary hover:bg-bg-hover rounded-full text-sm text-text-tertiary font-medium transition-all duration-200 border border-border-light hover:border-primary/30 truncate"
+            className="flex-1 text-left px-4 h-11 bg-background hover:bg-hover rounded-full text-sm text-muted font-medium transition-all duration-200 border border-border hover:border-primary/30 truncate"
           >
             {currentUser.fullName} ơi, bạn đang nghĩ gì thế?
           </button>
         </div>
 
         {/* Divider */}
-        <div className="mx-4 border-t border-border-light" />
+        <div className="mx-4 border-t border-border" />
 
         {/* Action buttons */}
         <div className="flex px-2 py-1.5">
@@ -123,7 +123,7 @@ const ActionBtn: React.FC<{ icon: React.ReactNode; label: string; onClick: () =>
 }) => (
   <button
     onClick={onClick}
-    className="flex-1 flex items-center justify-center gap-2 py-2.5 min-h-[44px] rounded-xl text-sm font-semibold text-text-secondary hover:bg-bg-hover active:bg-bg-active transition-all duration-200"
+    className="flex-1 flex items-center justify-center gap-2 py-2.5 min-h-[44px] rounded-xl text-sm font-semibold text-secondary hover:bg-hover active:bg-active transition-all duration-200"
   >
     {icon}
     <span className="hidden xs:inline sm:inline">{label}</span>
@@ -131,14 +131,14 @@ const ActionBtn: React.FC<{ icon: React.ReactNode; label: string; onClick: () =>
 );
 
 CreatePost.Skeleton = () => (
-  <div className="bg-bg-primary rounded-2xl border border-border-light transition-theme mb-3 md:mb-4 overflow-hidden">
+  <div className="bg-surface rounded-2xl border border-border transition-theme mb-3 md:mb-4 overflow-hidden">
     <div className="flex items-center gap-3 px-4 pt-4 pb-3">
       <Skeleton variant="circle" width={40} height={40} />
       <div className="flex-1">
         <Skeleton variant="rect" height={44} className="w-full rounded-full" />
       </div>
     </div>
-    <div className="mx-4 border-t border-border-light" />
+    <div className="mx-4 border-t border-border" />
     <div className="flex px-2 py-1.5">
       {[...Array(3)].map((_, i) => (
         <div key={i} className="flex-1 flex justify-center py-2.5">

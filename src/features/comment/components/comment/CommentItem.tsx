@@ -100,12 +100,12 @@ const CommentItemInner: React.FC<CommentItemProps> = ({
           {/* Bubble + menu */}
           <div className="flex items-start gap-1.5 group/comment">
             <div className="relative inline-block max-w-full min-w-0">
-              <div className={`rounded-2xl px-3.5 py-2.5 inline-block max-w-full bg-bg-secondary border border-transparent transition-colors duration-200 group-hover/comment:border-border-light/50`}>
+              <div className={`rounded-2xl px-3.5 py-2.5 inline-block max-w-full bg-background border border-transparent transition-colors duration-200 group-hover/comment:border-border/50`}>
 
                 {/* Author row */}
                 <div className="flex items-center gap-1.5 flex-nowrap overflow-hidden mb-1">
                   <button
-                    className="font-semibold text-xs text-text-primary whitespace-nowrap truncate hover:text-primary transition-colors duration-200 leading-none min-w-0"
+                    className="font-semibold text-xs text-foreground whitespace-nowrap truncate hover:text-primary transition-colors duration-200 leading-none min-w-0"
                     onClick={handleProfileNav}
                   >
                     {author?.fullName ?? <Skeleton width={80} height={11} className="opacity-60" />}
@@ -120,9 +120,9 @@ const CommentItemInner: React.FC<CommentItemProps> = ({
 
                   {isReply && comment.replyToUserId && users[comment.replyToUserId] && comment.replyToId !== comment.parentId && (
                     <>
-                      <ChevronRight size={11} className="text-text-tertiary flex-shrink-0" />
+                      <ChevronRight size={11} className="text-muted flex-shrink-0" />
                       <button
-                        className="font-semibold text-xs text-text-primary whitespace-nowrap truncate hover:text-primary transition-colors duration-200"
+                        className="font-semibold text-xs text-foreground whitespace-nowrap truncate hover:text-primary transition-colors duration-200"
                         onClick={() => {
                           onProfileClick?.();
                           const target = users[comment.replyToUserId!];
@@ -149,7 +149,7 @@ const CommentItemInner: React.FC<CommentItemProps> = ({
                   </div>
                 ) : (
                   <>
-                    <p className="text-sm text-text-primary break-words leading-relaxed">
+                    <p className="text-sm text-foreground break-words leading-relaxed">
                       <TruncatedText
                         content={comment.content}
                         threshold={200}
@@ -157,7 +157,7 @@ const CommentItemInner: React.FC<CommentItemProps> = ({
                       />
                     </p>
                     {comment.image && (
-                      <div className="mt-2 rounded-xl overflow-hidden border border-border-light relative group/media">
+                      <div className="mt-2 rounded-xl overflow-hidden border border-border relative group/media">
                         <SensitiveMediaGuard isSensitive={comment.image.isSensitive} size="sm">
                           <LazyImage
                             src={comment.image.url}
@@ -178,8 +178,8 @@ const CommentItemInner: React.FC<CommentItemProps> = ({
                       </div>
                     )}
                     {uploadError && (
-                      <div className="mt-1.5 px-2 py-1 bg-error/5 border border-error/20 rounded-lg">
-                        <span className="text-[10px] text-error font-medium">{uploadError}</span>
+                      <div className="mt-1.5 px-2 py-1 bg-danger/5 border border-danger/20 rounded-lg">
+                        <span className="text-[10px] text-danger font-medium">{uploadError}</span>
                       </div>
                     )}
                   </>
@@ -196,7 +196,7 @@ const CommentItemInner: React.FC<CommentItemProps> = ({
                     reactionSummary={filteredSummary}
                     reactionCount={filteredCount}
                     variant="xs"
-                    className="shadow-sm border-2 border-bg-primary bg-bg-primary"
+                    className="shadow-sm border-2 border-surface bg-surface"
                   />
                 </button>
               )}
@@ -208,7 +208,7 @@ const CommentItemInner: React.FC<CommentItemProps> = ({
                 <Dropdown
                   trigger={
                     <button
-                      className="w-7 h-7 flex items-center justify-center rounded-full hover:bg-bg-hover text-text-tertiary hover:text-text-primary transition-all duration-200"
+                      className="w-7 h-7 flex items-center justify-center rounded-full hover:bg-hover text-muted hover:text-foreground transition-all duration-200"
                       title="Tùy chọn"
                     >
                       <Ellipsis size={15} />
@@ -235,15 +235,15 @@ const CommentItemInner: React.FC<CommentItemProps> = ({
 
           {/* Meta row: time · like · reply */}
           {!isEditing && (
-            <div className="flex items-center gap-3 mt-2 ml-1.5 text-xs text-text-tertiary font-medium">
+            <div className="flex items-center gap-3 mt-2 ml-1.5 text-xs text-muted font-medium">
               {comment.status === CommentStatus.PENDING ? (
-                <span className="text-text-tertiary font-medium text-[11px]">
+                <span className="text-muted font-medium text-[11px]">
                   Đang xử lý...
                 </span>
               ) : (
                 <>
                   <span
-                    className="text-[11px] text-text-tertiary"
+                    className="text-[11px] text-muted"
                     title={formatDateTime(comment.createdAt)}
                   >
                     {formatRelativeTime(comment.createdAt)}
@@ -271,7 +271,7 @@ const CommentItemInner: React.FC<CommentItemProps> = ({
                     <button
                       onMouseEnter={() => setShowReactions(true)}
                       onClick={() => handleReact(currentUserReaction ? 'REMOVE' : ReactionType.LIKE)}
-                      className={`font-semibold hover:text-text-primary transition-colors duration-200
+                      className={`font-semibold hover:text-foreground transition-colors duration-200
                         ${currentUserReaction ? getReactionColorClass(currentUserReaction) : 'hover:underline'}`}
                     >
                       {currentUserReaction ? REACTION_LABELS[currentUserReaction] : 'Thích'}
@@ -280,7 +280,7 @@ const CommentItemInner: React.FC<CommentItemProps> = ({
 
                   <button
                     onClick={() => handleReplyClick(comment)}
-                    className="font-semibold hover:text-text-primary hover:underline transition-colors duration-200"
+                    className="font-semibold hover:text-foreground hover:underline transition-colors duration-200"
                   >
                     Trả lời
                   </button>
@@ -304,12 +304,12 @@ const CommentItemInner: React.FC<CommentItemProps> = ({
 
           {/* Replies thread */}
           {!isReply && ((comment.replyCount || 0) > 0 || filteredReplies.length > 0) && (
-            <div className="mt-2 pl-1 border-l-2 border-border-light ml-1">
+            <div className="mt-2 pl-1 border-l-2 border-border ml-1">
               {filteredReplies.length === 0 ? (
                 (comment.replyCount || 0) > 0 && (
                   <button
                     onClick={() => loadReplies(comment.id)}
-                    className="flex items-center gap-1.5 text-text-secondary hover:text-primary text-xs font-semibold py-1 px-2 transition-colors duration-200"
+                    className="flex items-center gap-1.5 text-secondary hover:text-primary text-xs font-semibold py-1 px-2 transition-colors duration-200"
                   >
                     <ChevronDown size={13} strokeWidth={2.5} />
                     Xem {comment.replyCount} câu trả lời
@@ -318,8 +318,8 @@ const CommentItemInner: React.FC<CommentItemProps> = ({
               ) : (
                 <>
                   {hiddenRepliesCount > 0 && (
-                    <div className="mx-2 mb-1.5 px-2 py-1.5 bg-bg-secondary/60 rounded-lg">
-                      <p className="text-[11px] text-text-tertiary italic">
+                    <div className="mx-2 mb-1.5 px-2 py-1.5 bg-background/60 rounded-lg">
+                      <p className="text-[11px] text-muted italic">
                         Có {comment.replyCount || 0} phản hồi. Bạn chỉ có thể xem phản hồi của bạn bè.
                       </p>
                     </div>

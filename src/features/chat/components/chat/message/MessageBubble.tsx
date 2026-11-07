@@ -129,7 +129,7 @@ const MessageBubbleInner: React.FC<MessageBubbleProps> = ({
   if (message.data.type === MessageType.SYSTEM) {
     return (
       <div className="flex justify-center my-2">
-        <span className="bg-bg-tertiary/70 text-text-tertiary text-xs px-3 py-1 rounded-full italic text-center max-w-[85%]">
+        <span className="bg-surface-sunken/70 text-muted text-xs px-3 py-1 rounded-full italic text-center max-w-[85%]">
           {message.data.content}
         </span>
       </div>
@@ -164,7 +164,7 @@ const MessageBubbleInner: React.FC<MessageBubbleProps> = ({
           {/* Sender Name Group Only */}
           {!isMe && showName && (
             <button
-              className="text-xs text-text-secondary ml-1 mb-0.5 font-semibold hover:text-primary transition-colors duration-200"
+              className="text-xs text-secondary ml-1 mb-0.5 font-semibold hover:text-primary transition-colors duration-200"
               onClick={handleProfileClick}
             >
               {sender?.fullName || 'Người dùng'}
@@ -199,8 +199,8 @@ const MessageBubbleInner: React.FC<MessageBubbleProps> = ({
                   ${shouldWrapBackground
                     ? `shadow-sm ${hasReactions ? 'min-w-[92px]' : 'min-w-[60px]'} overflow-hidden
                         ${isMe
-                        ? 'bg-bg-message-sent border border-primary/10 text-text-primary rounded-xl rounded-br-sm'
-                        : 'bg-bg-message-received border border-border-light text-text-primary rounded-xl rounded-bl-sm'
+                        ? 'bg-message-sent border border-primary/10 text-foreground rounded-xl rounded-br-sm'
+                        : 'bg-message-received border border-border text-foreground rounded-xl rounded-bl-sm'
                       }`
                     : `overflow-hidden ${isMe ? 'rounded-xl rounded-br-sm' : 'rounded-xl rounded-bl-sm'}`
                   }
@@ -219,14 +219,14 @@ const MessageBubbleInner: React.FC<MessageBubbleProps> = ({
                         mx-1 mt-1 mb-1 px-2.5 py-1.5 rounded-xl border-l-4 text-[11px] cursor-pointer 
                         transition-all duration-200 hover:brightness-95 active:scale-[0.98]
                         ${isMe
-                          ? 'bg-black/5 dark:bg-white/5 border-primary/40 text-text-primary/80'
-                          : 'bg-black/5 dark:bg-white/5 border-primary/40 text-text-secondary'
+                          ? 'bg-black/5 dark:bg-white/5 border-primary/40 text-foreground/80'
+                          : 'bg-black/5 dark:bg-white/5 border-primary/40 text-secondary'
                         }
                         ${!shouldWrapBackground ? 'bg-black/40 backdrop-blur-md border-primary/60 text-white/90' : ''}
                       `}
                       onClick={() => replyToMsg && scrollToMessage(message.data.replyToId!)}
                     >
-                      <div className={`font-bold mb-0.5 ${!shouldWrapBackground ? 'text-primary-light' : 'text-primary'}`}>
+                      <div className={`font-bold mb-0.5 ${!shouldWrapBackground ? 'text-primary-strong' : 'text-primary'}`}>
                         {replyAuthorName}
                       </div>
                       <div className="truncate opacity-80 italic">
@@ -260,10 +260,10 @@ const MessageBubbleInner: React.FC<MessageBubbleProps> = ({
                     ${isContentReady ? 'opacity-100 scale-100' : 'opacity-0 scale-90'}
                     ${!shouldWrapBackground
                       ? `absolute bottom-2 ${isMe ? 'right-2' : 'left-2'} px-1.5 py-0.5 rounded-full bg-black/40 text-white backdrop-blur-sm z-20`
-                      : `${hasReactions ? 'pb-3' : 'pb-1.5'} ${isMe ? 'justify-end text-text-primary opacity-60 px-3' : 'justify-start text-text-tertiary px-3'}`
+                      : `${hasReactions ? 'pb-3' : 'pb-1.5'} ${isMe ? 'justify-end text-foreground opacity-60 px-3' : 'justify-start text-muted px-3'}`
                     }
                   `}>
-                    {isPinned && <Pin size={10} className="text-text-tertiary flex-shrink-0" />}
+                    {isPinned && <Pin size={10} className="text-muted flex-shrink-0" />}
                     {formatTimeOnly(message.data.createdAt)}
                   </div>
                 )}
@@ -288,7 +288,7 @@ const MessageBubbleInner: React.FC<MessageBubbleProps> = ({
                 {!isInteractionDisabled && (
                   <div className={`relative ${(hasReactions || showActions) ? 'opacity-100' : 'opacity-0 group-hover/message:opacity-100'} transition-opacity duration-200`}>
                     <button
-                      className="w-7 h-6 flex items-center justify-center bg-bg-primary rounded-full border border-border-light shadow-sm text-text-tertiary hover:text-primary hover:border-primary/30 transition-all duration-200"
+                      className="w-7 h-6 flex items-center justify-center bg-surface rounded-full border border-border shadow-sm text-muted hover:text-primary hover:border-primary/30 transition-all duration-200"
                       onClick={(e) => { e.stopPropagation(); setShowReactionSelector(!showReactionSelector); }}
                     >
                       <Smile size={11} strokeWidth={2.5} />
@@ -362,7 +362,7 @@ const MessageBubbleInner: React.FC<MessageBubbleProps> = ({
               {isFailed && (
                 <button
                   onClick={(e) => { e.stopPropagation(); resendMessage(conversationId, message.id); }}
-                  className="flex items-center gap-1 mt-1 text-[10px] text-error hover:text-error/80 transition-colors duration-200 font-medium"
+                  className="flex items-center gap-1 mt-1 text-[10px] text-danger hover:text-danger/80 transition-colors duration-200 font-medium"
                 >
                   <RefreshCw size={10} />
                   <span>Gửi lại</span>
@@ -380,14 +380,14 @@ const MessageBubbleInner: React.FC<MessageBubbleProps> = ({
                     {lastReadByUsers.map(reader => (
                       <div
                         key={reader.id}
-                        className="flex items-center gap-3 p-2 hover:bg-bg-hover rounded-xl transition-colors duration-200"
+                        className="flex items-center gap-3 p-2 hover:bg-hover rounded-xl transition-colors duration-200"
                       >
                         <UserAvatar userId={reader.id} size="md" showStatus />
                         <div className="flex-1 min-w-0">
-                          <div className="text-sm font-semibold text-text-primary truncate">
+                          <div className="text-sm font-semibold text-foreground truncate">
                             {reader.fullName}
                           </div>
-                          <UserStatusText userId={reader.id} className="text-xs text-text-tertiary" />
+                          <UserStatusText userId={reader.id} className="text-xs text-muted" />
                         </div>
                       </div>
                     ))}

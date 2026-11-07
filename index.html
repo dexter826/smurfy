@@ -18,14 +18,15 @@
   <link rel="icon" href="/favicon.ico" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <link rel="manifest" href="/manifest.json" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <!-- Chống FOUC: apply theme trước khi render -->
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&family=Nunito+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <script>
     (function () {
       try {
         var stored = localStorage.getItem('smurf_social_theme');
         var mode = stored ? JSON.parse(stored).state?.mode : null;
-        if (mode === 'dark') document.documentElement.classList.add('dark');
+        if (mode === 'dark' || (mode == null && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.classList.add('dark');
+        }
       } catch (e) { }
     })();
   </script>

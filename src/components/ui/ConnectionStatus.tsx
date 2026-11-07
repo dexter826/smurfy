@@ -43,8 +43,8 @@ export const ConnectionStatus: React.FC = () => {
                     ${status === 'online' 
                         ? 'bg-success/90 border-success/20 text-white translate-y-0 scale-100' 
                         : status === 'offline'
-                        ? 'bg-error/90 border-error/20 text-white translate-y-0 scale-105'
-                        : 'bg-warning/90 border-warning/20 text-text-primary translate-y-0 scale-100'
+                        ? 'bg-danger/90 border-danger/20 text-white translate-y-0 scale-105'
+                        : 'bg-warning/90 border-warning/20 text-foreground translate-y-0 scale-100'
                     }
                     animate-in slide-in-from-top-4 duration-300
                 `}

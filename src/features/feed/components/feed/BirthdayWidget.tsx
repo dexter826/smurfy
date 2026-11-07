@@ -25,13 +25,13 @@ interface BirthdayRowProps {
 }
 
 const BirthdayRow: React.FC<BirthdayRowProps> = ({ friend, onQuickWish, onOpenChat }) => (
-  <div className="p-4 flex items-center gap-3 hover:bg-bg-secondary/30 transition-colors">
+  <div className="p-4 flex items-center gap-3 hover:bg-background/30 transition-colors">
     <Link to={`/profile/${friend.id}`} className="shrink-0">
       <Avatar src={friend.avatar?.url} name={friend.fullName} size="lg" />
     </Link>
     
     <div className="flex-grow min-w-0">
-      <Link to={`/profile/${friend.id}`} className="text-sm font-bold text-text-primary hover:text-primary transition-colors truncate block">
+      <Link to={`/profile/${friend.id}`} className="text-sm font-bold text-foreground hover:text-primary transition-colors truncate block">
         {friend.fullName}
       </Link>
       
@@ -40,7 +40,7 @@ const BirthdayRow: React.FC<BirthdayRowProps> = ({ friend, onQuickWish, onOpenCh
           <button
             key={i}
             onClick={() => onQuickWish(friend, wish)}
-            className="px-2.5 py-1 rounded-full bg-bg-secondary border border-border-light text-[10px] font-medium text-text-secondary hover:border-primary/40 hover:text-primary active:scale-95 transition-all"
+            className="px-2.5 py-1 rounded-full bg-background border border-border text-[10px] font-medium text-secondary hover:border-primary/40 hover:text-primary active:scale-95 transition-all"
           >
             {wish}
           </button>
@@ -50,7 +50,7 @@ const BirthdayRow: React.FC<BirthdayRowProps> = ({ friend, onQuickWish, onOpenCh
 
     <button 
       onClick={() => onOpenChat(friend)}
-      className="p-2 text-text-tertiary hover:text-primary hover:bg-primary/5 rounded-full transition-all shrink-0"
+      className="p-2 text-muted hover:text-primary hover:bg-primary/5 rounded-full transition-all shrink-0"
       title="Vào Chat"
     >
       <MessageCircle size={20} strokeWidth={1.5} />
@@ -113,7 +113,7 @@ export const BirthdayWidget: React.FC = () => {
 
   return (
     <>
-      <div className="bg-bg-primary rounded-2xl border border-border-light mb-4 animate-fade-in shadow-sm overflow-hidden transition-all duration-300">
+      <div className="bg-surface rounded-2xl border border-border mb-4 animate-fade-in shadow-sm overflow-hidden transition-all duration-300">
         <div className="flex items-center gap-3 p-3 sm:p-4">
           <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-primary/5 flex items-center justify-center text-primary border border-primary/10">
             <Cake size={20} strokeWidth={1.5} />
@@ -124,22 +124,22 @@ export const BirthdayWidget: React.FC = () => {
               <div className="flex flex-col">
                 <div className="flex items-center justify-between">
                   <div>
-                    <h3 className="text-xs font-bold text-text-primary">Hôm nay là sinh nhật của bạn!</h3>
-                    <p className="text-[10px] text-text-secondary">Chúc bạn một ngày rực rỡ 🎂</p>
+                    <h3 className="text-xs font-bold text-foreground">Hôm nay là sinh nhật của bạn!</h3>
+                    <p className="text-[10px] text-secondary">Chúc bạn một ngày rực rỡ 🎂</p>
                   </div>
                 </div>
                 
                 {friendsWithBirthday.length > 0 && (
                   <div 
-                    className="mt-2 pt-2 border-t border-border-light/50 flex items-center justify-between cursor-pointer group"
+                    className="mt-2 pt-2 border-t border-border/50 flex items-center justify-between cursor-pointer group"
                     onClick={() => setIsModalOpen(true)}
                   >
-                    <p className="text-[10px] text-text-secondary truncate group-hover:text-primary transition-colors">
+                    <p className="text-[10px] text-secondary truncate group-hover:text-primary transition-colors">
                       Hôm nay cũng là sinh nhật của {friendsWithBirthday.length === 1 ? firstFriend.fullName : `${firstFriend.fullName} và ${friendsWithBirthday.length - 1} người khác`}
                     </p>
                     <div className="flex items-center -space-x-1.5 ml-2">
                       {friendsWithBirthday.slice(0, 2).map((friend) => (
-                        <Avatar key={friend.id} src={friend.avatar?.url} name={friend.fullName} size="xs" className="ring-1 ring-bg-primary" />
+                        <Avatar key={friend.id} src={friend.avatar?.url} name={friend.fullName} size="xs" className="ring-1 ring-surface" />
                       ))}
                     </div>
                   </div>
@@ -151,11 +151,11 @@ export const BirthdayWidget: React.FC = () => {
                 onClick={() => setIsModalOpen(true)}
               >
                 <div className="min-w-0">
-                  <h3 className="text-xs font-bold text-text-primary truncate group-hover:text-primary transition-colors">Sinh nhật bạn bè</h3>
-                  <p className="text-[10px] text-text-secondary truncate mt-0.5">Hôm nay là sinh nhật của {firstFriend.fullName} 🎂</p>
+                  <h3 className="text-xs font-bold text-foreground truncate group-hover:text-primary transition-colors">Sinh nhật bạn bè</h3>
+                  <p className="text-[10px] text-secondary truncate mt-0.5">Hôm nay là sinh nhật của {firstFriend.fullName} 🎂</p>
                 </div>
                 <div className="flex items-center">
-                  <Avatar src={firstFriend.avatar?.url} name={firstFriend.fullName} size="xs" className="ring-2 ring-bg-primary" />
+                  <Avatar src={firstFriend.avatar?.url} name={firstFriend.fullName} size="xs" className="ring-2 ring-surface" />
                 </div>
               </div>
             ) : (
@@ -164,14 +164,14 @@ export const BirthdayWidget: React.FC = () => {
                 onClick={() => setIsModalOpen(true)}
               >
                 <div className="min-w-0">
-                  <h3 className="text-xs font-bold text-text-primary group-hover:text-primary transition-colors">Sinh nhật bạn bè</h3>
-                  <p className="text-[10px] text-text-secondary truncate mt-0.5">
+                  <h3 className="text-xs font-bold text-foreground group-hover:text-primary transition-colors">Sinh nhật bạn bè</h3>
+                  <p className="text-[10px] text-secondary truncate mt-0.5">
                     Hôm nay là sinh nhật của {firstFriend.fullName} và {friendsWithBirthday.length - 1} người khác 🎂
                   </p>
                 </div>
                 <div className="flex items-center -space-x-2">
                   {friendsWithBirthday.slice(0, 3).map((friend) => (
-                    <Avatar key={friend.id} src={friend.avatar?.url} name={friend.fullName} size="xs" className="ring-2 ring-bg-primary" />
+                    <Avatar key={friend.id} src={friend.avatar?.url} name={friend.fullName} size="xs" className="ring-2 ring-surface" />
                   ))}
                 </div>
               </div>

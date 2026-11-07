@@ -77,13 +77,13 @@ export const ShareTargetItem: React.FC<ShareTargetItemProps> = ({
 
           {/* Badge Check Indicator */}
           {selected && (
-            <div className="absolute bottom-0 right-0 w-4 h-4 rounded-full bg-primary text-white border-2 border-bg-primary flex items-center justify-center shadow-md z-20 animate-in zoom-in-50 duration-300">
+            <div className="absolute bottom-0 right-0 w-4 h-4 rounded-full bg-primary text-white border-2 border-surface flex items-center justify-center shadow-md z-20 animate-in zoom-in-50 duration-300">
               <Check size={8} strokeWidth={5} />
             </div>
           )}
         </div>
         <span className={`text-[10px] font-bold truncate w-full text-center transition-colors px-1 ${
-          selected ? 'text-primary' : 'text-text-secondary group-hover:text-text-primary'
+          selected ? 'text-primary' : 'text-secondary group-hover:text-foreground'
         }`}>
           {title.split(' ')[title.split(' ').length - 1]}
         </span>
@@ -98,7 +98,7 @@ export const ShareTargetItem: React.FC<ShareTargetItemProps> = ({
       className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl border transition-all duration-200 group ${
         selected
           ? 'border-primary/40 bg-primary/5 shadow-sm'
-          : 'border-transparent hover:bg-bg-secondary/50'
+          : 'border-transparent hover:bg-background/50'
       }`}
     >
       <div className="flex items-center gap-3 min-w-0 flex-1 text-left">
@@ -111,16 +111,16 @@ export const ShareTargetItem: React.FC<ShareTargetItemProps> = ({
           members={groupParticipants}
         />
         <div className="flex flex-col min-w-0">
-          <span className="text-sm font-semibold text-text-primary truncate transition-colors">
+          <span className="text-sm font-semibold text-foreground truncate transition-colors">
             {title}
           </span>
           {isGroup && entry.type === 'conversation' && (
-            <span className="text-[11px] text-text-tertiary truncate">
+            <span className="text-[11px] text-muted truncate">
               Nhóm • {Object.keys(entry.item.data.members).length} thành viên
             </span>
           )}
           {entry.type === 'friend' && (
-            <span className="text-[11px] text-text-tertiary truncate">Bạn bè</span>
+            <span className="text-[11px] text-muted truncate">Bạn bè</span>
           )}
         </div>
       </div>
@@ -128,7 +128,7 @@ export const ShareTargetItem: React.FC<ShareTargetItemProps> = ({
       <div className={`w-5 h-5 shrink-0 rounded-md border flex items-center justify-center transition-all duration-200 ${
         selected 
           ? 'border-primary bg-primary text-white' 
-          : 'border-border-light bg-bg-primary group-hover:border-primary/50'
+          : 'border-border bg-surface group-hover:border-primary/50'
       }`}>
         {selected && <Check size={13} strokeWidth={3} className="animate-in zoom-in-50 duration-200" />}
       </div>

@@ -84,8 +84,8 @@ const ContactsPage: React.FC = () => {
     <div className="flex h-full w-full overflow-hidden">
 
       {/* ── Desktop sidebar ── */}
-      <aside className="hidden md:flex flex-col w-[280px] lg:w-[320px] border-r border-border-light bg-bg-primary flex-shrink-0">
-        <div className="p-4 border-b border-border-light">
+      <aside className="hidden md:flex flex-col w-[280px] lg:w-[320px] border-r border-border bg-surface flex-shrink-0">
+        <div className="p-4 border-b border-border">
           <Button
             fullWidth
             icon={<UserPlus size={17} />}
@@ -97,7 +97,7 @@ const ContactsPage: React.FC = () => {
         </div>
 
         <nav className="flex-1 overflow-y-auto p-3 space-y-1">
-          <p className="px-3 pt-2 pb-2 text-[10px] font-bold text-text-tertiary uppercase tracking-[0.1em] opacity-80">
+          <p className="px-3 pt-2 pb-2 text-[10px] font-bold text-muted uppercase tracking-[0.1em] opacity-80">
             Danh mục
           </p>
           {tabConfig.map(({ id, label, icon, count, badge }) => (
@@ -107,19 +107,19 @@ const ContactsPage: React.FC = () => {
               className={`w-full flex items-center gap-3 px-3 py-2.5 min-h-[44px] rounded-xl transition-all duration-200 text-sm font-medium
                 ${activeTab === id
                   ? 'bg-primary/10 text-primary shadow-sm'
-                  : 'text-text-secondary hover:bg-bg-hover hover:text-text-primary'
+                  : 'text-secondary hover:bg-hover hover:text-foreground'
                 }`}
             >
-              <span className={`flex-shrink-0 transition-colors ${activeTab === id ? 'text-primary' : 'text-text-tertiary'}`}>
+              <span className={`flex-shrink-0 transition-colors ${activeTab === id ? 'text-primary' : 'text-muted'}`}>
                 {icon}
               </span>
               <span className="flex-1 text-left">{label}</span>
               {badge ? (
-                <span className="text-[10px] font-bold bg-error text-white px-1.5 py-0.5 rounded-full min-w-[18px] text-center shadow-sm">
+                <span className="text-[10px] font-bold bg-danger text-white px-1.5 py-0.5 rounded-full min-w-[18px] text-center shadow-sm">
                   {count}
                 </span>
               ) : count !== undefined && count > 0 ? (
-                <span className="text-[10px] font-semibold text-text-tertiary bg-bg-secondary px-1.5 py-0.5 rounded-full border border-border-light">
+                <span className="text-[10px] font-semibold text-muted bg-background px-1.5 py-0.5 rounded-full border border-border">
                   {count}
                 </span>
               ) : null}
@@ -129,33 +129,33 @@ const ContactsPage: React.FC = () => {
       </aside>
 
       {/* ── Main content ── */}
-      <div className="flex-1 flex flex-col h-full min-w-0 bg-bg-primary bg-app-pattern">
+      <div className="flex-1 flex flex-col h-full min-w-0 bg-surface bg-app-pattern">
 
         {/* Header */}
         <div
-          className="flex-shrink-0 px-4 md:px-6 pt-4 pb-3 border-b border-border-light bg-bg-primary/80 backdrop-blur-md sticky top-0"
+          className="flex-shrink-0 px-4 md:px-6 pt-4 pb-3 border-b border-border bg-surface/80 backdrop-blur-md sticky top-0"
           style={{ zIndex: 'var(--z-sticky)' }}
         >
           {/* Mobile tab switcher */}
-          <div className="flex md:hidden bg-bg-secondary rounded-xl p-1 mb-4 border border-border-light">
+          <div className="flex md:hidden bg-background rounded-xl p-1 mb-4 border border-border">
             {tabConfig.map(({ id, mobileLabel, count, badge }) => (
               <button
                 key={id}
                 onClick={() => setActiveTab(id)}
                 className={`flex-1 relative py-2.5 min-h-[40px] text-[11px] font-bold rounded-lg transition-all duration-200 flex flex-col items-center justify-center gap-0.5
                   ${activeTab === id
-                    ? 'bg-bg-primary text-primary shadow-sm ring-1 ring-black/5'
-                    : 'text-text-tertiary hover:text-text-secondary'
+                    ? 'bg-surface text-primary shadow-sm ring-1 ring-black/5'
+                    : 'text-muted hover:text-secondary'
                   }`}
               >
                 <span>{mobileLabel}</span>
                 {count !== undefined && count > 0 && (
-                  <span className={`text-[9px] ${badge ? 'text-error' : 'text-text-tertiary opacity-70'}`}>
+                  <span className={`text-[9px] ${badge ? 'text-danger' : 'text-muted opacity-70'}`}>
                     {count}
                   </span>
                 )}
                 {badge && (
-                  <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 bg-error rounded-full ring-2 ring-bg-secondary" />
+                  <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 bg-danger rounded-full ring-2 ring-background" />
                 )}
               </button>
             ))}
@@ -164,10 +164,10 @@ const ContactsPage: React.FC = () => {
           {/* Title row */}
           <div className="flex items-center justify-between mb-4">
             <div className="flex flex-col">
-              <h2 className="text-xl font-bold text-text-primary tracking-tight">
+              <h2 className="text-xl font-bold text-foreground tracking-tight">
                 {tabConfig.find(t => t.id === activeTab)?.label}
               </h2>
-              <p className="text-xs text-text-tertiary font-medium">
+              <p className="text-xs text-muted font-medium">
                 {activeTab === 'all' && `${friends.length} người bạn`}
                 {activeTab === 'suggestions' && `${filteredSuggestions.length} gợi ý`}
                 {activeTab === 'requests' && `${receivedRequests.length} lời mời chờ xác nhận`}
@@ -204,7 +204,7 @@ const ContactsPage: React.FC = () => {
               <Input
                 placeholder={`Tìm kiếm trong ${tabConfig.find(t => t.id === activeTab)?.mobileLabel.toLowerCase()}...`}
                 icon={<Search size={16} />}
-                className="bg-bg-secondary border-none focus:ring-1 focus:ring-primary/20"
+                className="bg-background border-none focus:ring-1 focus:ring-primary/20"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 containerClassName="flex-1"
@@ -215,7 +215,7 @@ const ContactsPage: React.FC = () => {
                   size="md"
                   icon={<ArrowUpDown size={16} />}
                   onClick={toggleSortOrder}
-                  className="flex-shrink-0 text-text-secondary hover:text-primary hover:bg-primary/5"
+                  className="flex-shrink-0 text-secondary hover:text-primary hover:bg-primary/5"
                 >
                   {sortOrder === 'asc' ? 'A-Z' : 'Z-A'}
                 </Button>
@@ -227,7 +227,7 @@ const ContactsPage: React.FC = () => {
                   icon={<RefreshCw size={16} className={isSuggestionsLoading ? 'animate-spin' : ''} />}
                   onClick={handleRefreshSuggestions}
                   disabled={isSuggestionsLoading}
-                  className="flex-shrink-0 text-text-secondary hover:text-primary hover:bg-primary/5 md:hidden"
+                  className="flex-shrink-0 text-secondary hover:text-primary hover:bg-primary/5 md:hidden"
                 />
               )}
             </div>
@@ -243,8 +243,8 @@ const ContactsPage: React.FC = () => {
                 <div className="space-y-6">
                   {[...Array(2)].map((_, i) => (
                     <div key={i}>
-                      <div className="w-12 h-4 bg-bg-tertiary rounded mb-3 mx-1 animate-pulse" />
-                      <div className="bg-bg-primary rounded-xl border border-border-light overflow-hidden shadow-sm">
+                      <div className="w-12 h-4 bg-surface-sunken rounded mb-3 mx-1 animate-pulse" />
+                      <div className="bg-surface rounded-xl border border-border overflow-hidden shadow-sm">
                         {[...Array(3)].map((_, j) => <FriendItem.Skeleton key={j} />)}
                       </div>
                     </div>
@@ -264,7 +264,7 @@ const ContactsPage: React.FC = () => {
                       <p className="text-xs font-bold text-primary mb-3 px-2 uppercase tracking-widest opacity-80">
                         {group.letter}
                       </p>
-                      <div className="bg-bg-primary rounded-xl border border-border-light overflow-hidden shadow-sm">
+                      <div className="bg-surface rounded-xl border border-border overflow-hidden shadow-sm">
                         {group.friends.map(friend => (
                           <FriendItem
                             key={friend.id}
@@ -284,7 +284,7 @@ const ContactsPage: React.FC = () => {
             {/* Received requests */}
             {activeTab === 'requests' && (
               isLoading ? (
-                <div className="bg-bg-primary rounded-xl border border-border-light overflow-hidden shadow-sm">
+                <div className="bg-surface rounded-xl border border-border overflow-hidden shadow-sm">
                   {[...Array(3)].map((_, i) => <FriendRequestItem.Skeleton key={i} />)}
                 </div>
               ) : filteredReceivedRequests.length === 0 ? (
@@ -295,7 +295,7 @@ const ContactsPage: React.FC = () => {
                   className="py-24"
                 />
               ) : (
-                <div className="bg-bg-primary rounded-xl border border-border-light overflow-hidden shadow-sm">
+                <div className="bg-surface rounded-xl border border-border overflow-hidden shadow-sm">
                   {filteredReceivedRequests.map(request => {
                     const sender = userCache[request.senderId];
                     return sender ? (
@@ -316,7 +316,7 @@ const ContactsPage: React.FC = () => {
             {/* Sent requests */}
             {activeTab === 'sent' && (
               isLoading ? (
-                <div className="bg-bg-primary rounded-xl border border-border-light overflow-hidden shadow-sm">
+                <div className="bg-surface rounded-xl border border-border overflow-hidden shadow-sm">
                   {[...Array(3)].map((_, i) => <FriendRequestItem.Skeleton key={i} />)}
                 </div>
               ) : filteredSentRequests.length === 0 ? (
@@ -327,7 +327,7 @@ const ContactsPage: React.FC = () => {
                   className="py-24"
                 />
               ) : (
-                <div className="bg-bg-primary rounded-xl border border-border-light overflow-hidden shadow-sm">
+                <div className="bg-surface rounded-xl border border-border overflow-hidden shadow-sm">
                   {filteredSentRequests.map(request => {
                     const receiver = userCache[request.receiverId];
                     return receiver ? (
@@ -347,7 +347,7 @@ const ContactsPage: React.FC = () => {
             {/* Suggestions */}
             {activeTab === 'suggestions' && (
               isSuggestionsLoading ? (
-                <div className="bg-bg-primary rounded-xl border border-border-light overflow-hidden shadow-sm">
+                <div className="bg-surface rounded-xl border border-border overflow-hidden shadow-sm">
                   {[...Array(5)].map((_, i) => <SuggestionItem.Skeleton key={i} />)}
                 </div>
               ) : filteredSuggestions.length === 0 ? (
@@ -358,7 +358,7 @@ const ContactsPage: React.FC = () => {
                   className="py-24"
                 />
               ) : (
-                <div className="bg-bg-primary rounded-xl border border-border-light overflow-hidden shadow-sm">
+                <div className="bg-surface rounded-xl border border-border overflow-hidden shadow-sm">
                   {filteredSuggestions.map(user => (
                     <SuggestionItem
                       key={user.id}

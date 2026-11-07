@@ -88,18 +88,18 @@ export const FileMessage: React.FC<FileMessageProps> = ({
             <span className="text-[8px] font-bold mt-0.5 opacity-80 uppercase tracking-tighter">{fileStyle.label}</span>
           </div>
           {isUploading && !fileUrl && (
-            <div className="absolute inset-0 flex items-center justify-center bg-bg-primary/80 rounded-xl backdrop-blur-[1px]">
+            <div className="absolute inset-0 flex items-center justify-center bg-surface/80 rounded-xl backdrop-blur-[1px]">
               <CircularProgress progress={uploadProgress!.progress} size="sm" showPercentage={false} />
             </div>
           )}
         </div>
         
         <div className="flex-1 min-w-0">
-          <div className="font-bold truncate text-[13px] text-text-primary mb-0.5 leading-tight hover:underline cursor-pointer" onClick={(e) => { e.stopPropagation(); if(fileUrl && !isUploading) downloadFile(fileUrl, fileName); }}>
+          <div className="font-bold truncate text-[13px] text-foreground mb-0.5 leading-tight hover:underline cursor-pointer" onClick={(e) => { e.stopPropagation(); if(fileUrl && !isUploading) downloadFile(fileUrl, fileName); }}>
             {fileName}
           </div>
-          <div className="flex items-center gap-1.5 text-[10px] font-bold text-text-tertiary uppercase tracking-tight">
-            <span className={isMe ? 'text-primary/70' : 'text-text-tertiary'}>{fileSize}</span>
+          <div className="flex items-center gap-1.5 text-[10px] font-bold text-muted uppercase tracking-tight">
+            <span className={isMe ? 'text-primary/70' : 'text-muted'}>{fileSize}</span>
             {isUploading && (
               <>
                 <span className="w-1 h-1 rounded-full bg-primary animate-pulse" />

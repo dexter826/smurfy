@@ -27,7 +27,7 @@ export const CallMessage: React.FC<CallMessageProps> = ({
   
   const iconColor = isMissedOrRejected 
     ? 'text-red-500' 
-    : (isMe ? 'text-text-primary' : 'text-primary');
+    : (isMe ? 'text-foreground' : 'text-primary');
 
   let title = '';
   if (isGroup) {
@@ -52,7 +52,7 @@ export const CallMessage: React.FC<CallMessageProps> = ({
 
   const btnBaseClass = "w-full py-1.5 rounded-lg text-[12px] font-bold flex items-center justify-center gap-1.5 transition-all outline-none shadow-sm active:scale-[0.98] border";
   const btnClass = isMe 
-    ? `${btnBaseClass} bg-bg-primary text-text-primary border-border-light hover:bg-bg-secondary` 
+    ? `${btnBaseClass} bg-surface text-foreground border-border hover:bg-background` 
     : `${btnBaseClass} bg-primary/10 text-primary border-primary/20 hover:bg-primary/20`;
 
   return (
@@ -66,11 +66,11 @@ export const CallMessage: React.FC<CallMessageProps> = ({
         </div>
         
         <div className="flex flex-col flex-1 min-w-0">
-          <span className={`text-[13px] font-bold leading-tight truncate ${isMissedOrRejected ? 'text-red-500' : 'text-text-primary'}`}>
+          <span className={`text-[13px] font-bold leading-tight truncate ${isMissedOrRejected ? 'text-red-500' : 'text-foreground'}`}>
             {title}
           </span>
           {durationStr && (
-            <span className={`text-[11px] font-semibold mt-0.5 truncate ${isMe ? 'text-text-primary opacity-70' : 'text-text-tertiary'}`}>
+            <span className={`text-[11px] font-semibold mt-0.5 truncate ${isMe ? 'text-foreground opacity-70' : 'text-muted'}`}>
               {durationStr}
             </span>
           )}

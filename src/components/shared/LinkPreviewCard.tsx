@@ -41,22 +41,22 @@ export const LinkPreviewCard: React.FC<LinkPreviewCardProps> = ({
 
     if (loading) {
         return (
-            <div className={`animate-pulse rounded-xl border border-border-light bg-bg-secondary overflow-hidden ${compact ? 'flex items-center gap-3 p-3' : ''} ${className}`}>
+            <div className={`animate-pulse rounded-xl border border-border bg-background overflow-hidden ${compact ? 'flex items-center gap-3 p-3' : ''} ${className}`}>
                 {compact ? (
                     <>
-                        <div className="w-12 h-12 rounded-lg bg-bg-tertiary flex-shrink-0" />
+                        <div className="w-12 h-12 rounded-lg bg-surface-sunken flex-shrink-0" />
                         <div className="flex-1 space-y-2">
-                            <div className="h-3 bg-bg-tertiary rounded w-3/4" />
-                            <div className="h-2.5 bg-bg-tertiary rounded w-1/2" />
+                            <div className="h-3 bg-surface-sunken rounded w-3/4" />
+                            <div className="h-2.5 bg-surface-sunken rounded w-1/2" />
                         </div>
                     </>
                 ) : (
                     <>
-                        <div className="w-full aspect-[2/1] bg-bg-tertiary" />
+                        <div className="w-full aspect-[2/1] bg-surface-sunken" />
                         <div className="p-3 space-y-2">
-                            <div className="h-3 bg-bg-tertiary rounded w-3/4" />
-                            <div className="h-2.5 bg-bg-tertiary rounded w-full" />
-                            <div className="h-2.5 bg-bg-tertiary rounded w-2/3" />
+                            <div className="h-3 bg-surface-sunken rounded w-3/4" />
+                            <div className="h-2.5 bg-surface-sunken rounded w-full" />
+                            <div className="h-2.5 bg-surface-sunken rounded w-2/3" />
                         </div>
                     </>
                 )}
@@ -73,7 +73,7 @@ export const LinkPreviewCard: React.FC<LinkPreviewCardProps> = ({
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={(e) => e.stopPropagation()}
-                className={`flex items-center gap-3 rounded-xl border border-border-light bg-bg-secondary hover:bg-bg-tertiary transition-colors overflow-hidden group max-w-full ${className}`}
+                className={`flex items-center gap-3 rounded-xl border border-border bg-background hover:bg-surface-sunken transition-colors overflow-hidden group max-w-full ${className}`}
             >
                 {data.image && (
                     <img
@@ -86,17 +86,17 @@ export const LinkPreviewCard: React.FC<LinkPreviewCardProps> = ({
                 <div className="flex-1 min-w-0 py-2 pr-2">
                     <p className="text-xs font-semibold text-primary truncate leading-tight">{data.title}</p>
                     {data.description && (
-                        <p className="text-xs text-text-secondary truncate mt-0.5">{data.description}</p>
+                        <p className="text-xs text-secondary truncate mt-0.5">{data.description}</p>
                     )}
                     {data.siteName && (
-                        <p className="text-xs text-text-tertiary mt-0.5 truncate">{data.siteName}</p>
+                        <p className="text-xs text-muted mt-0.5 truncate">{data.siteName}</p>
                     )}
                 </div>
                 {onDismiss && (
                     <button
                         type="button"
                         onClick={(e) => { e.preventDefault(); e.stopPropagation(); onDismiss(); }}
-                        className="p-2 mr-1 text-text-tertiary hover:text-text-primary transition-colors flex-shrink-0"
+                        className="p-2 mr-1 text-muted hover:text-foreground transition-colors flex-shrink-0"
                     >
                         <X size={14} />
                     </button>
@@ -111,10 +111,10 @@ export const LinkPreviewCard: React.FC<LinkPreviewCardProps> = ({
             target="_blank"
             rel="noopener noreferrer"
             onClick={(e) => e.stopPropagation()}
-            className={`block rounded-xl border border-border-light bg-bg-secondary hover:bg-bg-tertiary transition-colors overflow-hidden group ${className}`}
+            className={`block rounded-xl border border-border bg-background hover:bg-surface-sunken transition-colors overflow-hidden group ${className}`}
         >
             {data.image && (
-                <div className="w-full aspect-[2/1] overflow-hidden bg-bg-tertiary">
+                <div className="w-full aspect-[2/1] overflow-hidden bg-surface-sunken">
                     <img
                         src={data.image}
                         alt=""
@@ -125,11 +125,11 @@ export const LinkPreviewCard: React.FC<LinkPreviewCardProps> = ({
             )}
             <div className="p-3">
                 {data.siteName && (
-                    <p className="text-xs text-text-tertiary uppercase tracking-wide mb-1 truncate">{data.siteName}</p>
+                    <p className="text-xs text-muted uppercase tracking-wide mb-1 truncate">{data.siteName}</p>
                 )}
                 <p className="text-sm font-semibold text-primary line-clamp-2 leading-snug">{data.title}</p>
                 {data.description && (
-                    <p className="text-xs text-text-secondary mt-1 line-clamp-2 leading-relaxed">{data.description}</p>
+                    <p className="text-xs text-secondary mt-1 line-clamp-2 leading-relaxed">{data.description}</p>
                 )}
                 <div className="flex items-center gap-1 mt-2 text-xs text-primary">
                     <ExternalLink size={11} />

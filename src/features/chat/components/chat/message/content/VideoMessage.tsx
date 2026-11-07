@@ -33,7 +33,7 @@ export const VideoMessage: React.FC<VideoMessageProps> = ({
     <SensitiveMediaGuard
       isSensitive={message.data.media?.[0]?.isSensitive}
       size="sm"
-      className="rounded-xl overflow-hidden max-w-[320px] max-h-[420px] bg-black/5 relative shadow-sm border border-border-light w-fit"
+      className="rounded-xl overflow-hidden max-w-[320px] max-h-[420px] bg-black/5 relative shadow-sm border border-border w-fit"
     >
       <div className="w-full h-full">
         <LazyVideo

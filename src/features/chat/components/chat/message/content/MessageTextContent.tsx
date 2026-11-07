@@ -91,7 +91,7 @@ export const MessageTextContent: React.FC<MessageTextContentProps> = ({ content,
         <LinkPreviewCard
           url={firstUrl}
           compact
-          className="mt-2 shadow-sm border border-border-light/50"
+          className="mt-2 shadow-sm border border-border/50"
         />
       )}
     </div>

@@ -43,10 +43,10 @@ export const FriendSuggestionsWidget: React.FC = () => {
   }
 
   return (
-    <div className="bg-bg-primary rounded-2xl border border-border-light overflow-hidden mb-4 animate-fade-in shadow-sm group/widget relative">
-      <div className="px-4 py-3 flex items-center justify-between bg-bg-secondary/30">
+    <div className="bg-surface rounded-2xl border border-border overflow-hidden mb-4 animate-fade-in shadow-sm group/widget relative">
+      <div className="px-4 py-3 flex items-center justify-between bg-background/30">
         <div className="flex items-center gap-2">
-          <h2 className="text-sm font-bold text-text-primary">Gợi ý kết bạn</h2>
+          <h2 className="text-sm font-bold text-foreground">Gợi ý kết bạn</h2>
         </div>
         {!isSuggestionsLoading && filteredSuggestions.length > 5 && (
           <button
@@ -65,7 +65,7 @@ export const FriendSuggestionsWidget: React.FC = () => {
             {showLeftArrow && (
               <button
                 onClick={() => scroll('left')}
-                className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-8 h-8 flex items-center justify-center rounded-full bg-bg-primary/95 backdrop-blur-md border border-border-light text-text-secondary shadow-lg opacity-0 group-hover/widget:opacity-100 transition-all duration-300 hover:bg-primary hover:text-white scale-90 hover:scale-100"
+                className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-8 h-8 flex items-center justify-center rounded-full bg-surface/95 backdrop-blur-md border border-border text-secondary shadow-lg opacity-0 group-hover/widget:opacity-100 transition-all duration-300 hover:bg-primary hover:text-white scale-90 hover:scale-100"
                 aria-label="Cuộn trái"
               >
                 <ChevronLeft size={20} />
@@ -74,7 +74,7 @@ export const FriendSuggestionsWidget: React.FC = () => {
             {showRightArrow && (
               <button
                 onClick={() => scroll('right')}
-                className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-8 h-8 flex items-center justify-center rounded-full bg-bg-primary/95 backdrop-blur-md border border-border-light text-text-secondary shadow-lg opacity-0 group-hover/widget:opacity-100 transition-all duration-300 hover:bg-primary hover:text-white scale-90 hover:scale-100"
+                className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-8 h-8 flex items-center justify-center rounded-full bg-surface/95 backdrop-blur-md border border-border text-secondary shadow-lg opacity-0 group-hover/widget:opacity-100 transition-all duration-300 hover:bg-primary hover:text-white scale-90 hover:scale-100"
                 aria-label="Cuộn phải"
               >
                 <ChevronRight size={20} />

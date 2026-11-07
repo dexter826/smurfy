@@ -107,13 +107,13 @@ const OnboardingPage: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row h-screen lg:overflow-hidden bg-bg-secondary selection:bg-primary/20">
+    <div className="flex flex-col lg:flex-row h-screen lg:overflow-hidden bg-background selection:bg-primary/20">
       <AuthBrandingPanel
         headline={<>Cá nhân hóa <br /> Trải nghiệm.</>}
         subtext="Chia sẻ một chút về bạn để Smurfy kết nối bạn với những người bạn tâm đầu ý hợp nhất."
       />
 
-      <div className="w-full lg:w-1/2 h-full bg-bg-primary transition-theme overflow-hidden">
+      <div className="w-full lg:w-1/2 h-full bg-surface transition-theme overflow-hidden">
         <div className="h-full flex flex-col p-6 md:p-12 animate-fade-in">
           <div className="w-full max-w-[480px] mx-auto h-full flex flex-col">
             
@@ -124,8 +124,8 @@ const OnboardingPage: React.FC = () => {
 
             {/* Header - Fixed */}
             <div className="mb-8 flex-shrink-0">
-              <h1 className="text-2xl font-bold text-text-primary mb-1">Chào mừng bạn!</h1>
-              <p className="text-sm text-text-secondary leading-relaxed">
+              <h1 className="text-2xl font-bold text-foreground mb-1">Chào mừng bạn!</h1>
+              <p className="text-sm text-secondary leading-relaxed">
                 Hoàn thiện một vài thông tin cơ bản để Smurfy giúp bạn tìm thấy những người bạn cùng sở thích.
               </p>
             </div>
@@ -150,10 +150,10 @@ const OnboardingPage: React.FC = () => {
                   {/* Input Field */}
                   <div className="space-y-3">
                     <div className="flex items-center justify-between px-1">
-                      <label className="text-[13px] font-semibold text-text-primary">
+                      <label className="text-[13px] font-semibold text-foreground">
                         Sở thích của bạn
                       </label>
-                      <span className="text-[11px] font-bold text-text-tertiary bg-bg-secondary px-2 py-0.5 rounded-full border border-border-light">
+                      <span className="text-[11px] font-bold text-muted bg-background px-2 py-0.5 rounded-full border border-border">
                         {formData.interests?.length ?? 0}/{VALIDATION.INTEREST_MAX_COUNT}
                       </span>
                     </div>
@@ -164,22 +164,22 @@ const OnboardingPage: React.FC = () => {
                         onChange={e => setInterestInput(e.target.value)}
                         onKeyDown={handleInterestInput}
                         placeholder="Âm nhạc, Du lịch, Gaming..."
-                        className="w-full h-12 px-4 text-sm rounded-xl border border-border-light bg-bg-secondary text-text-primary placeholder:text-text-tertiary/50 focus:outline-none focus:ring-2 focus:ring-primary/10 focus:border-primary transition-all pr-12"
+                        className="w-full h-12 px-4 text-sm rounded-xl border border-border bg-background text-foreground placeholder:text-muted/50 focus:outline-none focus:ring-2 focus:ring-primary/10 focus:border-primary transition-all pr-12"
                       />
-                      <div className="absolute right-4 top-1/2 -translate-y-1/2 text-text-tertiary group-focus-within:text-primary transition-colors">
+                      <div className="absolute right-4 top-1/2 -translate-y-1/2 text-muted group-focus-within:text-primary transition-colors">
                         <Sparkles size={18} />
                       </div>
                     </div>
                     {errors.interests && (
-                      <p className="mt-1.5 ml-1 text-xs text-error font-medium flex items-center gap-1.5">
-                        <span className="w-1 h-1 rounded-full bg-error" /> {errors.interests.message}
+                      <p className="mt-1.5 ml-1 text-xs text-danger font-medium flex items-center gap-1.5">
+                        <span className="w-1 h-1 rounded-full bg-danger" /> {errors.interests.message}
                       </p>
                     )}
                   </div>
 
                   {/* Suggestions Cloud */}
                   <div className="space-y-3">
-                    <p className="text-[11px] font-bold text-text-tertiary uppercase tracking-wider ml-1">Gợi ý cho bạn</p>
+                    <p className="text-[11px] font-bold text-muted uppercase tracking-wider ml-1">Gợi ý cho bạn</p>
                     <div className="flex flex-wrap gap-2">
                       {INTEREST_SUGGESTIONS.filter(s => !(formData.interests ?? []).includes(s)).slice(0, 15).map(tag => (
                         <button
@@ -188,8 +188,8 @@ const OnboardingPage: React.FC = () => {
                           onClick={() => handleAddInterest(tag)}
                           className={`px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all shadow-sm
                             ${(formData.interests?.length ?? 0) >= VALIDATION.INTEREST_MAX_COUNT 
-                              ? 'border-border-light bg-bg-secondary text-text-tertiary cursor-pointer' 
-                              : 'border-border-light bg-bg-primary text-text-secondary hover:border-primary hover:text-primary hover:bg-primary/5'
+                              ? 'border-border bg-background text-muted cursor-pointer' 
+                              : 'border-border bg-surface text-secondary hover:border-primary hover:text-primary hover:bg-primary/5'
                             }`}
                         >
                           + {tag}
@@ -200,7 +200,7 @@ const OnboardingPage: React.FC = () => {
 
                   {/* Selected Tags Display */}
                   {formData.interests && formData.interests.length > 0 && (
-                    <div className="flex flex-wrap gap-2 pt-2 border-t border-dashed border-border-light animate-fade-in">
+                    <div className="flex flex-wrap gap-2 pt-2 border-t border-dashed border-border animate-fade-in">
                       {formData.interests.map(tag => (
                         <span
                           key={tag}
@@ -223,7 +223,7 @@ const OnboardingPage: React.FC = () => {
             </div>
 
             {/* Footer - Sticky/Fixed */}
-            <div className="mt-auto pt-6 border-t border-border-light bg-bg-primary flex-shrink-0">
+            <div className="mt-auto pt-6 border-t border-border bg-surface flex-shrink-0">
               <div className="space-y-4">
                 <Button 
                   fullWidth 
@@ -240,7 +240,7 @@ const OnboardingPage: React.FC = () => {
                     type="button"
                     onClick={handleSkip}
                     disabled={isSubmitting}
-                    className="group flex items-center gap-2 text-xs font-bold text-text-tertiary hover:text-primary transition-all py-1"
+                    className="group flex items-center gap-2 text-xs font-bold text-muted hover:text-primary transition-all py-1"
                   >
                     BỎ QUA BƯỚC NÀY
                     <SkipForward size={14} className="group-hover:translate-x-0.5 transition-transform" />

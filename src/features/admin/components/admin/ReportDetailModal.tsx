@@ -37,7 +37,7 @@ const VIEWER_CLOSED: ViewerState = { isOpen: false, media: [], index: 0 };
 const TYPE_CONFIG: Record<ReportType, { label: string; icon: React.ReactNode; color: string }> = {
   [ReportType.POST]: { label: 'Bài viết', icon: <FileText size={13} />, color: 'bg-info/10 text-info' },
   [ReportType.COMMENT]: { label: 'Bình luận', icon: <MessageSquare size={13} />, color: 'bg-warning/10 text-warning' },
-  [ReportType.USER]: { label: 'Người dùng', icon: <UserIcon size={13} />, color: 'bg-error/10 text-error' },
+  [ReportType.USER]: { label: 'Người dùng', icon: <UserIcon size={13} />, color: 'bg-danger/10 text-danger' },
 };
 
 const ACTION_CONFIRM: Record<ActionType, { title: string; message: string; variant: 'danger' | 'primary' }> = {
@@ -68,7 +68,7 @@ const StatusBadge: React.FC<{ status: ReportStatus }> = ({ status }) => {
   const map: Record<ReportStatus, { icon: React.ReactNode; label: string; cls: string }> = {
     [ReportStatus.PENDING]: { icon: <Clock size={11} />, label: 'Chờ xử lý', cls: 'bg-warning/10 text-warning' },
     [ReportStatus.RESOLVED]: { icon: <CheckCircle size={11} />, label: 'Đã xử lý', cls: 'bg-success/10 text-success' },
-    [ReportStatus.REJECTED]: { icon: <XCircle size={11} />, label: 'Đã từ chối', cls: 'bg-bg-tertiary text-text-secondary' },
+    [ReportStatus.REJECTED]: { icon: <XCircle size={11} />, label: 'Đã từ chối', cls: 'bg-surface-sunken text-secondary' },
   };
   const { icon, label, cls } = map[status];
   return (
@@ -82,7 +82,7 @@ const StatusBadge: React.FC<{ status: ReportStatus }> = ({ status }) => {
 const UserRow: React.FC<{ user: User | null; isLoading: boolean }> = ({ user, isLoading }) => {
   if (isLoading) {
     return (
-      <div className="flex items-center gap-3 p-3 bg-bg-secondary/40 rounded-xl">
+      <div className="flex items-center gap-3 p-3 bg-background/40 rounded-xl">
         <Skeleton variant="circle" width={32} height={32} />
         <div className="space-y-1 flex-1">
           <Skeleton className="h-3 w-3/4" />
@@ -92,11 +92,11 @@ const UserRow: React.FC<{ user: User | null; isLoading: boolean }> = ({ user, is
     );
   }
   return (
-    <div className="flex items-center gap-3 p-3 bg-bg-secondary/40 rounded-xl">
+    <div className="flex items-center gap-3 p-3 bg-background/40 rounded-xl">
       <UserAvatar userId={user?.id ?? ''} src={user?.avatar?.url} name={user?.fullName} size="sm" />
       <div className="min-w-0 flex-1">
-        <p className="text-sm font-semibold text-text-primary truncate">{user?.fullName}</p>
-        <p className="text-xs text-text-tertiary truncate">{user?.email}</p>
+        <p className="text-sm font-semibold text-foreground truncate">{user?.fullName}</p>
+        <p className="text-xs text-muted truncate">{user?.email}</p>
       </div>
     </div>
   );
@@ -233,20 +233,20 @@ export const ReportDetailModal: React.FC<ReportDetailModalProps> = ({ reportId, 
         onClick={onClose}
       >
         <div
-          className="bg-bg-primary w-full max-w-4xl max-h-[92vh] rounded-2xl shadow-xl border border-border-light flex flex-col overflow-hidden"
+          className="bg-surface w-full max-w-4xl max-h-[92vh] rounded-2xl shadow-xl border border-border flex flex-col overflow-hidden"
           onClick={e => e.stopPropagation()}
         >
           {/* Modal Header */}
-          <div className="px-5 py-4 border-b border-border-light flex items-center justify-between flex-shrink-0">
+          <div className="px-5 py-4 border-b border-border flex items-center justify-between flex-shrink-0">
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 bg-error/10 rounded-xl flex items-center justify-center text-error flex-shrink-0">
+              <div className="w-9 h-9 bg-danger/10 rounded-xl flex items-center justify-center text-danger flex-shrink-0">
                 <ShieldAlert size={18} />
               </div>
               <div>
-                <h2 className="text-sm font-semibold text-text-primary leading-tight">Chi tiết báo cáo</h2>
+                <h2 className="text-sm font-semibold text-foreground leading-tight">Chi tiết báo cáo</h2>
                 {isLoading
                   ? <Skeleton className="h-3 w-28 mt-1" />
-                  : <p className="text-xs text-text-tertiary mt-0.5">
+                  : <p className="text-xs text-muted mt-0.5">
                     {report ? formatDateTime(report.createdAt) : ''}
                   </p>
                 }
@@ -262,7 +262,7 @@ export const ReportDetailModal: React.FC<ReportDetailModalProps> = ({ reportId, 
           <div className="flex-1 overflow-hidden flex flex-col lg:flex-row min-h-0">
 
             {/* Left Reported Content */}
-            <div className="flex-1 overflow-y-auto scroll-hide p-5 space-y-5 lg:border-r border-border-light min-w-0">
+            <div className="flex-1 overflow-y-auto scroll-hide p-5 space-y-5 lg:border-r border-border min-w-0">
 
               {/* Type And Reason */}
               {isLoading ? (
@@ -285,16 +285,16 @@ export const ReportDetailModal: React.FC<ReportDetailModalProps> = ({ reportId, 
                         }
                       </span>
                     )}
-                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-error/10 text-error">
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-danger/10 text-danger">
                       <AlertTriangle size={11} /> {reasonConfig?.label}
                     </span>
                   </div>
                   {reasonConfig?.description && (
-                    <p className="text-sm text-text-secondary">{reasonConfig.description}</p>
+                    <p className="text-sm text-secondary">{reasonConfig.description}</p>
                   )}
                   {report?.description && (
-                    <div className="p-3 bg-bg-secondary rounded-xl border border-dashed border-border-light">
-                      <p className="text-sm text-text-secondary italic">"{report.description}"</p>
+                    <div className="p-3 bg-background rounded-xl border border-dashed border-border">
+                      <p className="text-sm text-secondary italic">"{report.description}"</p>
                     </div>
                   )}
                 </div>
@@ -309,22 +309,22 @@ export const ReportDetailModal: React.FC<ReportDetailModalProps> = ({ reportId, 
               ) : isContentReport ? (
                 <div className="space-y-2.5">
                   <div className="flex items-center justify-between">
-                    <p className="text-xs font-bold text-text-tertiary uppercase tracking-widest">
+                    <p className="text-xs font-bold text-muted uppercase tracking-widest">
                       Nội dung bị báo cáo
                     </p>
                     {isDeleted && (
-                      <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-error/10 text-error rounded-full text-[10px] font-bold uppercase">
+                      <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-danger/10 text-danger rounded-full text-[10px] font-bold uppercase">
                         <Trash2 size={9} /> Đã xóa
                       </span>
                     )}
                   </div>
 
                   {content ? (
-                    <div className={`bg-bg-secondary/50 p-4 rounded-xl border ${isDeleted ? 'border-error/20' : 'border-border-light'}`}>
+                    <div className={`bg-background/50 p-4 rounded-xl border ${isDeleted ? 'border-danger/20' : 'border-border'}`}>
 
                       {content.content
-                        ? <p className="text-sm text-text-primary leading-relaxed whitespace-pre-wrap">{content.content}</p>
-                        : <p className="text-sm text-text-tertiary italic">(Không có nội dung văn bản)</p>
+                        ? <p className="text-sm text-foreground leading-relaxed whitespace-pre-wrap">{content.content}</p>
+                        : <p className="text-sm text-muted italic">(Không có nội dung văn bản)</p>
                       }
                       {report?.targetType === ReportType.POST && (
                         <div className="mt-4">
@@ -379,21 +379,21 @@ export const ReportDetailModal: React.FC<ReportDetailModalProps> = ({ reportId, 
                       title="Nội dung không tồn tại"
                       description="Nội dung đã bị xóa hoặc không còn tồn tại trên hệ thống."
                       size="sm"
-                      className="py-10 bg-bg-secondary/30 rounded-xl border border-dashed border-border-light"
+                      className="py-10 bg-background/30 rounded-xl border border-dashed border-border"
                     />
                   )}
                 </div>
               ) : (
                 /* User Report */
                 <div className="space-y-2.5">
-                  <p className="text-xs font-bold text-text-tertiary uppercase tracking-widest">
+                  <p className="text-xs font-bold text-muted uppercase tracking-widest">
                     Tài khoản bị báo cáo
                   </p>
-                  <div className="flex items-center gap-3.5 p-4 bg-bg-secondary/50 rounded-xl border border-border-light">
+                  <div className="flex items-center gap-3.5 p-4 bg-background/50 rounded-xl border border-border">
                     <UserAvatar userId={targetOwner?.id ?? ''} src={targetOwner?.avatar?.url} name={targetOwner?.fullName} size="lg" />
                     <div className="min-w-0">
-                      <p className="text-base font-semibold text-text-primary truncate">{targetOwner?.fullName}</p>
-                      <p className="text-sm text-text-tertiary truncate">{targetOwner?.email}</p>
+                      <p className="text-base font-semibold text-foreground truncate">{targetOwner?.fullName}</p>
+                      <p className="text-sm text-muted truncate">{targetOwner?.email}</p>
                     </div>
                   </div>
                 </div>
@@ -402,7 +402,7 @@ export const ReportDetailModal: React.FC<ReportDetailModalProps> = ({ reportId, 
               {/* Evidence Images */}
               {!isLoading && report?.images && report.images.length > 0 && (
                 <div className="space-y-2.5">
-                  <p className="text-xs font-bold text-text-tertiary uppercase tracking-widest">
+                  <p className="text-xs font-bold text-muted uppercase tracking-widest">
                     Hình ảnh bằng chứng ({report.images.length})
                   </p>
                   <div className="grid grid-cols-3 gap-2">
@@ -410,7 +410,7 @@ export const ReportDetailModal: React.FC<ReportDetailModalProps> = ({ reportId, 
                       <button
                         key={idx}
                         type="button"
-                        className="aspect-square rounded-xl overflow-hidden border border-border-light bg-bg-secondary group cursor-pointer relative outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+                        className="aspect-square rounded-xl overflow-hidden border border-border bg-background group cursor-pointer relative outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
                         onClick={() => openViewer(report.images!.map(m => ({ type: 'image' as const, url: m.url })), idx)}
                       >
                         <img
@@ -429,16 +429,16 @@ export const ReportDetailModal: React.FC<ReportDetailModalProps> = ({ reportId, 
             </div>
 
             {/* Right Metadata Actions */}
-            <div className="w-full lg:w-[300px] flex-shrink-0 flex flex-col overflow-y-auto scroll-hide border-t lg:border-t-0 border-border-light">
+            <div className="w-full lg:w-[300px] flex-shrink-0 flex flex-col overflow-y-auto scroll-hide border-t lg:border-t-0 border-border">
               <div className="p-5 space-y-4 flex-1">
                 <div className="space-y-1.5">
-                  <p className="text-xs font-bold text-text-tertiary uppercase tracking-widest">Người báo cáo</p>
+                  <p className="text-xs font-bold text-muted uppercase tracking-widest">Người báo cáo</p>
                   <UserRow user={reporter} isLoading={isLoading} />
                 </div>
 
                 {isContentReport && (
                   <div className="space-y-1.5">
-                    <p className="text-xs font-bold text-text-tertiary uppercase tracking-widest">Chủ nội dung</p>
+                    <p className="text-xs font-bold text-muted uppercase tracking-widest">Chủ nội dung</p>
                     <UserRow user={targetOwner} isLoading={isLoading} />
                   </div>
                 )}
@@ -448,34 +448,34 @@ export const ReportDetailModal: React.FC<ReportDetailModalProps> = ({ reportId, 
                   <div className={`p-3.5 rounded-xl border space-y-2.5
                     ${report.status === ReportStatus.RESOLVED
                       ? 'bg-success/5 border-success/20'
-                      : 'bg-bg-secondary/40 border-border-light'
+                      : 'bg-background/40 border-border'
                     }`}
                   >
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         {report.status === ReportStatus.RESOLVED
                           ? <CheckCircle size={15} className="text-success" />
-                          : <XCircle size={15} className="text-text-secondary" />
+                          : <XCircle size={15} className="text-secondary" />
                         }
-                        <span className={`text-sm font-semibold ${report.status === ReportStatus.RESOLVED ? 'text-success' : 'text-text-secondary'}`}>
+                        <span className={`text-sm font-semibold ${report.status === ReportStatus.RESOLVED ? 'text-success' : 'text-secondary'}`}>
                           {report.status === ReportStatus.RESOLVED ? 'Đã xử lý' : 'Đã từ chối'}
                         </span>
                       </div>
                       {report.resolvedAt && (
-                        <span className="text-xs text-text-tertiary">
+                        <span className="text-xs text-muted">
                           {formatRelativeTime(report.resolvedAt)}
                         </span>
                       )}
                     </div>
                     {resolver && (
-                      <div className="flex items-center gap-2 pt-2 border-t border-border-light/50">
-                        <span className="text-xs text-text-tertiary font-medium">Xử lý bởi:</span>
+                      <div className="flex items-center gap-2 pt-2 border-t border-border/50">
+                        <span className="text-xs text-muted font-medium">Xử lý bởi:</span>
                         <UserAvatar userId={resolver.id} src={resolver.avatar?.url} name={resolver.fullName} size="xs" />
-                        <span className="text-xs font-semibold text-text-primary">{resolver.fullName}</span>
+                        <span className="text-xs font-semibold text-foreground">{resolver.fullName}</span>
                       </div>
                     )}
                     {report.resolution && (
-                      <p className="text-xs text-text-secondary italic bg-bg-primary/50 px-3 py-2 rounded-lg">
+                      <p className="text-xs text-secondary italic bg-surface/50 px-3 py-2 rounded-lg">
                         "{report.resolution}"
                       </p>
                     )}
@@ -485,7 +485,7 @@ export const ReportDetailModal: React.FC<ReportDetailModalProps> = ({ reportId, 
 
               {/* Action Footer */}
               {!isLoading && (
-                <div className="p-4 border-t border-border-light bg-bg-secondary/20 space-y-2">
+                <div className="p-4 border-t border-border bg-background/20 space-y-2">
                   {isPending ? (
                     <>
                       <Button
@@ -499,7 +499,7 @@ export const ReportDetailModal: React.FC<ReportDetailModalProps> = ({ reportId, 
                       <div className="flex gap-2">
                         {report?.targetType === ReportType.USER ? (
                           targetOwner?.status === UserStatus.BANNED ? (
-                            <div className="flex-1 px-3 py-2 bg-error/5 text-error rounded-xl border border-error/20 text-xs font-semibold text-center">
+                            <div className="flex-1 px-3 py-2 bg-danger/5 text-danger rounded-xl border border-danger/20 text-xs font-semibold text-center">
                               Tài khoản đã bị khóa
                             </div>
                           ) : (

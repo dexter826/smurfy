@@ -56,16 +56,16 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(({
   return (
     <div className={`flex flex-col gap-1.5 w-full ${containerClassName}`}>
       {label && (
-        <label htmlFor={inputId} className="text-xs font-semibold text-text-secondary ml-1 cursor-pointer">
+        <label htmlFor={inputId} className="text-xs font-semibold text-secondary ml-1 cursor-pointer">
           {label}
         </label>
       )}
       <div className={`
         relative group overflow-hidden
-        bg-bg-primary border border-border-light transition-all duration-200
-        ${props.disabled ? 'opacity-50 bg-bg-secondary cursor-not-allowed' : 'focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/20 hover:border-border-medium'}
+        bg-surface border border-border transition-all duration-200
+        ${props.disabled ? 'opacity-50 bg-background cursor-not-allowed' : 'focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/20 hover:border-border-strong'}
         ${!className.includes('rounded-') ? 'rounded-xl' : ''}
-        ${error ? 'border-error ring-2 ring-error/10' : ''}
+        ${error ? 'border-danger ring-2 ring-danger/10' : ''}
         ${className}
       `}>
         {renderOverlay && (
@@ -78,7 +78,7 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(({
             className={`
               absolute inset-0 w-full h-full pointer-events-none
               bg-transparent outline-none text-base leading-relaxed resize-none
-              whitespace-pre-wrap break-words text-text-primary
+              whitespace-pre-wrap break-words text-foreground
               ${icon ? 'pl-11' : 'pl-4'}
               ${!className.includes('py-') ? 'py-2' : ''}
               overflow-hidden z-20
@@ -94,7 +94,7 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(({
         )}
 
         {icon && (
-          <div className="absolute top-3 left-0 pl-3.5 flex items-start pointer-events-none text-text-tertiary group-focus-within:text-primary transition-colors duration-200">
+          <div className="absolute top-3 left-0 pl-3.5 flex items-start pointer-events-none text-muted group-focus-within:text-primary transition-colors duration-200">
             {icon}
           </div>
         )}
@@ -104,8 +104,8 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(({
           id={inputId}
           className={`
             block w-full bg-transparent outline-none border-none text-base leading-relaxed resize-none
-            ${renderOverlay ? 'text-transparent caret-text-primary selection:bg-primary/20 selection:text-transparent' : 'text-text-primary'}
-            placeholder:text-text-tertiary
+            ${renderOverlay ? 'text-transparent caret-text-primary selection:bg-primary/20 selection:text-transparent' : 'text-foreground'}
+            placeholder:text-muted
             ${icon ? 'pl-11' : 'pl-4'}
             ${rightElement ? 'pr-8' : 'pr-4'}
             ${!className.includes('py-') ? 'py-2' : ''}
@@ -131,7 +131,7 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(({
         )}
       </div>
       {error && (
-        <p className="mt-0.5 ml-1 text-xs font-medium text-error flex items-center gap-1 animate-fade-in">
+        <p className="mt-0.5 ml-1 text-xs font-medium text-danger flex items-center gap-1 animate-fade-in">
           {error}
         </p>
       )}

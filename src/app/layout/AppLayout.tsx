@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { NavLink, Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { MessageCircle, Users, LayoutGrid, Settings, LogOut, Moon, Sun, Bell, Menu, Shield } from 'lucide-react';
 import { useAuthStore } from '@/features/auth';
-import { useThemeStore } from '../../store/themeStore';
+import { useThemeStore, useResolvedTheme } from '../../store/themeStore';
 import { useRtdbChatStore } from '../../store';
 import { useContactStore } from '@/features/friend';
 import { useLoadingStore } from '../../store/loadingStore';
@@ -30,7 +30,8 @@ import { useSharePostStore } from '@/features/feed';
 
 export const AppLayout: React.FC = () => {
   const { user } = useAuthStore();
-  const { mode, toggleTheme } = useThemeStore();
+  const { toggleTheme } = useThemeStore();
+  const mode = useResolvedTheme();
   const {
     subscribeToConversations, selectedConversationId, conversations, markAsDelivered,
     globalInviteInfo, setGlobalInviteInfo, handleGlobalJoinConfirm, fetchGroupInviteInfo
@@ -245,7 +246,7 @@ export const AppLayout: React.FC = () => {
   ];
 
   return (
-    <div className="flex flex-col h-[100dvh] w-full bg-bg-secondary bg-app-pattern overflow-hidden transition-theme">
+    <div className="flex flex-col h-[100dvh] w-full bg-background bg-app-pattern overflow-hidden transition-theme">
 
       {/* ── Desktop Header ── */}
       <header
@@ -280,10 +281,10 @@ export const AppLayout: React.FC = () => {
                 <span className="text-sm font-semibold hidden lg:inline">{label}</span>
               </div>
               {to === '/' && totalUnread > 0 && (
-                <span className="absolute top-2 right-2 w-2 h-2 bg-error rounded-full ring-2 ring-primary" />
+                <span className="absolute top-2 right-2 w-2 h-2 bg-danger rounded-full ring-2 ring-primary" />
               )}
               {to === '/contacts' && hasNewRequests && (
-                <span className="absolute top-2 right-2 w-2 h-2 bg-error rounded-full ring-2 ring-primary" />
+                <span className="absolute top-2 right-2 w-2 h-2 bg-danger rounded-full ring-2 ring-primary" />
               )}
             </NavLink>
           ))}
@@ -370,10 +371,10 @@ export const AppLayout: React.FC = () => {
               <div className="relative">
                 <Icon size={22} />
                 {to === '/' && totalUnread > 0 && (
-                  <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-error rounded-full ring-2 ring-bg-primary" />
+                  <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-danger rounded-full ring-2 ring-surface" />
                 )}
                 {to === '/contacts' && hasNewRequests && (
-                  <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-error rounded-full ring-2 ring-bg-primary" />
+                  <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-danger rounded-full ring-2 ring-surface" />
                 )}
               </div>
               <span className="text-xs font-medium leading-none whitespace-nowrap">{label}</span>

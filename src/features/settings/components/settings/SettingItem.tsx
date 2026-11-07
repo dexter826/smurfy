@@ -16,9 +16,9 @@ const SettingItem: React.FC<SettingItemProps> = ({
   const isClickable = !!onClick && !disabled;
 
   const base = `
-    flex items-center justify-between p-4 bg-bg-primary rounded-2xl border border-border-light
+    flex items-center justify-between p-4 bg-surface rounded-2xl border border-border
     transition-all duration-200 w-full text-left
-    ${isClickable ? 'cursor-pointer hover:bg-bg-hover active:bg-bg-active focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 focus-visible:ring-inset' : ''}
+    ${isClickable ? 'cursor-pointer hover:bg-hover active:bg-active focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 focus-visible:ring-inset' : ''}
     ${disabled ? 'opacity-50 cursor-not-allowed' : ''}
     ${className}
   `;
@@ -30,8 +30,8 @@ const SettingItem: React.FC<SettingItemProps> = ({
           {icon}
         </div>
         <div className="flex-1 min-w-0">
-          <h3 className="text-sm font-semibold text-text-primary truncate">{title}</h3>
-          <p className="text-xs text-text-tertiary mt-0.5 leading-relaxed">{description}</p>
+          <h3 className="text-sm font-semibold text-foreground truncate">{title}</h3>
+          <p className="text-xs text-muted mt-0.5 leading-relaxed">{description}</p>
         </div>
       </div>
       {action && <div className="ml-4 flex-shrink-0">{action}</div>}

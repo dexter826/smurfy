@@ -2,8 +2,8 @@ import React from 'react';
 import { Skeleton } from '@/components/ui/Skeleton';
 
 export const ProfileSkeleton: React.FC = () => (
-  <div className="h-full w-full overflow-y-auto bg-bg-secondary animate-fade-in">
-    <div className="bg-bg-primary shadow-sm mb-4">
+  <div className="h-full w-full overflow-y-auto bg-background animate-fade-in">
+    <div className="bg-surface shadow-sm mb-4">
       {/* Cover */}
       <div className="relative w-full h-[200px] md:h-[320px] md:rounded-b-2xl overflow-hidden">
         <Skeleton height="100%" width="100%" />
@@ -13,7 +13,7 @@ export const ProfileSkeleton: React.FC = () => (
         <div className="flex flex-col md:flex-row items-center md:items-end text-center md:text-left -mt-14 md:-mt-16 mb-5 gap-4 md:gap-6">
           {/* Avatar */}
           <div className="relative z-20 mx-auto md:mx-0 flex-shrink-0">
-            <div className="p-1 bg-bg-primary rounded-full shadow-md">
+            <div className="p-1 bg-surface rounded-full shadow-md">
               <Skeleton variant="circle" width={128} height={128} />
             </div>
           </div>
@@ -31,7 +31,7 @@ export const ProfileSkeleton: React.FC = () => (
         </div>
 
         {/* Tabs */}
-        <div className="flex gap-1 border-b border-border-light h-12">
+        <div className="flex gap-1 border-b border-border h-12">
           <Skeleton width={80} height={20} className="self-center mx-2" />
           <Skeleton width={80} height={20} className="self-center mx-2" />
         </div>
@@ -43,7 +43,7 @@ export const ProfileSkeleton: React.FC = () => (
       <div className="flex flex-col md:flex-row gap-4 md:gap-6">
         {/* Left sidebar */}
         <div className="w-full md:w-[320px] lg:w-[360px] flex-shrink-0 space-y-4">
-          <div className="bg-bg-primary rounded-2xl border border-border-light p-4 space-y-4">
+          <div className="bg-surface rounded-2xl border border-border p-4 space-y-4">
             <Skeleton width={100} height={20} />
             {[...Array(3)].map((_, i) => (
               <div key={i} className="flex gap-3 items-center">
@@ -52,7 +52,7 @@ export const ProfileSkeleton: React.FC = () => (
               </div>
             ))}
           </div>
-          <div className="bg-bg-primary rounded-2xl border border-border-light p-4 space-y-4 hidden md:block">
+          <div className="bg-surface rounded-2xl border border-border p-4 space-y-4 hidden md:block">
             <div className="flex justify-between items-center">
               <Skeleton width={100} height={20} />
               <Skeleton width={60} height={14} />
@@ -67,11 +67,11 @@ export const ProfileSkeleton: React.FC = () => (
 
         {/* Posts */}
         <div className="flex-1 min-w-0 space-y-4">
-          <div className="bg-bg-primary rounded-2xl border border-border-light p-4">
+          <div className="bg-surface rounded-2xl border border-border p-4">
             <Skeleton height={44} className="w-full rounded-full" />
           </div>
           {[...Array(2)].map((_, i) => (
-            <div key={i} className="bg-bg-primary rounded-2xl border border-border-light overflow-hidden">
+            <div key={i} className="bg-surface rounded-2xl border border-border overflow-hidden">
               <div className="p-4 flex items-center gap-3">
                 <Skeleton variant="circle" width={40} height={40} />
                 <div className="space-y-1.5 flex-1">
@@ -83,8 +83,8 @@ export const ProfileSkeleton: React.FC = () => (
                 <Skeleton width="88%" height={14} />
                 <Skeleton width="60%" height={14} />
               </div>
-              <div className="w-full aspect-video bg-bg-secondary" />
-              <div className="flex px-2 py-1 border-t border-border-light">
+              <div className="w-full aspect-video bg-background" />
+              <div className="flex px-2 py-1 border-t border-border">
                 {[...Array(2)].map((_, j) => (
                   <div key={j} className="flex-1 flex justify-center py-2.5">
                     <Skeleton width={64} height={16} />

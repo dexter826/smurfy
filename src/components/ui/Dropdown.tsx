@@ -19,14 +19,14 @@ export const DropdownItem: React.FC<DropdownItemProps> = ({
     className={`
       w-full px-4 py-2.5 text-left text-sm flex items-center gap-3
       transition-colors duration-fast font-medium
-      hover:bg-bg-hover active:bg-bg-active
+      hover:bg-hover active:bg-active
       first:rounded-t-[inherit] last:rounded-b-[inherit]
-      ${variant === 'danger' ? 'text-error' : 'text-text-primary'}
+      ${variant === 'danger' ? 'text-danger' : 'text-foreground'}
       ${className}
     `}
   >
     {icon && (
-      <span className={`flex-shrink-0 ${variant === 'danger' ? 'text-error' : 'text-text-secondary'}`}>
+      <span className={`flex-shrink-0 ${variant === 'danger' ? 'text-danger' : 'text-secondary'}`}>
         {icon}
       </span>
     )}
@@ -169,7 +169,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
           onClick={(e) => { e.stopPropagation(); handleOpenChange(false); }}
           className={`
             fixed min-w-[${MIN_MENU_WIDTH}px] w-max max-w-[calc(100vw-24px)]
-            bg-bg-primary border border-border-light rounded-xl
+            bg-surface border border-border rounded-xl
             shadow-dropdown overflow-hidden animate-fade-in
             ${menuClassName}
           `}

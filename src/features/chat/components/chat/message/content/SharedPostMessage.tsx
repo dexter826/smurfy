@@ -58,11 +58,11 @@ export const SharedPostMessage: React.FC<SharedPostMessageProps> = ({
               showStatus={false}
               showBorder={false}
             />
-            <p className="text-[11px] font-semibold text-text-primary truncate">{payload.authorName}</p>
+            <p className="text-[11px] font-semibold text-foreground truncate">{payload.authorName}</p>
           </div>
 
           {/* Snippet */}
-          <p className="text-[13px] font-medium leading-snug text-text-primary line-clamp-3 break-words">
+          <p className="text-[13px] font-medium leading-snug text-foreground line-clamp-3 break-words">
             {payload.snippet}
           </p>
 
@@ -74,7 +74,7 @@ export const SharedPostMessage: React.FC<SharedPostMessageProps> = ({
       </button>
 
       {isEdited && (
-        <span className="mt-1 text-[10px] italic text-text-tertiary">(đã chỉnh sửa)</span>
+        <span className="mt-1 text-[10px] italic text-muted">(đã chỉnh sửa)</span>
       )}
     </div>
   );

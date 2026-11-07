@@ -142,29 +142,29 @@ export const ChatDetailsPanel: React.FC<ChatDetailsPanelProps> = ({
       {/* Mobile Backdrop */}
       <div
         onClick={onClose}
-        className="fixed inset-0 bg-bg-overlay backdrop-blur-sm md:hidden"
+        className="fixed inset-0 bg-overlay backdrop-blur-sm md:hidden"
         style={{ zIndex: 'var(--z-overlay)' }}
       />
 
       {/* Detail Panel */}
       <div
-        className="fixed md:relative right-0 top-0 h-full w-full md:w-[320px] bg-bg-primary border-l border-border-light flex flex-col shadow-xl"
+        className="fixed md:relative right-0 top-0 h-full w-full md:w-[320px] bg-surface border-l border-border flex flex-col shadow-xl"
         style={{ zIndex: 'var(--z-modal)' }}
       >
         {/* Panel Header */}
-        <div className="flex items-center justify-between px-4 h-16 border-b border-border-light flex-shrink-0">
-          <h2 className="text-sm font-semibold text-text-primary">Chi tiết</h2>
+        <div className="flex items-center justify-between px-4 h-16 border-b border-border flex-shrink-0">
+          <h2 className="text-sm font-semibold text-foreground">Chi tiết</h2>
           <IconButton onClick={onClose} icon={<X size={18} />} size="md" />
         </div>
 
         {/* Tab Bar */}
-        <div className="flex border-b border-border-light flex-shrink-0">
+        <div className="flex border-b border-border flex-shrink-0">
           {visibleTabs.map((tab) => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
               className={`flex-1 flex flex-col items-center gap-1 py-3 transition-all duration-200 relative outline-none
-                ${activeTab === tab.id ? 'text-primary' : 'text-text-tertiary hover:text-text-secondary'}`}
+                ${activeTab === tab.id ? 'text-primary' : 'text-muted hover:text-secondary'}`}
             >
               {tab.icon}
               <span className="text-[10px] font-medium">{tab.label}</span>

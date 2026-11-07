@@ -12,9 +12,9 @@ import { useUserCache } from '@/store/userCacheStore';
 
 /** Card hiển thị thông số thống kê */
 const StatCard: React.FC<{ label: string; value: number | string; color: string; icon: React.ReactNode }> = ({ label, value, color, icon }) => (
-  <div className="bg-bg-primary p-4 rounded-2xl border border-border-light flex items-center justify-between transition-all hover:border-primary/30 hover:shadow-sm">
+  <div className="bg-surface p-4 rounded-2xl border border-border flex items-center justify-between transition-all hover:border-primary/30 hover:shadow-sm">
     <div className="flex flex-col">
-      <span className="text-xs font-semibold text-text-tertiary uppercase tracking-wider mb-1">{label}</span>
+      <span className="text-xs font-semibold text-muted uppercase tracking-wider mb-1">{label}</span>
       <span className={`text-2xl font-black ${color}`}>{value}</span>
     </div>
     <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${color.replace('text-', 'bg-').replace('primary', 'primary/10').replace('error', 'error/10').replace('success', 'success/10').replace('warning', 'warning/10')}`}>
@@ -70,14 +70,14 @@ export const DashboardView: React.FC = () => {
   return (
     <div className="flex flex-col h-full overflow-hidden">
       {/* Header */}
-      <div className="bg-bg-primary px-4 md:px-6 py-5 border-b border-border-light flex-shrink-0">
+      <div className="bg-surface px-4 md:px-6 py-5 border-b border-border flex-shrink-0">
         <div className="max-w-5xl mx-auto flex items-center justify-between">
           <div>
-            <h1 className="text-base font-bold text-text-primary flex items-center gap-2">
+            <h1 className="text-base font-bold text-foreground flex items-center gap-2">
               <LayoutDashboard size={18} className="text-primary" />
               Tổng quan hệ thống
             </h1>
-            <p className="text-xs text-text-tertiary mt-1">
+            <p className="text-xs text-muted mt-1">
               Xin chào {user?.fullName}.
             </p>
           </div>
@@ -85,13 +85,13 @@ export const DashboardView: React.FC = () => {
       </div>
 
       {/* Scrollable Content */}
-      <div className="flex-1 overflow-y-auto scroll-hide p-4 md:p-6 bg-bg-secondary/30">
+      <div className="flex-1 overflow-y-auto scroll-hide p-4 md:p-6 bg-background/30">
         <div className="max-w-5xl mx-auto space-y-6 md:space-y-8">
           
           {/* User Metrics */}
           <section>
             <div className="flex items-center justify-between mb-3">
-              <h2 className="text-sm font-bold text-text-secondary uppercase tracking-wider flex items-center gap-2">
+              <h2 className="text-sm font-bold text-secondary uppercase tracking-wider flex items-center gap-2">
                 <Users size={16} /> Thống kê người dùng
               </h2>
               <button 
@@ -113,7 +113,7 @@ export const DashboardView: React.FC = () => {
                 <>
                   <StatCard label="Tổng tài khoản" value={userStats.total} color="text-primary" icon={<Users size={20} className="text-primary"/>} />
                   <StatCard label="Đang hoạt động" value={userStats.active} color="text-success" icon={<Users size={20} className="text-success"/>} />
-                  <StatCard label="Bị khóa" value={userStats.banned} color="text-error" icon={<AlertTriangle size={20} className="text-error" />} />
+                  <StatCard label="Bị khóa" value={userStats.banned} color="text-danger" icon={<AlertTriangle size={20} className="text-danger" />} />
                 </>
               )}
             </div>
@@ -122,7 +122,7 @@ export const DashboardView: React.FC = () => {
           {/* Report Metrics */}
           <section>
             <div className="flex items-center justify-between mb-3">
-              <h2 className="text-sm font-bold text-text-secondary uppercase tracking-wider flex items-center gap-2">
+              <h2 className="text-sm font-bold text-secondary uppercase tracking-wider flex items-center gap-2">
                 <Flag size={16} /> Tình trạng báo cáo
               </h2>
               <button 
@@ -144,7 +144,7 @@ export const DashboardView: React.FC = () => {
                 <>
                   <StatCard label="Cần xử lý" value={reportStats.pending} color="text-warning" icon={<Clock size={20} className="text-warning"/>} />
                   <StatCard label="Đã xử lý" value={reportStats.resolved} color="text-success" icon={<Flag size={20} className="text-success"/>} />
-                  <StatCard label="Bị từ chối" value={reportStats.rejected} color="text-error" icon={<AlertTriangle size={20} className="text-error"/>} />
+                  <StatCard label="Bị từ chối" value={reportStats.rejected} color="text-danger" icon={<AlertTriangle size={20} className="text-danger"/>} />
                 </>
               )}
             </div>
@@ -152,11 +152,11 @@ export const DashboardView: React.FC = () => {
 
           {/* Recent Pending Reports */}
           <section>
-            <h2 className="text-sm font-bold text-text-secondary uppercase tracking-wider flex items-center gap-2 mb-3">
+            <h2 className="text-sm font-bold text-secondary uppercase tracking-wider flex items-center gap-2 mb-3">
               <Clock size={16} /> Báo cáo mới nhất chờ xử lý
             </h2>
 
-            <div className="bg-bg-primary rounded-2xl border border-border-light overflow-hidden">
+            <div className="bg-surface rounded-2xl border border-border overflow-hidden">
               {isLoading ? (
                 <div className="p-4 space-y-3">
                   <Skeleton className="h-10 w-full" />
@@ -179,15 +179,15 @@ export const DashboardView: React.FC = () => {
                        <button
                          key={report.id}
                          onClick={() => navigate(`/admin/reports`)}
-                         className="w-full text-left p-4 hover:bg-bg-secondary transition-colors group flex flex-col md:flex-row gap-3 md:items-center justify-between"
+                         className="w-full text-left p-4 hover:bg-background transition-colors group flex flex-col md:flex-row gap-3 md:items-center justify-between"
                        >
                          {/* Left Info */}
                          <div className="flex flex-col gap-1 min-w-0">
-                           <p className="text-sm font-semibold text-text-primary flex items-center gap-1.5 truncate">
-                             <AlertTriangle size={14} className="text-error flex-shrink-0" />
+                           <p className="text-sm font-semibold text-foreground flex items-center gap-1.5 truncate">
+                             <AlertTriangle size={14} className="text-danger flex-shrink-0" />
                              {reasonConfig?.label || 'Vi phạm'}
                            </p>
-                           <div className="flex items-center gap-2 text-xs text-text-tertiary truncate">
+                           <div className="flex items-center gap-2 text-xs text-muted truncate">
                               <UserAvatar size="xs" userId={report.reporterId} />
                               <span className="truncate max-w-[120px]">{reporter?.fullName || 'Người dùng'}</span>
                               <span>•</span>

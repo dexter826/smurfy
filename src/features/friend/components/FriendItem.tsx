@@ -24,10 +24,10 @@ const FriendItemInner: React.FC<FriendItemProps> = ({ friend, onUnfriend, onMess
   return (
     <div
       className={`relative flex items-center justify-between px-4 py-3 transition-colors duration-200 group
-        border-b border-border-light/60 last:border-0
+        border-b border-border/60 last:border-0
         ${isBanned
           ? 'opacity-60 cursor-default'
-          : 'hover:bg-bg-hover active:bg-bg-active cursor-pointer'
+          : 'hover:bg-hover active:bg-active cursor-pointer'
         }`}
       onClick={handleMessage}
     >
@@ -35,11 +35,11 @@ const FriendItemInner: React.FC<FriendItemProps> = ({ friend, onUnfriend, onMess
         <UserAvatar userId={friend.id} size="md" />
         <div className="min-w-0">
           <div className="flex items-center gap-1.5 flex-wrap">
-            <h3 className="text-sm font-semibold text-text-primary truncate">
+            <h3 className="text-sm font-semibold text-foreground truncate">
               {friend.fullName}
             </h3>
             {isBanned && (
-              <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-[10px] font-medium bg-error/10 text-error flex-shrink-0">
+              <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-[10px] font-medium bg-danger/10 text-danger flex-shrink-0">
                 <Lock size={9} />
                 Đã khóa
               </span>
@@ -89,7 +89,7 @@ const FriendItemInner: React.FC<FriendItemProps> = ({ friend, onUnfriend, onMess
 };
 
 const FriendItemSkeleton: React.FC = () => (
-  <div className="flex items-center justify-between px-4 py-3 border-b border-border-light/60 last:border-0">
+  <div className="flex items-center justify-between px-4 py-3 border-b border-border/60 last:border-0">
     <div className="flex items-center gap-3 flex-1">
       <Skeleton variant="circle" width={40} height={40} />
       <div className="space-y-1.5">

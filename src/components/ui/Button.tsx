@@ -17,13 +17,13 @@ const base =
 
 const variants: Record<NonNullable<ButtonProps['variant']>, string> = {
   primary:
-    'btn-gradient text-text-on-primary shadow-sm hover:brightness-110 border border-transparent',
+    'btn-gradient text-on-primary shadow-sm hover:brightness-110 border border-transparent',
   secondary:
-    'bg-bg-secondary hover:bg-bg-hover active:bg-bg-active text-text-primary border border-border-light',
+    'bg-background hover:bg-hover active:bg-active text-foreground border border-border',
   ghost:
-    'hover:bg-bg-hover active:bg-bg-active text-text-secondary hover:text-text-primary border border-transparent',
+    'hover:bg-hover active:bg-active text-secondary hover:text-foreground border border-transparent',
   danger:
-    'bg-error hover:bg-error/90 active:bg-error/80 text-text-on-primary shadow-sm border border-transparent',
+    'bg-danger hover:bg-danger/90 active:bg-danger/80 text-on-primary shadow-sm border border-transparent',
 };
 
 const sizes: Record<NonNullable<ButtonProps['size']>, string> = {

@@ -45,7 +45,7 @@ export const JoinGroupModal: React.FC<JoinGroupModalProps> = ({
         </Button>
       )}
       {isPending && (
-        <Button disabled className="flex-1 bg-bg-tertiary text-text-tertiary border-none">
+        <Button disabled className="flex-1 bg-surface-sunken text-muted border-none">
           Đang chờ duyệt
         </Button>
       )}
@@ -73,11 +73,11 @@ export const JoinGroupModal: React.FC<JoinGroupModalProps> = ({
 
         {/* Group Info */}
         <div className="text-center space-y-2 relative z-10 w-full px-2">
-          <h2 className="text-xl font-bold text-text-primary line-clamp-2">
+          <h2 className="text-xl font-bold text-foreground line-clamp-2">
             {name}
           </h2>
           
-          <div className="flex items-center justify-center gap-4 text-sm text-text-secondary">
+          <div className="flex items-center justify-center gap-4 text-sm text-secondary">
             <div className="flex items-center gap-1.5">
               <Users size={14} className="text-primary" />
               <span>{memberCount} thành viên</span>
@@ -111,7 +111,7 @@ export const JoinGroupModal: React.FC<JoinGroupModalProps> = ({
 
         {/* Description/Note */}
         {!isMember && !isPending && (
-          <p className="text-xs text-text-tertiary text-center leading-relaxed max-w-[280px]">
+          <p className="text-xs text-muted text-center leading-relaxed max-w-[280px]">
             {joinApprovalMode 
               ? "Yêu cầu tham gia của bạn sẽ được Quản trị viên xem xét trước khi vào nhóm."
               : "Bạn có thể bắt đầu trò chuyện ngay sau khi nhấn nút tham gia."

@@ -124,7 +124,7 @@ export const SearchableSelect: React.FC<SearchableSelectProps> = ({
   return (
     <div className={`flex flex-col gap-1.5 ${className}`} ref={containerRef}>
       {label && (
-        <label className="text-xs font-semibold text-text-secondary ml-1">
+        <label className="text-xs font-semibold text-secondary ml-1">
           {label}
         </label>
       )}
@@ -136,14 +136,14 @@ export const SearchableSelect: React.FC<SearchableSelectProps> = ({
         onClick={handleOpen}
         className={`
           w-full flex items-center justify-between outline-none transition-all duration-200
-          rounded-xl font-normal bg-bg-primary border cursor-pointer
+          rounded-xl font-normal bg-surface border cursor-pointer
           ${sizeClasses[size]}
-          ${isOpen ? 'border-primary ring-2 ring-primary/20' : 'border-border-light hover:border-border-medium'}
-          ${error ? 'border-error ring-2 ring-error/10' : ''}
-          ${disabled ? 'opacity-50 cursor-not-allowed bg-bg-secondary' : ''}
+          ${isOpen ? 'border-primary ring-2 ring-primary/20' : 'border-border hover:border-border-strong'}
+          ${error ? 'border-danger ring-2 ring-danger/10' : ''}
+          ${disabled ? 'opacity-50 cursor-not-allowed bg-background' : ''}
         `}
       >
-        <span className={`truncate flex-1 ${!selectedOption && !value ? 'text-text-tertiary' : 'text-text-primary'}`}>
+        <span className={`truncate flex-1 ${!selectedOption && !value ? 'text-muted' : 'text-foreground'}`}>
           {selectedOption ? selectedOption.label : (value || placeholder)}
         </span>
         <div className="flex items-center gap-1 flex-shrink-0 ml-2">
@@ -151,7 +151,7 @@ export const SearchableSelect: React.FC<SearchableSelectProps> = ({
             <button
               type="button"
               onClick={handleClear}
-              className="text-text-tertiary hover:text-text-primary transition-colors"
+              className="text-muted hover:text-foreground transition-colors"
               aria-label="Xóa"
             >
               <X size={14} />
@@ -159,7 +159,7 @@ export const SearchableSelect: React.FC<SearchableSelectProps> = ({
           )}
           <ChevronDown
             size={size === 'sm' ? 14 : 18}
-            className={`text-text-tertiary transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
+            className={`text-muted transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
           />
         </div>
       </div>
@@ -169,7 +169,7 @@ export const SearchableSelect: React.FC<SearchableSelectProps> = ({
           ref={menuRef}
           role="listbox"
           onKeyDown={handleKeyDown}
-          className="fixed bg-bg-primary border border-border-light rounded-xl shadow-dropdown overflow-hidden animate-fade-in flex flex-col"
+          className="fixed bg-surface border border-border rounded-xl shadow-dropdown overflow-hidden animate-fade-in flex flex-col"
           style={{
             zIndex: 'var(--z-popover)',
             top: pos?.top !== undefined ? `${pos.top}px` : undefined,
@@ -183,16 +183,16 @@ export const SearchableSelect: React.FC<SearchableSelectProps> = ({
           }}
         >
           {/* Search input */}
-          <div className="p-2 border-b border-border-light flex-shrink-0">
+          <div className="p-2 border-b border-border flex-shrink-0">
             <div className="relative">
-              <Search size={14} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-text-tertiary" />
+              <Search size={14} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-muted" />
               <input
                 ref={inputRef}
                 type="text"
                 value={query}
                 onChange={e => setQuery(e.target.value)}
                 placeholder={searchPlaceholder}
-                className="w-full pl-7 pr-3 py-1.5 text-sm bg-bg-secondary rounded-lg border-none outline-none text-text-primary placeholder:text-text-tertiary"
+                className="w-full pl-7 pr-3 py-1.5 text-sm bg-background rounded-lg border-none outline-none text-foreground placeholder:text-muted"
               />
             </div>
           </div>
@@ -200,7 +200,7 @@ export const SearchableSelect: React.FC<SearchableSelectProps> = ({
           {/* Options list */}
           <div className="overflow-y-auto scroll-hide flex-1">
             {filtered.length === 0 ? (
-              <div className="px-4 py-3 text-sm text-text-tertiary text-center">
+              <div className="px-4 py-3 text-sm text-muted text-center">
                 Không tìm thấy kết quả
               </div>
             ) : (
@@ -213,8 +213,8 @@ export const SearchableSelect: React.FC<SearchableSelectProps> = ({
                   onClick={() => handleSelect(option)}
                   className={`
                     w-full px-4 py-2.5 text-left text-sm flex items-center justify-between gap-2
-                    transition-colors duration-fast hover:bg-bg-hover active:bg-bg-active
-                    ${option.value === value ? 'bg-primary/5 text-primary font-medium' : 'text-text-primary font-normal'}
+                    transition-colors duration-fast hover:bg-hover active:bg-active
+                    ${option.value === value ? 'bg-primary/5 text-primary font-medium' : 'text-foreground font-normal'}
                   `}
                 >
                   <span className="truncate">{option.label}</span>
@@ -228,7 +228,7 @@ export const SearchableSelect: React.FC<SearchableSelectProps> = ({
       )}
 
       {error && (
-        <p className="mt-0.5 ml-1 text-xs font-medium text-error animate-fade-in">{error}</p>
+        <p className="mt-0.5 ml-1 text-xs font-medium text-danger animate-fade-in">{error}</p>
       )}
     </div>
   );

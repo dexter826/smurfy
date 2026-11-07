@@ -36,14 +36,14 @@ export const insertTextAtCursor = (
 };
 
 export const getReactionColorClass = (type: ReactionType | string | null) => {
-  if (!type) return 'text-text-tertiary';
+  if (!type) return 'text-muted';
   const rt = type.toLowerCase();
   switch (rt) {
     case 'like':
       return '!text-primary hover:!text-primary-hover';
     case 'love':
     case 'angry':
-      return '!text-error hover:!text-error/90';
+      return '!text-danger hover:!text-danger/90';
     case 'haha':
     case 'wow':
     case 'sad':
@@ -61,7 +61,7 @@ export const getReactionBgClass = (type: ReactionType | string | null) => {
       return '!bg-primary/5';
     case 'love':
     case 'angry':
-      return '!bg-error/5';
+      return '!bg-danger/5';
     case 'haha':
     case 'wow':
     case 'sad':

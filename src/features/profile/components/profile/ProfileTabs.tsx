@@ -13,7 +13,7 @@ const tabs: { id: TabType; label: string }[] = [
 ];
 
 export const ProfileTabs: React.FC<ProfileTabsProps> = ({ activeTab, onTabChange }) => (
-  <div className="max-w-5xl mx-auto px-4 md:px-6 border-b border-border-light">
+  <div className="max-w-5xl mx-auto px-4 md:px-6 border-b border-border">
     <div className="flex gap-1">
       {tabs.map((tab) => (
         <button
@@ -23,7 +23,7 @@ export const ProfileTabs: React.FC<ProfileTabsProps> = ({ activeTab, onTabChange
             border-b-2 -mb-px
             ${activeTab === tab.id
               ? 'text-primary border-primary'
-              : 'text-text-secondary border-transparent hover:text-text-primary hover:border-border-medium'
+              : 'text-secondary border-transparent hover:text-foreground hover:border-border-strong'
             }`}
         >
           {tab.label}

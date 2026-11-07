@@ -107,13 +107,13 @@ export const SharePostModal: React.FC<SharePostModalProps> = ({
             Bài viết riêng tư không thể chia sẻ.
           </div>
         ) : (
-          <div className="flex bg-bg-secondary/50 rounded-2xl border border-border-light/50 overflow-hidden backdrop-blur-sm">
+          <div className="flex bg-background/50 rounded-2xl border border-border/50 overflow-hidden backdrop-blur-sm">
             {/* Media Preview */}
             {(() => {
               const media = post ? getPreviewMedia(post) : {};
               if (!media.url) return null;
               return (
-                <div className="relative w-24 h-24 shrink-0 bg-bg-tertiary overflow-hidden border-r border-border-light/50">
+                <div className="relative w-24 h-24 shrink-0 bg-surface-sunken overflow-hidden border-r border-border/50">
                   <img 
                     src={media.url} 
                     alt="" 
@@ -138,11 +138,11 @@ export const SharePostModal: React.FC<SharePostModalProps> = ({
                   name={authorName} 
                   size="2xs" 
                   showStatus={false}
-                  className="ring-1 ring-border-light"
+                  className="ring-1 ring-border"
                 />
-                <span className="text-xs font-black text-text-primary truncate">{authorName}</span>
+                <span className="text-xs font-black text-foreground truncate">{authorName}</span>
               </div>
-              <p className="text-[11px] text-text-secondary line-clamp-2 leading-relaxed break-all italic font-medium">
+              <p className="text-[11px] text-secondary line-clamp-2 leading-relaxed break-all italic font-medium">
                 {post ? getPostSnippet(post) : ''}
               </p>
             </div>
@@ -152,11 +152,11 @@ export const SharePostModal: React.FC<SharePostModalProps> = ({
         {/* Search Input */}
         <div className="relative group">
           <Input
-            icon={<Search size={16} className="text-text-tertiary group-focus-within:text-primary transition-colors" />}
+            icon={<Search size={16} className="text-muted group-focus-within:text-primary transition-colors" />}
             placeholder="Tìm kiếm người dùng hoặc nhóm..."
             value={searchTerm}
             onChange={(event) => setSearchTerm(event.target.value)}
-            className="bg-bg-secondary/50 border-border-light/50 focus:border-primary/50 transition-all rounded-2xl"
+            className="bg-background/50 border-border/50 focus:border-primary/50 transition-all rounded-2xl"
           />
         </div>
 
@@ -166,7 +166,7 @@ export const SharePostModal: React.FC<SharePostModalProps> = ({
             <div className="flex flex-col gap-5 overflow-y-auto scroll-hide pr-1">
               {recentItems.length > 0 && (
                 <div className="flex flex-col gap-2.5">
-                  <span className="text-[10px] font-black text-text-tertiary uppercase tracking-widest opacity-80 px-1">
+                  <span className="text-[10px] font-black text-muted uppercase tracking-widest opacity-80 px-1">
                     Trò chuyện gần đây
                   </span>
                   <div className="flex overflow-x-auto gap-3 pb-1 px-1 scroll-hide">
@@ -185,7 +185,7 @@ export const SharePostModal: React.FC<SharePostModalProps> = ({
                 </div>
               )}
               <div className="flex flex-col gap-2.5">
-                <span className="text-[10px] font-black text-text-tertiary uppercase tracking-widest opacity-80 px-1">
+                <span className="text-[10px] font-black text-muted uppercase tracking-widest opacity-80 px-1">
                   Danh sách bạn bè
                 </span>
                 <div className="space-y-1">
@@ -214,7 +214,7 @@ export const SharePostModal: React.FC<SharePostModalProps> = ({
           ) : (
             /* Search Results */
             <div className="flex flex-col gap-3.5 overflow-y-auto scroll-hide min-h-0">
-               <span className="text-[10px] font-black text-text-tertiary uppercase tracking-widest opacity-80 px-1">
+               <span className="text-[10px] font-black text-muted uppercase tracking-widest opacity-80 px-1">
                   Kết quả tìm kiếm
                 </span>
               <div className="space-y-1.5">

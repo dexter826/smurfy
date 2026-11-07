@@ -14,7 +14,7 @@ export const MentionList: React.FC<MentionListProps> = ({ users, selectedIndex, 
 
   return (
     <div
-      className="absolute bottom-full left-4 mb-2 w-60 bg-bg-primary border border-border-light rounded-xl shadow-dropdown overflow-hidden animate-fade-in"
+      className="absolute bottom-full left-4 mb-2 w-60 bg-surface border border-border rounded-xl shadow-dropdown overflow-hidden animate-fade-in"
       style={{ zIndex: 'var(--z-dropdown)' }}
     >
       <div className="max-h-48 overflow-y-auto scroll-hide py-1">
@@ -24,8 +24,8 @@ export const MentionList: React.FC<MentionListProps> = ({ users, selectedIndex, 
             type="button"
             onClick={() => onSelect(user)}
             className={`w-full flex items-center gap-2.5 px-3 py-2 text-left transition-colors duration-200
-              hover:bg-bg-hover active:bg-bg-active
-              ${index === selectedIndex ? 'bg-bg-hover' : ''}`}
+              hover:bg-hover active:bg-active
+              ${index === selectedIndex ? 'bg-hover' : ''}`}
           >
             <UserAvatar
               userId={user.id}
@@ -33,7 +33,7 @@ export const MentionList: React.FC<MentionListProps> = ({ users, selectedIndex, 
               initialStatus={user.status}
               size="xs"
             />
-            <span className="text-sm font-medium text-text-primary truncate">
+            <span className="text-sm font-medium text-foreground truncate">
               {user.fullName}
             </span>
           </button>

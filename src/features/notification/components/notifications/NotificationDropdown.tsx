@@ -59,7 +59,7 @@ export const NotificationDropdown: React.FC = () => {
           <div className="relative">
             <Bell size={20} />
             {unreadCount > 0 && (
-              <span className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-error rounded-full ring-2 ring-primary" />
+              <span className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-danger rounded-full ring-2 ring-primary" />
             )}
           </div>
         }
@@ -71,7 +71,7 @@ export const NotificationDropdown: React.FC = () => {
       {isOpen && createPortal(
         <div
           ref={menuRef}
-          className="fixed bg-bg-primary rounded-2xl shadow-2xl border border-divider overflow-hidden animate-in fade-in zoom-in-95 duration-200"
+          className="fixed bg-surface rounded-2xl shadow-2xl border border-border-default overflow-hidden animate-in fade-in zoom-in-95 duration-200"
           style={{
             zIndex: 'var(--z-popover)',
             top: pos ? `${pos.top}px` : undefined,
@@ -82,9 +82,9 @@ export const NotificationDropdown: React.FC = () => {
           }}
         >
           {/* Header */}
-          <div className="flex items-center justify-between px-5 py-4 border-b border-divider bg-bg-primary">
+          <div className="flex items-center justify-between px-5 py-4 border-b border-border-default bg-surface">
             <div>
-              <h3 className="text-[15px] font-bold text-text-primary tracking-tight">
+              <h3 className="text-[15px] font-bold text-foreground tracking-tight">
                 Thông báo
               </h3>
               {unreadCount > 0 && (
@@ -108,10 +108,10 @@ export const NotificationDropdown: React.FC = () => {
           <NotificationList onItemClick={close} maxHeight="420px" />
 
           {/* Footer */}
-          <div className="p-2 border-t border-divider bg-bg-secondary/30">
+          <div className="p-2 border-t border-border-default bg-background/30">
             <button
               type="button"
-              className="flex items-center justify-center w-full py-2.5 text-[13px] font-bold text-text-secondary hover:text-primary hover:bg-primary/5 rounded-xl transition-all duration-200"
+              className="flex items-center justify-center w-full py-2.5 text-[13px] font-bold text-secondary hover:text-primary hover:bg-primary/5 rounded-xl transition-all duration-200"
               onClick={handleViewAll}
             >
               Xem tất cả thông báo

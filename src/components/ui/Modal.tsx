@@ -49,13 +49,13 @@ export const Modal: React.FC<ModalProps> = ({
     >
       {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-bg-overlay backdrop-blur-sm animate-fade-in"
+        className="fixed inset-0 bg-overlay backdrop-blur-sm animate-fade-in"
         onClick={onClose}
       />
 
       {/* Panel */}
       <div className={`
-        relative bg-bg-primary w-full shadow-xl transition-theme overflow-hidden flex flex-col justify-between md:justify-start
+        relative bg-surface w-full shadow-xl transition-theme overflow-hidden flex flex-col justify-between md:justify-start
         ${isFullAlways
           ? 'h-full max-h-screen rounded-none'
           : isFullMobile
@@ -65,8 +65,8 @@ export const Modal: React.FC<ModalProps> = ({
         ${maxWidthClasses[maxWidth]} ${className}
       `}>
         {showHeader && (
-          <div className="flex items-center justify-between px-5 py-4 border-b border-border-light flex-shrink-0">
-            <h3 className="text-base font-bold text-text-primary">{title || ''}</h3>
+          <div className="flex items-center justify-between px-5 py-4 border-b border-border flex-shrink-0">
+            <h3 className="text-base font-bold text-foreground">{title || ''}</h3>
             {showCloseButton && (
               <IconButton onClick={onClose} icon={<X size={20} />} size="md" />
             )}
@@ -78,7 +78,7 @@ export const Modal: React.FC<ModalProps> = ({
         </div>
 
         {footer && (
-          <div className="px-4 md:px-5 py-3 md:py-4 border-t border-border-light bg-bg-secondary/30 flex justify-end gap-3 pb-[calc(12px+env(safe-area-inset-bottom))] md:pb-4 flex-shrink-0">
+          <div className="px-4 md:px-5 py-3 md:py-4 border-t border-border bg-background/30 flex justify-end gap-3 pb-[calc(12px+env(safe-area-inset-bottom))] md:pb-4 flex-shrink-0">
             {footer}
           </div>
         )}
@@ -110,11 +110,11 @@ export const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
 
   return createPortal(
     <div className="fixed inset-0 flex items-center justify-center p-4" style={{ zIndex: 'var(--z-dialog)' }}>
-      <div className="fixed inset-0 bg-bg-overlay backdrop-blur-sm animate-fade-in" onClick={onClose} />
-      <div className="relative bg-bg-primary w-full max-w-[320px] rounded-2xl shadow-xl p-5 border border-border-light animate-fade-in">
+      <div className="fixed inset-0 bg-overlay backdrop-blur-sm animate-fade-in" onClick={onClose} />
+      <div className="relative bg-surface w-full max-w-[320px] rounded-2xl shadow-xl p-5 border border-border animate-fade-in">
         <div className="flex flex-col items-center text-center mb-5">
           {variant === 'danger' && (
-            <div className="w-12 h-12 bg-error-light text-error rounded-full flex items-center justify-center mb-3">
+            <div className="w-12 h-12 bg-danger-soft text-danger rounded-full flex items-center justify-center mb-3">
               <AlertTriangle size={22} />
             </div>
           )}
@@ -123,8 +123,8 @@ export const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
               <Info size={22} />
             </div>
           )}
-          <h3 className="text-base font-bold text-text-primary mb-2">{title}</h3>
-          <p className="text-sm text-text-secondary leading-relaxed">{message}</p>
+          <h3 className="text-base font-bold text-foreground mb-2">{title}</h3>
+          <p className="text-sm text-secondary leading-relaxed">{message}</p>
         </div>
         <div className="grid grid-cols-2 gap-3">
           <Button onClick={onClose} variant="secondary" className="w-full">

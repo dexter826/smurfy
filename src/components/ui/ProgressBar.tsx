@@ -29,18 +29,18 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
       {(label || showPercentage || metadata) && (
         <div className="flex items-center justify-between gap-2 px-0.5">
           {label && (
-            <span className="text-xs font-semibold text-text-secondary truncate">
+            <span className="text-xs font-semibold text-secondary truncate">
               {label}
             </span>
           )}
           <div className="flex items-center gap-2 ml-auto">
             {metadata && (
-              <span className="text-[10px] font-bold text-text-tertiary uppercase tracking-tight">
+              <span className="text-[10px] font-bold text-muted uppercase tracking-tight">
                 {metadata}
               </span>
             )}
             {showPercentage && (
-              <span className={`text-xs font-bold ${isError ? 'text-error' : isComplete ? 'text-success' : 'text-primary'}`}>
+              <span className={`text-xs font-bold ${isError ? 'text-danger' : isComplete ? 'text-success' : 'text-primary'}`}>
                 {isError ? 'Lỗi' : isComplete ? 'Hoàn tất' : `${pct}%`}
               </span>
             )}
@@ -48,10 +48,10 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
         </div>
       )}
       
-      <div className="w-full h-1.5 bg-bg-tertiary rounded-full overflow-hidden shadow-inner">
+      <div className="w-full h-1.5 bg-surface-sunken rounded-full overflow-hidden shadow-inner">
         <div
           className={`h-full rounded-full transition-all duration-base ${
-            isError ? 'bg-error' : isComplete ? 'bg-success' : 'btn-gradient'
+            isError ? 'bg-danger' : isComplete ? 'bg-success' : 'btn-gradient'
           }`}
           style={{ width: `${pct}%` }}
         />

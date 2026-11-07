@@ -130,15 +130,15 @@ export const CreateGroupModal: React.FC<CreateGroupModalProps> = ({
         placeholder="Tìm kiếm bạn bè..."
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        className="bg-bg-secondary"
+        className="bg-background"
       />
 
       {/* Selection Count Info */}
       <div className="flex justify-between items-center px-1 text-[11px]">
-        <span className="text-text-secondary font-medium">
+        <span className="text-secondary font-medium">
           Đã chọn: <span className="text-primary">{formData.memberIds.length}</span> thành viên
         </span>
-        <span className="text-text-tertiary">
+        <span className="text-muted">
           Tối đa {GROUP_LIMITS.MAX_MEMBERS} người
         </span>
       </div>
@@ -150,7 +150,7 @@ export const CreateGroupModal: React.FC<CreateGroupModalProps> = ({
             <Loader2 className="animate-spin text-primary" size={22} />
           </div>
         ) : filteredFriends.length === 0 ? (
-          <div className="text-center py-8 text-sm text-text-tertiary">
+          <div className="text-center py-8 text-sm text-muted">
             {searchTerm ? 'Không tìm thấy bạn bè' : 'Bạn chưa có bạn bè nào'}
           </div>
         ) : (
@@ -161,10 +161,10 @@ export const CreateGroupModal: React.FC<CreateGroupModalProps> = ({
                 key={friend.id}
                 onClick={() => toggleSelect(friend.id)}
                 className={`flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer transition-colors duration-200
-                  ${isSelected ? 'bg-primary/10' : 'hover:bg-bg-hover'}`}
+                  ${isSelected ? 'bg-primary/10' : 'hover:bg-hover'}`}
               >
                 <UserAvatar userId={friend.id} size="sm" />
-                <span className="flex-1 text-sm font-medium text-text-primary truncate">
+                <span className="flex-1 text-sm font-medium text-foreground truncate">
                   {friend.fullName}
                 </span>
                 {isSelected && (
@@ -179,7 +179,7 @@ export const CreateGroupModal: React.FC<CreateGroupModalProps> = ({
       </div>
 
       {errors.memberIds && (
-        <p className="text-xs text-error">{errors.memberIds.message}</p>
+        <p className="text-xs text-danger">{errors.memberIds.message}</p>
       )}
     </div>
   );
@@ -202,13 +202,13 @@ export const CreateGroupModal: React.FC<CreateGroupModalProps> = ({
             <button
               type="button"
               onClick={() => fileInputRef.current?.click()}
-              className="absolute bottom-0 right-0 w-7 h-7 btn-gradient rounded-full flex items-center justify-center shadow-accent border-2 border-bg-primary"
+              className="absolute bottom-0 right-0 w-7 h-7 btn-gradient rounded-full flex items-center justify-center shadow-accent border-2 border-surface"
             >
               <Camera size={13} className="text-white" />
             </button>
             <input ref={fileInputRef} type="file" accept="image/*" onChange={handleFileSelect} className="hidden" />
           </div>
-          <p className="text-xs text-text-tertiary mt-2">
+          <p className="text-xs text-muted mt-2">
             Nhóm với {totalMembers} thành viên (bao gồm bạn)
           </p>
         </div>
@@ -219,22 +219,22 @@ export const CreateGroupModal: React.FC<CreateGroupModalProps> = ({
           placeholder="Nhập tên nhóm..."
           {...register('name')}
           error={errors.name?.message}
-          className="bg-bg-secondary"
+          className="bg-background"
         />
 
         {/* Member Stack (Flat Design) */}
-        <div className="pt-4 border-t border-border-light/50">
+        <div className="pt-4 border-t border-border/50">
           <div className="flex justify-between items-center mb-4">
-            <span className="text-[10px] font-bold text-text-tertiary uppercase tracking-widest">
+            <span className="text-[10px] font-bold text-muted uppercase tracking-widest">
               Thành viên ({totalMembers})
             </span>
           </div>
           <div className="flex justify-center">
             <div className="flex -space-x-2.5 overflow-hidden">
               {currentUser && (
-                <div className="relative inline-block rounded-full ring-2 ring-bg-primary">
+                <div className="relative inline-block rounded-full ring-2 ring-surface">
                   <Avatar src={currentUser.avatar?.url} name={currentUser.fullName} size="sm" />
-                  <div className="absolute -top-1 -left-1 bg-bg-primary rounded-full p-0.5 border border-border-light shadow-sm">
+                  <div className="absolute -top-1 -left-1 bg-surface rounded-full p-0.5 border border-border shadow-sm">
                     <Crown size={8} className="text-warning fill-warning" />
                   </div>
                 </div>
@@ -242,13 +242,13 @@ export const CreateGroupModal: React.FC<CreateGroupModalProps> = ({
               {formData.memberIds.slice(0, 7).map(id => {
                 const friend = friends.find(f => f.id === id);
                 return (
-                  <div key={id} className="relative inline-block rounded-full ring-2 ring-bg-primary">
+                  <div key={id} className="relative inline-block rounded-full ring-2 ring-surface">
                     <Avatar src={friend?.avatar?.url} name={friend?.fullName || ''} size="sm" />
                   </div>
                 );
               })}
               {totalMembers > 8 && (
-                <div className="flex items-center justify-center w-8 h-8 rounded-full bg-bg-secondary border-2 border-bg-primary text-[10px] font-bold text-text-tertiary">
+                <div className="flex items-center justify-center w-8 h-8 rounded-full bg-background border-2 border-surface text-[10px] font-bold text-muted">
                   +{totalMembers - 8}
                 </div>
               )}

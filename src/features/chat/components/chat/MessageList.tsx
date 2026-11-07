@@ -106,7 +106,7 @@ const MessageListInner: React.FC<MessageListProps> = ({
         <div key={groupIndex}>
           {/* Date Separator */}
           <div className="flex items-center justify-center my-4">
-            <span className="bg-bg-tertiary text-text-tertiary text-xs px-3 py-1 rounded-full font-medium">
+            <span className="bg-surface-sunken text-muted text-xs px-3 py-1 rounded-full font-medium">
               {group.date}
             </span>
           </div>

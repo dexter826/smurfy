@@ -120,7 +120,7 @@ export const ChatBox: React.FC<ChatBoxProps> = ({
   const { pinnedMessagesDetails, unpinMessage } = useRtdbChatStore();
 
   return (
-    <div className="relative flex-1 flex flex-col min-h-0 bg-bg-chat bg-app-pattern transition-theme">
+    <div className="relative flex-1 flex flex-col min-h-0 bg-chat bg-app-pattern transition-theme">
       <ChatBoxHeader
         conversation={conversation}
         participants={participants}
@@ -216,11 +216,11 @@ export const ChatBox: React.FC<ChatBoxProps> = ({
         {(!shouldAutoScroll || unreadCount > 0) && (
           <button
             onClick={() => scrollToBottom('smooth')}
-            className="absolute bottom-4 right-4 z-30 w-10 h-10 bg-bg-primary border border-border-light rounded-full shadow-lg flex items-center justify-center text-text-secondary hover:text-primary transition-all duration-300 animate-in fade-in zoom-in slide-in-from-bottom-4"
+            className="absolute bottom-4 right-4 z-30 w-10 h-10 bg-surface border border-border rounded-full shadow-lg flex items-center justify-center text-secondary hover:text-primary transition-all duration-300 animate-in fade-in zoom-in slide-in-from-bottom-4"
           >
             <ChevronDown size={20} />
             {unreadCount > 0 && (
-              <span className="absolute -top-1 -right-1 bg-primary text-white text-[10px] font-bold min-w-[18px] h-[18px] px-1 rounded-full flex items-center justify-center border-2 border-bg-primary">
+              <span className="absolute -top-1 -right-1 bg-primary text-white text-[10px] font-bold min-w-[18px] h-[18px] px-1 rounded-full flex items-center justify-center border-2 border-surface">
                 {unreadCount > 99 ? '99+' : unreadCount}
               </span>
             )}

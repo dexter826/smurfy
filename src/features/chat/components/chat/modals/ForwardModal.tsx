@@ -99,9 +99,9 @@ export const ForwardModal: React.FC<ForwardModalProps> = ({
     >
       <div className="flex flex-col gap-6 min-h-0 px-1 py-1">
         {/* Message Preview */}
-        <div className="p-4 bg-bg-secondary/50 rounded-2xl border border-border-light/50 backdrop-blur-sm">
-          <p className="text-[10px] text-text-tertiary mb-1.5 font-black uppercase tracking-widest opacity-70">Nội dung chuyển tiếp</p>
-          <p className="text-sm text-text-primary line-clamp-2 italic leading-relaxed font-medium">
+        <div className="p-4 bg-background/50 rounded-2xl border border-border/50 backdrop-blur-sm">
+          <p className="text-[10px] text-muted mb-1.5 font-black uppercase tracking-widest opacity-70">Nội dung chuyển tiếp</p>
+          <p className="text-sm text-foreground line-clamp-2 italic leading-relaxed font-medium">
             {message.data.type === 'text' ? message.data.content : `[${getMessageTypeLabel(message.data.type)}]`}
           </p>
         </div>
@@ -109,11 +109,11 @@ export const ForwardModal: React.FC<ForwardModalProps> = ({
         {/* Search Input */}
         <div className="relative group">
           <Input
-            icon={<Search size={16} className="text-text-tertiary group-focus-within:text-primary transition-colors" />}
+            icon={<Search size={16} className="text-muted group-focus-within:text-primary transition-colors" />}
             placeholder="Tìm kiếm người dùng hoặc nhóm..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="bg-bg-secondary/50 border-border-light/50 focus:border-primary/50 transition-all rounded-2xl"
+            className="bg-background/50 border-border/50 focus:border-primary/50 transition-all rounded-2xl"
           />
         </div>
 
@@ -123,7 +123,7 @@ export const ForwardModal: React.FC<ForwardModalProps> = ({
             <div className="flex flex-col gap-5 overflow-y-auto scroll-hide pr-1">
               {recentItems.length > 0 && (
                 <div className="flex flex-col gap-2.5">
-                  <span className="text-[10px] font-black text-text-tertiary uppercase tracking-widest opacity-80 px-1">
+                  <span className="text-[10px] font-black text-muted uppercase tracking-widest opacity-80 px-1">
                     Trò chuyện gần đây
                   </span>
                   <div className="flex overflow-x-auto gap-3 pb-1 px-1 scroll-hide">
@@ -142,7 +142,7 @@ export const ForwardModal: React.FC<ForwardModalProps> = ({
                 </div>
               )}
               <div className="flex flex-col gap-2.5">
-                <span className="text-[10px] font-black text-text-tertiary uppercase tracking-widest opacity-80 px-1">
+                <span className="text-[10px] font-black text-muted uppercase tracking-widest opacity-80 px-1">
                   Danh sách bạn bè
                 </span>
                 <div className="space-y-1">
@@ -171,7 +171,7 @@ export const ForwardModal: React.FC<ForwardModalProps> = ({
           ) : (
             /* Search Results */
             <div className="flex flex-col gap-3.5 overflow-y-auto scroll-hide min-h-0">
-               <span className="text-[10px] font-black text-text-tertiary uppercase tracking-widest opacity-80 px-1">
+               <span className="text-[10px] font-black text-muted uppercase tracking-widest opacity-80 px-1">
                   Kết quả tìm kiếm
                 </span>
               <div className="space-y-1.5">

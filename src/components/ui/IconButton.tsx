@@ -15,13 +15,13 @@ const base =
 
 const variants: Record<NonNullable<IconButtonProps['variant']>, string> = {
   primary:
-    'btn-gradient text-text-on-primary shadow-sm hover:brightness-110',
+    'btn-gradient text-on-primary shadow-sm hover:brightness-110',
   secondary:
-    'bg-bg-secondary text-text-primary border-border-light hover:bg-bg-hover active:bg-bg-active',
+    'bg-background text-foreground border-border hover:bg-hover active:bg-active',
   ghost:
-    'text-text-secondary hover:bg-bg-hover hover:text-primary active:bg-bg-active',
+    'text-secondary hover:bg-hover hover:text-primary active:bg-active',
   danger:
-    'bg-error text-text-on-primary hover:bg-error/90 active:bg-error/80 shadow-sm',
+    'bg-danger text-on-primary hover:bg-danger/90 active:bg-danger/80 shadow-sm',
 };
 
 const sizes: Record<NonNullable<IconButtonProps['size']>, string> = {

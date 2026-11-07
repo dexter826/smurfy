@@ -99,10 +99,10 @@ export const AddMemberModal: React.FC<AddMemberModalProps> = ({
         {/* Approval mode banner */}
 
         {/* Member Count */}
-        <p className="text-xs text-text-secondary">
+        <p className="text-xs text-secondary">
           Số thành viên hiện tại:{' '}
-          <span className="font-semibold text-text-primary">{existingMemberIds.length}</span>
-          <span className="text-text-tertiary"> / {GROUP_LIMITS.MAX_MEMBERS}</span>
+          <span className="font-semibold text-foreground">{existingMemberIds.length}</span>
+          <span className="text-muted"> / {GROUP_LIMITS.MAX_MEMBERS}</span>
         </p>
 
         {/* Search Input */}
@@ -111,7 +111,7 @@ export const AddMemberModal: React.FC<AddMemberModalProps> = ({
           placeholder="Tìm bạn bè..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="bg-bg-secondary"
+          className="bg-background"
         />
 
         {/* Friend List */}
@@ -135,7 +135,7 @@ export const AddMemberModal: React.FC<AddMemberModalProps> = ({
                   key={friend.id}
                   onClick={() => toggleSelect(friend.id)}
                   className={`flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer transition-colors duration-200
-                    ${isSelected ? 'bg-primary/10' : 'hover:bg-bg-hover'}`}
+                    ${isSelected ? 'bg-primary/10' : 'hover:bg-hover'}`}
                 >
                   <UserAvatar
                     userId={friend.id}
@@ -144,7 +144,7 @@ export const AddMemberModal: React.FC<AddMemberModalProps> = ({
                     size="sm"
                     initialStatus={friend.status}
                   />
-                  <span className="flex-1 text-sm font-medium text-text-primary truncate">
+                  <span className="flex-1 text-sm font-medium text-foreground truncate">
                     {friend.fullName}
                   </span>
                   {isSelected && (

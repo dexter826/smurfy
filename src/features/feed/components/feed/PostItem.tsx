@@ -57,7 +57,7 @@ const PostItemInner: React.FC<PostItemProps> = ({
   const handleViewDetail = useCallback(() => onViewDetail?.(post), [onViewDetail, post]);
 
   return (
-    <article className="group bg-bg-primary border border-border-light rounded-2xl overflow-hidden transition-theme animate-fade-in">
+    <article className="group bg-surface border border-border rounded-2xl overflow-hidden transition-theme animate-fade-in">
 
       {/* ── Header ── */}
       <div className="flex items-center px-4 py-3 gap-3">
@@ -73,19 +73,19 @@ const PostItemInner: React.FC<PostItemProps> = ({
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-1.5 flex-wrap">
             <button
-              className="font-semibold text-text-primary text-sm hover:text-primary transition-colors duration-200 truncate"
+              className="font-semibold text-foreground text-sm hover:text-primary transition-colors duration-200 truncate"
               onClick={handleProfileClick}
             >
               {author?.fullName || 'Người dùng'}
             </button>
             {post.type === PostType.AVATAR_UPDATE && (
-              <span className="text-sm text-text-secondary font-normal">vừa cập nhật ảnh đại diện.</span>
+              <span className="text-sm text-secondary font-normal">vừa cập nhật ảnh đại diện.</span>
             )}
             {post.type === PostType.COVER_UPDATE && (
-              <span className="text-sm text-text-secondary font-normal">vừa cập nhật ảnh bìa.</span>
+              <span className="text-sm text-secondary font-normal">vừa cập nhật ảnh bìa.</span>
             )}
           </div>
-          <div className="flex items-center gap-1.5 text-xs text-text-tertiary mt-0.5">
+          <div className="flex items-center gap-1.5 text-xs text-muted mt-0.5">
             <span title={formatDateTime(post.createdAt)}>
               {formatRelativeTime(post.createdAt)}
             </span>
@@ -94,7 +94,7 @@ const PostItemInner: React.FC<PostItemProps> = ({
             {post.status === PostStatus.PENDING && (
               <>
                 <span className="opacity-40">·</span>
-                <span className="text-text-tertiary font-medium">
+                <span className="text-muted font-medium">
                   Đang xử lý...
                 </span>
               </>
@@ -148,12 +148,12 @@ const PostItemInner: React.FC<PostItemProps> = ({
       {/* ── Text content ── */}
       {!isSystemPost && post.content && (
         <div className="px-4 pb-3">
-          <p className="text-text-primary whitespace-pre-line break-words text-sm leading-relaxed">
+          <p className="text-foreground whitespace-pre-line break-words text-sm leading-relaxed">
             <TruncatedText content={post.content} threshold={300} />
           </p>
           {error && (
-            <div className="mt-2 p-2.5 bg-error/5 border border-error/20 rounded-xl">
-              <span className="text-xs text-error font-medium">{error}</span>
+            <div className="mt-2 p-2.5 bg-danger/5 border border-danger/20 rounded-xl">
+              <span className="text-xs text-danger font-medium">{error}</span>
             </div>
           )}
           {/* Link preview - only when no media attached */}
@@ -173,7 +173,7 @@ const PostItemInner: React.FC<PostItemProps> = ({
       {/* ── Media & Upload Progress ── */}
       <div className="relative">
         {isUploading && (
-          <div className="px-4 py-2 border-b border-border-light bg-bg-secondary/30">
+          <div className="px-4 py-2 border-b border-border bg-background/30">
             <UploadProgress 
               progress={uploadState.progress} 
             />
@@ -223,7 +223,7 @@ const PostItemInner: React.FC<PostItemProps> = ({
 
 /* ── Skeleton ── */
 const PostSkeleton: React.FC = () => (
-  <div className="bg-bg-primary rounded-2xl border border-border-light overflow-hidden transition-theme">
+  <div className="bg-surface rounded-2xl border border-border overflow-hidden transition-theme">
     <div className="p-4 flex items-start gap-3">
       <Skeleton variant="circle" width={40} height={40} />
       <div className="space-y-2 flex-1">
@@ -235,8 +235,8 @@ const PostSkeleton: React.FC = () => (
       <Skeleton variant="line" width="88%" height={14} className="opacity-70" />
       <Skeleton variant="line" width="58%" height={14} className="opacity-50" />
     </div>
-    <div className="w-full aspect-video bg-bg-secondary" />
-    <div className="flex px-2 py-1 border-t border-border-light">
+    <div className="w-full aspect-video bg-background" />
+    <div className="flex px-2 py-1 border-t border-border">
       {[...Array(2)].map((_, i) => (
         <div key={i} className="flex-1 flex justify-center py-2.5">
           <Skeleton variant="line" width={64} height={18} className="opacity-40" />

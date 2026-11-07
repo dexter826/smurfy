@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { Shield, Users, Flag, LogOut, Moon, Sun, ChevronLeft, LayoutDashboard, ShieldAlert } from 'lucide-react';
 import { useAuthStore } from '@/features/auth';
-import { useThemeStore } from '../../store/themeStore';
+import { useThemeStore, useResolvedTheme } from '../../store/themeStore';
 import { ConfirmDialog, UserAvatar } from '@/components/ui';
 import { useLogout } from '../../hooks/utils/useLogout';
 
@@ -16,16 +16,17 @@ const navItems = [
 export const AdminLayout: React.FC = () => {
   const navigate = useNavigate();
   const { user } = useAuthStore();
-  const { mode, toggleTheme } = useThemeStore();
+  const { toggleTheme } = useThemeStore();
+  const mode = useResolvedTheme();
   const handleConfirmLogout = useLogout();
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
 
   return (
-    <div className="flex h-[100dvh] w-full bg-bg-secondary bg-app-pattern overflow-hidden transition-theme">
+    <div className="flex h-[100dvh] w-full bg-background bg-app-pattern overflow-hidden transition-theme">
 
       {/* ── Desktop Sidebar ── */}
       <aside
-        className="hidden md:flex flex-col w-[280px] bg-sidebar-bg border-r border-white/10"
+        className="hidden md:flex flex-col w-[280px] bg-surface border-r border-white/10"
         style={{ zIndex: 'var(--z-header)' }}
       >
         {/* Sidebar header */}
@@ -109,7 +110,7 @@ export const AdminLayout: React.FC = () => {
 
         {/* Mobile Header */}
         <header
-          className="md:hidden h-16 bg-sidebar-bg border-b border-white/10 flex items-center justify-between px-4 sticky top-0 flex-shrink-0"
+          className="md:hidden h-16 bg-surface border-b border-white/10 flex items-center justify-between px-4 sticky top-0 flex-shrink-0"
           style={{ zIndex: 'var(--z-header)' }}
         >
           <button

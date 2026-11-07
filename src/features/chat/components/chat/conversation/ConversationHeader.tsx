@@ -24,7 +24,7 @@ export const ConversationHeader: React.FC<ConversationHeaderProps> = ({
   onNewGroup, onNewChat, viewMode, onViewModeChange,
   archivedCount, onMarkAllRead,
 }) => (
-  <div className="flex-shrink-0 px-3 h-16 flex items-center border-b border-border-light gap-1.5 bg-bg-primary">
+  <div className="flex-shrink-0 px-3 h-16 flex items-center border-b border-border gap-1.5 bg-surface">
     {/* Search Input */}
     <div className="flex items-center gap-1.5 flex-1 min-w-0">
       <div className="relative flex-1 flex items-center">
@@ -34,7 +34,7 @@ export const ConversationHeader: React.FC<ConversationHeaderProps> = ({
           value={searchTerm}
           onChange={onSearchChange}
           onFocus={() => onSearchFocus(true)}
-          className="bg-bg-secondary text-sm"
+          className="bg-background text-sm"
           containerClassName="flex-1"
         />
         {searchTerm && (
@@ -77,7 +77,7 @@ export const ConversationHeader: React.FC<ConversationHeaderProps> = ({
           icon={<Archive size={19} />}
           variant="ghost"
           title={viewMode === 'archived' ? 'Quay lại tin nhắn' : 'Tin nhắn đã lưu trữ'}
-          className={viewMode === 'archived' ? 'text-primary bg-primary/10' : 'text-text-secondary'}
+          className={viewMode === 'archived' ? 'text-primary bg-primary/10' : 'text-secondary'}
         />
       </div>
     )}

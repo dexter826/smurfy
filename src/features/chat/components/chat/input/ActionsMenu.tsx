@@ -25,7 +25,7 @@ export const ActionsMenu: React.FC<ActionsMenuProps> = ({
     />
     {isOpen && (
       <div
-        className="absolute bottom-full left-0 mb-2 flex items-center gap-1.5 p-1.5 bg-bg-primary rounded-xl shadow-dropdown border border-border-light animate-fade-in"
+        className="absolute bottom-full left-0 mb-2 flex items-center gap-1.5 p-1.5 bg-surface rounded-xl shadow-dropdown border border-border animate-fade-in"
         style={{ zIndex: 'var(--z-dropdown)' }}
       >
         <IconButton

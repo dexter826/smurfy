@@ -17,13 +17,13 @@ import { TIME_LIMITS } from '@/constants';
 /** Skeleton hiển thị khi đang tải hội thoại */
 const ConversationItemSkeleton: React.FC = () => (
   <div className="flex items-center gap-3 px-3 py-3 mx-1 my-0.5 rounded-xl animate-pulse">
-    <div className="w-11 h-11 rounded-full bg-bg-tertiary flex-shrink-0" />
+    <div className="w-11 h-11 rounded-full bg-surface-sunken flex-shrink-0" />
     <div className="flex-1 min-w-0 space-y-2">
       <div className="flex justify-between">
-        <div className="h-3.5 bg-bg-tertiary rounded w-24" />
-        <div className="h-3 bg-bg-tertiary rounded w-10" />
+        <div className="h-3.5 bg-surface-sunken rounded w-24" />
+        <div className="h-3 bg-surface-sunken rounded w-10" />
       </div>
-      <div className="h-3 bg-bg-tertiary rounded w-36" />
+      <div className="h-3 bg-surface-sunken rounded w-36" />
     </div>
   </div>
 );
@@ -106,9 +106,9 @@ const ConversationItemInner: React.FC<ConversationItemProps> = ({
       className={`
         relative flex items-center gap-3 px-3 py-3 mx-1 my-0.5 cursor-pointer
         transition-all duration-200 rounded-xl group
-        hover:bg-bg-hover active:bg-bg-active
+        hover:bg-hover active:bg-active
         ${isActive ? 'bg-primary/10' : ''}
-        ${memberSettings?.isPinned && !isActive ? 'bg-bg-secondary/60' : ''}
+        ${memberSettings?.isPinned && !isActive ? 'bg-background/60' : ''}
       `}
     >
       {/* Avatar */}
@@ -127,7 +127,7 @@ const ConversationItemInner: React.FC<ConversationItemProps> = ({
         {/* Name Row */}
         <div className="flex items-center justify-between mb-0.5">
           <div className="flex items-center gap-1.5 min-w-0 flex-1">
-            <h3 className={`text-sm truncate ${isUnread ? 'font-semibold text-text-primary' : 'font-medium text-text-secondary'}`}>
+            <h3 className={`text-sm truncate ${isUnread ? 'font-semibold text-foreground' : 'font-medium text-secondary'}`}>
               {chatInfo.name}
             </h3>
             {!conversation.data.isGroup && partner?.status === UserStatus.BANNED && (
@@ -137,10 +137,10 @@ const ConversationItemInner: React.FC<ConversationItemProps> = ({
               <Pin size={12} className="text-primary flex-shrink-0" />
             )}
             {memberSettings?.isMuted && (
-              <VolumeX size={12} className="text-text-tertiary flex-shrink-0" />
+              <VolumeX size={12} className="text-muted flex-shrink-0" />
             )}
           </div>
-          <span className={`text-xs flex-shrink-0 ml-2 ${isMenuOpen ? 'md:hidden' : 'md:group-hover:hidden'} ${isUnread ? 'font-semibold text-primary' : 'text-text-tertiary'}`}>
+          <span className={`text-xs flex-shrink-0 ml-2 ${isMenuOpen ? 'md:hidden' : 'md:group-hover:hidden'} ${isUnread ? 'font-semibold text-primary' : 'text-muted'}`}>
             {displayTime}
           </span>
         </div>
@@ -151,17 +151,17 @@ const ConversationItemInner: React.FC<ConversationItemProps> = ({
             {typingText ? (
               <span className="text-xs text-primary italic truncate block">{typingText}</span>
             ) : isUnread ? (
-              <span className="text-xs font-semibold text-text-primary truncate block">
+              <span className="text-xs font-semibold text-foreground truncate block">
                 {renderMessagePreview(lastMessagePreview)}
               </span>
             ) : draft && !isActive ? (
               <span className="text-xs truncate block">
                 <span className="text-warning font-semibold">Bản nháp: </span>
-                <span className="text-text-tertiary italic">{draft}</span>
+                <span className="text-muted italic">{draft}</span>
               </span>
             ) : (
-              <span className="text-xs text-text-tertiary truncate block">
-                {isLastMessageMine && <span className="text-text-tertiary">Bạn: </span>}
+              <span className="text-xs text-muted truncate block">
+                {isLastMessageMine && <span className="text-muted">Bạn: </span>}
                 {renderMessagePreview(lastMessagePreview)}
               </span>
             )}
@@ -175,11 +175,11 @@ const ConversationItemInner: React.FC<ConversationItemProps> = ({
               readers={readers}
             />
             {isUnread && unreadCount > 0 ? (
-              <span className="bg-error text-white text-[10px] font-bold rounded-full min-w-[18px] h-[18px] px-1 flex items-center justify-center">
+              <span className="bg-danger text-white text-[10px] font-bold rounded-full min-w-[18px] h-[18px] px-1 flex items-center justify-center">
                 {unreadCount > 99 ? '99+' : unreadCount}
               </span>
             ) : isUnread ? (
-              <span className="w-2 h-2 rounded-full bg-error flex-shrink-0" />
+              <span className="w-2 h-2 rounded-full bg-danger flex-shrink-0" />
             ) : null}
           </div>
         </div>

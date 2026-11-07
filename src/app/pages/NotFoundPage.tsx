@@ -7,7 +7,7 @@ const NotFoundPage: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-[100dvh] bg-bg-secondary bg-app-pattern flex flex-col items-center justify-center p-4 relative overflow-hidden">
+    <div className="min-h-[100dvh] bg-background bg-app-pattern flex flex-col items-center justify-center p-4 relative overflow-hidden">
       
       {/* Background glow effects */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] md:w-[400px] h-[300px] md:h-[400px] bg-primary/10 rounded-full blur-[80px] pointer-events-none" />
@@ -20,10 +20,10 @@ const NotFoundPage: React.FC = () => {
         </h1>
 
         {/* Messages */}
-        <h2 className="text-2xl md:text-3xl font-bold text-text-primary mb-3">
+        <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-3">
           Trang không tồn tại
         </h2>
-        <p className="text-base text-text-secondary max-w-md mx-auto mb-10 leading-relaxed px-4">
+        <p className="text-base text-secondary max-w-md mx-auto mb-10 leading-relaxed px-4">
           Đường dẫn bạn truy cập hiện không khả dụng. Vui lòng kiểm tra lại địa chỉ hoặc sử dụng các nút bên dưới để điều hướng.
         </p>
 
@@ -55,7 +55,7 @@ const NotFoundPage: React.FC = () => {
 
       {/* Footer note */}
       <div className="absolute bottom-6 left-0 right-0 text-center">
-        <p className="text-[11px] font-medium text-text-tertiary">
+        <p className="text-[11px] font-medium text-muted">
           © {new Date().getFullYear()} Smurfy Social
         </p>
       </div>

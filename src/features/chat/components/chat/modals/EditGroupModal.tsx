@@ -119,13 +119,13 @@ export const EditGroupModal: React.FC<EditGroupModalProps> = ({
               <button
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
-                className="absolute bottom-0 right-0 w-7 h-7 btn-gradient rounded-full flex items-center justify-center shadow-accent border-2 border-bg-primary"
+                className="absolute bottom-0 right-0 w-7 h-7 btn-gradient rounded-full flex items-center justify-center shadow-accent border-2 border-surface"
               >
                 <Camera size={13} className="text-white" />
               </button>
               <input ref={fileInputRef} type="file" accept="image/*" onChange={handleFileSelect} className="hidden" />
             </div>
-            <p className="text-xs text-text-tertiary mt-2">Nhấn để thay đổi ảnh nhóm</p>
+            <p className="text-xs text-muted mt-2">Nhấn để thay đổi ảnh nhóm</p>
           </div>
 
           {/* Group Name */}
@@ -134,7 +134,7 @@ export const EditGroupModal: React.FC<EditGroupModalProps> = ({
             placeholder="Nhập tên nhóm..."
             value={groupName}
             onChange={(e) => setGroupName(e.target.value)}
-            className="bg-bg-secondary"
+            className="bg-background"
           />
 
         </div>

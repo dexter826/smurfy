@@ -60,14 +60,14 @@ const EmailVerificationPage: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row h-screen lg:overflow-hidden bg-bg-primary transition-theme selection:bg-primary/20">
+    <div className="flex flex-col lg:flex-row h-screen lg:overflow-hidden bg-surface transition-theme selection:bg-primary/20">
       <AuthBrandingPanel
         headline={<>Xác thực <br /> Tài khoản.</>}
         subtext="Để đảm bảo an toàn, vui lòng xác thực email của bạn trước khi bắt đầu khám phá Smurfy."
       />
 
       {/* ── Right panel ── */}
-      <div className="w-full lg:w-1/2 h-full overflow-y-auto bg-bg-primary transition-theme scroll-hide">
+      <div className="w-full lg:w-1/2 h-full overflow-y-auto bg-surface transition-theme scroll-hide">
         <div className="min-h-full flex items-center justify-center p-6 md:p-12 animate-fade-in">
           <div className="w-full max-w-[480px]">
 
@@ -78,16 +78,16 @@ const EmailVerificationPage: React.FC = () => {
 
           {/* Header */}
           <div className="mb-4">
-            <h1 className="text-2xl font-bold text-text-primary mb-1">
+            <h1 className="text-2xl font-bold text-foreground mb-1">
               Xác thực Email
             </h1>
-            <p className="text-sm text-text-secondary leading-relaxed">
+            <p className="text-sm text-secondary leading-relaxed">
               Chúng tôi đã gửi link xác thực đến email của bạn. Vui lòng kiểm tra hộp thư để tiếp tục.
             </p>
           </div>
 
           {/* Steps hint */}
-          <div className="bg-bg-secondary rounded-xl p-4 mb-6 border border-border-light space-y-3">
+          <div className="bg-background rounded-xl p-4 mb-6 border border-border space-y-3">
             {[
               { step: '1', text: 'Mở email từ Smurfy trong hộp thư của bạn' },
               { step: '2', text: 'Nhấn vào link xác thực trong email' },
@@ -97,7 +97,7 @@ const EmailVerificationPage: React.FC = () => {
                 <div className="w-6 h-6 rounded-full bg-primary/10 text-primary flex items-center justify-center flex-shrink-0">
                   <span className="text-xs font-bold">{step}</span>
                 </div>
-                <p className="text-sm text-text-secondary">{text}</p>
+                <p className="text-sm text-secondary">{text}</p>
               </div>
             ))}
           </div>
@@ -128,10 +128,10 @@ const EmailVerificationPage: React.FC = () => {
           </div>
 
           {/* Back to login */}
-          <div className="pt-6 mt-8 border-t border-border-light">
+          <div className="pt-6 mt-8 border-t border-border">
             <button
               onClick={handleLogout}
-              className="group flex items-center gap-2 text-sm font-medium text-text-tertiary hover:text-primary transition-colors duration-200"
+              className="group flex items-center gap-2 text-sm font-medium text-muted hover:text-primary transition-colors duration-200"
             >
               <ArrowLeft size={15} className="group-hover:-translate-x-0.5 transition-transform duration-200" />
               Quay lại Đăng nhập

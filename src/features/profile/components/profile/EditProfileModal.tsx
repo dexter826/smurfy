@@ -162,7 +162,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
   const FieldWrapper: React.FC<{ label: string; privacyKey: keyof ProfilePrivacy; children: React.ReactNode; required?: boolean }> = ({ label, privacyKey, children, required }) => (
     <div className="flex flex-col gap-1.5">
       <div className="flex justify-between items-center px-1">
-        <label className="text-xs font-semibold text-text-secondary cursor-pointer">
+        <label className="text-xs font-semibold text-secondary cursor-pointer">
           {label} {required && '*'}
         </label>
         <ProfilePrivacySelector
@@ -221,7 +221,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
               placeholder="Nhập vài dòng giới thiệu về bản thân..."
               rows={2}
               rightElement={
-                <div className="text-xs text-text-tertiary pr-2 pb-2 pointer-events-none">
+                <div className="text-xs text-muted pr-2 pb-2 pointer-events-none">
                   {formData.bio?.length || 0}/{VALIDATION.BIO_MAX_LENGTH}
                 </div>
               }
@@ -306,7 +306,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
           </div>
 
           <div className="col-span-1 sm:col-span-2">
-            <label className="text-xs font-semibold text-text-secondary px-1">
+            <label className="text-xs font-semibold text-secondary px-1">
               Sở thích (tối đa {VALIDATION.INTEREST_MAX_COUNT})
             </label>
             <div className="flex gap-2 mt-1.5">
@@ -317,7 +317,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
                 onKeyDown={handleInterestKeyDown}
                 placeholder="Nhập sở thích rồi nhấn Enter..."
                 maxLength={VALIDATION.INTEREST_MAX_LENGTH}
-                className="flex-1 px-3 py-2 text-sm rounded-xl border border-border-light bg-bg-secondary text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-colors"
+                className="flex-1 px-3 py-2 text-sm rounded-xl border border-border bg-background text-foreground placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-colors"
               />
               <Button
                 type="button"

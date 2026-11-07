@@ -36,7 +36,7 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ isReady, onFinish })
 
   return (
     <div
-      className={`fixed inset-0 z-[var(--z-toast)] flex flex-col items-center justify-center bg-bg-primary transition-opacity duration-500 ${
+      className={`fixed inset-0 z-[var(--z-toast)] flex flex-col items-center justify-center bg-surface transition-opacity duration-500 ${
         isFadingOut ? 'opacity-0 pointer-events-none' : 'opacity-100'
       }`}
     >

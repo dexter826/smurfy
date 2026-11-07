@@ -30,8 +30,8 @@ const sizeClasses: Record<NonNullable<AvatarProps['size']>, string> = {
 };
 
 const statusColor: Record<NonNullable<AvatarProps['status']>, string> = {
-    active: 'bg-status-online border-bg-primary',
-    banned: 'bg-status-offline border-bg-primary',
+    active: 'bg-success border-surface',
+    banned: 'bg-faint border-surface',
 };
 
 const groupPositions: Record<number, string[]> = {
@@ -55,7 +55,7 @@ const MemberTile: React.FC<{ member: User; isOverflow: boolean; overflowCount: n
 }) => {
     if (isOverflow) {
         return (
-            <div aria-hidden="true" className="w-full h-full flex items-center justify-center bg-bg-hover text-[8px] font-bold text-text-primary">
+            <div aria-hidden="true" className="w-full h-full flex items-center justify-center bg-hover text-[8px] font-bold text-foreground">
                 +{overflowCount}
             </div>
         );
@@ -73,7 +73,7 @@ const MemberTile: React.FC<{ member: User; isOverflow: boolean; overflowCount: n
     return (
         <div
             aria-hidden="true"
-            className="w-full h-full flex items-center justify-center text-[8px] font-bold text-text-on-primary uppercase"
+            className="w-full h-full flex items-center justify-center text-[8px] font-bold text-on-primary uppercase"
             style={{ background: getAvatarGradient(member.fullName || member.id) }}
         >
             {getInitials(member.fullName).substring(0, 1)}
@@ -111,7 +111,7 @@ const AvatarInner: React.FC<AvatarProps> = ({
                     {displayMembers.map((member, idx) => (
                         <div
                             key={member.id || idx}
-                            className={`absolute rounded-full overflow-hidden border-2 border-bg-primary bg-bg-secondary flex items-center justify-center ${positions[idx]}`}
+                            className={`absolute rounded-full overflow-hidden border-2 border-surface bg-background flex items-center justify-center ${positions[idx]}`}
                         >
                             <MemberTile
                                 member={member}
@@ -126,7 +126,7 @@ const AvatarInner: React.FC<AvatarProps> = ({
 
         return (
             <div
-                className="w-full h-full flex items-center justify-center font-bold text-text-on-primary uppercase leading-none"
+                className="w-full h-full flex items-center justify-center font-bold text-on-primary uppercase leading-none"
                 style={{ background: getAvatarGradient(name || '?') }}
             >
                 {getInitials(name || '?')}
@@ -142,8 +142,8 @@ const AvatarInner: React.FC<AvatarProps> = ({
             <div className={`
         w-full h-full relative rounded-full flex items-center justify-center
         ${!isCompositeGrid ? 'overflow-hidden' : ''}
-        ${!isGroup ? 'bg-bg-secondary' : 'bg-transparent'}
-        ${size !== '2xs' && !isGroup && showBorder ? 'border border-border-light' : ''}
+        ${!isGroup ? 'bg-background' : 'bg-transparent'}
+        ${size !== '2xs' && !isGroup && showBorder ? 'border border-border' : ''}
       `}>
                 {renderContent()}
             </div>

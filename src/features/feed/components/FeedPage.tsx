@@ -49,7 +49,7 @@ const FeedPage: React.FC = () => {
   if (!currentUser) {
     return (
       <div className="h-full flex items-center justify-center">
-        <p className="text-text-secondary">Vui lòng đăng nhập</p>
+        <p className="text-secondary">Vui lòng đăng nhập</p>
       </div>
     );
   }
@@ -114,7 +114,7 @@ const FeedPage: React.FC = () => {
 
             {!hasMore && posts.length > 0 && (
               <div className="flex items-center justify-center gap-2 py-8">
-                <p className="text-text-tertiary text-sm font-medium">Bạn đã xem hết bài viết.</p>
+                <p className="text-muted text-sm font-medium">Bạn đã xem hết bài viết.</p>
               </div>
             )}
             <div className="h-12 w-full flex-shrink-0" />

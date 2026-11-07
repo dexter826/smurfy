@@ -16,7 +16,7 @@ const Toggle: React.FC<ToggleProps> = ({ enabled, onToggle, disabled = false }) 
     className={`
       w-11 h-6 rounded-full p-0.5 transition-all duration-300
       focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2
-      ${enabled ? 'btn-gradient shadow-accent' : 'bg-bg-tertiary'}
+      ${enabled ? 'btn-gradient shadow-accent' : 'bg-surface-sunken'}
       ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
     `}
   >

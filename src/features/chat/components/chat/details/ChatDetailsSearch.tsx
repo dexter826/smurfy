@@ -19,7 +19,7 @@ const highlightText = (text: string, term: string): React.ReactNode => {
   const parts = text.split(new RegExp(`(${escaped})`, 'gi'));
   return parts.map((part, i) =>
     part.toLowerCase() === term.toLowerCase()
-      ? <mark key={i} className="bg-warning/30 text-text-primary rounded px-0.5">{part}</mark>
+      ? <mark key={i} className="bg-warning/30 text-foreground rounded px-0.5">{part}</mark>
       : part
   );
 };
@@ -62,7 +62,7 @@ export const ChatDetailsSearch: React.FC<ChatDetailsSearchProps> = ({
 
   return (
     <div className="py-3">
-      <p className="px-4 py-2 text-xs font-semibold text-text-tertiary uppercase tracking-wide">
+      <p className="px-4 py-2 text-xs font-semibold text-muted uppercase tracking-wide">
         Tìm kiếm tin nhắn
       </p>
 
@@ -96,7 +96,7 @@ export const ChatDetailsSearch: React.FC<ChatDetailsSearchProps> = ({
           />
         ) : (
           <div className="px-2 pb-4">
-            <p className="px-2 text-xs text-text-tertiary mb-2">
+            <p className="px-2 text-xs text-muted mb-2">
               Tìm thấy {searchResults.length} tin nhắn
             </p>
             <div className="space-y-0.5">
@@ -106,17 +106,17 @@ export const ChatDetailsSearch: React.FC<ChatDetailsSearchProps> = ({
                   <button
                     key={msg.id}
                     onClick={() => onMessageClick?.(msg.id)}
-                    className="w-full text-left px-3 py-2.5 rounded-xl hover:bg-bg-hover active:bg-bg-active transition-colors duration-200"
+                    className="w-full text-left px-3 py-2.5 rounded-xl hover:bg-hover active:bg-active transition-colors duration-200"
                   >
                     <div className="flex items-center justify-between mb-1">
-                      <span className="text-xs font-semibold text-text-secondary">
+                      <span className="text-xs font-semibold text-secondary">
                         {sender?.fullName || 'Unknown'}
                       </span>
-                      <span className="text-[10px] text-text-tertiary">
+                      <span className="text-[10px] text-muted">
                         {formatTimeOnly(msg.data.createdAt)}
                       </span>
                     </div>
-                    <p className="text-xs text-text-primary line-clamp-2 leading-relaxed">
+                    <p className="text-xs text-foreground line-clamp-2 leading-relaxed">
                       {msg.data.type === 'file' ? (
                         <span className="flex items-center gap-1">
                           <span className="text-primary font-semibold shrink-0">[File]</span>

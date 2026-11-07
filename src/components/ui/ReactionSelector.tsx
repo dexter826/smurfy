@@ -39,7 +39,7 @@ const ReactionSelectorInner: React.FC<ReactionSelectorProps> = ({
 
   return (
     <div
-      className={`absolute bg-bg-primary border border-border-light rounded-full shadow-dropdown cursor-pointer
+      className={`absolute bg-surface border border-border rounded-full shadow-dropdown cursor-pointer
         ${isXs ? 'p-1 gap-1' : isSmall ? 'p-1.5 gap-1.5' : 'p-2 gap-2'} flex items-center animate-fade-in
         ${className}`}
       onMouseLeave={autoClose ? handleMouseLeave : undefined}
@@ -48,7 +48,7 @@ const ReactionSelectorInner: React.FC<ReactionSelectorProps> = ({
       {currentReaction && (
         <button
           onClick={(e) => { e.stopPropagation(); onSelect('REMOVE'); onClose?.(); }}
-          className={`${isXs ? 'w-8 h-8' : isSmall ? 'w-10 h-10' : 'w-12 h-12'} flex items-center justify-center transition-all duration-200 rounded-full hover:bg-bg-hover active:scale-90`}
+          className={`${isXs ? 'w-8 h-8' : isSmall ? 'w-10 h-10' : 'w-12 h-12'} flex items-center justify-center transition-all duration-200 rounded-full hover:bg-hover active:scale-90`}
           title="Gỡ cảm xúc"
         >
           <IconCancel size={isXs ? 22 : isSmall ? 28 : 32} className="opacity-60 hover:opacity-100 transition-opacity duration-200" />
@@ -63,7 +63,7 @@ const ReactionSelectorInner: React.FC<ReactionSelectorProps> = ({
             onSelect(emoji); 
             onClose?.(); 
           }}
-          className={`${isXs ? 'w-8 h-8' : isSmall ? 'w-10 h-10' : 'w-12 h-12'} flex items-center justify-center transition-all duration-200 rounded-full hover:bg-bg-hover hover:-translate-y-1 hover:scale-110 active:scale-95 origin-bottom`}
+          className={`${isXs ? 'w-8 h-8' : isSmall ? 'w-10 h-10' : 'w-12 h-12'} flex items-center justify-center transition-all duration-200 rounded-full hover:bg-hover hover:-translate-y-1 hover:scale-110 active:scale-95 origin-bottom`}
         >
           {getReactionIcon(emoji, undefined, isXs ? 24 : isSmall ? 34 : 42)}
         </button>

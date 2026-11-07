@@ -73,14 +73,14 @@ const PrivacySection: React.FC = () => {
       />
 
       {/* Post visibility */}
-      <div className="p-4 bg-bg-primary rounded-2xl border border-border-light">
+      <div className="p-4 bg-surface rounded-2xl border border-border">
         <div className="flex items-center gap-3.5 mb-3">
           <div className="w-9 h-9 bg-primary/10 rounded-xl flex items-center justify-center text-primary flex-shrink-0">
             <Users size={18} />
           </div>
           <div>
-            <h3 className="text-sm font-semibold text-text-primary">Quyền riêng tư bài viết mặc định</h3>
-            <p className="text-xs text-text-tertiary mt-0.5">Áp dụng cho các bài viết mới của bạn</p>
+            <h3 className="text-sm font-semibold text-foreground">Quyền riêng tư bài viết mặc định</h3>
+            <p className="text-xs text-muted mt-0.5">Áp dụng cho các bài viết mới của bạn</p>
           </div>
         </div>
 
@@ -89,12 +89,12 @@ const PrivacySection: React.FC = () => {
           className="w-full"
           matchTriggerWidth
           trigger={
-            <div className="flex items-center justify-between w-full px-3.5 py-2.5 bg-bg-secondary rounded-xl border border-border-light hover:bg-bg-hover transition-colors duration-200 cursor-pointer">
+            <div className="flex items-center justify-between w-full px-3.5 py-2.5 bg-background rounded-xl border border-border hover:bg-hover transition-colors duration-200 cursor-pointer">
               <div className="flex items-center gap-2.5">
                 <VisibilityIcon size={16} className="text-primary flex-shrink-0" />
-                <span className="text-sm font-medium text-text-primary">{visibilityLabel}</span>
+                <span className="text-sm font-medium text-foreground">{visibilityLabel}</span>
               </div>
-              <ChevronDown size={15} className="text-text-tertiary" />
+              <ChevronDown size={15} className="text-muted" />
             </div>
           }
         >

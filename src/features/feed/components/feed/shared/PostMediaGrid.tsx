@@ -38,7 +38,7 @@ const PostMediaGridInner: React.FC<PostMediaGridProps> = ({
     return (
       <SensitiveMediaGuard
         isSensitive={item.isSensitive}
-        className={`relative group overflow-hidden bg-bg-tertiary cursor-pointer ${className}`}
+        className={`relative group overflow-hidden bg-surface-sunken cursor-pointer ${className}`}
       >
         <div
           className="w-full h-full"
@@ -88,7 +88,7 @@ const PostMediaGridInner: React.FC<PostMediaGridProps> = ({
     const isBlob = item.url.startsWith('blob:');
 
     return (
-      <div className="bg-bg-secondary relative select-none overflow-hidden">
+      <div className="bg-background relative select-none overflow-hidden">
         <SensitiveMediaGuard isSensitive={item.isSensitive}>
           <div
             className="relative group cursor-pointer bg-black/5 flex items-center justify-center overflow-hidden max-h-[600px]"
@@ -133,7 +133,7 @@ const PostMediaGridInner: React.FC<PostMediaGridProps> = ({
   }
 
   return (
-    <div className="bg-bg-secondary relative select-none overflow-hidden">
+    <div className="bg-background relative select-none overflow-hidden">
       <div
         className={`grid gap-0.5 aspect-[4/3] sm:aspect-video cursor-pointer ${count === 2 ? 'grid-cols-2' :
           count === 3 ? 'grid-cols-2 grid-rows-2' :

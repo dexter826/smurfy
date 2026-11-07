@@ -94,19 +94,19 @@ const ReportEvidenceCard: React.FC<ReportEvidenceCardProps> = ({ report, onOpenM
     : '';
 
   return (
-    <div className="bg-bg-primary p-4 rounded-2xl border border-border-light space-y-3 shadow-sm transition-theme animate-fade-in">
+    <div className="bg-surface p-4 rounded-2xl border border-border space-y-3 shadow-sm transition-theme animate-fade-in">
       <div className="flex items-center justify-between">
-        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold bg-error/10 text-error uppercase">
+        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold bg-danger/10 text-danger uppercase">
           {REPORT_REASON_LABELS[report.reason] || 'Báo cáo vi phạm'}
         </span>
-        <span className="text-xs text-text-tertiary">
+        <span className="text-xs text-muted">
           {formatRelativeTime(report.createdAt)}
         </span>
       </div>
 
       {report.targetType !== 'user' && (
-        <div className="p-3 bg-bg-secondary/20 rounded-xl border border-border-light/40 space-y-2">
-          <p className="text-[10px] font-bold text-text-tertiary uppercase tracking-wider">
+        <div className="p-3 bg-background/20 rounded-xl border border-border/40 space-y-2">
+          <p className="text-[10px] font-bold text-muted uppercase tracking-wider">
             Nội dung gốc bị báo cáo:
           </p>
           {isLoading ? (
@@ -115,7 +115,7 @@ const ReportEvidenceCard: React.FC<ReportEvidenceCardProps> = ({ report, onOpenM
             <>
               {content && (
                 <div className="space-y-1">
-                  <p className="text-xs text-text-primary leading-relaxed whitespace-pre-wrap">
+                  <p className="text-xs text-foreground leading-relaxed whitespace-pre-wrap">
                     {displayText}
                   </p>
                   {isLongText && (
@@ -135,7 +135,7 @@ const ReportEvidenceCard: React.FC<ReportEvidenceCardProps> = ({ report, onOpenM
                       key={idx}
                       isSensitive={true}
                       size="xs"
-                      className="aspect-video rounded-lg border border-border-light overflow-hidden"
+                      className="aspect-video rounded-lg border border-border overflow-hidden"
                     >
                       <img
                         src={med.url}
@@ -153,11 +153,11 @@ const ReportEvidenceCard: React.FC<ReportEvidenceCardProps> = ({ report, onOpenM
       )}
       
       {report.description && (
-        <div className="bg-bg-secondary/40 p-3 rounded-xl border border-border-light/50">
-          <p className="text-[10px] font-bold text-text-tertiary uppercase tracking-wider mb-1">
+        <div className="bg-background/40 p-3 rounded-xl border border-border/50">
+          <p className="text-[10px] font-bold text-muted uppercase tracking-wider mb-1">
             Mô tả lý do từ người báo cáo:
           </p>
-          <p className="text-sm text-text-secondary italic">
+          <p className="text-sm text-secondary italic">
             "{report.description}"
           </p>
         </div>
@@ -347,24 +347,24 @@ export const ModerationView: React.FC = () => {
   return (
     <div className="flex flex-col h-full overflow-hidden">
       {/* Header */}
-      <div className="bg-bg-primary px-4 md:px-6 py-4 border-b border-border-light flex-shrink-0">
+      <div className="bg-surface px-4 md:px-6 py-4 border-b border-border flex-shrink-0">
         <div className="max-w-7xl mx-auto">
-          <h1 className="text-base font-bold text-text-primary flex items-center gap-2">
+          <h1 className="text-base font-bold text-foreground flex items-center gap-2">
             <ShieldAlert size={18} className="text-primary" />
             Quản lý vi phạm
           </h1>
-          <p className="text-xs text-text-tertiary mt-0.5">
+          <p className="text-xs text-muted mt-0.5">
             Giám sát và xử lý các tài khoản vi phạm tiêu chuẩn cộng đồng trong 7 ngày gần đây.
           </p>
         </div>
       </div>
 
       {/* Main Split View */}
-      <div className="flex-1 flex overflow-hidden bg-bg-secondary/30">
+      <div className="flex-1 flex overflow-hidden bg-background/30">
         {/* Left Column: User Watchlist */}
-        <div className="w-full md:w-[350px] border-r border-border-light flex flex-col bg-bg-primary flex-shrink-0">
-          <div className="p-3 border-b border-border-light bg-bg-secondary/10 flex-shrink-0">
-            <h2 className="text-xs font-bold text-text-secondary uppercase tracking-wider">
+        <div className="w-full md:w-[350px] border-r border-border flex flex-col bg-surface flex-shrink-0">
+          <div className="p-3 border-b border-border bg-background/10 flex-shrink-0">
+            <h2 className="text-xs font-bold text-secondary uppercase tracking-wider">
               Tài khoản cần xử lý ({violationSummaries.length})
             </h2>
           </div>
@@ -372,7 +372,7 @@ export const ModerationView: React.FC = () => {
             {isLoading ? (
               <div className="p-3 space-y-3">
                 {[...Array(4)].map((_, i) => (
-                  <div key={i} className="flex items-center gap-3 p-3 bg-bg-secondary/20 rounded-xl">
+                  <div key={i} className="flex items-center gap-3 p-3 bg-background/20 rounded-xl">
                     <Skeleton variant="circle" width={36} height={36} />
                     <div className="flex-1 space-y-1.5">
                       <Skeleton className="h-3.5 w-24" />
@@ -383,7 +383,7 @@ export const ModerationView: React.FC = () => {
               </div>
             ) : violationSummaries.length === 0 ? (
               <div className="p-6 text-center">
-                <p className="text-sm text-text-tertiary">Danh sách theo dõi trống</p>
+                <p className="text-sm text-muted">Danh sách theo dõi trống</p>
               </div>
             ) : (
               <div className="p-2 space-y-1">
@@ -394,7 +394,7 @@ export const ModerationView: React.FC = () => {
                     className={`w-full flex items-center gap-3 p-3 rounded-xl transition-all duration-200 text-left outline-none
                       ${selectedUserId === summary.userId
                         ? 'bg-primary/10 border-primary/20 text-primary'
-                        : 'hover:bg-bg-secondary/50 text-text-primary'
+                        : 'hover:bg-background/50 text-foreground'
                       }`}
                   >
                     <UserAvatar
@@ -407,14 +407,14 @@ export const ModerationView: React.FC = () => {
                       <p className="text-sm font-semibold truncate leading-none mb-1">
                         {summary.fullName}
                       </p>
-                      <p className="text-xs text-text-tertiary truncate leading-none">
+                      <p className="text-xs text-muted truncate leading-none">
                         {summary.email}
                       </p>
                     </div>
-                    <span className="shrink-0 inline-flex items-center justify-center px-2 py-1 rounded-full text-[10px] font-bold bg-error/15 text-error">
+                    <span className="shrink-0 inline-flex items-center justify-center px-2 py-1 rounded-full text-[10px] font-bold bg-danger/15 text-danger">
                       {summary.strikes} vi phạm
                     </span>
-                    <ChevronRight size={14} className="text-text-tertiary shrink-0 ml-1" />
+                    <ChevronRight size={14} className="text-muted shrink-0 ml-1" />
                   </button>
                 ))}
               </div>
@@ -427,7 +427,7 @@ export const ModerationView: React.FC = () => {
           {selectedSummary ? (
             <div className="flex-1 flex flex-col overflow-hidden animate-fade-in">
               {/* Evidence Header */}
-              <div className="bg-bg-primary px-6 py-4 border-b border-border-light flex items-center justify-between flex-shrink-0">
+              <div className="bg-surface px-6 py-4 border-b border-border flex items-center justify-between flex-shrink-0">
                 <div className="flex items-center gap-3 min-w-0">
                   <UserAvatar
                     userId={selectedSummary.userId}
@@ -436,17 +436,17 @@ export const ModerationView: React.FC = () => {
                     size="md"
                   />
                   <div className="min-w-0">
-                    <h3 className="text-sm font-bold text-text-primary truncate">
+                    <h3 className="text-sm font-bold text-foreground truncate">
                       {selectedSummary.fullName}
                     </h3>
-                    <p className="text-xs text-text-tertiary truncate mt-0.5">
+                    <p className="text-xs text-muted truncate mt-0.5">
                       {selectedSummary.email} • ID: {selectedSummary.userId}
                     </p>
                   </div>
                 </div>
 
                 <div className="flex items-center gap-2 shrink-0">
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-error/10 text-error border border-error/10">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-danger/10 text-danger border border-danger/10">
                     <AlertTriangle size={12} /> Số lần vi phạm: {selectedSummary.strikes}
                   </span>
                   <Button
@@ -461,11 +461,11 @@ export const ModerationView: React.FC = () => {
               </div>
 
               {/* Evidence Content */}
-              <div className="flex-1 overflow-y-auto p-6 space-y-6 bg-bg-secondary/15">
+              <div className="flex-1 overflow-y-auto p-6 space-y-6 bg-background/15">
                 {/* Section 1: AI Flags */}
                 {(selectedSummary.posts.length > 0 || selectedSummary.comments.length > 0) && (
                   <div className="space-y-3">
-                    <h4 className="text-xs font-bold text-text-secondary uppercase tracking-wider flex items-center gap-1.5">
+                    <h4 className="text-xs font-bold text-secondary uppercase tracking-wider flex items-center gap-1.5">
                       <ShieldAlert size={14} className="text-primary" />
                       Nội dung bị kiểm duyệt
                     </h4>
@@ -473,12 +473,12 @@ export const ModerationView: React.FC = () => {
                     <div className="space-y-3">
                       {/* Posts */}
                       {selectedSummary.posts.map(post => (
-                        <div key={post.id} className="bg-bg-primary p-4 rounded-2xl border border-border-light space-y-3 shadow-sm transition-theme">
+                        <div key={post.id} className="bg-surface p-4 rounded-2xl border border-border space-y-3 shadow-sm transition-theme">
                           <div className="flex items-center justify-between">
                             <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold bg-primary/10 text-primary uppercase">
                               <FileText size={10} /> Bài viết — Phát hiện: {getAIModerationLabel(post.moderationReason)}
                             </span>
-                            <span className="text-xs text-text-tertiary">
+                            <span className="text-xs text-muted">
                               {formatRelativeTime(post.createdAt)}
                             </span>
                           </div>
@@ -490,7 +490,7 @@ export const ModerationView: React.FC = () => {
                                   key={idx}
                                   isSensitive={true}
                                   size="sm"
-                                  className="aspect-video rounded-xl border border-border-light overflow-hidden"
+                                  className="aspect-video rounded-xl border border-border overflow-hidden"
                                 >
                                   <img
                                     src={med.url}
@@ -507,12 +507,12 @@ export const ModerationView: React.FC = () => {
 
                       {/* Comments */}
                       {selectedSummary.comments.map(comment => (
-                        <div key={comment.id} className="bg-bg-primary p-4 rounded-2xl border border-border-light space-y-3 shadow-sm transition-theme">
+                        <div key={comment.id} className="bg-surface p-4 rounded-2xl border border-border space-y-3 shadow-sm transition-theme">
                           <div className="flex items-center justify-between">
                             <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold bg-warning/10 text-warning uppercase">
                               <MessageSquare size={10} /> Bình luận — Phát hiện: {getAIModerationLabel(comment.moderationReason)}
                             </span>
-                            <span className="text-xs text-text-tertiary">
+                            <span className="text-xs text-muted">
                               {formatRelativeTime(comment.createdAt)}
                             </span>
                           </div>
@@ -522,7 +522,7 @@ export const ModerationView: React.FC = () => {
                               <SensitiveMediaGuard
                                 isSensitive={true}
                                 size="sm"
-                                className="aspect-video rounded-xl border border-border-light overflow-hidden"
+                                className="aspect-video rounded-xl border border-border overflow-hidden"
                               >
                                 <img
                                   src={comment.image.url}
@@ -542,8 +542,8 @@ export const ModerationView: React.FC = () => {
                 {/* Section 2: Reports */}
                 {selectedSummary.reports.length > 0 && (
                   <div className="space-y-3">
-                    <h4 className="text-xs font-bold text-text-secondary uppercase tracking-wider flex items-center gap-1.5 pt-2">
-                      <AlertTriangle size={14} className="text-error" />
+                    <h4 className="text-xs font-bold text-secondary uppercase tracking-wider flex items-center gap-1.5 pt-2">
+                      <AlertTriangle size={14} className="text-danger" />
                       Lịch sử bị cộng đồng báo cáo (Đã xử lý)
                     </h4>
                     
@@ -557,7 +557,7 @@ export const ModerationView: React.FC = () => {
               </div>
             </div>
           ) : (
-            <div className="flex-1 flex items-center justify-center bg-bg-secondary/10">
+            <div className="flex-1 flex items-center justify-center bg-background/10">
               {violationSummaries.length === 0 ? (
                 <EmptyState
                   icon={ShieldAlert}
@@ -579,15 +579,15 @@ export const ModerationView: React.FC = () => {
 
         {/* Mobile Evidence Sheet */}
         {selectedSummary && (
-          <div className="md:hidden fixed inset-0 z-40 bg-bg-primary flex flex-col animate-slide-in-right">
-            <div className="px-4 py-3 border-b border-border-light flex items-center justify-between flex-shrink-0 bg-bg-primary">
+          <div className="md:hidden fixed inset-0 z-40 bg-surface flex flex-col animate-slide-in-right">
+            <div className="px-4 py-3 border-b border-border flex items-center justify-between flex-shrink-0 bg-surface">
               <button
                 onClick={() => setSelectedUserId(null)}
-                className="text-sm font-semibold text-text-secondary hover:text-text-primary px-2 py-1.5 rounded-lg hover:bg-bg-secondary"
+                className="text-sm font-semibold text-secondary hover:text-foreground px-2 py-1.5 rounded-lg hover:bg-background"
               >
                 Quay lại
               </button>
-              <h3 className="text-sm font-bold text-text-primary">
+              <h3 className="text-sm font-bold text-foreground">
                 Chi tiết bằng chứng
               </h3>
               <Button
@@ -599,8 +599,8 @@ export const ModerationView: React.FC = () => {
               </Button>
             </div>
             
-            <div className="flex-1 overflow-y-auto p-4 space-y-5 bg-bg-secondary/10">
-              <div className="bg-bg-primary p-4 rounded-2xl border border-border-light flex items-center gap-3">
+            <div className="flex-1 overflow-y-auto p-4 space-y-5 bg-background/10">
+              <div className="bg-surface p-4 rounded-2xl border border-border flex items-center gap-3">
                 <UserAvatar
                   userId={selectedSummary.userId}
                   src={selectedSummary.avatarUrl}
@@ -608,22 +608,22 @@ export const ModerationView: React.FC = () => {
                   size="md"
                 />
                 <div>
-                  <h4 className="font-bold text-text-primary">{selectedSummary.fullName}</h4>
-                  <p className="text-xs text-text-tertiary">{selectedSummary.email}</p>
+                  <h4 className="font-bold text-foreground">{selectedSummary.fullName}</h4>
+                  <p className="text-xs text-muted">{selectedSummary.email}</p>
                 </div>
               </div>
 
               {/* AI Flags */}
               {(selectedSummary.posts.length > 0 || selectedSummary.comments.length > 0) && (
                 <div className="space-y-2">
-                  <h4 className="text-xs font-bold text-text-secondary uppercase tracking-wider">AI gắn cờ</h4>
+                  <h4 className="text-xs font-bold text-secondary uppercase tracking-wider">AI gắn cờ</h4>
                   {selectedSummary.posts.map(post => (
-                    <div key={post.id} className="bg-bg-primary p-3 rounded-xl border border-border-light space-y-2 animate-fade-in">
+                    <div key={post.id} className="bg-surface p-3 rounded-xl border border-border space-y-2 animate-fade-in">
                       <div className="flex items-center justify-between">
-                        <span className="text-[10px] font-bold text-error uppercase">
+                        <span className="text-[10px] font-bold text-danger uppercase">
                           Bài viết — {getAIModerationLabel(post.moderationReason)}
                         </span>
-                        <p className="text-[10px] text-text-tertiary">{formatRelativeTime(post.createdAt)}</p>
+                        <p className="text-[10px] text-muted">{formatRelativeTime(post.createdAt)}</p>
                       </div>
                       {post.media && post.media.length > 0 && (
                         <div className="grid grid-cols-2 gap-1.5 max-w-xs mt-1">
@@ -632,7 +632,7 @@ export const ModerationView: React.FC = () => {
                               key={idx}
                               isSensitive={true}
                               size="sm"
-                              className="aspect-video rounded-lg border border-border-light overflow-hidden"
+                              className="aspect-video rounded-lg border border-border overflow-hidden"
                             >
                               <img
                                 src={med.url}
@@ -646,19 +646,19 @@ export const ModerationView: React.FC = () => {
                     </div>
                   ))}
                   {selectedSummary.comments.map(comment => (
-                    <div key={comment.id} className="bg-bg-primary p-3 rounded-xl border border-border-light space-y-2 animate-fade-in">
+                    <div key={comment.id} className="bg-surface p-3 rounded-xl border border-border space-y-2 animate-fade-in">
                       <div className="flex items-center justify-between">
                         <span className="text-[10px] font-bold text-warning uppercase">
                           Bình luận — {getAIModerationLabel(comment.moderationReason)}
                         </span>
-                        <p className="text-[10px] text-text-tertiary">{formatRelativeTime(comment.createdAt)}</p>
+                        <p className="text-[10px] text-muted">{formatRelativeTime(comment.createdAt)}</p>
                       </div>
                       {comment.image && (
                         <div className="max-w-[150px] mt-1">
                           <SensitiveMediaGuard
                             isSensitive={true}
                             size="sm"
-                            className="aspect-video rounded-lg border border-border-light overflow-hidden"
+                            className="aspect-video rounded-lg border border-border overflow-hidden"
                           >
                             <img
                               src={comment.image.url}
@@ -676,7 +676,7 @@ export const ModerationView: React.FC = () => {
               {/* Community Reports */}
               {selectedSummary.reports.length > 0 && (
                 <div className="space-y-2">
-                  <h4 className="text-xs font-bold text-text-secondary uppercase tracking-wider">Báo cáo đã resolved</h4>
+                  <h4 className="text-xs font-bold text-secondary uppercase tracking-wider">Báo cáo đã resolved</h4>
                   {selectedSummary.reports.map(report => (
                     <ReportEvidenceCard key={report.id} report={report} onOpenMedia={openMediaViewer} />
                   ))}

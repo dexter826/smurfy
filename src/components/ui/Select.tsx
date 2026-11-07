@@ -87,14 +87,14 @@ export const Select: React.FC<SelectProps> = ({
   };
 
   const variantClasses: Record<NonNullable<SelectProps['variant']>, string> = {
-    default: `bg-bg-primary border ${isOpen ? 'border-primary ring-2 ring-primary/20' : 'border-border-light hover:border-border-medium'}`,
-    ghost: 'bg-transparent border-none hover:bg-bg-hover',
+    default: `bg-surface border ${isOpen ? 'border-primary ring-2 ring-primary/20' : 'border-border hover:border-border-strong'}`,
+    ghost: 'bg-transparent border-none hover:bg-hover',
   };
 
   return (
     <div className={`flex flex-col gap-1.5 ${className}`} ref={containerRef}>
       {label && (
-        <label className="text-xs font-semibold text-text-secondary ml-1 cursor-pointer">
+        <label className="text-xs font-semibold text-secondary ml-1 cursor-pointer">
           {label}
         </label>
       )}
@@ -108,21 +108,21 @@ export const Select: React.FC<SelectProps> = ({
           w-full flex items-center justify-between outline-none transition-all duration-200 rounded-xl font-normal
           ${sizeClasses[size]}
           ${variantClasses[variant]}
-          ${error ? 'border-error ring-2 ring-error/10' : ''}
-          ${disabled ? 'opacity-50 cursor-not-allowed bg-bg-secondary' : 'cursor-pointer'}
+          ${error ? 'border-danger ring-2 ring-danger/10' : ''}
+          ${disabled ? 'opacity-50 cursor-not-allowed bg-background' : 'cursor-pointer'}
         `}
       >
         <div className="flex items-center gap-2 overflow-hidden">
           {selectedOption?.icon && (
-            <span className="flex-shrink-0 text-text-secondary">{selectedOption.icon}</span>
+            <span className="flex-shrink-0 text-secondary">{selectedOption.icon}</span>
           )}
-          <span className={`truncate ${!selectedOption ? 'text-text-tertiary' : 'text-text-primary'}`}>
+          <span className={`truncate ${!selectedOption ? 'text-muted' : 'text-foreground'}`}>
             {selectedOption ? selectedOption.label : placeholder}
           </span>
         </div>
         <ChevronDown
           size={size === 'sm' ? 14 : 18}
-          className={`text-text-tertiary transition-transform duration-200 flex-shrink-0 ml-2 ${isOpen ? 'rotate-180' : ''}`}
+          className={`text-muted transition-transform duration-200 flex-shrink-0 ml-2 ${isOpen ? 'rotate-180' : ''}`}
         />
       </div>
 
@@ -130,7 +130,7 @@ export const Select: React.FC<SelectProps> = ({
         <div
           ref={menuRef}
           role="listbox"
-          className="fixed bg-bg-primary border border-border-light rounded-xl shadow-dropdown overflow-hidden animate-fade-in"
+          className="fixed bg-surface border border-border rounded-xl shadow-dropdown overflow-hidden animate-fade-in"
           style={{
             zIndex: 'var(--z-popover)',
             top: pos?.top !== undefined ? `${pos.top}px` : undefined,
@@ -152,8 +152,8 @@ export const Select: React.FC<SelectProps> = ({
                 onClick={() => { onChange(option.value); setIsOpen(false); }}
                 className={`
                   w-full px-4 py-2.5 text-left text-sm flex items-center justify-between
-                  transition-colors duration-fast font-normal hover:bg-bg-hover active:bg-bg-active
-                  ${option.value === value ? 'bg-primary/5 text-primary font-medium' : 'text-text-primary'}
+                  transition-colors duration-fast font-normal hover:bg-hover active:bg-active
+                  ${option.value === value ? 'bg-primary/5 text-primary font-medium' : 'text-foreground'}
                 `}
               >
                 <div className="flex items-center gap-2">
@@ -169,7 +169,7 @@ export const Select: React.FC<SelectProps> = ({
       )}
 
       {error && (
-        <p className="mt-0.5 ml-1 text-xs font-medium text-error animate-fade-in">{error}</p>
+        <p className="mt-0.5 ml-1 text-xs font-medium text-danger animate-fade-in">{error}</p>
       )}
     </div>
   );

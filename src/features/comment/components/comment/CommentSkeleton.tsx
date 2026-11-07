@@ -23,7 +23,7 @@ export const CommentSkeleton: React.FC<CommentSkeletonProps> = ({
 
         {/* Bubble */}
         <div className="flex-1 max-w-[80%]">
-          <div className="bg-bg-secondary rounded-2xl px-3.5 py-2.5 space-y-1.5 border border-border-light/30">
+          <div className="bg-background rounded-2xl px-3.5 py-2.5 space-y-1.5 border border-border/30">
             <Skeleton width={90} height={11} className="opacity-70" />
             <Skeleton width="88%" height={13} />
             {i % 2 === 0 && <Skeleton width="55%" height={13} className="opacity-60" />}

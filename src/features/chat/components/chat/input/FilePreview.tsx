@@ -83,7 +83,7 @@ export const FilePreview: React.FC<FilePreviewProps> = ({
   if (files.length === 0) return null;
 
   return (
-    <div className="px-3 pt-3 pb-3 border-b border-border-light bg-bg-primary overflow-x-auto scroll-hide">
+    <div className="px-3 pt-3 pb-3 border-b border-border bg-surface overflow-x-auto scroll-hide">
       <div className="flex gap-3">
         {files.map((item, index) => {
           const fileStyle = item.type === 'file' ? getFileStyle(item.file.name) : null;
@@ -95,7 +95,7 @@ export const FilePreview: React.FC<FilePreviewProps> = ({
             >
               <div 
                 className={`w-[72px] h-[72px] rounded-xl border overflow-hidden transition-all duration-200
-                  ${item.type === 'file' ? `${fileStyle?.bg} ${fileStyle?.border}` : 'bg-bg-secondary border-border-light'}
+                  ${item.type === 'file' ? `${fileStyle?.bg} ${fileStyle?.border}` : 'bg-background border-border'}
                   ${(item.type === 'image' || item.type === 'video') && onPreviewMedia ? 'cursor-pointer hover:brightness-95' : ''}`}
                 onClick={() => {
                   if ((item.type === 'image' || item.type === 'video') && onPreviewMedia) {
@@ -116,7 +116,7 @@ export const FilePreview: React.FC<FilePreviewProps> = ({
                       <button
                         type="button"
                         className={`w-9 h-9 rounded-full flex items-center justify-center transition-all duration-200 border shadow-sm
-                          ${playingIndex === index ? 'bg-primary text-white border-primary' : 'bg-white dark:bg-bg-primary text-primary border-blue-100 dark:border-blue-500/30'}`}
+                          ${playingIndex === index ? 'bg-primary text-white border-primary' : 'bg-white dark:bg-surface text-primary border-blue-100 dark:border-blue-500/30'}`}
                         onClick={() => item.preview && onPlayVoice(item.preview, index)}
                       >
                         {playingIndex === index
@@ -159,7 +159,7 @@ export const FilePreview: React.FC<FilePreviewProps> = ({
               {/* File Name Display Below */}
               {item.type === 'file' && (
                 <div className="mt-1.5 px-0.5">
-                  <p className="text-[10px] text-text-secondary font-medium truncate w-[72px] text-center">
+                  <p className="text-[10px] text-secondary font-medium truncate w-[72px] text-center">
                     {item.file.name}
                   </p>
                 </div>
@@ -169,7 +169,7 @@ export const FilePreview: React.FC<FilePreviewProps> = ({
                 <button
                   type="button"
                   onClick={() => onRemove(index)}
-                  className="absolute -top-1.5 -right-1.5 w-6 h-6 flex items-center justify-center bg-white dark:bg-bg-tertiary text-text-primary rounded-full shadow-sm opacity-0 group-hover:opacity-100 transition-all duration-200 z-20 hover:bg-bg-hover transform hover:scale-105 border border-border-light"
+                  className="absolute -top-1.5 -right-1.5 w-6 h-6 flex items-center justify-center bg-white dark:bg-surface-sunken text-foreground rounded-full shadow-sm opacity-0 group-hover:opacity-100 transition-all duration-200 z-20 hover:bg-hover transform hover:scale-105 border border-border"
                 >
                   <X size={12} />
                 </button>

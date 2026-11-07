@@ -229,8 +229,8 @@ export const PostModal: React.FC<PostModalProps> = ({
           <div className="w-full space-y-3">
             {/* Media toolbar */}
             {!isSystemPost && (
-              <div className="flex items-center justify-between bg-bg-secondary rounded-xl px-3 py-2 border border-border-light">
-                <span className="text-xs font-semibold text-text-secondary">Thêm vào bài viết</span>
+              <div className="flex items-center justify-between bg-background rounded-xl px-3 py-2 border border-border">
+                <span className="text-xs font-semibold text-secondary">Thêm vào bài viết</span>
                 <div className="flex gap-0.5">
                   <IconButton
                     type="button"
@@ -292,7 +292,7 @@ export const PostModal: React.FC<PostModalProps> = ({
         <div className="flex flex-col min-h-[150px]">
           {/* Author + visibility row */}
           <div
-            className="sticky top-0 bg-bg-primary px-4 md:px-6 py-3 border-b border-border-light flex items-center justify-between flex-shrink-0"
+            className="sticky top-0 bg-surface px-4 md:px-6 py-3 border-b border-border flex items-center justify-between flex-shrink-0"
             style={{ zIndex: 'var(--z-sticky)' }}
           >
             <div className="flex items-center gap-3">
@@ -303,7 +303,7 @@ export const PostModal: React.FC<PostModalProps> = ({
                 size="md"
                 initialStatus={currentUser.status}
               />
-              <span className="font-semibold text-text-primary text-sm">
+              <span className="font-semibold text-foreground text-sm">
                 {currentUser.fullName}
               </span>
             </div>
@@ -338,7 +338,7 @@ export const PostModal: React.FC<PostModalProps> = ({
                     }
                   }}
                   placeholder="Hãy viết gì đó..."
-                  className={`w-full resize-none outline-none bg-transparent text-text-primary placeholder:text-text-tertiary overflow-hidden transition-all duration-200 leading-relaxed
+                  className={`w-full resize-none outline-none bg-transparent text-foreground placeholder:text-muted overflow-hidden transition-all duration-200 leading-relaxed
                     ${isLargeText
                       ? 'text-xl md:text-2xl font-medium min-h-[120px]'
                       : 'text-base md:text-lg min-h-[80px]'
@@ -349,8 +349,8 @@ export const PostModal: React.FC<PostModalProps> = ({
                 <div className="flex justify-end mt-1">
                   <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${
                     (formData.content?.length || 0) >= VALIDATION.POST_CONTENT_MAX_LENGTH * 0.9 
-                      ? 'text-error bg-error/5' 
-                      : 'text-text-tertiary bg-bg-secondary'
+                      ? 'text-danger bg-danger/5' 
+                      : 'text-muted bg-background'
                   }`}>
                     {formData.content?.length || 0}/{VALIDATION.POST_CONTENT_MAX_LENGTH}
                   </span>
@@ -377,7 +377,7 @@ export const PostModal: React.FC<PostModalProps> = ({
                   return (
                     <div
                       key={`${item.url}-${idx}`}
-                      className={`relative group rounded-xl overflow-hidden bg-bg-secondary border border-border-light
+                      className={`relative group rounded-xl overflow-hidden bg-background border border-border
                         ${isLarge ? 'col-span-2 aspect-video' : 'aspect-square md:aspect-video'}`}
                     >
                       {item.type === 'image' ? (

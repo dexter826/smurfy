@@ -145,15 +145,15 @@ export const AddFriendModal: React.FC<AddFriendModalProps> = ({ isOpen, onClose 
           <UserAvatar
             userId={foundUser.id}
             size="xl"
-            className="ring-2 ring-bg-primary shadow-lg"
+            className="ring-2 ring-surface shadow-lg"
           />
           <div className="text-center">
-            <h3 className="text-lg font-semibold text-text-primary mb-0.5">
+            <h3 className="text-lg font-semibold text-foreground mb-0.5">
               {foundUser.fullName}
             </h3>
-            <p className="text-xs text-text-tertiary">{foundUser.email}</p>
+            <p className="text-xs text-muted">{foundUser.email}</p>
             {foundUser.bio && (
-              <p className="text-xs text-text-secondary mt-2 max-w-xs mx-auto line-clamp-2 italic">
+              <p className="text-xs text-secondary mt-2 max-w-xs mx-auto line-clamp-2 italic">
                 "{foundUser.bio}"
               </p>
             )}
@@ -175,7 +175,7 @@ export const AddFriendModal: React.FC<AddFriendModalProps> = ({ isOpen, onClose 
                 icon={<Clock size={16} />}
                 onClick={handleCancelRequest}
                 isLoading={actionLoading}
-                className="hover:bg-error/10 hover:text-error hover:border-error/20 transition-colors"
+                className="hover:bg-danger/10 hover:text-danger hover:border-danger/20 transition-colors"
               >
                 Đã gửi lời mời
               </Button>
@@ -209,7 +209,7 @@ export const AddFriendModal: React.FC<AddFriendModalProps> = ({ isOpen, onClose 
               variant="ghost"
               icon={<UserIcon size={16} />}
               onClick={handleViewProfile}
-              className="text-text-secondary hover:text-primary"
+              className="text-secondary hover:text-primary"
             >
               Trang cá nhân
             </Button>
@@ -264,7 +264,7 @@ export const AddFriendModal: React.FC<AddFriendModalProps> = ({ isOpen, onClose 
         </div>
 
         <div className={`min-h-[220px] flex flex-col items-center justify-center rounded-2xl p-6 transition-all duration-300 ${
-          foundUser ? 'bg-bg-primary border border-border-light shadow-sm' : 'border border-dashed border-border-light bg-bg-secondary/40'
+          foundUser ? 'bg-surface border border-border shadow-sm' : 'border border-dashed border-border bg-background/40'
         }`}>
           {renderResultContent()}
         </div>

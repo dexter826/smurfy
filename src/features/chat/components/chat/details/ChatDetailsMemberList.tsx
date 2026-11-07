@@ -84,7 +84,7 @@ export const ChatDetailsMemberList: React.FC<ChatDetailsMemberListProps> = ({
 
       {/* Members Header */}
       <div className="flex items-center justify-between px-4 py-2">
-        <p className="text-xs font-semibold text-text-tertiary uppercase tracking-wide">
+        <p className="text-xs font-semibold text-muted uppercase tracking-wide">
           Thành viên ({participants.length})
         </p>
         {onAddMember && (
@@ -110,7 +110,7 @@ export const ChatDetailsMemberList: React.FC<ChatDetailsMemberListProps> = ({
             <div
               key={member.id}
               className={`flex items-center gap-3 px-4 py-2.5 transition-colors duration-200 group
-                ${isBanned ? 'opacity-60' : 'hover:bg-bg-hover active:bg-bg-active'}`}
+                ${isBanned ? 'opacity-60' : 'hover:bg-hover active:bg-active'}`}
             >
               <div
                 onClick={() => !isCurrentUser && !isBanned && onMemberClick?.(member.id)}
@@ -125,10 +125,10 @@ export const ChatDetailsMemberList: React.FC<ChatDetailsMemberListProps> = ({
 
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-1.5 flex-wrap">
-                    <span className="text-sm font-medium text-text-primary truncate">
+                    <span className="text-sm font-medium text-foreground truncate">
                       {member.fullName}
                       {isCurrentUser && (
-                        <span className="text-text-tertiary font-normal"> (Bạn)</span>
+                        <span className="text-muted font-normal"> (Bạn)</span>
                       )}
                     </span>
 
@@ -139,7 +139,7 @@ export const ChatDetailsMemberList: React.FC<ChatDetailsMemberListProps> = ({
                       <Shield size={13} className="text-info flex-shrink-0" aria-label="Admin" />
                     )}
                     {isBanned && (
-                      <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-[10px] font-medium bg-error/10 text-error flex-shrink-0">
+                      <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-[10px] font-medium bg-danger/10 text-danger flex-shrink-0">
                         <Lock size={9} />
                         Đã khóa
                       </span>

@@ -60,37 +60,37 @@ export const PinnedMessageBanner: React.FC<PinnedMessageBannerProps> = ({
   };
 
   return (
-    <div className="flex items-center justify-between px-3 md:px-4 h-10 bg-bg-primary border-b border-border-light transition-theme z-20">
+    <div className="flex items-center justify-between px-3 md:px-4 h-10 bg-surface border-b border-border transition-theme z-20">
       <div 
         className="flex items-center gap-2 min-w-0 flex-1 cursor-pointer hover:opacity-85 active:opacity-75 transition-opacity"
         onClick={() => onGoToMessage(msgId)}
       >
-        <Pin size={13} className="text-error flex-shrink-0" />
+        <Pin size={13} className="text-danger flex-shrink-0" />
         
         {activePins.length > 1 && (
-          <span className="text-[10px] text-text-tertiary bg-bg-tertiary px-1.5 py-0.5 rounded font-medium select-none flex-shrink-0">
+          <span className="text-[10px] text-muted bg-surface-sunken px-1.5 py-0.5 rounded font-medium select-none flex-shrink-0">
             {activeIndex + 1}/{activePins.length}
           </span>
         )}
 
-        <span className="text-xs text-text-secondary truncate pr-4">
+        <span className="text-xs text-secondary truncate pr-4">
           {getMessageDisplayContent(details)}
         </span>
       </div>
 
       <div className="flex items-center gap-1 flex-shrink-0">
         {activePins.length > 1 && (
-          <div className="flex items-center gap-0.5 border-r border-border-light pr-1.5 mr-0.5">
+          <div className="flex items-center gap-0.5 border-r border-border pr-1.5 mr-0.5">
             <button
               onClick={handlePrev}
-              className="p-1 text-text-tertiary hover:bg-bg-hover hover:text-text-primary rounded transition-colors"
+              className="p-1 text-muted hover:bg-hover hover:text-foreground rounded transition-colors"
               title="Tin nhắn ghim trước"
             >
               <ChevronLeft size={14} />
             </button>
             <button
               onClick={handleNext}
-              className="p-1 text-text-tertiary hover:bg-bg-hover hover:text-text-primary rounded transition-colors"
+              className="p-1 text-muted hover:bg-hover hover:text-foreground rounded transition-colors"
               title="Tin nhắn ghim tiếp theo"
             >
               <ChevronRight size={14} />
@@ -103,7 +103,7 @@ export const PinnedMessageBanner: React.FC<PinnedMessageBannerProps> = ({
             e.stopPropagation();
             onUnpin(msgId);
           }}
-          className="p-1 text-text-tertiary hover:bg-bg-hover hover:text-error rounded transition-colors"
+          className="p-1 text-muted hover:bg-hover hover:text-danger rounded transition-colors"
           title="Bỏ ghim tin nhắn"
         >
           <X size={14} />

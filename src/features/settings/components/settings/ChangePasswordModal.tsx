@@ -65,7 +65,7 @@ const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({ isOpen, onClo
       type="button"
       tabIndex={-1}
       onClick={toggleVisibility}
-      className="p-2 text-text-tertiary hover:text-text-secondary transition-colors duration-200"
+      className="p-2 text-muted hover:text-secondary transition-colors duration-200"
     >
       {showPasswords ? <EyeOff size={17} /> : <Eye size={17} />}
     </button>
@@ -96,12 +96,12 @@ const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({ isOpen, onClo
       }
     >
       <div className="space-y-4">
-        <p className="text-sm text-text-secondary">
+        <p className="text-sm text-secondary">
           Vui lòng nhập mật khẩu hiện tại và mật khẩu mới của bạn.
         </p>
 
         {error && (
-          <div className="flex items-center gap-2 p-3.5 bg-error/5 border border-error/20 rounded-xl text-error text-sm animate-fade-in">
+          <div className="flex items-center gap-2 p-3.5 bg-danger/5 border border-danger/20 rounded-xl text-danger text-sm animate-fade-in">
             <AlertCircle size={16} className="flex-shrink-0" />
             <span className="font-medium">{error}</span>
           </div>

@@ -4,7 +4,7 @@ import { useClickOutside } from '@/hooks/utils';
 import EmojiPickerReact, { EmojiClickData, Theme } from 'emoji-picker-react';
 import { Smile } from 'lucide-react';
 import { IconButton } from './IconButton';
-import { useThemeStore } from '@/store/themeStore';
+import { useResolvedTheme } from '@/store/themeStore';
 import { useIsMobile } from '@/hooks/utils/useMediaQuery';
 
 interface EmojiPickerProps {
@@ -33,7 +33,7 @@ export const EmojiPicker: React.FC<EmojiPickerProps> = ({
   const [isReverse, setIsReverse] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const pickerRef = useRef<HTMLDivElement>(null);
-  const { mode } = useThemeStore();
+  const mode = useResolvedTheme();
   const isMobile = useIsMobile();
 
   const updateCoords = () => {
@@ -88,7 +88,7 @@ export const EmojiPicker: React.FC<EmojiPickerProps> = ({
               right: isMobile ? 0 : (window.innerWidth - coords.right > 350 ? coords.right : 16),
             }}
           >
-            <div className="w-full md:w-auto shadow-dropdown rounded-t-2xl md:rounded-xl overflow-hidden bg-bg-primary border border-border-light pb-safe md:pb-0 animate-fade-in">
+            <div className="w-full md:w-auto shadow-dropdown rounded-t-2xl md:rounded-xl overflow-hidden bg-surface border border-border pb-safe md:pb-0 animate-fade-in">
               <EmojiPickerReact
                 onEmojiClick={(data: EmojiClickData) => onEmojiSelect(data.emoji)}
                 autoFocusSearch={false}

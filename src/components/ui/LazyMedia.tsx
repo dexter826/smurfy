@@ -44,7 +44,7 @@ export const LazyImage: React.FC<LazyImageProps> = ({
   return (
     <div ref={containerRef} className={`relative overflow-hidden ${wrapperClassName}`}>
       {!isLoaded && (
-        <div className={`w-full h-full bg-bg-secondary animate-pulse ${className}`} />
+        <div className={`w-full h-full bg-background animate-pulse ${className}`} />
       )}
       
       {isInView && (
@@ -106,7 +106,7 @@ export const LazyVideo: React.FC<LazyVideoProps> = ({
   if (!isInView) {
     return (
       <div ref={containerRef} className={`relative ${wrapperClassName}`}>
-        <div className={`w-full h-full bg-bg-secondary animate-pulse ${className}`} style={{ aspectRatio: '16/9' }} />
+        <div className={`w-full h-full bg-background animate-pulse ${className}`} style={{ aspectRatio: '16/9' }} />
       </div>
     );
   }
@@ -118,7 +118,7 @@ export const LazyVideo: React.FC<LazyVideoProps> = ({
           <img src={thumbnail} alt="Video thumbnail" className={`w-full object-cover ${className}`} />
           <div className="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-black/40 transition-all duration-200">
             <div className="w-11 h-11 rounded-full bg-white/90 flex items-center justify-center shadow-sm">
-              <svg className="w-5 h-5 text-text-primary ml-0.5" fill="currentColor" viewBox="0 0 24 24">
+              <svg className="w-5 h-5 text-foreground ml-0.5" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M8 5v14l11-7z" />
               </svg>
             </div>

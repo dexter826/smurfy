@@ -143,14 +143,14 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row h-screen lg:overflow-hidden bg-bg-secondary selection:bg-primary/20">
+    <div className="flex flex-col lg:flex-row h-screen lg:overflow-hidden bg-background selection:bg-primary/20">
       <AuthBrandingPanel
         headline={<>Kết nối <br /> Mọi nơi.</>}
         subtext="Trải nghiệm mạng xã hội thế hệ mới với Smurfy. An toàn và riêng tư."
       />
 
       {/* Right panel (form) */}
-      <div className="w-full lg:w-1/2 h-full overflow-y-auto bg-bg-primary transition-theme scroll-hide">
+      <div className="w-full lg:w-1/2 h-full overflow-y-auto bg-surface transition-theme scroll-hide">
         <div className="min-h-full flex items-center justify-center p-6 md:p-12 animate-fade-in">
           <div className="w-full max-w-[480px]">
             {/* Mobile logo */}
@@ -160,7 +160,7 @@ const LoginPage: React.FC = () => {
 
             {/* Tab switcher (login / register only) */}
             {activeTab !== 'forgot' && (
-              <div className="flex bg-bg-secondary rounded-xl p-1 mb-6 border border-border-light">
+              <div className="flex bg-background rounded-xl p-1 mb-6 border border-border">
                 {(['login', 'register'] as Tab[]).map((tab) => (
                   <button
                     key={tab}
@@ -168,8 +168,8 @@ const LoginPage: React.FC = () => {
                     onClick={() => handleTabChange(tab)}
                     className={`flex-1 py-2.5 text-sm font-semibold rounded-lg transition-all duration-200
                       ${activeTab === tab
-                        ? 'bg-bg-primary text-text-primary shadow-sm border border-border-light'
-                        : 'text-text-tertiary hover:text-text-secondary'
+                        ? 'bg-surface text-foreground shadow-sm border border-border'
+                        : 'text-muted hover:text-secondary'
                       }`}
                   >
                     {tab === 'login' ? 'Đăng nhập' : 'Đăng ký'}
@@ -182,18 +182,18 @@ const LoginPage: React.FC = () => {
             <div className="mb-4">
               {activeTab === 'forgot' ? (
                 <>
-                  <h1 className="text-2xl font-bold text-text-primary mb-1">Khôi phục mật khẩu</h1>
-                  <p className="text-sm text-text-secondary">Nhập email để nhận link đặt lại mật khẩu.</p>
+                  <h1 className="text-2xl font-bold text-foreground mb-1">Khôi phục mật khẩu</h1>
+                  <p className="text-sm text-secondary">Nhập email để nhận link đặt lại mật khẩu.</p>
                 </>
               ) : activeTab === 'login' ? (
                 <>
-                  <h1 className="text-2xl font-bold text-text-primary mb-1">Chào mừng trở lại</h1>
-                  <p className="text-sm text-text-secondary">Đăng nhập để tiếp tục với Smurfy.</p>
+                  <h1 className="text-2xl font-bold text-foreground mb-1">Chào mừng trở lại</h1>
+                  <p className="text-sm text-secondary">Đăng nhập để tiếp tục với Smurfy.</p>
                 </>
               ) : (
                 <>
-                  <h1 className="text-xl md:text-2xl font-bold text-text-primary mb-0.5">Tạo tài khoản</h1>
-                  <p className="text-xs md:text-sm text-text-secondary">Tham gia cộng đồng Smurfy ngay hôm nay.</p>
+                  <h1 className="text-xl md:text-2xl font-bold text-foreground mb-0.5">Tạo tài khoản</h1>
+                  <p className="text-xs md:text-sm text-secondary">Tham gia cộng đồng Smurfy ngay hôm nay.</p>
                 </>
               )}
             </div>
@@ -224,7 +224,7 @@ const LoginPage: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => handleTabChange('login')}
-                    className="text-sm text-text-secondary hover:text-primary font-medium transition-colors duration-200"
+                    className="text-sm text-secondary hover:text-primary font-medium transition-colors duration-200"
                   >
                     ← Quay lại đăng nhập
                   </button>
@@ -263,9 +263,9 @@ const LoginPage: React.FC = () => {
 
                 {/* Error banner */}
                 {authError && (
-                  <div className="flex items-center gap-3 p-3.5 bg-error/5 border border-error/20 rounded-xl animate-fade-in">
-                    <AlertCircle size={17} className="text-error shrink-0" />
-                    <p className="text-xs text-error font-medium leading-relaxed">{authError}</p>
+                  <div className="flex items-center gap-3 p-3.5 bg-danger/5 border border-danger/20 rounded-xl animate-fade-in">
+                    <AlertCircle size={17} className="text-danger shrink-0" />
+                    <p className="text-xs text-danger font-medium leading-relaxed">{authError}</p>
                   </div>
                 )}
 
@@ -335,7 +335,7 @@ const LoginPage: React.FC = () => {
                         type="button"
                         tabIndex={-1}
                         onClick={() => setShowPassword(p => !p)}
-                        className="p-2 text-text-tertiary hover:text-text-secondary transition-colors"
+                        className="p-2 text-muted hover:text-secondary transition-colors"
                       >
                         {showPassword ? <EyeOff size={17} /> : <Eye size={17} />}
                       </button>
@@ -375,7 +375,7 @@ const LoginPage: React.FC = () => {
                         type="button"
                         tabIndex={-1}
                         onClick={() => setShowConfirmPassword(p => !p)}
-                        className="p-2 text-text-tertiary hover:text-text-secondary transition-colors"
+                        className="p-2 text-muted hover:text-secondary transition-colors"
                       >
                         {showConfirmPassword ? <EyeOff size={17} /> : <Eye size={17} />}
                       </button>

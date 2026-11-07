@@ -35,7 +35,7 @@ export const UserStatusText: React.FC<UserStatusTextProps> = ({
       : offlineText;
 
   return (
-    <span className={`${isOnline ? 'text-status-online font-medium' : 'text-text-tertiary'} ${className}`}>
+    <span className={`${isOnline ? 'text-success font-medium' : 'text-muted'} ${className}`}>
       {statusText}
     </span>
   );
