@@ -1,21 +1,17 @@
 import React from 'react';
-import { PhoneIncoming, Phone, PhoneMissed, Video as VideoIcon } from 'lucide-react';
+import { PhoneIncoming, PhoneMissed, Video as VideoIcon } from 'lucide-react';
 import { RtdbMessage, CallMessagePayload } from '@shared/types';
 
 interface CallMessageProps {
   message: { id: string; data: RtdbMessage };
   isMe: boolean;
   isGroup?: boolean;
-  onCall?: () => void;
-  onJoinCall?: (callType: 'voice' | 'video') => void;
 }
 
 export const CallMessage: React.FC<CallMessageProps> = ({
   message,
   isMe,
   isGroup = false,
-  onCall,
-  onJoinCall,
 }) => {
   let parsed: CallMessagePayload;
 
@@ -35,7 +31,7 @@ export const CallMessage: React.FC<CallMessageProps> = ({
   if (isGroup) {
     title =
       status === 'started'
-        ? 'Cuộc gọi nhóm đang diễn ra'
+        ? 'Cuộc gọi nhóm'
         : status === 'ended'
           ? 'Cuộc gọi nhóm'
           : 'Cuộc gọi nhóm đã kết thúc';
@@ -53,14 +49,8 @@ export const CallMessage: React.FC<CallMessageProps> = ({
     durationStr = mins > 0 ? `${mins} phút ${secs} giây` : `${secs} giây`;
   }
 
-  const btnBaseClass =
-    'w-full py-1.5 rounded-sm text-caption font-bold flex items-center justify-center gap-1.5 transition-all outline-none shadow-sm active:scale-[0.98] border';
-  const btnClass = isMe
-    ? `${btnBaseClass} bg-surface text-foreground border-border hover:bg-background`
-    : `${btnBaseClass} bg-primary/10 text-primary border-primary/20 hover:bg-primary/20`;
-
   return (
-    <div className="flex flex-col gap-2.5 min-w-[180px] w-full max-w-[240px]">
+    <div className="flex flex-col gap-1 min-w-[160px] w-full max-w-[220px]">
       <div className="flex items-center gap-3">
         <div
           className={`w-10 h-10 flex-shrink-0 rounded-full flex items-center justify-center ${isMissedOrRejected ? 'bg-danger-soft' : isMe ? 'bg-hover' : 'bg-primary/10'}`}
@@ -89,30 +79,6 @@ export const CallMessage: React.FC<CallMessageProps> = ({
           )}
         </div>
       </div>
-
-      {status === 'started' ? (
-        <button onClick={() => onJoinCall?.(callType)} className={btnClass}>
-          {isVideo ? (
-            <VideoIcon size={14} fill="currentColor" />
-          ) : (
-            <Phone size={14} fill="currentColor" />
-          )}
-          <span>Tham gia ngay</span>
-        </button>
-      ) : (
-        onCall && (
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              onCall();
-            }}
-            className={btnClass}
-          >
-            {isVideo ? <VideoIcon size={14} /> : <Phone size={14} />}
-            <span>{isVideo ? 'Gọi video lại' : 'Gọi lại'}</span>
-          </button>
-        )
-      )}
     </div>
   );
 };

@@ -45,10 +45,6 @@ interface ChatBoxProps {
   onUnblock?: () => void;
   onManageBlock?: () => void;
   shouldShowBlockBanner?: boolean;
-  onCall?: (isVideo: boolean) => void;
-  onVideoCall?: () => void;
-  canCall?: boolean;
-  onJoinCall?: (callType: 'voice' | 'video') => void;
   handleMarkAsRead?: (messageId: string) => void;
 }
 
@@ -62,7 +58,7 @@ export const ChatBox: React.FC<ChatBoxProps> = ({
   isLoading, isLoadingMore, hasMoreMessages, onLoadMore,
   isBlocked = false, isBlockedByMe = false, partnerStatus,
   myBlockOptions, onUnblock, onManageBlock, shouldShowBlockBanner = false,
-  onCall, onVideoCall, canCall = true, onJoinCall, handleMarkAsRead,
+  handleMarkAsRead,
 }) => {
   const { 
     messagesEndRef, messagesContainerRef, handleScroll, scrollToBottom, 
@@ -130,9 +126,6 @@ export const ChatBox: React.FC<ChatBoxProps> = ({
         usersMap={usersMap}
         onBack={onBack}
         onInfoClick={onInfoClick}
-        onCall={() => onCall?.(false)}
-        onVideoCall={onVideoCall}
-        canCall={canCall}
       />
 
       <PinnedMessageBanner
@@ -194,8 +187,6 @@ export const ChatBox: React.FC<ChatBoxProps> = ({
               partner={partner || undefined}
               isBlocked={isBlocked}
               partnerStatus={resolvedPartnerStatus}
-              onCall={onCall}
-              onJoinCall={onJoinCall}
               onEdit={onEdit}
               onMarkAsRead={handleMarkAsRead}
               onContentLoad={() => {

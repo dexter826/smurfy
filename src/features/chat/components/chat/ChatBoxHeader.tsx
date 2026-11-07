@@ -1,5 +1,5 @@
 import React from 'react';
-import { Phone, Video, Info, ChevronLeft } from 'lucide-react';
+import { Info, ChevronLeft } from 'lucide-react';
 import { RtdbConversation, RtdbUserChat, User, UserStatus } from '@shared/types';
 import { Avatar, UserAvatar, UserStatusText, IconButton, BannedBadge } from '@/components/ui';
 
@@ -12,15 +12,12 @@ interface ChatBoxHeaderProps {
   usersMap: Record<string, User>;
   onBack?: () => void;
   onInfoClick?: () => void;
-  onCall?: () => void;
-  onVideoCall?: () => void;
-  canCall?: boolean;
 }
 
 /** Header của khung chat */
 const ChatBoxHeaderInner: React.FC<ChatBoxHeaderProps> = ({
   conversation, participants, chatName, avatarSrc, partner,
-  usersMap, onBack, onInfoClick, onCall, onVideoCall, canCall = true,
+  usersMap, onBack, onInfoClick,
 }) => (
   <div className="flex-shrink-0 flex items-center justify-between px-3 md:px-4 h-16 border-b border-border bg-surface transition-theme z-[var(--z-sticky)]">
     {/* Left Content */}
@@ -78,24 +75,6 @@ const ChatBoxHeaderInner: React.FC<ChatBoxHeaderProps> = ({
 
     {/* Right Actions */}
     <div className="flex items-center gap-0.5 flex-shrink-0">
-      {canCall && (
-        <>
-          <IconButton
-            onClick={onCall}
-            title="Cuộc gọi âm thanh"
-            variant="ghost"
-            icon={<Phone size={19} />}
-            size="md"
-          />
-          <IconButton
-            onClick={onVideoCall}
-            title="Cuộc gọi video"
-            variant="ghost"
-            icon={<Video size={19} />}
-            size="md"
-          />
-        </>
-      )}
       <IconButton
         onClick={onInfoClick}
         title="Thông tin hội thoại"

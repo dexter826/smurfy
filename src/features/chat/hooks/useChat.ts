@@ -122,12 +122,6 @@ export const useChat = () => {
     return friendIds.includes(partnerId);
   }, [partnerId, friendIds]);
 
-  const canCall = useMemo(() => {
-    if (selectedConversation?.data.isGroup) return true;
-    if (partner?.status === UserStatus.BANNED) return false;
-    return isFriend;
-  }, [selectedConversation?.data.isGroup, isFriend, partner?.status]);
-
   const friendRequestStatus = useMemo(() => {
     if (!partnerId) return 'none' as const;
     if (sentRequests.some(r => r.receiverId === partnerId)) return 'sent' as const;
@@ -285,8 +279,6 @@ export const useChat = () => {
     isBlocked: block.isBlocked,
     isBlockedByMe: block.isBlockedByMe,
     isMessageBlockedByMe: block.isMessageBlockedByMe,
-    isCallBlockedByMe: block.isCallBlockedByMe,
-    isCallBlockedByPartner: block.isCallBlockedByPartner,
     myBlockOptions: block.myBlockOptions,
     partnerId,
     partnerStatus: block.partnerStatus,
@@ -298,7 +290,6 @@ export const useChat = () => {
     friendRequestStatus,
     currentReceivedRequest,
     isFriend,
-    canCall,
     sentRequests,
     receivedRequests,
 

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import { Ban, MessageCircle, Phone, EyeOff, X, ChevronDown } from 'lucide-react';
+import { Ban, MessageCircle, EyeOff, X, ChevronDown } from 'lucide-react';
 import { Button } from './Button';
 import { IconButton } from './IconButton';
 import { BlockOptions } from '@shared/types';
@@ -146,7 +146,6 @@ export const BlockOptionsModal: React.FC<BlockOptionsModalProps> = ({
 
         <div className="px-5 py-4 space-y-2.5 max-h-[60vh] overflow-y-auto overscroll-contain">
           {renderOption('blockMessages', <MessageCircle size={15} />, 'Chặn tin nhắn', 'Người này không thể gửi tin nhắn cho bạn.')}
-          {renderOption('blockCalls', <Phone size={15} />, 'Chặn cuộc gọi', 'Người này không thể gọi điện cho bạn.')}
 
           <div className={`border-2 rounded-2xl overflow-hidden transition-all duration-200 ${
             options.blockViewMyActivity || options.hideTheirActivity

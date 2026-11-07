@@ -274,13 +274,6 @@ export interface RtdbConversation {
     isDisbanded?: boolean;
     joinApprovalMode?: boolean;
     pendingMembers?: Record<string, { addedBy: string; timestamp: number }>;
-    activeCall?: {
-        callerId: string;
-        callType: 'voice' | 'video';
-        messageId: string;
-        startedAt: number;
-        participants?: Record<string, number>;
-    };
     pinnedMessages?: Record<string, { pinnedBy: string; pinnedAt: number }>;
 }
 
@@ -333,19 +326,6 @@ export interface RtdbMessage {
 export interface RtdbPresence {
     isOnline: boolean;
     lastSeen: number;
-    createdAt: number;
-    updatedAt: number;
-}
-
-export interface RtdbCallSignaling {
-    callerId: string;
-    callerName: string;
-    callerAvatar: string;
-    conversationId: string;
-    callType: 'voice' | 'video';
-    status: 'ringing' | 'accepted' | 'rejected' | 'ended' | 'busy';
-    isGroupCall?: boolean;
-    timestamp: number;
     createdAt: number;
     updatedAt: number;
 }
