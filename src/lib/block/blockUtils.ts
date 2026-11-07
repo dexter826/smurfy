@@ -1,4 +1,4 @@
-import { BlockOptions, BlockedUserEntry, UserStatus } from '@shared/types';
+import { BlockOptions, BlockedUserEntry } from '@shared/types';
 
 export const isFullyBlocked = (options?: BlockOptions): boolean => {
   if (!options) return false;
@@ -22,8 +22,6 @@ export const filterBlockedItems = <T extends { authorId: string }>(
 
     const blockEntry = blockedUsersMap?.[item.authorId];
     if (blockEntry && blockEntry.hideTheirActivity) return false;
-
-    if (usersMap && usersMap[item.authorId]?.status === UserStatus.BANNED) return false;
 
     return true;
   });

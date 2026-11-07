@@ -22,10 +22,8 @@ const FriendItemInner: React.FC<FriendItemProps> = ({
   onSelect,
 }) => {
   const navigate = useNavigate();
-  const isBanned = friend.status === UserStatus.BANNED;
 
   const handleClick = useCallback(() => {
-    if (isBanned) return;
     if (onSelect) {
       onSelect(friend);
     } else if (onMessage) {
@@ -33,18 +31,13 @@ const FriendItemInner: React.FC<FriendItemProps> = ({
     } else {
       navigate('/');
     }
-  }, [onSelect, onMessage, friend, navigate, isBanned]);
+  }, [onSelect, onMessage, friend, navigate]);
 
   return (
     <div
       className={`relative flex items-center justify-between px-4 py-3 transition-colors duration-200 group
         border-b border-border/60 last:border-0
-        ${isBanned
-          ? 'opacity-60 cursor-default'
-          : isSelected
-          ? 'bg-primary/10 ring-1 ring-inset ring-primary/20 cursor-pointer'
-          : 'hover:bg-hover active:bg-active cursor-pointer'
-        }`}
+        hover:bg-hover active:bg-active cursor-pointer`}
       onClick={handleClick}
     >
       <div className="flex items-center gap-3 flex-1 min-w-0">
@@ -54,20 +47,13 @@ const FriendItemInner: React.FC<FriendItemProps> = ({
             <h3 className="text-sm font-semibold text-foreground truncate">
               {friend.fullName}
             </h3>
-            {isBanned && (
-              <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-[10px] font-medium bg-danger/10 text-danger flex-shrink-0">
-                <Lock size={9} />
-                Đã khóa
-              </span>
-            )}
+            
           </div>
-          {!isBanned && (
-            <UserStatusText
+          <UserStatusText
               userId={friend.id}
               className="text-xs"
               initialStatus={friend.status}
             />
-          )}
         </div>
       </div>
 

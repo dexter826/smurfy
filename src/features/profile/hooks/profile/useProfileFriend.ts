@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { User, UserStatus, FriendRequest, FriendStatus } from '@shared/types';
+import { User, FriendRequest, FriendStatus } from '@shared/types';
 import { friendService } from '@/features/friend';
 import { toast } from '@/store/toastStore';
 import { useFriendIds } from '@/hooks/utils';
@@ -75,11 +75,7 @@ export const useProfileFriend = ({
   }, [currentUser, profileUserId, isOwnProfile, friendIds]);
 
   const handleFriendAction = useCallback(async (): Promise<{ needConfirm: boolean }> => {
-    if (!currentUser || !profile || isOwnProfile) return { needConfirm: false };
-
-    if (profile.status === UserStatus.BANNED) {
-      toast.error(TOAST_MESSAGES.FRIEND.BLOCKED_USER);
-      return { needConfirm: false };
+    if (!currentUser || !profile || isOwnProfile) return { needConfirm: false };;
     }
 
     try {

@@ -17,7 +17,7 @@ import {
   arrayRemove
 } from 'firebase/firestore';
 import { db, auth } from '@/lib/firebase/config';
-import { FriendRequest, FriendRequestStatus, User, UserStatus } from '@shared/types';
+import { FriendRequest, FriendRequestStatus, User } from '@shared/types';
 import { convertDoc, convertDocs } from '@/utils/firebaseUtils';
 import { batchGetUsers } from '@/utils/batchUtils';
 import { userService } from '@/services/userService';
@@ -56,9 +56,6 @@ export const friendService = {
       ]);
 
       if (!receiverSnap.exists()) throw new Error("Người dùng không tồn tại");
-      if ((receiverSnap.data() as any)?.status === UserStatus.BANNED) {
-        throw new Error("Không thể gửi lời mời kết bạn cho người dùng này");
-      }
 
       const [blockToMe, blockByMe] = await Promise.all([
         userService.getBlockEntry(receiverId, senderId),
@@ -280,7 +277,7 @@ export const friendService = {
       const friendIds = snap.docs.map(d => d.id);
       if (friendIds.length === 0) return [];
       const friendsMap = await batchGetUsers(friendIds);
-      return Object.values(friendsMap).filter(u => u.status !== UserStatus.BANNED);
+      return Object.values(friendsMap);
     } catch (error) {
       console.error("Lỗi lấy danh sách bạn bè", error);
       return [];
@@ -304,7 +301,7 @@ export const friendService = {
         const cachedUsers = useUserCache.getState().users;
         const friends = friendIds
           .map(id => cachedUsers[id])
-          .filter((u): u is User => Boolean(u) && u.status !== UserStatus.BANNED);
+          .filter((u): u is User => Boolean(u));
         
         callback(friends);
       } catch (error) {
@@ -324,7 +321,6 @@ export const friendService = {
       const friends = Object.values(friendsMap);
 
       return friends.filter(friend =>
-        friend.status !== UserStatus.BANNED &&
         (friend.fullName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
           friend.email?.toLowerCase().includes(searchTerm.toLowerCase()))
       );
@@ -416,9 +412,7 @@ export const friendService = {
       return suggestedIds
         .map(id => usersMap[id])
         .filter((u): u is User => 
-          Boolean(u) && 
-          u.status !== UserStatus.BANNED && 
-          !blockedUsersMap[u.id]
+          Boolean(u) && !blockedUsersMap[u.id]
         );
     } catch (error) {
       console.error("Lỗi lấy gợi ý kết bạn đã cache", error);
