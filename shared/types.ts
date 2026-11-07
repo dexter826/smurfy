@@ -306,7 +306,7 @@ export interface Post extends BaseEntity, SoftDeletableEntity {
   updatedAt: Timestamp;
 }
 
-// ========== NOTIFICATIONS & REPORTS ==========
+// ========== NOTIFICATIONS ==========
 
 export interface Notification extends BaseEntity {
   receiverId: string;
