@@ -1,0 +1,49 @@
+# Auto-detect text files and normalize line endings to LF on commit
+* text=auto eol=lf
+
+# Source code and web files
+*.ts text eol=lf
+*.tsx text eol=lf
+*.js text eol=lf
+*.jsx text eol=lf
+*.mjs text eol=lf
+*.cjs text eol=lf
+*.json text eol=lf
+*.css text eol=lf
+*.html text eol=lf
+*.svg text eol=lf
+
+# Documentation and configs
+*.md text eol=lf
+*.rules text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+*.env text eol=lf
+*.env.* text eol=lf
+.gitignore text eol=lf
+.gitattributes text eol=lf
+.prettierrc text eol=lf
+.prettierignore text eol=lf
+
+# Shell and Windows scripts
+*.sh text eol=lf
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.ps1 text eol=crlf
+
+# Binary assets (prevent corrupting image/audio/font files)
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.webp binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.eot binary
+*.mp3 binary
+*.mp4 binary
+*.webm binary
+*.pdf binary
+*.zip binary

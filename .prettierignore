@@ -1,0 +1,49 @@
+# Dependencies & package managers
+node_modules/
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Build outputs & caches
+dist/
+dist-ssr/
+.cache/
+build/
+
+# Firebase & emulators
+.firebase/
+emulator_data/
+*-debug.log
+
+# Environment variables & credentials
+.env
+.env.*
+firebase_credentials.json
+
+# Editor & OS files
+.vscode/
+.idea/
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Public assets & static binaries
+public/
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.ico
+*.webp
+*.mp3
+*.mp4
+*.webm
+
+# Internal agent and task directories
+.agents/
+.gemini/
+.humanlayer/
+.scratch/
