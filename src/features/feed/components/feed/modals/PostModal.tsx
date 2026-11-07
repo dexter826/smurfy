@@ -158,7 +158,7 @@ export const PostModal: React.FC<PostModalProps> = ({
   const allPreviews = [
     ...formData.media.map((m) => ({
       url: m.url,
-      type: m.mimeType.startsWith('video/') ? ('video' as const) : ('image' as const),
+      type: 'image' as const,
       thumbnail: m.thumbnailUrl,
       isPending: false,
     })),
@@ -330,27 +330,11 @@ export const PostModal: React.FC<PostModalProps> = ({
                       className={`relative group rounded-xl overflow-hidden bg-background border border-border
                         ${isLarge ? 'col-span-2 aspect-video' : 'aspect-square md:aspect-video'}`}
                     >
-                      {item.type === 'image' ? (
-                        <img
+                      <img
                           src={item.url}
                           alt=""
                           className={`w-full h-full object-cover transition-opacity duration-200 ${isSubmitting && item.isPending ? 'opacity-50' : ''}`}
                         />
-                      ) : (
-                        <>
-                          <video
-                            src={item.url}
-                            poster={item.thumbnail}
-                            className={`w-full h-full object-cover ${isSubmitting && item.isPending ? 'opacity-50' : ''}`}
-                            playsInline
-                            muted
-                            preload="none"
-                          />
-                          <div className="absolute inset-0 flex items-center justify-center bg-black/20 pointer-events-none">
-                            <Video className="text-white/80" size={28} />
-                          </div>
-                        </>
-                      )}
 
                       {!isSubmitting && !isSystemPost && (
                         <button
