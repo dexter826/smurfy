@@ -1,6 +1,6 @@
 # Spec: UI Rebuild — đập toàn bộ giao diện Smurfy
 
-**Status:** ready-for-agent
+**Status:** done
 
 ## Bối cảnh
 
