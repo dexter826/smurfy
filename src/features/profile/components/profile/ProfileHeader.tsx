@@ -1,14 +1,32 @@
 import React, { useRef, useState } from 'react';
 import {
-  Users, MessageCircle, UserPlus, UserCheck, Edit,
-  Trash2, Pencil, Settings, MoreHorizontal, Flag, Ban, X, Image as ImageIcon,
+  Users,
+  MessageCircle,
+  UserPlus,
+  UserCheck,
+  Edit,
+  Trash2,
+  Pencil,
+  Settings,
+  MoreHorizontal,
+  Ban,
+  X,
+  Image as ImageIcon,
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { User, ReportType, UserStatus, FriendStatus, Visibility } from '@shared/types';
-import { UserAvatar, Button, Dropdown, DropdownItem, ImageCropper, LazyImage, CircularProgress, CircularProgressOverlay } from '@/components/ui';
+import { User, FriendStatus, Visibility } from '@shared/types';
+import {
+  UserAvatar,
+  Button,
+  Dropdown,
+  DropdownItem,
+  ImageCropper,
+  LazyImage,
+  CircularProgress,
+  CircularProgressOverlay,
+} from '@/components/ui';
 import { toast } from '@/store/toastStore';
 import { useAuthStore } from '@/features/auth';
-import { useReportStore } from '@/features/admin';
 import { BookUser } from 'lucide-react';
 import { validateFile } from '@/utils/uploadUtils';
 
@@ -34,23 +52,35 @@ interface ProfileHeaderProps {
 }
 
 export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
-  user, isOwnProfile, friendStatus = FriendStatus.NOT_FRIEND,
-  onEditClick, onMessageClick, onFriendClick,
-  onAvatarChange, onCoverChange, onAvatarDelete, onCoverDelete,
-  onBlockClick, onUnblockClick, isBlockedByMe = false,
+  user,
+  isOwnProfile,
+  friendStatus = FriendStatus.NOT_FRIEND,
+  onEditClick,
+  onMessageClick,
+  onFriendClick,
+  onAvatarChange,
+  onCoverChange,
+  onAvatarDelete,
+  onCoverDelete,
+  onBlockClick,
+  onUnblockClick,
+  isBlockedByMe = false,
   isMessageBlockedByPartner = false,
-  uploadingType, uploadProgress,
-  onAvatarClick, onCoverClick,
+  uploadingType,
+  uploadProgress,
+  onAvatarClick,
+  onCoverClick,
 }) => {
   const navigate = useNavigate();
-  const currentUser = useAuthStore(state => state.user);
-  const userSettings = useAuthStore(state => state.settings);
+  const currentUser = useAuthStore((state) => state.user);
+  const userSettings = useAuthStore((state) => state.settings);
   const avatarInputRef = useRef<HTMLInputElement>(null);
   const coverInputRef = useRef<HTMLInputElement>(null);
-  const { openReportModal } = useReportStore();
 
   const [cropState, setCropState] = useState<{
-    open: boolean; type: 'avatar' | 'cover'; image: string;
+    open: boolean;
+    type: 'avatar' | 'cover';
+    image: string;
   } | null>(null);
 
   const openFilePicker = (type: 'avatar' | 'cover') => {
@@ -63,7 +93,10 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
     const file = e.target.files?.[0];
     if (!file) return;
     const validation = validateFile(file, type === 'avatar' ? 'AVATAR' : 'COVER');
-    if (!validation.isValid) { if (validation.error) toast.error(validation.error); return; }
+    if (!validation.isValid) {
+      if (validation.error) toast.error(validation.error);
+      return;
+    }
     const blobUrl = URL.createObjectURL(file);
     setCropState({ open: true, type, image: blobUrl });
     e.target.value = '';
@@ -84,7 +117,10 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
   const handleImageChange = (file: File) => {
     if (!cropState) return;
     const validation = validateFile(file, cropState.type === 'avatar' ? 'AVATAR' : 'COVER');
-    if (!validation.isValid) { if (validation.error) toast.error(validation.error); return; }
+    if (!validation.isValid) {
+      if (validation.error) toast.error(validation.error);
+      return;
+    }
     if (cropState.image) URL.revokeObjectURL(cropState.image);
     setCropState({ ...cropState, image: URL.createObjectURL(file) });
   };
@@ -92,7 +128,6 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
   return (
     <>
       <div className="max-w-5xl mx-auto">
-
         {/* ── Cover photo ── */}
         <div className="relative h-[200px] md:h-[320px] w-full md:rounded-b-2xl overflow-hidden shadow-sm">
           {/* Gradient fallback behind image */}
@@ -126,23 +161,40 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
                 }
                 align="right"
               >
-                <DropdownItem icon={<ImageIcon size={15} />} label="Tải ảnh lên" onClick={() => openFilePicker('cover')} />
+                <DropdownItem
+                  icon={<ImageIcon size={15} />}
+                  label="Tải ảnh lên"
+                  onClick={() => openFilePicker('cover')}
+                />
                 {user.cover?.url && (
-                  <DropdownItem icon={<Trash2 size={15} />} label="Xóa ảnh bìa" variant="danger" onClick={onCoverDelete} />
+                  <DropdownItem
+                    icon={<Trash2 size={15} />}
+                    label="Xóa ảnh bìa"
+                    variant="danger"
+                    onClick={onCoverDelete}
+                  />
                 )}
               </Dropdown>
             </div>
           )}
 
-          <input ref={coverInputRef} type="file" accept="image/*" onChange={(e) => handleFileChange(e, 'cover')} className="hidden" />
+          <input
+            ref={coverInputRef}
+            type="file"
+            accept="image/*"
+            onChange={(e) => handleFileChange(e, 'cover')}
+            className="hidden"
+          />
         </div>
 
         {/* ── Profile info row ── */}
         <div className="px-4 md:px-6">
           <div className="flex flex-col md:flex-row items-center md:items-end text-center md:text-left gap-4 md:gap-6 pb-5 mt-2">
-
             {/* Avatar */}
-            <div className="relative -mt-14 md:-mt-16 mx-auto md:mx-0 flex-shrink-0" style={{ zIndex: 'var(--z-sticky)' }}>
+            <div
+              className="relative -mt-14 md:-mt-16 mx-auto md:mx-0 flex-shrink-0"
+              style={{ zIndex: 'var(--z-sticky)' }}
+            >
               <div className="p-1 bg-surface rounded-full shadow-md overflow-hidden">
                 <UserAvatar
                   userId={user.id}
@@ -155,7 +207,12 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
                   onClick={user.avatar?.url ? onAvatarClick : undefined}
                 />
                 {uploadingType === 'avatar' && uploadProgress !== undefined && (
-                  <CircularProgressOverlay isVisible progress={uploadProgress} size="md" blur={false} />
+                  <CircularProgressOverlay
+                    isVisible
+                    progress={uploadProgress}
+                    size="md"
+                    blur={false}
+                  />
                 )}
               </div>
 
@@ -173,14 +230,29 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
                     }
                     align="left"
                   >
-                    <DropdownItem icon={<ImageIcon size={15} />} label="Tải ảnh lên" onClick={() => openFilePicker('avatar')} />
+                    <DropdownItem
+                      icon={<ImageIcon size={15} />}
+                      label="Tải ảnh lên"
+                      onClick={() => openFilePicker('avatar')}
+                    />
                     {user.avatar?.url && (
-                      <DropdownItem icon={<Trash2 size={15} />} label="Xóa ảnh đại diện" variant="danger" onClick={onAvatarDelete} />
+                      <DropdownItem
+                        icon={<Trash2 size={15} />}
+                        label="Xóa ảnh đại diện"
+                        variant="danger"
+                        onClick={onAvatarDelete}
+                      />
                     )}
                   </Dropdown>
                 </div>
               )}
-              <input ref={avatarInputRef} type="file" accept="image/*" onChange={(e) => handleFileChange(e, 'avatar')} className="hidden" />
+              <input
+                ref={avatarInputRef}
+                type="file"
+                accept="image/*"
+                onChange={(e) => handleFileChange(e, 'avatar')}
+                className="hidden"
+              />
             </div>
 
             {/* Name */}
@@ -190,13 +262,18 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
               </h1>
               {!isOwnProfile && friendStatus !== FriendStatus.FRIEND && (
                 <div className="flex items-center justify-center md:justify-start gap-1.5 mt-1 text-muted text-xs md:text-sm font-medium animate-fade-in group">
-                  <BookUser size={14} className="text-primary/70 group-hover:text-primary transition-colors" />
+                  <BookUser
+                    size={14}
+                    className="text-primary/70 group-hover:text-primary transition-colors"
+                  />
                   <span className="truncate">
                     {(() => {
-                      const suggestion = currentUser?.suggestedFriends?.find(s => s.id === user.id);
+                      const suggestion = currentUser?.suggestedFriends?.find(
+                        (s) => s.id === user.id,
+                      );
                       return suggestion?.mutualCount && suggestion.mutualCount > 0
                         ? `${suggestion.mutualCount} bạn chung`
-                        : "Có thể bạn quen";
+                        : 'Có thể bạn quen';
                     })()}
                   </span>
                 </div>
@@ -207,11 +284,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
             <div className="flex items-center gap-2 flex-shrink-0 flex-wrap justify-center md:justify-end md:mb-1">
               {isOwnProfile ? (
                 <>
-                  <Button
-                    variant="secondary"
-                    onClick={onEditClick}
-                    icon={<Edit size={17} />}
-                  >
+                  <Button variant="secondary" onClick={onEditClick} icon={<Edit size={17} />}>
                     Chỉnh sửa
                   </Button>
                   <Button
@@ -223,16 +296,12 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
                     Cài đặt
                   </Button>
                 </>
-              ) : user.status === UserStatus.BANNED ? (
-                <span className="px-3 py-2 rounded-xl bg-danger/10 text-danger text-sm font-medium border border-danger/20">
-                  Tài khoản đã bị khóa
-                </span>
               ) : (
                 <>
                   {!isMessageBlockedByPartner && (
                     <>
-                      <Button 
-                        onClick={onMessageClick} 
+                      <Button
+                        onClick={onMessageClick}
                         icon={<MessageCircle size={17} />}
                         variant="primary"
                       >
@@ -262,7 +331,11 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
                           Chấp nhận
                         </Button>
                       ) : (
-                        <Button variant="secondary" onClick={onFriendClick} icon={<UserPlus size={17} />}>
+                        <Button
+                          variant="secondary"
+                          onClick={onFriendClick}
+                          icon={<UserPlus size={17} />}
+                        >
                           Kết bạn
                         </Button>
                       )}
@@ -272,34 +345,26 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
                   {/* More options */}
                   {isBlockedByMe ? (
                     <div className="flex items-center gap-2">
-                      <Button 
-                        variant="secondary" 
+                      <Button
+                        variant="secondary"
                         className="bg-danger/5 text-danger border-danger/20 hover:bg-danger/10"
                         onClick={onUnblockClick}
                         icon={<Ban size={17} />}
                       >
                         Quản lý chặn
                       </Button>
-                      
-                      <Dropdown
-                        trigger={<Button variant="secondary" icon={<MoreHorizontal size={17} />} />}
-                        align="right"
-                      >
-                        <DropdownItem icon={<Flag size={15} />} label="Báo cáo" variant="danger" onClick={() => openReportModal(ReportType.USER, user.id, user.id)} />
-                      </Dropdown>
                     </div>
                   ) : (
                     <Dropdown
                       trigger={<Button variant="secondary" icon={<MoreHorizontal size={17} />} />}
                       align="right"
                     >
-                      <DropdownItem 
-                        icon={<Ban size={15} />} 
-                        label="Chặn" 
-                        variant="danger" 
-                        onClick={onBlockClick} 
+                      <DropdownItem
+                        icon={<Ban size={15} />}
+                        label="Chặn"
+                        variant="danger"
+                        onClick={onBlockClick}
                       />
-                      <DropdownItem icon={<Flag size={15} />} label="Báo cáo" variant="danger" onClick={() => openReportModal(ReportType.USER, user.id, user.id)} />
                     </Dropdown>
                   )}
                 </>

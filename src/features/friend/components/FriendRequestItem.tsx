@@ -16,7 +16,13 @@ interface FriendRequestItemProps {
 }
 
 const FriendRequestItemInner: React.FC<FriendRequestItemProps> = ({
-  request, user, type, onAccept, onReject, onCancel, isLoading = false,
+  request,
+  user,
+  type,
+  onAccept,
+  onReject,
+  onCancel,
+  isLoading = false,
 }) => {
   const navigate = useNavigate();
 
@@ -88,23 +94,21 @@ const FriendRequestItemInner: React.FC<FriendRequestItemProps> = ({
 };
 
 const FriendRequestItemSkeleton: React.FC = () => (
-    <div className="flex flex-col sm:flex-row sm:items-center justify-between px-4 py-3.5 border-b border-border/60 last:border-0 gap-3">
-        <div className="flex items-center gap-3 flex-1">
-            <Skeleton variant="circle" width={40} height={40} />
-            <div className="space-y-1.5 flex-1">
-                <Skeleton variant="line" width={120} height={13} />
-                <Skeleton variant="line" width={80} height={11} className="opacity-60" />
-            </div>
-        </div>
-        <div className="flex gap-2 flex-shrink-0">
-            <Skeleton variant="rect" width={85} height={32} className="rounded-lg flex-1 sm:flex-none" />
-            <Skeleton variant="rect" width={85} height={32} className="rounded-lg flex-1 sm:flex-none" />
-        </div>
+  <div className="flex flex-col sm:flex-row sm:items-center justify-between px-4 py-3.5 border-b border-border/60 last:border-0 gap-3">
+    <div className="flex items-center gap-3 flex-1">
+      <Skeleton variant="circle" width={40} height={40} />
+      <div className="space-y-1.5 flex-1">
+        <Skeleton variant="line" width={120} height={13} />
+        <Skeleton variant="line" width={80} height={11} className="opacity-60" />
+      </div>
     </div>
+    <div className="flex gap-2 flex-shrink-0">
+      <Skeleton variant="rect" width={85} height={32} className="rounded-lg flex-1 sm:flex-none" />
+      <Skeleton variant="rect" width={85} height={32} className="rounded-lg flex-1 sm:flex-none" />
+    </div>
+  </div>
 );
 
-export const FriendRequestItem = Object.assign(
-    React.memo(FriendRequestItemInner),
-    { Skeleton: FriendRequestItemSkeleton }
-) as React.FC<FriendRequestItemProps> & { Skeleton: React.FC };
-
+export const FriendRequestItem = Object.assign(React.memo(FriendRequestItemInner), {
+  Skeleton: FriendRequestItemSkeleton,
+}) as React.FC<FriendRequestItemProps> & { Skeleton: React.FC };

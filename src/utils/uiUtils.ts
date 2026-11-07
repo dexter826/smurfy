@@ -7,7 +7,7 @@ export const scrollToMessage = (messageId: string) => {
   if (element) {
     element.scrollIntoView({ behavior: 'smooth', block: 'center' });
     element.classList.add('animate-highlight');
-    
+
     // Xóa class highlight sau khi hiệu ứng kết thúc
     setTimeout(() => {
       element.classList.remove('animate-highlight');
@@ -15,14 +15,13 @@ export const scrollToMessage = (messageId: string) => {
   }
 };
 
-export const getLastName = (fullName?: string) =>
-  fullName?.trim().split(' ').pop() || '';
+export const getLastName = (fullName?: string) => fullName?.trim().split(' ').pop() || '';
 
 export const insertTextAtCursor = (
   ref: RefObject<HTMLTextAreaElement | HTMLInputElement | null>,
   currentText: string,
   text: string,
-  onUpdate: (newText: string) => void
+  onUpdate: (newText: string) => void,
 ) => {
   const start = ref.current?.selectionStart || 0;
   const end = ref.current?.selectionEnd || 0;

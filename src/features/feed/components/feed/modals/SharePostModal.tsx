@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Search, Play } from 'lucide-react';
+import { Search } from 'lucide-react';
 import { Modal, Input, Button, UserAvatar, EmptyState } from '@/components/ui';
 import { Post, Visibility } from '@shared/types';
 import { useRtdbChatStore } from '@/store';
@@ -120,13 +120,6 @@ export const SharePostModal: React.FC<SharePostModalProps> = ({
               return (
                 <div className="relative w-24 h-24 shrink-0 bg-surface-sunken overflow-hidden border-r border-border/50">
                   <img src={media.url} alt="" className="w-full h-full object-cover" />
-                  {media.type === 'video' && (
-                    <div className="absolute inset-0 flex items-center justify-center bg-black/30">
-                      <div className="w-8 h-8 flex items-center justify-center rounded-full bg-black/40 backdrop-blur-sm border border-white/20">
-                        <Play size={12} fill="white" className="text-white ml-0.5" />
-                      </div>
-                    </div>
-                  )}
                 </div>
               );
             })()}

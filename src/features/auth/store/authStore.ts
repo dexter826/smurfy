@@ -1,12 +1,19 @@
-import { create } from "zustand";
-import { onAuthStateChanged } from "firebase/auth";
+import { create } from 'zustand';
+import { onAuthStateChanged } from 'firebase/auth';
 import { onSnapshot, doc, Timestamp } from 'firebase/firestore';
-import { auth, db } from "@/lib/firebase/config";
-import { User, BlockOptions, UserSettings, Visibility, Generation, MediaObject, UserStatus, UserRole } from "@shared/types";
-import { userService } from "@/services/userService";
-import { authService } from "../services/authService";
-import { friendService } from "@/features/friend";
-import { isFullyBlocked } from "@/lib/block/blockUtils";
+import { auth, db } from '@/lib/firebase/config';
+import {
+  User,
+  BlockOptions,
+  UserSettings,
+  Visibility,
+  Generation,
+  MediaObject,
+} from '@shared/types';
+import { userService } from '@/services/userService';
+import { authService } from '../services/authService';
+import { friendService } from '@/features/friend';
+import { isFullyBlocked } from '@/lib/block/blockUtils';
 import { collection } from 'firebase/firestore';
 
 const DEFAULT_SETTINGS: UserSettings = {
@@ -17,13 +24,13 @@ const DEFAULT_SETTINGS: UserSettings = {
   createdAt: Timestamp.now(),
   updatedAt: Timestamp.now(),
 };
-import { presenceService } from "@/features/presence";
-import { resetAllStores } from "@/store/storeUtils";
-import { useUserCache } from "@/store/userCacheStore";
-import { useLoadingStore } from "@/store/loadingStore";
-import { usePostStore } from "@/features/feed";
-import { useRtdbChatStore } from "@/features/chat";
-import { getDirectConversationId } from "@/utils/chatUtils";
+import { presenceService } from '@/features/presence';
+import { resetAllStores } from '@/store/storeUtils';
+import { useUserCache } from '@/store/userCacheStore';
+import { useLoadingStore } from '@/store/loadingStore';
+import { usePostStore } from '@/features/feed';
+import { useRtdbChatStore } from '@/features/chat';
+import { getDirectConversationId } from '@/utils/chatUtils';
 
 interface AuthState {
   user: User | null;
@@ -31,19 +38,28 @@ interface AuthState {
   blockedUsers: Record<string, BlockOptions>;
   isPendingVerification: boolean;
   isInitialized: boolean;
-  isBanned: boolean;
   login: (email: string, pass: string, remember?: boolean) => Promise<void>;
-  register: (email: string, pass: string, name: string, dob: number, generation: Generation) => Promise<void>;
+  register: (
+    email: string,
+    pass: string,
+    name: string,
+    dob: number,
+    generation: Generation,
+  ) => Promise<void>;
   resetPassword: (email: string) => Promise<void>;
   sendVerificationEmail: () => Promise<void>;
   checkVerificationStatus: () => Promise<void>;
-  logout: (keepBanned?: boolean) => Promise<void>;
+  logout: () => Promise<void>;
   setUser: (user: User | null) => void;
   initialize: () => () => void;
   updateUserProfile: (updates: Partial<User>) => Promise<void>;
   updateAvatar: (avatar: MediaObject) => void;
   updateSettings: (settings: Partial<UserSettings>) => Promise<void>;
-  updateBlockEntry: (action: "add" | "remove", targetUserId: string, options?: BlockOptions) => Promise<void>;
+  updateBlockEntry: (
+    action: 'add' | 'remove',
+    targetUserId: string,
+    options?: BlockOptions,
+  ) => Promise<void>;
   completeOnboarding: (data: Partial<User>) => Promise<void>;
   _setupUserSubscription?: (uid: string) => void;
 }
@@ -54,37 +70,29 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   blockedUsers: {},
   isPendingVerification: false,
   isInitialized: false,
-  isBanned: false,
 
   /** Cập nhật thông tin người dùng. */
   setUser: (user) => set({ user }),
 
   /** Đăng nhập vào hệ thống. */
   login: async (email, pass, remember = false) => {
-    useLoadingStore.getState().setLoading("auth.login", true);
+    useLoadingStore.getState().setLoading('auth.login', true);
     try {
       const firebaseUser = await authService.login(email, pass, remember);
 
       if (!firebaseUser.emailVerified) {
         set({ isPendingVerification: true });
-        const err = new Error("Email not verified") as Error & { code?: string };
+        const err = new Error('Email not verified') as Error & { code?: string };
         err.code = 'auth/email-not-verified';
         throw err;
       }
 
       const [userData, userSettings] = await Promise.all([
         userService.getUserById(firebaseUser.uid),
-        userService.getUserSettings(firebaseUser.uid)
+        userService.getUserSettings(firebaseUser.uid),
       ]);
 
       if (userData) {
-        if (userData.status === UserStatus.BANNED) {
-          await authService.logout();
-          const err = new Error("Account banned") as Error & { code?: string };
-          err.code = 'auth/user-disabled';
-          throw err;
-        }
-
         set({
           user: userData,
           settings: userSettings,
@@ -99,13 +107,13 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       set({ isPendingVerification: false });
       throw error;
     } finally {
-      useLoadingStore.getState().setLoading("auth.login", false);
+      useLoadingStore.getState().setLoading('auth.login', false);
     }
   },
 
   /** Đăng ký tài khoản mới. */
   register: async (email, pass, name, dob, generation) => {
-    useLoadingStore.getState().setLoading("auth.register", true);
+    useLoadingStore.getState().setLoading('auth.register', true);
     try {
       const firebaseUser = await authService.register(email, pass);
       await userService.createUserDocument(firebaseUser.uid, {
@@ -119,12 +127,12 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
       set({ isPendingVerification: true });
     } finally {
-      useLoadingStore.getState().setLoading("auth.register", false);
+      useLoadingStore.getState().setLoading('auth.register', false);
     }
   },
 
   /** Đăng xuất khỏi hệ thống. */
-  logout: async (keepBanned = false) => {
+  logout: async () => {
     const { user } = get();
 
     try {
@@ -132,26 +140,25 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         await presenceService.setOffline(user.id);
       }
       resetAllStores();
-      useLoadingStore.getState().setLoading("auth", false);
+      useLoadingStore.getState().setLoading('auth', false);
       await authService.logout();
     } catch (error) {
-      console.error("Lỗi logout:", error);
+      console.error('Lỗi logout:', error);
     } finally {
       set({
         user: null,
         isPendingVerification: false,
-        isBanned: keepBanned ? get().isBanned : false
       });
     }
   },
 
   /** Đặt lại mật khẩu. */
   resetPassword: async (email) => {
-    useLoadingStore.getState().setLoading("auth", true);
+    useLoadingStore.getState().setLoading('auth', true);
     try {
       await authService.resetPassword(email);
     } finally {
-      useLoadingStore.getState().setLoading("auth", false);
+      useLoadingStore.getState().setLoading('auth', false);
     }
   },
 
@@ -160,7 +167,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     try {
       await authService.sendVerificationEmail();
     } catch (error) {
-      console.error("Lỗi gửi email xác thực:", error);
+      console.error('Lỗi gửi email xác thực:', error);
       throw error;
     }
   },
@@ -177,20 +184,14 @@ export const useAuthStore = create<AuthState>((set, get) => ({
           const [userData, blockedUsers, userSettings] = await Promise.all([
             userService.getUserById(firebaseUser.uid),
             userService.getBlockedUsers(firebaseUser.uid),
-            userService.getUserSettings(firebaseUser.uid)
+            userService.getUserSettings(firebaseUser.uid),
           ]);
           if (userData) {
-            if (userData.status === UserStatus.BANNED) {
-              set({ user: userData, isBanned: true, isInitialized: true });
-              await get().logout(true);
-              return;
-            }
-
             set({
               user: userData,
               blockedUsers,
               settings: userSettings,
-              isInitialized: true
+              isInitialized: true,
             });
             useUserCache.getState().setUser(userData);
 
@@ -198,7 +199,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
             if (setupSub) setupSub(firebaseUser.uid);
           }
         } catch (error) {
-          console.error("Lỗi đồng bộ sau xác thực:", error);
+          console.error('Lỗi đồng bộ sau xác thực:', error);
         }
       }
     }
@@ -210,14 +211,14 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     if (!user) return;
     const previousUser = { ...user };
     const updatedUser = { ...user, ...updates };
-    
+
     set({ user: updatedUser });
     useUserCache.getState().setUser(updatedUser);
 
     try {
       await userService.updateProfile(user.id, updates);
     } catch (error) {
-      console.error("Lỗi cập nhật profile:", error);
+      console.error('Lỗi cập nhật profile:', error);
       set({ user: previousUser });
       useUserCache.getState().setUser(previousUser);
       throw error;
@@ -238,13 +239,13 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     const { user, settings } = get();
     if (!user || !settings) return;
     const previousSettings = { ...settings };
-    
+
     set({ settings: { ...settings, ...settingsUpdates } });
 
     try {
       await userService.updateUserSettings(user.id, settingsUpdates);
     } catch (error) {
-      console.error("Lỗi cập nhật cài đặt:", error);
+      console.error('Lỗi cập nhật cài đặt:', error);
       set({ settings: previousSettings });
       throw error;
     }
@@ -256,13 +257,13 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     if (!user) return;
     const previousBlocked = { ...blockedUsers };
 
-    if (action === "add" && options) {
+    if (action === 'add' && options) {
       set({ blockedUsers: { ...blockedUsers, [targetUserId]: options } });
-      
+
       if (options.hideTheirActivity || options.blockViewMyActivity) {
         usePostStore.getState().filterPostsByAuthor(targetUserId);
       }
-      
+
       if (options.blockMessages) {
         const directConvId = getDirectConversationId(user.id, targetUserId);
         const chatStore = useRtdbChatStore.getState();
@@ -273,7 +274,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
       try {
         await userService.blockUser(user.id, targetUserId, options);
-        
+
         if (isFullyBlocked(options)) {
           await friendService.unfriend(user.id, targetUserId);
         }
@@ -281,7 +282,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         set({ blockedUsers: previousBlocked });
         throw error;
       }
-    } else if (action === "remove") {
+    } else if (action === 'remove') {
       const updated = { ...blockedUsers };
       delete updated[targetUserId];
       set({ blockedUsers: updated });
@@ -310,7 +311,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       }
       friendService.generateFriendSuggestions(20).catch(() => {});
     } catch (error) {
-      console.error("Lỗi hoàn tất onboarding:", error);
+      console.error('Lỗi hoàn tất onboarding:', error);
       set({ user: previousUser });
       useUserCache.getState().setUser(previousUser);
       throw error;
@@ -328,58 +329,49 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       if (settingsUnsubscribe) settingsUnsubscribe();
       if (blockUnsubscribe) blockUnsubscribe();
 
-      userUnsubscribe = userService.subscribeToUser(
-        uid,
-        async (updatedUser) => {
-          if (updatedUser.status === UserStatus.BANNED) {
-            if (userUnsubscribe) { userUnsubscribe(); userUnsubscribe = null; }
-            if (settingsUnsubscribe) { settingsUnsubscribe(); settingsUnsubscribe = null; }
+      userUnsubscribe = userService.subscribeToUser(uid, async (updatedUser) => {
+        const currentBlocked = get().blockedUsers;
+        set({ user: updatedUser, blockedUsers: currentBlocked });
+        useUserCache.getState().setUser(updatedUser);
+      });
 
-            set({ user: updatedUser, isBanned: true });
-            await get().logout(true);
-            return;
-          }
-
-          const currentBlocked = get().blockedUsers;
-          set({ user: updatedUser, blockedUsers: currentBlocked });
-          useUserCache.getState().setUser(updatedUser);
-        },
-      );
-
-      settingsUnsubscribe = onSnapshot(
-        doc(db, 'users', uid, 'private', 'settings'),
-        (snapshot) => {
-          if (snapshot.exists()) {
-            set({ settings: snapshot.data() as UserSettings });
-          } else {
-            set({ settings: DEFAULT_SETTINGS });
-          }
+      settingsUnsubscribe = onSnapshot(doc(db, 'users', uid, 'private', 'settings'), (snapshot) => {
+        if (snapshot.exists()) {
+          set({ settings: snapshot.data() as UserSettings });
+        } else {
+          set({ settings: DEFAULT_SETTINGS });
         }
-      );
+      });
 
-      blockUnsubscribe = onSnapshot(
-        collection(db, 'users', uid, 'blockedUsers'),
-        (snapshot) => {
-          const blockedUsers: Record<string, BlockOptions> = {};
-          snapshot.forEach(doc => {
-            blockedUsers[doc.id] = doc.data() as BlockOptions;
-          });
-          set({ blockedUsers });
-        }
-      );
+      blockUnsubscribe = onSnapshot(collection(db, 'users', uid, 'blockedUsers'), (snapshot) => {
+        const blockedUsers: Record<string, BlockOptions> = {};
+        snapshot.forEach((doc) => {
+          blockedUsers[doc.id] = doc.data() as BlockOptions;
+        });
+        set({ blockedUsers });
+      });
     };
 
     set({ _setupUserSubscription: setupSubscriptions });
 
     const authUnsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
-      if (userUnsubscribe) { userUnsubscribe(); userUnsubscribe = null; }
-      if (settingsUnsubscribe) { settingsUnsubscribe(); settingsUnsubscribe = null; }
-      if (blockUnsubscribe) { blockUnsubscribe(); blockUnsubscribe = null; }
+      if (userUnsubscribe) {
+        userUnsubscribe();
+        userUnsubscribe = null;
+      }
+      if (settingsUnsubscribe) {
+        settingsUnsubscribe();
+        settingsUnsubscribe = null;
+      }
+      if (blockUnsubscribe) {
+        blockUnsubscribe();
+        blockUnsubscribe = null;
+      }
 
       if (firebaseUser) {
         if (!firebaseUser.emailVerified) {
           set({ user: null, isPendingVerification: true, isInitialized: true });
-          useLoadingStore.getState().setLoading("auth", false);
+          useLoadingStore.getState().setLoading('auth', false);
           return;
         }
 
@@ -387,16 +379,10 @@ export const useAuthStore = create<AuthState>((set, get) => ({
           const [userData, blockedUsers, userSettings] = await Promise.all([
             userService.getUserById(firebaseUser.uid),
             userService.getBlockedUsers(firebaseUser.uid),
-            userService.getUserSettings(firebaseUser.uid)
+            userService.getUserSettings(firebaseUser.uid),
           ]);
 
           if (userData) {
-            if (userData.status === UserStatus.BANNED) {
-              set({ user: userData, isInitialized: true, isBanned: true });
-              await get().logout(true);
-              return;
-            }
-
             set({
               user: userData,
               settings: userSettings,
@@ -404,27 +390,22 @@ export const useAuthStore = create<AuthState>((set, get) => ({
               isPendingVerification: false,
               isInitialized: true,
             });
-            useLoadingStore.getState().setLoading("auth", false);
+            useLoadingStore.getState().setLoading('auth', false);
             useUserCache.getState().setUser(userData);
 
             setupSubscriptions(firebaseUser.uid);
           } else {
             set({ user: null, isInitialized: true });
-            useLoadingStore.getState().setLoading("auth", false);
+            useLoadingStore.getState().setLoading('auth', false);
           }
         } catch (error) {
           set({ isInitialized: true });
-          useLoadingStore.getState().setLoading("auth", false);
+          useLoadingStore.getState().setLoading('auth', false);
         }
       } else {
-        if (get().isBanned) {
-          set({ isInitialized: true });
-          useLoadingStore.getState().setLoading("auth", false);
-          return;
-        }
         resetAllStores();
         set({ user: null, isInitialized: true });
-        useLoadingStore.getState().setLoading("auth", false);
+        useLoadingStore.getState().setLoading('auth', false);
       }
     });
 

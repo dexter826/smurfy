@@ -33,8 +33,7 @@ export const createActionSlice: StateCreator<PostStoreState, [], [], any> = (set
           }) as MediaObject,
       ) || [];
 
-    const hasMedia = media.length > 0 || (pendingFiles && pendingFiles.length > 0);
-    const initialStatus = hasMedia ? PostStatus.PENDING : PostStatus.ACTIVE;
+    const initialStatus = PostStatus.ACTIVE;
 
     const tempPost: Post = {
       id: postId,

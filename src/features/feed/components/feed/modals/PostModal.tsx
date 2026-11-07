@@ -20,8 +20,6 @@ import { insertTextAtCursor } from '@/utils/uiUtils';
 import { useAutoResizeTextarea } from '@/hooks/utils';
 import { useAuthStore } from '@/features/auth';
 import { processPostFiles } from '../../../utils/postMedia';
-import { useLinkPreview } from '@/hooks/useLinkPreview';
-import { LinkPreviewCard } from '@/components/shared/LinkPreviewCard';
 
 interface PostModalProps {
   open: boolean;
@@ -77,8 +75,6 @@ export const PostModal: React.FC<PostModalProps> = ({
   const [showDiscardConfirm, setShowDiscardConfirm] = useState(false);
   const [pendingFiles, setPendingFiles] = useState<File[]>([]);
   const [previews, setPreviews] = useState<{ url: string; type: 'image' | 'video' }[]>([]);
-
-  const linkPreview = useLinkPreview(isEdit ? '' : formData.content || '');
 
   useEffect(() => {
     if (open && !initializedRef.current) {
@@ -158,7 +154,7 @@ export const PostModal: React.FC<PostModalProps> = ({
   const allPreviews = [
     ...formData.media.map((m) => ({
       url: m.url,
-      type: m.mimeType.startsWith('video/') ? ('video' as const) : ('image' as const),
+      type: 'image' as const,
       thumbnail: m.thumbnailUrl,
       isPending: false,
     })),
@@ -306,17 +302,6 @@ export const PostModal: React.FC<PostModalProps> = ({
               </div>
             )}
 
-            {/* Link preview in composer */}
-            {!isEdit && linkPreview.url && !linkPreview.isDismissed && allPreviews.length === 0 && (
-              <LinkPreviewCard
-                url={linkPreview.url}
-                previewData={linkPreview.isLoading ? undefined : linkPreview.previewData}
-                onDismiss={linkPreview.dismiss}
-                compact
-                className="mb-3"
-              />
-            )}
-
             {/* Media grid preview */}
             {allPreviews.length > 0 && (
               <div
@@ -330,27 +315,11 @@ export const PostModal: React.FC<PostModalProps> = ({
                       className={`relative group rounded-xl overflow-hidden bg-background border border-border
                         ${isLarge ? 'col-span-2 aspect-video' : 'aspect-square md:aspect-video'}`}
                     >
-                      {item.type === 'image' ? (
-                        <img
-                          src={item.url}
-                          alt=""
-                          className={`w-full h-full object-cover transition-opacity duration-200 ${isSubmitting && item.isPending ? 'opacity-50' : ''}`}
-                        />
-                      ) : (
-                        <>
-                          <video
-                            src={item.url}
-                            poster={item.thumbnail}
-                            className={`w-full h-full object-cover ${isSubmitting && item.isPending ? 'opacity-50' : ''}`}
-                            playsInline
-                            muted
-                            preload="none"
-                          />
-                          <div className="absolute inset-0 flex items-center justify-center bg-black/20 pointer-events-none">
-                            <Video className="text-white/80" size={28} />
-                          </div>
-                        </>
-                      )}
+                      <img
+                        src={item.url}
+                        alt=""
+                        className={`w-full h-full object-cover transition-opacity duration-200 ${isSubmitting && item.isPending ? 'opacity-50' : ''}`}
+                      />
 
                       {!isSubmitting && !isSystemPost && (
                         <button

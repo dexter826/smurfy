@@ -1,5 +1,5 @@
-import React, { useState, useCallback } from "react";
-import { User } from "@shared/types";
+import React, { useState, useCallback } from 'react';
+import { User } from '@shared/types';
 
 interface UseMentionsProps {
   inputText: string;
@@ -19,28 +19,26 @@ export const useMentions = ({
   inputRef,
 }: UseMentionsProps) => {
   const [showMentions, setShowMentions] = useState(false);
-  const [mentionQuery, setMentionQuery] = useState("");
+  const [mentionQuery, setMentionQuery] = useState('');
   const [mentionIndex, setMentionIndex] = useState(0);
   const [mentionStartPos, setMentionStartPos] = useState(-1);
 
   const filteredParticipants = participants
     .filter((p) => p.id !== currentUserId)
-    .filter((p) =>
-      p.fullName.toLowerCase().includes(mentionQuery.toLowerCase()),
-    );
+    .filter((p) => p.fullName.toLowerCase().includes(mentionQuery.toLowerCase()));
 
   const handleInputChange = useCallback(
     (text: string, selectionStart: number) => {
       if (!isGroup) return;
 
       const textBeforeCursor = text.slice(0, selectionStart);
-      const lastAtPos = textBeforeCursor.lastIndexOf("@");
+      const lastAtPos = textBeforeCursor.lastIndexOf('@');
 
       if (lastAtPos !== -1) {
         const charBefore = lastAtPos > 0 ? textBeforeCursor[lastAtPos - 1] : ' ';
         const query = textBeforeCursor.slice(lastAtPos + 1);
         const isValidTrigger = charBefore === ' ' || charBefore === '\n';
-        if (isValidTrigger && !query.includes("\n") && !query.includes("@")) {
+        if (isValidTrigger && !query.includes('\n') && !query.includes('@')) {
           setMentionStartPos(lastAtPos);
           setMentionQuery(query);
           setShowMentions(true);
@@ -58,8 +56,7 @@ export const useMentions = ({
       if (mentionStartPos === -1) return;
 
       const before = inputText.slice(0, mentionStartPos);
-      const afterCursor =
-        inputRef.current?.selectionStart || mentionStartPos + 1;
+      const afterCursor = inputRef.current?.selectionStart || mentionStartPos + 1;
       const after = inputText.slice(afterCursor);
 
       const mentionText = `@${user.fullName}\u200B `;
@@ -85,26 +82,22 @@ export const useMentions = ({
     (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
       if (!showMentions || filteredParticipants.length === 0) return false;
 
-      if (e.key === "ArrowUp") {
+      if (e.key === 'ArrowUp') {
         e.preventDefault();
-        setMentionIndex((prev) =>
-          prev > 0 ? prev - 1 : filteredParticipants.length - 1,
-        );
+        setMentionIndex((prev) => (prev > 0 ? prev - 1 : filteredParticipants.length - 1));
         return true;
       }
-      if (e.key === "ArrowDown") {
+      if (e.key === 'ArrowDown') {
         e.preventDefault();
-        setMentionIndex((prev) =>
-          prev < filteredParticipants.length - 1 ? prev + 1 : 0,
-        );
+        setMentionIndex((prev) => (prev < filteredParticipants.length - 1 ? prev + 1 : 0));
         return true;
       }
-      if (e.key === "Enter" || e.key === "Tab") {
+      if (e.key === 'Enter' || e.key === 'Tab') {
         e.preventDefault();
         handleSelectMention(filteredParticipants[mentionIndex]);
         return true;
       }
-      if (e.key === "Escape") {
+      if (e.key === 'Escape') {
         e.preventDefault();
         setShowMentions(false);
         return true;

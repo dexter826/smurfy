@@ -33,7 +33,14 @@ export const CommentInput: React.FC<CommentInputProps> = ({
   const fileInputRef = useRef<HTMLInputElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  const { register, handleSubmit, setValue, watch, reset, formState: { isDirty } } = useForm<CommentFormValues>({
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    watch,
+    reset,
+    formState: { isDirty },
+  } = useForm<CommentFormValues>({
     resolver: zodResolver(commentSchema),
     defaultValues: {
       content: initialValue,
@@ -66,7 +73,10 @@ export const CommentInput: React.FC<CommentInputProps> = ({
     }
 
     const validation = validateFile(file, 'IMAGE');
-    if (!validation.isValid) { if (validation.error) toast.error(validation.error); return; }
+    if (!validation.isValid) {
+      if (validation.error) toast.error(validation.error);
+      return;
+    }
 
     if (previewUrl) URL.revokeObjectURL(previewUrl);
     setPendingImage(file);
@@ -89,7 +99,7 @@ export const CommentInput: React.FC<CommentInputProps> = ({
     setPendingImage(null);
     setPreviewUrl(null);
     reset({ content: '', image: undefined, hasPendingImage: false });
-    
+
     onSubmit(data.content || '', imageToSubmit);
   };
 
@@ -102,8 +112,8 @@ export const CommentInput: React.FC<CommentInputProps> = ({
   };
 
   const isEdit = !!initialValue || !!initialImage;
-  const canSubmit = (!!formData.content?.trim() || !!pendingImage || !!formData.image) && 
-                   (!isEdit || isDirty);
+  const canSubmit =
+    (!!formData.content?.trim() || !!pendingImage || !!formData.image) && (!isEdit || isDirty);
 
   return (
     <div className="flex gap-2.5 items-end">
@@ -169,11 +179,8 @@ export const CommentInput: React.FC<CommentInputProps> = ({
                 />
                 <EmojiPicker
                   onEmojiSelect={(emoji) =>
-                    insertTextAtCursor(
-                      textareaRef,
-                      formData.content || '',
-                      emoji,
-                      (t) => setValue('content', t, { shouldDirty: true })
+                    insertTextAtCursor(textareaRef, formData.content || '', emoji, (t) =>
+                      setValue('content', t, { shouldDirty: true }),
                     )
                   }
                   size={15}
@@ -196,9 +203,10 @@ export const CommentInput: React.FC<CommentInputProps> = ({
                   type="submit"
                   disabled={!canSubmit}
                   className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors duration-200 flex-shrink-0
-                    ${canSubmit
-                      ? 'btn-gradient text-white shadow-sm hover:brightness-110 active:brightness-95'
-                      : 'bg-surface-sunken text-muted cursor-not-allowed'
+                    ${
+                      canSubmit
+                        ? 'btn-gradient text-white shadow-sm hover:brightness-110 active:brightness-95'
+                        : 'bg-surface-sunken text-muted cursor-not-allowed'
                     }`}
                 >
                   <Send size={14} className={canSubmit ? 'fill-current' : ''} />

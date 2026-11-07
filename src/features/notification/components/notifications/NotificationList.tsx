@@ -16,13 +16,10 @@ export const NotificationList: React.FC<NotificationListProps> = ({
   onItemClick,
   maxHeight = '420px',
 }) => {
-  const notifications = useNotificationStore(state => state.notifications);
-  const isLoading = useLoadingStore(state => state.loadingStates['notifications']);
+  const notifications = useNotificationStore((state) => state.notifications);
+  const isLoading = useLoadingStore((state) => state.loadingStates['notifications']);
 
-  const visible = notifications.filter(n => {
-    if (n.type !== NotificationType.REPORT) return true;
-    return !(n.data?.contentSnippet ?? '').includes('bị khóa');
-  });
+  const visible = notifications;
 
   if (isLoading && visible.length === 0) return <NotificationSkeleton />;
 
@@ -38,11 +35,8 @@ export const NotificationList: React.FC<NotificationListProps> = ({
   }
 
   return (
-    <div
-      className="overflow-y-auto scroll-hide p-2 flex flex-col gap-1.5"
-      style={{ maxHeight }}
-    >
-      {visible.map(n => (
+    <div className="overflow-y-auto scroll-hide p-2 flex flex-col gap-1.5" style={{ maxHeight }}>
+      {visible.map((n) => (
         <NotificationItem key={n.id} notification={n} onClick={onItemClick} />
       ))}
     </div>

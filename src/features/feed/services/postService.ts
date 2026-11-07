@@ -32,19 +32,13 @@ import { userService } from '@/services/userService';
 import { PAGINATION, IMAGE_COMPRESSION, STORAGE_PATHS } from '@/constants';
 import { compressImage, isImageFile } from '@/utils/imageUtils';
 import { withRetry } from '@/utils/retryUtils';
-import {
-  uploadWithProgress,
-  ProgressCallback,
-  deleteStorageFiles,
-  generateVideoThumbnail,
-} from '@/utils/uploadUtils';
+import { uploadWithProgress, ProgressCallback, deleteStorageFiles } from '@/utils/uploadUtils';
 import { convertDoc, convertDocs } from '@/utils/firebaseUtils';
 import { getSafeMillis } from '@/utils/timestampHelpers';
 import { filterBlockedItems } from '@/lib/block/blockUtils';
 import {
   validatePostContent,
   validateImageFile,
-  validateVideoFile,
   FileValidationError,
 } from '@/utils/fileValidation';
 
@@ -179,7 +173,7 @@ export const postService = {
         ? query(
             collection(db, 'posts'),
             where('authorId', '==', userId),
-            where('status', 'in', [PostStatus.ACTIVE, PostStatus.PENDING]),
+            where('status', '==', PostStatus.ACTIVE),
             orderBy('createdAt', 'desc'),
             limit(limitCount),
           )
@@ -197,9 +191,6 @@ export const postService = {
       }
 
       const user = await userService.getUserById(userId);
-      if (user?.status === UserStatus.BANNED) {
-        return { posts: [], lastDoc: null };
-      }
 
       if (userId !== currentUserId) {
         const blockSnap = await getDoc(doc(db, 'users', userId, 'blockedUsers', currentUserId));
@@ -250,7 +241,7 @@ export const postService = {
       ? query(
           collection(db, 'posts'),
           where('authorId', '==', userId),
-          where('status', 'in', [PostStatus.ACTIVE, PostStatus.PENDING]),
+          where('status', '==', PostStatus.ACTIVE),
           orderBy('createdAt', 'desc'),
           limit(limitCount),
         )
@@ -270,11 +261,6 @@ export const postService = {
       const user = await userService.getUserById(userId);
       const currentUser = await userService.getUserById(currentUserId);
       if (isCancelled) return;
-
-      if (user?.status === UserStatus.BANNED || currentUser?.status === UserStatus.BANNED) {
-        callback('remove', []);
-        return;
-      }
 
       if (userId !== currentUserId) {
         const blockedByTarget = await getDoc(
@@ -354,14 +340,11 @@ export const postService = {
 
       const postRef = predefinedId ? doc(db, 'posts', predefinedId) : doc(collection(db, 'posts'));
 
-      const hasMedia = postData.media && postData.media.length > 0;
-      const initialStatus = hasMedia ? PostStatus.PENDING : PostStatus.ACTIVE;
-
       const dataToSave: any = {
         authorId: postData.authorId,
         type: postData.type || PostType.REGULAR,
         content: postData.content || '',
-        status: initialStatus,
+        status: PostStatus.ACTIVE,
         visibility: postData.visibility || Visibility.FRIENDS,
         commentCount: 0,
         createdAt: postData.createdAt || serverTimestamp(),
@@ -483,7 +466,6 @@ export const postService = {
     postId: string,
     currentUserId: string,
     friendIds: string[],
-    isAdmin: boolean = false,
   ): Promise<Post | null> => {
     try {
       const postRef = doc(db, 'posts', postId);
@@ -496,19 +478,10 @@ export const postService = {
       if (data.status === PostStatus.DELETED) return null;
 
       const isOwner = data.authorId === currentUserId;
-
-      if (
-        (data.status === PostStatus.PENDING || data.status === PostStatus.POLICY_VIOLATION) &&
-        !isAdmin &&
-        !isOwner
-      ) {
-        return null;
-      }
-
       const isSystemPost =
         data.type === PostType.AVATAR_UPDATE || data.type === PostType.COVER_UPDATE;
 
-      if (isAdmin || isSystemPost) {
+      if (isSystemPost) {
         return convertDoc<Post>(postSnap);
       }
 
@@ -544,22 +517,7 @@ export const postService = {
     }
   },
 
-  /** Lấy thông tin bài viết cho Admin */
-  getPostByIdForAdmin: async (postId: string): Promise<Post | null> => {
-    try {
-      const postRef = doc(db, 'posts', postId);
-      const postSnap = await getDoc(postRef);
-
-      if (!postSnap.exists()) return null;
-
-      return convertDoc<Post>(postSnap);
-    } catch (error) {
-      console.error('Lỗi lấy chi tiết bài viết cho admin', error);
-      return null;
-    }
-  },
-
-  /** Tải lên ảnh/video cho bài viết */
+  /** Tải lên ảnh cho bài viết */
   uploadPostMedia: async (
     files: File[],
     userId: string,
@@ -569,10 +527,8 @@ export const postService = {
       for (const file of files) {
         if (file.type.startsWith('image/')) {
           validateImageFile(file);
-        } else if (file.type.startsWith('video/')) {
-          validateVideoFile(file);
         } else {
-          throw new FileValidationError('File phải là ảnh hoặc video');
+          throw new FileValidationError('File phải là ảnh');
         }
       }
 
@@ -581,31 +537,15 @@ export const postService = {
 
       const uploadPromises = files.map(async (originalFile, i) => {
         let file = originalFile;
-        const isVideo = file.type.startsWith('video/');
-        const typeFolder = isVideo ? 'videos' : 'images';
         const createdAt = Date.now();
         const fileName = `${createdAt}_${file.name}`;
-        const path = `${STORAGE_PATHS.POSTS}/${userId}/${typeFolder}/${fileName}`;
-
-        let thumbnailUrl: string | undefined = undefined;
+        const path = `${STORAGE_PATHS.POSTS}/${userId}/images/${fileName}`;
 
         if (isImageFile(file)) {
           file = await compressImage(file, IMAGE_COMPRESSION.POST);
         }
-        const thumbPromise = isVideo
-          ? (async () => {
-              try {
-                const thumbFile = await generateVideoThumbnail(file);
-                const thumbPath = `thumbnails/${userId}/${createdAt}_${thumbFile.name}`;
-                return await uploadWithProgress(thumbPath, thumbFile);
-              } catch (e) {
-                console.error('Lỗi tạo/up thumbnail:', e);
-                return undefined;
-              }
-            })()
-          : Promise.resolve(undefined);
 
-        const uploadPromise = withRetry(() =>
+        const url = await withRetry(() =>
           uploadWithProgress(path, file, (progress) => {
             progressMap.set(i, progress.progress);
             const totalProgress =
@@ -614,16 +554,12 @@ export const postService = {
           }),
         );
 
-        const [url, thumbUrlResult] = await Promise.all([uploadPromise, thumbPromise]);
-        thumbnailUrl = thumbUrlResult;
-
         return {
           url,
           fileName,
           mimeType: file.type,
           size: file.size,
           isSensitive: false,
-          ...(thumbnailUrl && { thumbnailUrl }),
         } as MediaObject;
       });
 

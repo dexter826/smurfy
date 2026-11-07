@@ -41,7 +41,11 @@ export const IconCancel = ({ size = 24, ...props }: ReactionIconProps) => (
   <SVGCancel width={size} height={size} style={{ overflow: 'visible' }} {...props} />
 );
 
-export const getReactionIcon = (type: ReactionType, className?: string, size: number | string = 24) => {
+export const getReactionIcon = (
+  type: ReactionType,
+  className?: string,
+  size: number | string = 24,
+) => {
   switch (type) {
     case ReactionType.LIKE:
       return <IconLike className={className} size={size} />;

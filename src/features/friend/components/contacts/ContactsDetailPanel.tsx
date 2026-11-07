@@ -82,9 +82,7 @@ export const ContactsDetailPanel: React.FC<ContactsDetailPanelProps> = ({
           </div>
         </div>
 
-        <h3 className="text-base font-bold text-foreground truncate">
-          {selectedUser.fullName}
-        </h3>
+        <h3 className="text-base font-bold text-foreground truncate">{selectedUser.fullName}</h3>
         <div className="mt-0.5">
           <UserStatusText userId={selectedUser.id} className="text-xs font-medium" />
         </div>
@@ -119,9 +117,7 @@ export const ContactsDetailPanel: React.FC<ContactsDetailPanelProps> = ({
 
         {/* Details list */}
         <div className="mt-5 space-y-2.5 pt-4 border-t border-border">
-          <p className="text-[10px] font-bold text-muted uppercase tracking-widest">
-            Thông tin
-          </p>
+          <p className="text-[10px] font-bold text-muted uppercase tracking-widest">Thông tin</p>
 
           {selectedUser.email && (
             <div className="flex items-center gap-2.5 text-xs text-secondary">

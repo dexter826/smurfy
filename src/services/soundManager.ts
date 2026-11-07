@@ -48,7 +48,7 @@ class SoundManager {
       await this.audios.message.play();
       this.audios.message.pause();
       this.audios.message.currentTime = 0;
-      
+
       this.isUnlocked = true;
       console.debug('[SoundManager] Audio unlocked.');
     } catch (err) {
@@ -65,18 +65,25 @@ class SoundManager {
     }
 
     if (document.visibilityState === 'hidden') {
-      await new Promise(resolve => setTimeout(resolve, 50));
-      if (now - this.lastPlayed < this.THROTTLE_MS) return; 
+      await new Promise((resolve) => setTimeout(resolve, 50));
+      if (now - this.lastPlayed < this.THROTTLE_MS) return;
     }
 
     try {
       if (!this.audios[type]) {
         let src;
         switch (type) {
-          case 'message': src = NotificationSound; break;
-          case 'reaction': src = ReactionSound; break;
-          case 'success': src = SuccessSound; break;
-          default: src = NotificationSound;
+          case 'message':
+            src = NotificationSound;
+            break;
+          case 'reaction':
+            src = ReactionSound;
+            break;
+          case 'success':
+            src = SuccessSound;
+            break;
+          default:
+            src = NotificationSound;
         }
         this.audios[type] = new Audio(src);
       }
@@ -84,9 +91,9 @@ class SoundManager {
       const audio = this.audios[type]!;
       audio.currentTime = 0;
       audio.volume = 1.0;
-      
+
       await audio.play();
-      
+
       this.lastPlayed = Date.now();
       this.bc.postMessage({ type: 'SOUND_PLAYED', timestamp: this.lastPlayed });
     } catch (err) {

@@ -16,7 +16,7 @@ export const Loading: React.FC<LoadingProps> = ({
   className = '',
   color = 'text-primary',
 }) => {
-  const iconSize = typeof size === 'number' ? size : ({ sm: 16, md: 32, lg: 48 })[size];
+  const iconSize = typeof size === 'number' ? size : { sm: 16, md: 32, lg: 48 }[size];
   const spinner = <Loader2 className={`animate-spin ${color} shrink-0`} size={iconSize} />;
 
   if (variant === 'cube' || variant === 'page') {
@@ -42,7 +42,9 @@ export const Loading: React.FC<LoadingProps> = ({
 
   if (variant === 'overlay') {
     return (
-      <div className={`absolute inset-0 z-10 flex flex-col items-center justify-center bg-overlay backdrop-blur-[2px] rounded-[inherit] transition-theme ${className}`}>
+      <div
+        className={`absolute inset-0 z-10 flex flex-col items-center justify-center bg-overlay backdrop-blur-[2px] rounded-[inherit] transition-theme ${className}`}
+      >
         {spinner}
         {text && <p className="mt-2 text-secondary text-sm font-medium">{text}</p>}
       </div>

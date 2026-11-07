@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useCallback, useRef, useMemo } from 'react';
-import { MessageType, MediaObject } from '@shared/types';
+import { MediaObject } from '@shared/types';
 import { postService } from '@/features/feed';
-import { Skeleton, MediaViewer, LazyImage, SensitiveMediaGuard, EmptyState } from '@/components/ui';
-import { Image as ImageIcon, Loader2, Play } from 'lucide-react';
+import { Skeleton, MediaViewer, LazyImage, EmptyState } from '@/components/ui';
+import { Image as ImageIcon, Loader2 } from 'lucide-react';
 import { useAuthStore } from '@/features/auth';
 import { useFriendIds } from '@/hooks';
 import { DocumentSnapshot } from 'firebase/firestore';
@@ -16,14 +16,10 @@ interface PhotosTabProps {
 
 type MediaItem = {
   url: string;
-  type: MessageType.IMAGE | MessageType.VIDEO;
   thumbnailUrl?: string;
-  isSensitive?: boolean;
 };
 
-const PhotosTabInner: React.FC<PhotosTabProps> = ({
-  userId, isViewActivityBlocked = false,
-}) => {
+const PhotosTabInner: React.FC<PhotosTabProps> = ({ userId, isViewActivityBlocked = false }) => {
   const [realtimeMedia, setRealtimeMedia] = useState<MediaItem[]>([]);
   const [historyMedia, setHistoryMedia] = useState<MediaItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -35,45 +31,56 @@ const PhotosTabInner: React.FC<PhotosTabProps> = ({
   const lastDocRef = useRef<DocumentSnapshot | null>(null);
   const observerRef = useRef<HTMLDivElement>(null);
 
-  const extractMedia = useCallback((posts: { media?: MediaObject[] }[]): MediaItem[] =>
-    posts.flatMap(post =>
-      (post.media || []).map(m => ({
-        url: m.url,
-        type: m.mimeType?.startsWith('video/') ? MessageType.VIDEO : MessageType.IMAGE,
-        thumbnailUrl: m.thumbnailUrl,
-        isSensitive: m.isSensitive,
-      }))
-    ), []);
+  const extractMedia = useCallback(
+    (posts: { media?: MediaObject[] }[]): MediaItem[] =>
+      posts.flatMap((post) =>
+        (post.media || []).map((m) => ({
+          url: m.url,
+          thumbnailUrl: m.thumbnailUrl,
+        })),
+      ),
+    [],
+  );
 
-  const loadMedia = useCallback(async (isLoadMore = false) => {
-    if (!currentUser) return;
-    if (isLoadMore) setLoadingMore(true);
-    else setLoading(true);
-    try {
-      const { posts, lastDoc } = await postService.getUserPosts(
-        userId, currentUser.id, friendIds, MEDIA_PAGE_SIZE,
-        isLoadMore ? lastDocRef.current ?? undefined : undefined
-      );
-      lastDocRef.current = lastDoc;
-      setHasMore(posts.length === MEDIA_PAGE_SIZE && !!lastDoc);
-      const newMedia = extractMedia(posts);
-      if (isLoadMore) {
-        setHistoryMedia(prev => [...prev, ...newMedia]);
-      } else {
-        setRealtimeMedia(newMedia);
-        setHistoryMedia([]);
+  const loadMedia = useCallback(
+    async (isLoadMore = false) => {
+      if (!currentUser) return;
+      if (isLoadMore) setLoadingMore(true);
+      else setLoading(true);
+      try {
+        const { posts, lastDoc } = await postService.getUserPosts(
+          userId,
+          currentUser.id,
+          friendIds,
+          MEDIA_PAGE_SIZE,
+          isLoadMore ? (lastDocRef.current ?? undefined) : undefined,
+        );
+        lastDocRef.current = lastDoc;
+        setHasMore(posts.length === MEDIA_PAGE_SIZE && !!lastDoc);
+        const newMedia = extractMedia(posts);
+        if (isLoadMore) {
+          setHistoryMedia((prev) => [...prev, ...newMedia]);
+        } else {
+          setRealtimeMedia(newMedia);
+          setHistoryMedia([]);
+        }
+      } catch {
+        // silent
+      } finally {
+        setLoading(false);
+        setLoadingMore(false);
       }
-    } catch {
-      // silent
-    } finally {
-      setLoading(false);
-      setLoadingMore(false);
-    }
-  }, [userId, currentUser, friendIds, extractMedia]);
+    },
+    [userId, currentUser, friendIds, extractMedia],
+  );
 
   useEffect(() => {
     if (isViewActivityBlocked) {
-      setLoading(false); setRealtimeMedia([]); setHistoryMedia([]); setHasMore(false); return;
+      setLoading(false);
+      setRealtimeMedia([]);
+      setHistoryMedia([]);
+      setHasMore(false);
+      return;
     }
 
     lastDocRef.current = null;
@@ -89,7 +96,8 @@ const PhotosTabInner: React.FC<PhotosTabProps> = ({
       friendIds,
       (action) => {
         if (action === 'add' || action === 'update' || action === 'remove') {
-          postService.getUserPosts(userId, currentUser?.id || '', friendIds, MEDIA_PAGE_SIZE)
+          postService
+            .getUserPosts(userId, currentUser?.id || '', friendIds, MEDIA_PAGE_SIZE)
             .then(({ posts: latestPosts, lastDoc }) => {
               setRealtimeMedia(extractMedia(latestPosts));
               if (historyMedia.length === 0) {
@@ -99,7 +107,7 @@ const PhotosTabInner: React.FC<PhotosTabProps> = ({
             });
         }
       },
-      MEDIA_PAGE_SIZE
+      MEDIA_PAGE_SIZE,
     );
 
     return () => unsubscribe();
@@ -108,7 +116,7 @@ const PhotosTabInner: React.FC<PhotosTabProps> = ({
   const media = useMemo(() => {
     const combined = [...realtimeMedia, ...historyMedia];
     const seen = new Set();
-    return combined.filter(item => {
+    return combined.filter((item) => {
       if (seen.has(item.url)) return false;
       seen.add(item.url);
       return true;
@@ -118,31 +126,28 @@ const PhotosTabInner: React.FC<PhotosTabProps> = ({
   useEffect(() => {
     if (!observerRef.current || !hasMore || loading) return;
     const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting && !loadingMore) loadMedia(true); },
-      { rootMargin: '200px' }
+      ([entry]) => {
+        if (entry.isIntersecting && !loadingMore) loadMedia(true);
+      },
+      { rootMargin: '200px' },
     );
     observer.observe(observerRef.current);
     return () => observer.disconnect();
   }, [hasMore, loading, loadingMore, loadMedia]);
 
-  const mediaViewerItems = useMemo(() =>
-    media.map(m => ({
-      type: m.type === MessageType.VIDEO ? 'video' as const : 'image' as const,
-      url: m.url,
-      isSensitive: m.isSensitive,
-    })), [media]);
+  const mediaViewerItems = useMemo(
+    () =>
+      media.map((m) => ({
+        type: 'image' as const,
+        url: m.url,
+      })),
+    [media],
+  );
 
   if (loading && !isViewActivityBlocked) return <PhotosTabSkeleton />;
 
   if (media.length === 0 || isViewActivityBlocked) {
-    return (
-      <EmptyState
-        icon={ImageIcon}
-        title="Chưa có ảnh hoặc video nào"
-        variant="boxed"
-        size="md"
-      />
-    );
+    return <EmptyState icon={ImageIcon} title="Chưa có ảnh nào" variant="boxed" size="md" />;
   }
 
   return (
@@ -150,9 +155,10 @@ const PhotosTabInner: React.FC<PhotosTabProps> = ({
       <div className="bg-surface rounded-2xl border border-border p-4 md:p-5">
         <div className="flex items-center justify-between mb-4">
           <h3 className="font-semibold text-base text-foreground">
-            Ảnh/Video
+            Ảnh
             <span className="text-muted font-normal ml-1.5 text-sm">
-              ({media.length}{hasMore ? '+' : ''})
+              ({media.length}
+              {hasMore ? '+' : ''})
             </span>
           </h3>
         </div>
@@ -164,34 +170,15 @@ const PhotosTabInner: React.FC<PhotosTabProps> = ({
               className="aspect-square bg-background rounded-xl overflow-hidden cursor-pointer group relative"
               onClick={() => setSelectedIndex(index)}
             >
-              <SensitiveMediaGuard isSensitive={item.isSensitive} size="sm" className="w-full h-full">
-                {item.type === MessageType.VIDEO ? (
-                  <video
-                    src={item.url}
-                    poster={item.thumbnailUrl}
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <LazyImage
-                    src={item.url}
-                    alt={`Media ${index + 1}`}
-                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                    wrapperClassName="w-full h-full"
-                  />
-                )}
+              <LazyImage
+                src={item.url}
+                alt={`Ảnh ${index + 1}`}
+                className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                wrapperClassName="w-full h-full"
+              />
 
-                {/* Hover overlay */}
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-200" />
-
-                {/* Video play icon */}
-                {item.type === MessageType.VIDEO && (
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-10 h-10 rounded-full bg-black/40 backdrop-blur-sm flex items-center justify-center border border-white/20 group-hover:bg-black/60 transition-all duration-200">
-                      <Play size={16} className="text-white fill-white ml-0.5" />
-                    </div>
-                  </div>
-                )}
-              </SensitiveMediaGuard>
+              {/* Hover overlay */}
+              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-200" />
             </div>
           ))}
         </div>

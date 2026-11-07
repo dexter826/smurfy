@@ -1,5 +1,3 @@
-
-
 type ResetFn = () => void;
 const reseters: Set<ResetFn> = new Set();
 
@@ -18,9 +16,9 @@ export const resetAllStores = () => {
 
 /** Cập nhật mảng lồng nhau */
 export const updateMapItem = <T>(
-  map: Record<string, T[]>, 
-  key: string, 
-  updateFn: (items: T[]) => T[]
+  map: Record<string, T[]>,
+  key: string,
+  updateFn: (items: T[]) => T[],
 ) => {
   const current = map[key] || [];
   const updated = updateFn(current);

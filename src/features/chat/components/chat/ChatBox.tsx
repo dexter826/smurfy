@@ -1,5 +1,12 @@
 import React, { useMemo } from 'react';
-import { RtdbMessage, User, UserStatus, RtdbConversation, RtdbUserChat, BlockOptions } from '@shared/types';
+import {
+  RtdbMessage,
+  User,
+  UserStatus,
+  RtdbConversation,
+  RtdbUserChat,
+  BlockOptions,
+} from '@shared/types';
 import { Loading, EmptyState } from '@/components/ui';
 import { PinnedMessageBanner } from './message/PinnedMessageBanner';
 import { useRtdbChatStore } from '@/store';
@@ -50,19 +57,46 @@ interface ChatBoxProps {
 
 /** Component khung chat chính */
 export const ChatBox: React.FC<ChatBoxProps> = ({
-  conversation, messages, participants, currentUserId,
-  currentUserFriendIds = [], friendRequestStatus = 'none',
-  usersMap, typingUsers, onBack, onInfoClick,
-  onRecall, onDeleteForMe, onForward, onReply, onEdit,
-  onAddFriend, onAcceptFriend, onDeclineFriend, onCancelFriend, onBlock,
-  isLoading, isLoadingMore, hasMoreMessages, onLoadMore,
-  isBlocked = false, isBlockedByMe = false, partnerStatus,
-  myBlockOptions, onUnblock, onManageBlock, shouldShowBlockBanner = false,
+  conversation,
+  messages,
+  participants,
+  currentUserId,
+  currentUserFriendIds = [],
+  friendRequestStatus = 'none',
+  usersMap,
+  typingUsers,
+  onBack,
+  onInfoClick,
+  onRecall,
+  onDeleteForMe,
+  onForward,
+  onReply,
+  onEdit,
+  onAddFriend,
+  onAcceptFriend,
+  onDeclineFriend,
+  onCancelFriend,
+  onBlock,
+  isLoading,
+  isLoadingMore,
+  hasMoreMessages,
+  onLoadMore,
+  isBlocked = false,
+  isBlockedByMe = false,
+  partnerStatus,
+  myBlockOptions,
+  onUnblock,
+  onManageBlock,
+  shouldShowBlockBanner = false,
   handleMarkAsRead,
 }) => {
-  const { 
-    messagesEndRef, messagesContainerRef, handleScroll, scrollToBottom, 
-    shouldAutoScroll, unreadCount 
+  const {
+    messagesEndRef,
+    messagesContainerRef,
+    handleScroll,
+    scrollToBottom,
+    shouldAutoScroll,
+    unreadCount,
   } = useChatScroll({
     messages,
     conversationId: conversation.id,
@@ -73,9 +107,9 @@ export const ChatBox: React.FC<ChatBoxProps> = ({
     onLoadMore,
   });
 
-  const partner = useMemo(() =>
-    conversation.data.isGroup ? null : participants.find(p => p.id !== currentUserId),
-    [conversation.data.isGroup, participants, currentUserId]
+  const partner = useMemo(
+    () => (conversation.data.isGroup ? null : participants.find((p) => p.id !== currentUserId)),
+    [conversation.data.isGroup, participants, currentUserId],
   );
 
   const chatName = conversation.data.isGroup
@@ -85,31 +119,27 @@ export const ChatBox: React.FC<ChatBoxProps> = ({
     ? conversation.data.avatar?.url
     : partner?.avatar?.url;
 
-  const isPartnerBanned = partnerStatus === UserStatus.BANNED || partner?.status === UserStatus.BANNED;
-
-  const isMessageRequest = useMemo(() =>
-    !conversation.data.isGroup &&
-    partner !== null && partner !== undefined &&
-    !isPartnerBanned &&
-    !currentUserFriendIds.includes(partner.id) &&
-    !isBlockedByMe && !isBlocked,
-    [conversation.data.isGroup, partner, isPartnerBanned, currentUserFriendIds, isBlockedByMe, isBlocked]
+  const isMessageRequest = useMemo(
+    () =>
+      !conversation.data.isGroup &&
+      partner !== null &&
+      partner !== undefined &&
+      !currentUserFriendIds.includes(partner.id) &&
+      !isBlockedByMe &&
+      !isBlocked,
+    [conversation.data.isGroup, partner, currentUserFriendIds, isBlockedByMe, isBlocked],
   );
 
-  const resolvedPartnerStatus = isPartnerBanned
-    ? UserStatus.BANNED
-    : (partnerStatus ?? partner?.status);
-
-  const isFriend = useMemo(() =>
-    conversation.data.isGroup
-      ? true
-      : currentUserFriendIds.includes(partner?.id ?? ''),
-    [conversation.data.isGroup, currentUserFriendIds, partner?.id]
+  const isFriend = useMemo(
+    () => (conversation.data.isGroup ? true : currentUserFriendIds.includes(partner?.id ?? '')),
+    [conversation.data.isGroup, currentUserFriendIds, partner?.id],
   );
 
   const { lastReadByMap } = useMessageStatus({
-    messages, conversation, currentUserId, usersMap,
-    partnerStatus: resolvedPartnerStatus,
+    messages,
+    conversation,
+    currentUserId,
+    usersMap,
     isFriend,
   });
 
@@ -186,7 +216,6 @@ export const ChatBox: React.FC<ChatBoxProps> = ({
               avatarSrc={avatarSrc}
               partner={partner || undefined}
               isBlocked={isBlocked}
-              partnerStatus={resolvedPartnerStatus}
               onEdit={onEdit}
               onMarkAsRead={handleMarkAsRead}
               onContentLoad={() => {

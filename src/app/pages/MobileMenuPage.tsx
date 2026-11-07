@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { User as UserIcon, Settings, Moon, Sun, LogOut, ChevronRight, Shield } from 'lucide-react';
+import { User as UserIcon, Settings, Moon, Sun, LogOut, ChevronRight } from 'lucide-react';
 import { useAuthStore } from '@/features/auth';
 import { useThemeStore, useResolvedTheme } from '@/store/themeStore';
 import { UserAvatar, AlertDialog } from '@/components/ui';
@@ -13,7 +13,6 @@ export const MobileMenuPage: React.FC = () => {
   const mode = useResolvedTheme();
   const handleConfirmLogout = useLogout();
   const [showLogoutConfirm, setShowLogoutConfirm] = React.useState(false);
-  const isAdmin = user?.role === 'admin';
 
   return (
     <div className="flex flex-col h-full overflow-y-auto w-full bg-background">
@@ -78,16 +77,6 @@ export const MobileMenuPage: React.FC = () => {
           </div>
         </button>
 
-        {isAdmin && (
-          <MenuItem
-            icon={<Shield size={20} />}
-            iconBg="bg-warning/10 text-warning"
-            label="Quản trị"
-            description="Quản lý hệ thống, người dùng..."
-            onClick={() => navigate('/admin')}
-          />
-        )}
-
         <div className="h-2" />
 
         {/* Logout */}
@@ -132,7 +121,9 @@ const MenuItem: React.FC<MenuItemProps> = ({ icon, iconBg, label, description, o
     onClick={onClick}
     className="w-full flex items-center gap-3.5 p-3.5 min-h-[64px] rounded-xl bg-surface hover:bg-hover active:bg-active transition-all duration-200 border border-border group"
   >
-    <div className={`w-10 h-10 flex items-center justify-center rounded-full flex-shrink-0 ${iconBg}`}>
+    <div
+      className={`w-10 h-10 flex items-center justify-center rounded-full flex-shrink-0 ${iconBg}`}
+    >
       {icon}
     </div>
     <div className="flex-1 text-left min-w-0">

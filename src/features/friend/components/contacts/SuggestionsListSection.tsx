@@ -56,11 +56,7 @@ export const SuggestionsListSection: React.FC<SuggestionsListSectionProps> = ({
           onClick={() => onSelectUser?.(user)}
           className={`transition-colors ${selectedUserId === user.id ? 'bg-primary/5 ring-1 ring-inset ring-primary/20' : ''}`}
         >
-          <SuggestionItem
-            user={user}
-            onAddFriend={onAddFriend}
-            onDismiss={onDismiss}
-          />
+          <SuggestionItem user={user} onAddFriend={onAddFriend} onDismiss={onDismiss} />
         </div>
       ))}
     </div>

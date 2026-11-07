@@ -44,13 +44,33 @@ type TabId = 'info' | 'members' | 'media' | 'search';
 
 /** Bảng thông tin chi tiết hội thoại. */
 export const ChatDetailsPanel: React.FC<ChatDetailsPanelProps> = ({
-  conversation, messages, currentUserId, usersMap,
-  open, isBlocked, onOpenChange,
-  onToggleMute, onTogglePin, onToggleBlock, onToggleArchive, onToggleMarkUnread,
-  onDelete, onMemberClick, onMessageClick, onLeaveGroup, onEditGroup,
-  onAddMember, onRemoveMember, onPromoteToAdmin, onDemoteFromAdmin,
-  onApproveMembers, onRejectMembers, onToggleApprovalMode, onTransferCreator,
-  onCopyInviteLink, onResetInviteLink,
+  conversation,
+  messages,
+  currentUserId,
+  usersMap,
+  open,
+  isBlocked,
+  onOpenChange,
+  onToggleMute,
+  onTogglePin,
+  onToggleBlock,
+  onToggleArchive,
+  onToggleMarkUnread,
+  onDelete,
+  onMemberClick,
+  onMessageClick,
+  onLeaveGroup,
+  onEditGroup,
+  onAddMember,
+  onRemoveMember,
+  onPromoteToAdmin,
+  onDemoteFromAdmin,
+  onApproveMembers,
+  onRejectMembers,
+  onToggleApprovalMode,
+  onTransferCreator,
+  onCopyInviteLink,
+  onResetInviteLink,
 }) => {
   const [activeTab, setActiveTab] = useState<TabId>('info');
 
@@ -58,7 +78,7 @@ export const ChatDetailsPanel: React.FC<ChatDetailsPanelProps> = ({
   const participants = useConversationParticipants(participantIds);
   const partnerId = conversation.data.isGroup
     ? null
-    : participantIds.find(id => id !== currentUserId);
+    : participantIds.find((id) => id !== currentUserId);
   const partner = partnerId ? usersMap[partnerId] : null;
 
   const tabs: { id: TabId; icon: React.ReactNode; label: string; showFor?: 'group' | 'all' }[] = [
@@ -69,7 +89,7 @@ export const ChatDetailsPanel: React.FC<ChatDetailsPanelProps> = ({
   ];
 
   const visibleTabs = tabs.filter(
-    t => t.showFor === 'all' || (t.showFor === 'group' && conversation.data.isGroup)
+    (t) => t.showFor === 'all' || (t.showFor === 'group' && conversation.data.isGroup),
   );
 
   const renderTabContent = () => {
@@ -176,7 +196,9 @@ export const ChatDetailsPanel: React.FC<ChatDetailsPanelProps> = ({
         </div>
 
         {/* Tab Content */}
-        <div className={`flex-1 min-h-0 flex flex-col ${activeTab === 'media' ? 'overflow-hidden' : 'overflow-y-auto scroll-hide pb-safe'}`}>
+        <div
+          className={`flex-1 min-h-0 flex flex-col ${activeTab === 'media' ? 'overflow-hidden' : 'overflow-y-auto scroll-hide pb-safe'}`}
+        >
           {renderTabContent()}
         </div>
       </div>

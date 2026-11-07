@@ -63,9 +63,12 @@ export const useContactStore = create<ContactState>()(
 
       /** Theo dõi lời mời kết bạn */
       subscribeToRequests: (userId: string) => {
-        const unsubscribeReceived = friendService.subscribeToReceivedRequests(userId, (requests) => {
-          set({ receivedRequests: requests });
-        });
+        const unsubscribeReceived = friendService.subscribeToReceivedRequests(
+          userId,
+          (requests) => {
+            set({ receivedRequests: requests });
+          },
+        );
 
         const unsubscribeSent = friendService.subscribeToSentRequests(userId, (requests) => {
           set({ sentRequests: requests });
@@ -101,11 +104,11 @@ export const useContactStore = create<ContactState>()(
           const suggestions = await friendService.getCachedSuggestions(userId);
           const state = get();
           const excludeIds = new Set([
-            ...state.friends.map(f => f.id),
-            ...state.sentRequests.map(r => r.receiverId),
-            ...state.receivedRequests.map(r => r.senderId),
+            ...state.friends.map((f) => f.id),
+            ...state.sentRequests.map((r) => r.receiverId),
+            ...state.receivedRequests.map((r) => r.senderId),
           ]);
-          set({ suggestions: suggestions.filter(u => !excludeIds.has(u.id)) });
+          set({ suggestions: suggestions.filter((u) => !excludeIds.has(u.id)) });
         } finally {
           useLoadingStore.getState().setLoading('contacts.suggestions', false);
         }
@@ -122,11 +125,11 @@ export const useContactStore = create<ContactState>()(
               const suggestions = await friendService.getCachedSuggestions(userId);
               const state = get();
               const excludeIds = new Set([
-                ...state.friends.map(f => f.id),
-                ...state.sentRequests.map(r => r.receiverId),
-                ...state.receivedRequests.map(r => r.senderId),
+                ...state.friends.map((f) => f.id),
+                ...state.sentRequests.map((r) => r.receiverId),
+                ...state.receivedRequests.map((r) => r.senderId),
               ]);
-              set({ suggestions: suggestions.filter(u => !excludeIds.has(u.id)) });
+              set({ suggestions: suggestions.filter((u) => !excludeIds.has(u.id)) });
             }
           } else {
             set({ suggestions: [] });
@@ -138,8 +141,8 @@ export const useContactStore = create<ContactState>()(
 
       /** Bỏ qua gợi ý kết bạn */
       dismissSuggestion: (userId: string) => {
-        set(state => ({
-          suggestions: state.suggestions.filter(u => u.id !== userId),
+        set((state) => ({
+          suggestions: state.suggestions.filter((u) => u.id !== userId),
         }));
       },
 
@@ -152,24 +155,24 @@ export const useContactStore = create<ContactState>()(
           receiverId,
           status: FriendRequestStatus.PENDING,
           createdAt: Timestamp.now(),
-          updatedAt: Timestamp.now()
+          updatedAt: Timestamp.now(),
         };
 
-        set(state => ({
-          sentRequests: [tempRequest, ...state.sentRequests]
+        set((state) => ({
+          sentRequests: [tempRequest, ...state.sentRequests],
         }));
 
         try {
           const realRequest = await friendService.sendFriendRequest(senderId, receiverId);
           if (realRequest) {
-            set(state => ({
-              sentRequests: state.sentRequests.map(r => r.id === tempId ? realRequest : r)
+            set((state) => ({
+              sentRequests: state.sentRequests.map((r) => (r.id === tempId ? realRequest : r)),
             }));
           }
         } catch (error) {
-          console.error("Lỗi gửi lời mời:", error);
-          set(state => ({
-            sentRequests: state.sentRequests.filter(r => r.id !== tempId)
+          console.error('Lỗi gửi lời mời:', error);
+          set((state) => ({
+            sentRequests: state.sentRequests.filter((r) => r.id !== tempId),
           }));
           throw error;
         }
@@ -178,15 +181,15 @@ export const useContactStore = create<ContactState>()(
       /** Chấp nhận lời mời kết bạn */
       acceptFriendRequest: async (requestId: string, senderId: string, receiverId: string) => {
         const previousRequests = get().receivedRequests;
-        set(state => ({
-          receivedRequests: state.receivedRequests.filter(r => r.id !== requestId)
+        set((state) => ({
+          receivedRequests: state.receivedRequests.filter((r) => r.id !== requestId),
         }));
 
         try {
           await friendService.acceptFriendRequest(requestId, senderId, receiverId);
         } catch (error) {
           set({ receivedRequests: previousRequests });
-          console.error("Lỗi chấp nhận kết bạn:", error);
+          console.error('Lỗi chấp nhận kết bạn:', error);
           throw error;
         }
       },
@@ -194,15 +197,15 @@ export const useContactStore = create<ContactState>()(
       /** Từ chối lời mời kết bạn */
       rejectFriendRequest: async (requestId: string) => {
         const previousRequests = get().receivedRequests;
-        set(state => ({
-          receivedRequests: state.receivedRequests.filter(r => r.id !== requestId)
+        set((state) => ({
+          receivedRequests: state.receivedRequests.filter((r) => r.id !== requestId),
         }));
 
         try {
           await friendService.rejectFriendRequest(requestId);
         } catch (error) {
           set({ receivedRequests: previousRequests });
-          console.error("Lỗi từ chối kết bạn:", error);
+          console.error('Lỗi từ chối kết bạn:', error);
           throw error;
         }
       },
@@ -210,15 +213,15 @@ export const useContactStore = create<ContactState>()(
       /** Hủy lời mời kết bạn đã gửi */
       cancelFriendRequest: async (requestId: string) => {
         const previousRequests = get().sentRequests;
-        set(state => ({
-          sentRequests: state.sentRequests.filter(r => r.id !== requestId)
+        set((state) => ({
+          sentRequests: state.sentRequests.filter((r) => r.id !== requestId),
         }));
 
         try {
           await friendService.cancelFriendRequest(requestId);
         } catch (error) {
           set({ sentRequests: previousRequests });
-          console.error("Lỗi hủy lời mời:", error);
+          console.error('Lỗi hủy lời mời:', error);
           throw error;
         }
       },
@@ -227,7 +230,7 @@ export const useContactStore = create<ContactState>()(
       unfriend: async (userId: string, friendId: string) => {
         const previousFriends = get().friends;
         set((state) => ({
-          friends: state.friends.filter(f => f.id !== friendId)
+          friends: state.friends.filter((f) => f.id !== friendId),
         }));
 
         try {
@@ -235,7 +238,7 @@ export const useContactStore = create<ContactState>()(
           usePostStore.getState().filterPostsByAuthor(friendId);
         } catch (error) {
           set({ friends: previousFriends });
-          console.error("Lỗi hủy kết bạn:", error);
+          console.error('Lỗi hủy kết bạn:', error);
           throw error;
         }
       },
@@ -252,8 +255,8 @@ export const useContactStore = create<ContactState>()(
         sentRequests: state.sentRequests,
         suggestions: state.suggestions,
       }),
-    }
-  )
+    },
+  ),
 );
 import { registerStore } from '@/store/storeUtils';
 registerStore(() => useContactStore.getState().reset());

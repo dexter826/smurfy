@@ -1,13 +1,24 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { User, RtdbConversation, RtdbUserChat, UserStatus } from '@shared/types';
+import { User, RtdbConversation, RtdbUserChat } from '@shared/types';
 import {
-  UserAvatar, UserStatusText, Dropdown, DropdownItem,
-  AlertDialog, IconButton,
+  UserAvatar,
+  UserStatusText,
+  Dropdown,
+  DropdownItem,
+  AlertDialog,
+  IconButton,
 } from '@/components/ui';
 import {
-  Crown, Shield, UserPlus, MoreVertical,
-  UserMinus, ShieldPlus, ShieldMinus, Lock, Users, ChevronRight,
+  Crown,
+  Shield,
+  UserPlus,
+  MoreVertical,
+  UserMinus,
+  ShieldPlus,
+  ShieldMinus,
+  Users,
+  ChevronRight,
 } from 'lucide-react';
 import { CONFIRM_MESSAGES } from '@/constants/confirmMessages';
 import { PendingMembersModal } from './PendingMembersModal';
@@ -28,10 +39,17 @@ interface ChatDetailsMemberListProps {
 
 /** Danh sách thành viên trong nhóm chat */
 export const ChatDetailsMemberList: React.FC<ChatDetailsMemberListProps> = ({
-  conversation, currentUserId, participants, usersMap,
-  onMemberClick, onAddMember, onRemoveMember,
-  onPromoteToAdmin, onDemoteFromAdmin,
-  onApproveMembers, onRejectMembers,
+  conversation,
+  currentUserId,
+  participants,
+  usersMap,
+  onMemberClick,
+  onAddMember,
+  onRemoveMember,
+  onPromoteToAdmin,
+  onDemoteFromAdmin,
+  onApproveMembers,
+  onRejectMembers,
 }) => {
   const navigate = useNavigate();
   const [menuOpenId, setMenuOpenId] = useState<string | null>(null);
@@ -63,7 +81,6 @@ export const ChatDetailsMemberList: React.FC<ChatDetailsMemberListProps> = ({
     return true;
   };
 
-
   return (
     <div className="py-3">
       {canManageMembers && pendingEntries.length > 0 && (
@@ -78,7 +95,10 @@ export const ChatDetailsMemberList: React.FC<ChatDetailsMemberListProps> = ({
             <p className="text-sm font-bold text-primary">Phê duyệt thành viên</p>
             <p className="text-xs text-primary/70">{pendingEntries.length} người đang chờ duyệt</p>
           </div>
-          <ChevronRight size={18} className="text-primary/40 group-hover:translate-x-0.5 transition-transform" />
+          <ChevronRight
+            size={18}
+            className="text-primary/40 group-hover:translate-x-0.5 transition-transform"
+          />
         </button>
       )}
 
@@ -104,55 +124,47 @@ export const ChatDetailsMemberList: React.FC<ChatDetailsMemberListProps> = ({
           const isCurrentUser = member.id === currentUserId;
           const role = getMemberRole(member.id);
           const canManage = canManageMember(member.id);
-          const isBanned = member.status === UserStatus.BANNED;
 
           return (
             <div
               key={member.id}
-              className={`flex items-center gap-3 px-4 py-2.5 transition-colors duration-200 group
-                ${isBanned ? 'opacity-60' : 'hover:bg-hover active:bg-active'}`}
+              className="flex items-center gap-3 px-4 py-2.5 transition-colors duration-200 group hover:bg-hover active:bg-active"
             >
               <div
-                onClick={() => !isCurrentUser && !isBanned && onMemberClick?.(member.id)}
-                className={`flex items-center gap-3 flex-1 min-w-0 ${!isCurrentUser && !isBanned ? 'cursor-pointer' : ''}`}
+                onClick={() => !isCurrentUser && onMemberClick?.(member.id)}
+                className={`flex items-center gap-3 flex-1 min-w-0 ${!isCurrentUser ? 'cursor-pointer' : ''}`}
               >
                 <UserAvatar
                   userId={member.id}
                   size="sm"
-                  showStatus={!isBanned}
-                  onClick={() => !isBanned && navigate(`/profile/${member.id}`)}
+                  showStatus
+                  onClick={() => navigate(`/profile/${member.id}`)}
                 />
 
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-1.5 flex-wrap">
                     <span className="text-sm font-medium text-foreground truncate">
                       {member.fullName}
-                      {isCurrentUser && (
-                        <span className="text-muted font-normal"> (Bạn)</span>
-                      )}
+                      {isCurrentUser && <span className="text-muted font-normal"> (Bạn)</span>}
                     </span>
 
                     {role === 'creator' && (
-                      <Crown size={13} className="text-warning flex-shrink-0" aria-label="Trưởng nhóm" />
+                      <Crown
+                        size={13}
+                        className="text-warning flex-shrink-0"
+                        aria-label="Trưởng nhóm"
+                      />
                     )}
                     {role === 'admin' && (
                       <Shield size={13} className="text-info flex-shrink-0" aria-label="Admin" />
                     )}
-                    {isBanned && (
-                      <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-[10px] font-medium bg-danger/10 text-danger flex-shrink-0">
-                        <Lock size={9} />
-                        Đã khóa
-                      </span>
-                    )}
                   </div>
 
-                  {!isBanned && (
-                    <UserStatusText
-                      userId={member.id}
-                      initialStatus={member.status}
-                      className="text-xs"
-                    />
-                  )}
+                  <UserStatusText
+                    userId={member.id}
+                    initialStatus={member.status}
+                    className="text-xs"
+                  />
                 </div>
               </div>
 
@@ -169,18 +181,24 @@ export const ChatDetailsMemberList: React.FC<ChatDetailsMemberListProps> = ({
                     />
                   }
                 >
-                  {!isBanned && role === 'member' && isCurrentUserCreator && onPromoteToAdmin && (
+                  {role === 'member' && isCurrentUserCreator && onPromoteToAdmin && (
                     <DropdownItem
                       icon={<ShieldPlus size={14} />}
                       label="Thăng làm Admin"
-                      onClick={() => { onPromoteToAdmin(member.id); setMenuOpenId(null); }}
+                      onClick={() => {
+                        onPromoteToAdmin(member.id);
+                        setMenuOpenId(null);
+                      }}
                     />
                   )}
-                  {!isBanned && role === 'admin' && isCurrentUserCreator && onDemoteFromAdmin && (
+                  {role === 'admin' && isCurrentUserCreator && onDemoteFromAdmin && (
                     <DropdownItem
                       icon={<ShieldMinus size={14} />}
                       label="Hạ quyền Admin"
-                      onClick={() => { onDemoteFromAdmin(member.id); setMenuOpenId(null); }}
+                      onClick={() => {
+                        onDemoteFromAdmin(member.id);
+                        setMenuOpenId(null);
+                      }}
                     />
                   )}
                   {onRemoveMember && (
@@ -188,7 +206,10 @@ export const ChatDetailsMemberList: React.FC<ChatDetailsMemberListProps> = ({
                       icon={<UserMinus size={14} />}
                       label="Xóa khỏi nhóm"
                       variant="danger"
-                      onClick={() => { setConfirmRemove(member.id); setMenuOpenId(null); }}
+                      onClick={() => {
+                        setConfirmRemove(member.id);
+                        setMenuOpenId(null);
+                      }}
                     />
                   )}
                 </Dropdown>
@@ -212,7 +233,10 @@ export const ChatDetailsMemberList: React.FC<ChatDetailsMemberListProps> = ({
       <AlertDialog
         open={!!confirmRemove}
         onOpenChange={() => setConfirmRemove(null)}
-        onConfirm={() => { if (confirmRemove) onRemoveMember?.(confirmRemove); setConfirmRemove(null); }}
+        onConfirm={() => {
+          if (confirmRemove) onRemoveMember?.(confirmRemove);
+          setConfirmRemove(null);
+        }}
         title="Xóa thành viên"
         message="Bạn có chắc chắn muốn xóa thành viên này khỏi nhóm?"
         confirmLabel="Xóa ngay"

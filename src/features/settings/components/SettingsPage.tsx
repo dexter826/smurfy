@@ -19,19 +19,29 @@ import { BlockOptionsModal } from '@/components/ui/BlockOptionsModal';
 type SettingSection = 'privacy' | 'security' | 'blocked';
 
 const MENU_ITEMS: { id: SettingSection; label: string; icon: React.ReactNode; desc: string }[] = [
-  { id: 'privacy', label: 'Quyền riêng tư', icon: <Eye size={18} />, desc: 'Trạng thái, bài viết, tin nhắn' },
+  {
+    id: 'privacy',
+    label: 'Quyền riêng tư',
+    icon: <Eye size={18} />,
+    desc: 'Trạng thái, bài viết, tin nhắn',
+  },
   { id: 'security', label: 'Bảo mật', icon: <Shield size={18} />, desc: 'Mật khẩu và xác thực' },
-  { id: 'blocked', label: 'Người dùng đã chặn', icon: <Ban size={18} />, desc: 'Quản lý danh sách chặn' },
+  {
+    id: 'blocked',
+    label: 'Người dùng đã chặn',
+    icon: <Ban size={18} />,
+    desc: 'Quản lý danh sách chặn',
+  },
 ];
 
 const SettingsPage: React.FC = () => {
   const { user: currentUser } = useAuthStore();
   const { fetchUsers } = useUserCache();
-  const setLoading = useLoadingStore(state => state.setLoading);
-  const isLoading = useLoadingStore(state => state.loadingStates['settings']);
+  const setLoading = useLoadingStore((state) => state.setLoading);
+  const isLoading = useLoadingStore((state) => state.loadingStates['settings']);
 
   const [activeSection, setActiveSection] = useState<SettingSection | null>(() =>
-    typeof window !== 'undefined' && window.innerWidth >= 768 ? 'privacy' : null
+    typeof window !== 'undefined' && window.innerWidth >= 768 ? 'privacy' : null,
   );
   const [blockedList, setBlockedList] = useState<BlockedUserWithOptions[]>([]);
   const [unblockUserId, setUnblockUserId] = useState<string | null>(null);
@@ -44,26 +54,31 @@ const SettingsPage: React.FC = () => {
     try {
       const blockedMap = await userService.getBlockedUsers(currentUser.id);
       const ids = Object.keys(blockedMap);
-      if (ids.length === 0) { setBlockedList([]); return; }
+      if (ids.length === 0) {
+        setBlockedList([]);
+        return;
+      }
       await fetchUsers(ids);
       const cache = useUserCache.getState().users;
       setBlockedList(
         ids
-          .map(id => cache[id] ? { user: cache[id], options: blockedMap[id] } : null)
-          .filter((item): item is BlockedUserWithOptions => !!item)
+          .map((id) => (cache[id] ? { user: cache[id], options: blockedMap[id] } : null))
+          .filter((item): item is BlockedUserWithOptions => !!item),
       );
     } finally {
       setLoading('settings', false);
     }
   }, [currentUser?.id, fetchUsers, setLoading]);
 
-  useEffect(() => { loadBlockedUsers(); }, [currentUser?.id]);
+  useEffect(() => {
+    loadBlockedUsers();
+  }, [currentUser?.id]);
 
   const handleUnblock = useCallback(async () => {
     if (!unblockUserId || !currentUser) return;
     try {
       await useAuthStore.getState().updateBlockEntry('remove', unblockUserId);
-      setBlockedList(prev => prev.filter(item => item.user.id !== unblockUserId));
+      setBlockedList((prev) => prev.filter((item) => item.user.id !== unblockUserId));
       usePostStore.getState().refreshFeed(currentUser.id);
       toast.success(TOAST_MESSAGES.BLOCK.UNBLOCK_SUCCESS);
     } catch {
@@ -73,59 +88,73 @@ const SettingsPage: React.FC = () => {
     }
   }, [unblockUserId, currentUser]);
 
-  const handleUpdateBlockOptions = useCallback(async (options: BlockOptions) => {
-    if (!manageBlockTarget || !currentUser) return;
-    const targetId = manageBlockTarget.user.id;
+  const handleUpdateBlockOptions = useCallback(
+    async (options: BlockOptions) => {
+      if (!manageBlockTarget || !currentUser) return;
+      const targetId = manageBlockTarget.user.id;
 
-    const hasAnyOption = options.blockMessages || options.blockCalls
-      || options.blockViewMyActivity || options.hideTheirActivity;
-    if (!hasAnyOption) {
-      setManageBlockTarget(null);
-      try {
-        await useAuthStore.getState().updateBlockEntry('remove', targetId);
-        setBlockedList(prev => prev.filter(item => item.user.id !== targetId));
-        usePostStore.getState().refreshFeed(currentUser.id);
-        toast.success(TOAST_MESSAGES.BLOCK.UNBLOCK_SUCCESS);
-      } catch {
-        toast.error(TOAST_MESSAGES.BLOCK.UNBLOCK_FAILED);
+      const hasAnyOption =
+        options.blockMessages || options.blockViewMyActivity || options.hideTheirActivity;
+      if (!hasAnyOption) {
+        setManageBlockTarget(null);
+        try {
+          await useAuthStore.getState().updateBlockEntry('remove', targetId);
+          setBlockedList((prev) => prev.filter((item) => item.user.id !== targetId));
+          usePostStore.getState().refreshFeed(currentUser.id);
+          toast.success(TOAST_MESSAGES.BLOCK.UNBLOCK_SUCCESS);
+        } catch {
+          toast.error(TOAST_MESSAGES.BLOCK.UNBLOCK_FAILED);
+        }
+        return;
       }
-      return;
-    }
 
-    try {
-      await useAuthStore.getState().updateBlockEntry('add', targetId, options);
-      if (options.hideTheirActivity) usePostStore.getState().filterPostsByAuthor(targetId);
+      try {
+        await useAuthStore.getState().updateBlockEntry('add', targetId, options);
+        if (options.hideTheirActivity) usePostStore.getState().filterPostsByAuthor(targetId);
 
-      setBlockedList(prev =>
-        prev.map(item =>
-          item.user.id === targetId ? { ...item, options: { ...item.options, ...options } } : item
-        )
-      );
-      toast.success(TOAST_MESSAGES.BLOCK.BLOCK_SUCCESS);
-    } catch {
-      toast.error(TOAST_MESSAGES.BLOCK.BLOCK_FAILED);
-    } finally {
-      setManageBlockTarget(null);
-    }
-  }, [manageBlockTarget, currentUser]);
+        setBlockedList((prev) =>
+          prev.map((item) =>
+            item.user.id === targetId
+              ? { ...item, options: { ...item.options, ...options } }
+              : item,
+          ),
+        );
+        toast.success(TOAST_MESSAGES.BLOCK.BLOCK_SUCCESS);
+      } catch {
+        toast.error(TOAST_MESSAGES.BLOCK.BLOCK_FAILED);
+      } finally {
+        setManageBlockTarget(null);
+      }
+    },
+    [manageBlockTarget, currentUser],
+  );
 
   const currentLabel = useMemo(
-    () => MENU_ITEMS.find(m => m.id === activeSection)?.label ?? 'Cài đặt',
-    [activeSection]
+    () => MENU_ITEMS.find((m) => m.id === activeSection)?.label ?? 'Cài đặt',
+    [activeSection],
   );
 
   const renderContent = () => {
     switch (activeSection) {
-      case 'privacy': return <PrivacySection />;
-      case 'security': return <SecuritySection onOpenChangePassword={() => setIsChangePasswordOpen(true)} />;
-      case 'blocked': return <BlockedUsersSection isLoading={!!isLoading} blockedList={blockedList} onManageBlock={setManageBlockTarget} />;
-      default: return null;
+      case 'privacy':
+        return <PrivacySection />;
+      case 'security':
+        return <SecuritySection onOpenChangePassword={() => setIsChangePasswordOpen(true)} />;
+      case 'blocked':
+        return (
+          <BlockedUsersSection
+            isLoading={!!isLoading}
+            blockedList={blockedList}
+            onManageBlock={setManageBlockTarget}
+          />
+        );
+      default:
+        return null;
     }
   };
 
   return (
     <div className="flex h-full w-full overflow-hidden">
-
       {/* ── Desktop sidebar ── */}
       <aside className="hidden md:flex flex-col w-[280px] lg:w-[320px] border-r border-border bg-surface flex-shrink-0">
         <div className="h-16 px-5 border-b border-border flex items-center">
@@ -143,12 +172,15 @@ const SettingsPage: React.FC = () => {
               key={id}
               onClick={() => setActiveSection(id)}
               className={`w-full flex items-center gap-3 px-3 py-2.5 min-h-[44px] rounded-xl transition-all duration-200 text-sm font-medium text-left
-                ${activeSection === id
-                  ? 'bg-primary/10 text-primary font-semibold'
-                  : 'text-secondary hover:bg-hover hover:text-foreground active:bg-active'
+                ${
+                  activeSection === id
+                    ? 'bg-primary/10 text-primary font-semibold'
+                    : 'text-secondary hover:bg-hover hover:text-foreground active:bg-active'
                 }`}
             >
-              <span className={`flex-shrink-0 ${activeSection === id ? 'text-primary' : 'text-muted'}`}>
+              <span
+                className={`flex-shrink-0 ${activeSection === id ? 'text-primary' : 'text-muted'}`}
+              >
                 {icon}
               </span>
               <span className="flex-1">{label}</span>
@@ -159,7 +191,6 @@ const SettingsPage: React.FC = () => {
 
       {/* ── Main content ── */}
       <div className="flex-1 flex-col h-full min-w-0 flex">
-
         {/* Header */}
         <div
           className="flex-shrink-0 h-16 px-4 border-b border-border bg-surface flex items-center gap-2 sticky top-0"
@@ -205,7 +236,9 @@ const SettingsPage: React.FC = () => {
           )}
 
           {/* Section content */}
-          <div className={`p-4 md:p-6 max-w-2xl mx-auto w-full ${!activeSection ? 'hidden md:block' : ''}`}>
+          <div
+            className={`p-4 md:p-6 max-w-2xl mx-auto w-full ${!activeSection ? 'hidden md:block' : ''}`}
+          >
             {renderContent()}
           </div>
         </div>
@@ -218,7 +251,7 @@ const SettingsPage: React.FC = () => {
         onConfirm={handleUnblock}
         title={CONFIRM_MESSAGES.FRIEND.UNBLOCK.TITLE}
         message={CONFIRM_MESSAGES.FRIEND.UNBLOCK.MESSAGE(
-          blockedList.find(item => item.user.id === unblockUserId)?.user.fullName ?? 'người này'
+          blockedList.find((item) => item.user.id === unblockUserId)?.user.fullName ?? 'người này',
         )}
         confirmLabel={CONFIRM_MESSAGES.FRIEND.UNBLOCK.CONFIRM}
       />
@@ -230,7 +263,13 @@ const SettingsPage: React.FC = () => {
           targetName={manageBlockTarget.user.fullName}
           initialOptions={manageBlockTarget.options}
           onApply={handleUpdateBlockOptions}
-          onUnblock={() => handleUpdateBlockOptions({ blockMessages: false, blockCalls: false, blockViewMyActivity: false, hideTheirActivity: false })}
+          onUnblock={() =>
+            handleUpdateBlockOptions({
+              blockMessages: false,
+              blockViewMyActivity: false,
+              hideTheirActivity: false,
+            })
+          }
           onOpenChange={() => setManageBlockTarget(null)}
         />
       )}

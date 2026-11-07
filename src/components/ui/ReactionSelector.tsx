@@ -14,7 +14,12 @@ interface ReactionSelectorProps {
 }
 
 const ReactionSelectorInner: React.FC<ReactionSelectorProps> = ({
-  onSelect, onOpenChange, className = '', currentReaction, size = 'sm', autoClose = true,
+  onSelect,
+  onOpenChange,
+  className = '',
+  currentReaction,
+  size = 'sm',
+  autoClose = true,
 }) => {
   const isXs = size === 'xs';
   const isSmall = size === 'sm';
@@ -34,7 +39,9 @@ const ReactionSelectorInner: React.FC<ReactionSelectorProps> = ({
   };
 
   useEffect(() => {
-    return () => { if (closeTimerRef.current) clearTimeout(closeTimerRef.current); };
+    return () => {
+      if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
+    };
   }, []);
 
   return (
@@ -47,21 +54,28 @@ const ReactionSelectorInner: React.FC<ReactionSelectorProps> = ({
     >
       {currentReaction && (
         <button
-          onClick={(e) => { e.stopPropagation(); onSelect('REMOVE'); onOpenChange?.(); }}
+          onClick={(e) => {
+            e.stopPropagation();
+            onSelect('REMOVE');
+            onOpenChange?.();
+          }}
           className={`${isXs ? 'w-8 h-8' : isSmall ? 'w-10 h-10' : 'w-12 h-12'} flex items-center justify-center transition-all duration-200 rounded-full hover:bg-hover active:scale-90`}
           title="Gỡ cảm xúc"
         >
-          <IconCancel size={isXs ? 22 : isSmall ? 28 : 32} className="opacity-60 hover:opacity-100 transition-opacity duration-200" />
+          <IconCancel
+            size={isXs ? 22 : isSmall ? 28 : 32}
+            className="opacity-60 hover:opacity-100 transition-opacity duration-200"
+          />
         </button>
       )}
       {REACTIONS.map((emoji) => (
         <button
           key={emoji}
-          onClick={(e) => { 
-            e.stopPropagation(); 
+          onClick={(e) => {
+            e.stopPropagation();
             soundManager.play('reaction');
-            onSelect(emoji); 
-            onOpenChange?.(); 
+            onSelect(emoji);
+            onOpenChange?.();
           }}
           className={`${isXs ? 'w-8 h-8' : isSmall ? 'w-10 h-10' : 'w-12 h-12'} flex items-center justify-center transition-all duration-200 rounded-full hover:bg-hover hover:-translate-y-1 hover:scale-110 active:scale-95 origin-bottom`}
         >

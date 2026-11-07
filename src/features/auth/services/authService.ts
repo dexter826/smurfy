@@ -1,5 +1,5 @@
-import { 
-  signInWithEmailAndPassword, 
+import {
+  signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   sendPasswordResetEmail,
   sendEmailVerification,
@@ -10,7 +10,7 @@ import {
   User as FirebaseUser,
   setPersistence,
   browserLocalPersistence,
-  browserSessionPersistence
+  browserSessionPersistence,
 } from 'firebase/auth';
 import { auth } from '@/lib/firebase/config';
 
@@ -51,7 +51,7 @@ export const authService = {
   /** Xác thực lại mật khẩu */
   reauthenticate: async (password: string): Promise<void> => {
     const user = auth.currentUser;
-    if (!user || !user.email) throw new Error("Chưa đăng nhập");
+    if (!user || !user.email) throw new Error('Chưa đăng nhập');
     const credential = EmailAuthProvider.credential(user.email, password);
     await reauthenticateWithCredential(user, credential);
   },
@@ -59,7 +59,7 @@ export const authService = {
   /** Thay đổi mật khẩu người dùng */
   changePassword: async (newPassword: string): Promise<void> => {
     const user = auth.currentUser;
-    if (!user) throw new Error("Chưa đăng nhập");
+    if (!user) throw new Error('Chưa đăng nhập');
     await updatePassword(user, newPassword);
-  }
+  },
 };

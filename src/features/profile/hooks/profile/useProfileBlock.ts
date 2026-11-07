@@ -21,19 +21,19 @@ export const useProfileBlock = ({
   profileUserId,
   isOwnProfile,
 }: UseProfileBlockProps) => {
-  const blockedUsers = useAuthStore(state => state.blockedUsers);
+  const blockedUsers = useAuthStore((state) => state.blockedUsers);
   const [isBlockModalOpen, setIsBlockModalOpen] = useState(false);
   const [isBlockedByPartner, setIsBlockedByPartner] = useState(false);
   const [isMessageBlockedByPartner, setIsMessageBlockedByPartner] = useState(false);
 
-  const isBlockedByMe = useMemo(() =>
-    !!blockedUsers[profileUserId || ''],
-    [blockedUsers, profileUserId]
+  const isBlockedByMe = useMemo(
+    () => !!blockedUsers[profileUserId || ''],
+    [blockedUsers, profileUserId],
   );
 
-  const currentBlockOptions = useMemo(() =>
-    profileUserId ? blockedUsers[profileUserId] : undefined,
-    [blockedUsers, profileUserId]
+  const currentBlockOptions = useMemo(
+    () => (profileUserId ? blockedUsers[profileUserId] : undefined),
+    [blockedUsers, profileUserId],
   );
 
   const handleOpenBlockModal = useCallback(() => {
@@ -76,29 +76,32 @@ export const useProfileBlock = ({
     setIsBlockModalOpen(true);
   }, [currentUser, profile, isOwnProfile]);
 
-  const handleApplyBlock = useCallback(async (options: BlockOptions) => {
-    if (!currentUser || !profile || isOwnProfile) return;
+  const handleApplyBlock = useCallback(
+    async (options: BlockOptions) => {
+      if (!currentUser || !profile || isOwnProfile) return;
 
-    const hasAnyOption = options.blockMessages || options.blockCalls
-      || options.blockViewMyActivity || options.hideTheirActivity;
+      const hasAnyOption =
+        options.blockMessages || options.blockViewMyActivity || options.hideTheirActivity;
 
-    if (!hasAnyOption) {
-      return confirmUnblock();
-    }
-
-    try {
-      await useAuthStore.getState().updateBlockEntry('add', profile.id, options);
-
-      if (options.hideTheirActivity) {
-        usePostStore.getState().filterPostsByAuthor(profile.id);
+      if (!hasAnyOption) {
+        return confirmUnblock();
       }
 
-      toast.success(TOAST_MESSAGES.BLOCK.BLOCK_SUCCESS);
-    } catch {
-      toast.error(TOAST_MESSAGES.BLOCK.BLOCK_FAILED);
-      throw new Error('block failed');
-    }
-  }, [currentUser, profile, isOwnProfile, confirmUnblock]);
+      try {
+        await useAuthStore.getState().updateBlockEntry('add', profile.id, options);
+
+        if (options.hideTheirActivity) {
+          usePostStore.getState().filterPostsByAuthor(profile.id);
+        }
+
+        toast.success(TOAST_MESSAGES.BLOCK.BLOCK_SUCCESS);
+      } catch {
+        toast.error(TOAST_MESSAGES.BLOCK.BLOCK_FAILED);
+        throw new Error('block failed');
+      }
+    },
+    [currentUser, profile, isOwnProfile, confirmUnblock],
+  );
 
   return {
     isBlockedByMe,

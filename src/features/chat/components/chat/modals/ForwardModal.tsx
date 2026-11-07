@@ -15,19 +15,21 @@ interface ForwardModalProps {
 
 /** Modal chuyển tiếp tin nhắn */
 export const ForwardModal: React.FC<ForwardModalProps> = ({
-  open, onOpenChange, message, currentUserId,
+  open,
+  onOpenChange,
+  message,
+  currentUserId,
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedConversationIds, setSelectedConversationIds] = useState<Set<string>>(new Set());
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const forwardMessage = useRtdbChatStore(state => state.forwardMessage);
-  const { 
-    filteredItems, 
-    recentItems, 
-    friendItems, 
-    usersMap 
-  } = useShareTargets(currentUserId, searchTerm, open);
+  const forwardMessage = useRtdbChatStore((state) => state.forwardMessage);
+  const { filteredItems, recentItems, friendItems, usersMap } = useShareTargets(
+    currentUserId,
+    searchTerm,
+    open,
+  );
 
   useEffect(() => {
     if (!open) {
@@ -40,7 +42,7 @@ export const ForwardModal: React.FC<ForwardModalProps> = ({
   if (!message) return null;
 
   const handleToggleConversation = (conversationId: string) => {
-    setSelectedConversationIds(prev => {
+    setSelectedConversationIds((prev) => {
       const next = new Set(prev);
       if (next.has(conversationId)) {
         next.delete(conversationId);
@@ -59,7 +61,9 @@ export const ForwardModal: React.FC<ForwardModalProps> = ({
 
     try {
       await Promise.allSettled(
-        targetIds.map(conversationId => forwardMessage(conversationId, currentUserId, message.data))
+        targetIds.map((conversationId) =>
+          forwardMessage(conversationId, currentUserId, message.data),
+        ),
       );
       setSelectedConversationIds(new Set());
       onOpenChange();
@@ -70,13 +74,20 @@ export const ForwardModal: React.FC<ForwardModalProps> = ({
 
   const getMessageTypeLabel = (type: string) => {
     switch (type) {
-      case 'image': return 'Hình ảnh';
-      case 'video': return 'Video';
-      case 'file': return 'Tệp tin';
-      case 'voice': return 'Tin nhắn thoại';
-      case 'call': return 'Cuộc gọi';
-      case 'system': return 'Hệ thống';
-      default: return type;
+      case 'image':
+        return 'Hình ảnh';
+      case 'video':
+        return 'Video';
+      case 'file':
+        return 'Tệp tin';
+      case 'voice':
+        return 'Tin nhắn thoại';
+      case 'call':
+        return 'Cuộc gọi';
+      case 'system':
+        return 'Hệ thống';
+      default:
+        return type;
     }
   };
 
@@ -91,7 +102,11 @@ export const ForwardModal: React.FC<ForwardModalProps> = ({
           <Button variant="secondary" fullWidth onClick={onOpenChange} disabled={isSubmitting}>
             Hủy
           </Button>
-          <Button fullWidth onClick={handleForward} disabled={selectedConversationIds.size === 0 || isSubmitting}>
+          <Button
+            fullWidth
+            onClick={handleForward}
+            disabled={selectedConversationIds.size === 0 || isSubmitting}
+          >
             {isSubmitting ? 'Đang gửi...' : `Gửi (${selectedConversationIds.size})`}
           </Button>
         </div>
@@ -100,16 +115,25 @@ export const ForwardModal: React.FC<ForwardModalProps> = ({
       <div className="flex flex-col gap-6 min-h-0 px-1 py-1">
         {/* Message Preview */}
         <div className="p-4 bg-background/50 rounded-2xl border border-border/50 backdrop-blur-sm">
-          <p className="text-[10px] text-muted mb-1.5 font-black uppercase tracking-widest opacity-70">Nội dung chuyển tiếp</p>
+          <p className="text-[10px] text-muted mb-1.5 font-black uppercase tracking-widest opacity-70">
+            Nội dung chuyển tiếp
+          </p>
           <p className="text-sm text-foreground line-clamp-2 italic leading-relaxed font-medium">
-            {message.data.type === 'text' ? message.data.content : `[${getMessageTypeLabel(message.data.type)}]`}
+            {message.data.type === 'text'
+              ? message.data.content
+              : `[${getMessageTypeLabel(message.data.type)}]`}
           </p>
         </div>
 
         {/* Search Input */}
         <div className="relative group">
           <Input
-            icon={<Search size={16} className="text-muted group-focus-within:text-primary transition-colors" />}
+            icon={
+              <Search
+                size={16}
+                className="text-muted group-focus-within:text-primary transition-colors"
+              />
+            }
             placeholder="Tìm kiếm người dùng hoặc nhóm..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
@@ -127,7 +151,7 @@ export const ForwardModal: React.FC<ForwardModalProps> = ({
                     Trò chuyện gần đây
                   </span>
                   <div className="flex overflow-x-auto gap-3 pb-1 px-1 scroll-hide">
-                    {recentItems.map(entry => (
+                    {recentItems.map((entry) => (
                       <ShareTargetItem
                         key={entry.id}
                         entry={entry}
@@ -147,7 +171,7 @@ export const ForwardModal: React.FC<ForwardModalProps> = ({
                 </span>
                 <div className="space-y-1">
                   {friendItems.length > 0 ? (
-                    friendItems.map(entry => (
+                    friendItems.map((entry) => (
                       <ShareTargetItem
                         key={entry.id}
                         entry={entry}
@@ -171,12 +195,12 @@ export const ForwardModal: React.FC<ForwardModalProps> = ({
           ) : (
             /* Search Results */
             <div className="flex flex-col gap-3.5 overflow-y-auto scroll-hide min-h-0">
-               <span className="text-[10px] font-black text-muted uppercase tracking-widest opacity-80 px-1">
-                  Kết quả tìm kiếm
-                </span>
+              <span className="text-[10px] font-black text-muted uppercase tracking-widest opacity-80 px-1">
+                Kết quả tìm kiếm
+              </span>
               <div className="space-y-1.5">
                 {filteredItems.length > 0 ? (
-                  filteredItems.map(entry => (
+                  filteredItems.map((entry) => (
                     <ShareTargetItem
                       key={entry.id}
                       entry={entry}

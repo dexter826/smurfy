@@ -48,45 +48,43 @@ export const useNotificationStore = create<NotificationState>()(
 
       /** Cập nhật danh sách thông báo */
       setNotifications: (notifications) => {
-        const unreadCount = notifications.filter(n => !n.isRead).length;
+        const unreadCount = notifications.filter((n) => !n.isRead).length;
         set({ notifications, unreadCount });
       },
 
       /** Thêm thông báo mới */
       addNotification: (notification) => {
         set((state) => {
-          const exists = state.notifications.find(n => n.id === notification.id);
+          const exists = state.notifications.find((n) => n.id === notification.id);
           if (exists) return state;
 
           const newNotifications = [notification, ...state.notifications];
           return {
             notifications: newNotifications,
-            unreadCount: state.unreadCount + (notification.isRead ? 0 : 1)
+            unreadCount: state.unreadCount + (notification.isRead ? 0 : 1),
           };
         });
       },
 
       /** Đánh dấu đã đọc thông báo */
       markAsRead: async (id) => {
-        const notification = get().notifications.find(n => n.id === id);
+        const notification = get().notifications.find((n) => n.id === id);
         const wasUnread = notification && !notification.isRead;
 
         set((state) => ({
-          notifications: state.notifications.map(n =>
-            n.id === id ? { ...n, isRead: true } : n
-          ),
-          unreadCount: wasUnread ? Math.max(0, state.unreadCount - 1) : state.unreadCount
+          notifications: state.notifications.map((n) => (n.id === id ? { ...n, isRead: true } : n)),
+          unreadCount: wasUnread ? Math.max(0, state.unreadCount - 1) : state.unreadCount,
         }));
 
         try {
           await notificationService.markAsRead(id);
         } catch (error) {
-          console.error("Lỗi đánh dấu đã đọc:", error);
+          console.error('Lỗi đánh dấu đã đọc:', error);
           set((state) => ({
-            notifications: state.notifications.map(n =>
-              n.id === id ? { ...n, isRead: false } : n
+            notifications: state.notifications.map((n) =>
+              n.id === id ? { ...n, isRead: false } : n,
             ),
-            unreadCount: wasUnread ? state.unreadCount + 1 : state.unreadCount
+            unreadCount: wasUnread ? state.unreadCount + 1 : state.unreadCount,
           }));
         }
       },
@@ -97,14 +95,14 @@ export const useNotificationStore = create<NotificationState>()(
         const previousUnreadCount = get().unreadCount;
 
         set((state) => ({
-          notifications: state.notifications.map(n => ({ ...n, isRead: true })),
-          unreadCount: 0
+          notifications: state.notifications.map((n) => ({ ...n, isRead: true })),
+          unreadCount: 0,
         }));
 
         try {
           await notificationService.markAllAsRead(userId);
         } catch (error) {
-          console.error("Lỗi đánh dấu tất cả đã đọc:", error);
+          console.error('Lỗi đánh dấu tất cả đã đọc:', error);
           set({ notifications: previousNotifications, unreadCount: previousUnreadCount });
         }
       },
@@ -113,19 +111,19 @@ export const useNotificationStore = create<NotificationState>()(
       deleteNotification: async (id) => {
         const previousNotifications = [...get().notifications];
         const previousUnreadCount = get().unreadCount;
-        const notification = previousNotifications.find(n => n.id === id);
-        
+        const notification = previousNotifications.find((n) => n.id === id);
+
         if (!notification) return;
 
         set((state) => ({
-          notifications: state.notifications.filter(n => n.id !== id),
-          unreadCount: notification.isRead ? state.unreadCount : Math.max(0, state.unreadCount - 1)
+          notifications: state.notifications.filter((n) => n.id !== id),
+          unreadCount: notification.isRead ? state.unreadCount : Math.max(0, state.unreadCount - 1),
         }));
 
         try {
           await notificationService.deleteNotification(id);
         } catch (error) {
-          console.error("Lỗi xóa thông báo:", error);
+          console.error('Lỗi xóa thông báo:', error);
           set({ notifications: previousNotifications, unreadCount: previousUnreadCount });
         }
       },
@@ -139,7 +137,7 @@ export const useNotificationStore = create<NotificationState>()(
       /** Khởi tạo và theo dõi thông báo */
       initialize: (userId, limit = PAGINATION.NOTIFICATIONS) => {
         const { _unsubscribe, currentLimit } = get();
-        
+
         if (_unsubscribe && currentLimit === limit) return _unsubscribe;
         if (_unsubscribe) _unsubscribe();
 
@@ -150,30 +148,30 @@ export const useNotificationStore = create<NotificationState>()(
           userId,
           (notifications) => {
             const state = get();
-            
+
             // Phát hiện thông báo mới để hiện Toast
             if (!state.isInitialLoad) {
-              const oldIds = new Set(state.notifications.map(n => n.id));
-              const newNotifications = notifications.filter(n => !oldIds.has(n.id) && !n.isRead);
-              
-              newNotifications.forEach(n => {
+              const oldIds = new Set(state.notifications.map((n) => n.id));
+              const newNotifications = notifications.filter((n) => !oldIds.has(n.id) && !n.isRead);
+
+              newNotifications.forEach((n) => {
                 if (n.type === NotificationType.SYSTEM) {
-                  toast.error(n.data.contentSnippet || "Bạn có thông báo hệ thống mới");
+                  toast.error(n.data.contentSnippet || 'Bạn có thông báo hệ thống mới');
                 }
               });
             }
 
-            set({ 
-              notifications, 
-              unreadCount: notifications.filter(n => !n.isRead).length,
-              isInitialLoad: false 
+            set({
+              notifications,
+              unreadCount: notifications.filter((n) => !n.isRead).length,
+              isInitialLoad: false,
             });
             useLoadingStore.getState().setLoading('notifications', false);
           },
           limit,
           () => {
             useLoadingStore.getState().setLoading('notifications', false);
-          }
+          },
         );
 
         const wrappedUnsubscribe = () => {
@@ -184,13 +182,6 @@ export const useNotificationStore = create<NotificationState>()(
         };
 
         set({ _unsubscribe: wrappedUnsubscribe });
-
-        if (window.Notification?.permission === 'default') {
-          notificationService.requestPushPermission(userId).catch(err => {
-            console.warn("Lỗi push permission:", err);
-          });
-        }
-
         return wrappedUnsubscribe;
       },
 
@@ -198,14 +189,17 @@ export const useNotificationStore = create<NotificationState>()(
       loadMore: (userId) => {
         const newLimit = get().currentLimit + PAGINATION.NOTIFICATIONS;
         get().initialize(userId, newLimit);
-      }
-    }), {
-    name: 'smurf_notify_cache',
-    storage: createJSONStorage(() => localStorage),
-    partialize: (state) => ({
-      notifications: state.notifications.slice(0, PAGINATION.NOTIFY_CACHE_LIMIT),
-      unreadCount: state.unreadCount
+      },
     }),
-  }));
+    {
+      name: 'smurf_notify_cache',
+      storage: createJSONStorage(() => localStorage),
+      partialize: (state) => ({
+        notifications: state.notifications.slice(0, PAGINATION.NOTIFY_CACHE_LIMIT),
+        unreadCount: state.unreadCount,
+      }),
+    },
+  ),
+);
 import { registerStore } from '@/store/storeUtils';
 registerStore(() => useNotificationStore.getState().reset());

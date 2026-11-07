@@ -6,15 +6,15 @@ import { useEffect, RefObject } from 'react';
 export const useClickOutside = (
   refs: RefObject<HTMLElement | null> | RefObject<HTMLElement | null>[],
   callback: () => void,
-  enabled = true
+  enabled = true,
 ) => {
   useEffect(() => {
     if (!enabled) return;
 
     const handleClickOutside = (event: MouseEvent) => {
       const refArray = Array.isArray(refs) ? refs : [refs];
-      const isOutside = refArray.every(ref =>
-        !ref.current || !ref.current.contains(event.target as Node)
+      const isOutside = refArray.every(
+        (ref) => !ref.current || !ref.current.contains(event.target as Node),
       );
       if (isOutside) callback();
     };

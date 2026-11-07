@@ -18,7 +18,11 @@ interface EditGroupModalProps {
 
 /** Modal chỉnh sửa thông tin nhóm chat */
 export const EditGroupModal: React.FC<EditGroupModalProps> = ({
-  open, conversation, currentUserId, onOpenChange, onSave,
+  open,
+  conversation,
+  currentUserId,
+  onOpenChange,
+  onSave,
 }) => {
   const [groupName, setGroupName] = useState(conversation.data.name || '');
   const [groupAvatar] = useState(conversation.data.avatar?.url || '');
@@ -28,7 +32,6 @@ export const EditGroupModal: React.FC<EditGroupModalProps> = ({
   const [cropImage, setCropImage] = useState<string | null>(null);
   const [isSaving, setIsSaving] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
-
 
   useEffect(() => {
     if (!open) return;
@@ -43,7 +46,10 @@ export const EditGroupModal: React.FC<EditGroupModalProps> = ({
     const file = e.target.files?.[0];
     if (file) {
       const validation = validateFile(file, 'AVATAR');
-      if (!validation.isValid) { if (validation.error) toast.error(validation.error); return; }
+      if (!validation.isValid) {
+        if (validation.error) toast.error(validation.error);
+        return;
+      }
       setCropImage(URL.createObjectURL(file));
       setShowCropper(true);
     }
@@ -95,7 +101,9 @@ export const EditGroupModal: React.FC<EditGroupModalProps> = ({
         size="sm"
         footer={
           <div className="flex gap-3">
-            <Button variant="secondary" onClick={onOpenChange}>Hủy</Button>
+            <Button variant="secondary" onClick={onOpenChange}>
+              Hủy
+            </Button>
             <Button
               onClick={handleSave}
               disabled={!groupName.trim() || !hasChanges || isSaving}
@@ -111,10 +119,15 @@ export const EditGroupModal: React.FC<EditGroupModalProps> = ({
           <div className="flex flex-col items-center">
             <div className="relative">
               <div className="w-20 h-20 rounded-full overflow-hidden bg-primary/10 flex items-center justify-center">
-                {previewUrl || groupAvatar
-                  ? <img src={previewUrl || groupAvatar} alt="Group avatar" className="w-full h-full object-cover" />
-                  : <Users size={30} className="text-primary" />
-                }
+                {previewUrl || groupAvatar ? (
+                  <img
+                    src={previewUrl || groupAvatar}
+                    alt="Group avatar"
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <Users size={30} className="text-primary" />
+                )}
               </div>
               <button
                 type="button"
@@ -123,7 +136,13 @@ export const EditGroupModal: React.FC<EditGroupModalProps> = ({
               >
                 <Camera size={13} className="text-white" />
               </button>
-              <input ref={fileInputRef} type="file" accept="image/*" onChange={handleFileSelect} className="hidden" />
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                onChange={handleFileSelect}
+                className="hidden"
+              />
             </div>
             <p className="text-xs text-muted mt-2">Nhấn để thay đổi ảnh nhóm</p>
           </div>
@@ -136,7 +155,6 @@ export const EditGroupModal: React.FC<EditGroupModalProps> = ({
             onChange={(e) => setGroupName(e.target.value)}
             className="bg-background"
           />
-
         </div>
       </Modal>
 

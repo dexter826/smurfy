@@ -22,8 +22,9 @@ export const TOAST_MESSAGES = {
       EMAIL_ALREADY_IN_USE: 'Email này đã được sử dụng',
       WEAK_PASSWORD: 'Mật khẩu quá yếu',
       USER_DISABLED: 'Tài khoản đã bị khóa',
-      EMAIL_NOT_VERIFIED: 'Email chưa được xác thực. Vui lòng kiểm tra hộp thư hoặc gửi lại email xác thực',
-    }
+      EMAIL_NOT_VERIFIED:
+        'Email chưa được xác thực. Vui lòng kiểm tra hộp thư hoặc gửi lại email xác thực',
+    },
   },
 
   FEED: {
@@ -31,13 +32,14 @@ export const TOAST_MESSAGES = {
     UPDATE_SUCCESS: 'Đã cập nhật bài viết',
     DELETE_SUCCESS: 'Đã xóa bài viết',
     LOAD_FAILED: 'Không thể tải danh sách bài viết',
-    CREATE_FAILED: (detail?: string) => detail ? `Lỗi đăng bài: ${detail}` : 'Không thể đăng bài viết',
-    UPDATE_FAILED: (detail?: string) => detail ? `Lỗi cập nhật: ${detail}` : 'Không thể cập nhật bài viết',
+    CREATE_FAILED: (detail?: string) =>
+      detail ? `Lỗi đăng bài: ${detail}` : 'Không thể đăng bài viết',
+    UPDATE_FAILED: (detail?: string) =>
+      detail ? `Lỗi cập nhật: ${detail}` : 'Không thể cập nhật bài viết',
     DELETE_FAILED: 'Không thể xóa bài viết',
     DELETE_COMMENT_SUCCESS: 'Đã xóa bình luận',
     DELETE_COMMENT_FAILED: 'Không thể xóa bình luận',
-    MEDIA_LIMIT: (max: number) => `Tối đa ${max} ảnh/video cho mỗi bài viết`,
-    VIDEO_LIMIT: (max: number) => `Tối đa ${max} video cho mỗi bài viết`,
+    MEDIA_LIMIT: (max: number) => `Tối đa ${max} ảnh cho mỗi bài viết`,
   },
 
   PROFILE: {
@@ -58,7 +60,6 @@ export const TOAST_MESSAGES = {
     DELETE_AVATAR_FAILED: 'Không thể xóa ảnh đại diện',
     DELETE_COVER_FAILED: 'Không thể xóa ảnh bìa',
     INVALID_FILE: 'Vui lòng chọn tệp ảnh hợp lệ',
-    INVALID_VIDEO_FORMAT: 'Định dạng video không hỗ trợ',
     FILE_TOO_LARGE: (limit: number, label: string) => `${label} quá lớn (Tối đa ${limit}MB)`,
   },
 
@@ -88,14 +89,7 @@ export const TOAST_MESSAGES = {
     INIT_FAILED: 'Khởi tạo cuộc hội thoại thất bại',
     UPDATE_GROUP_FAILED: 'Cập nhật nhóm thất bại',
     FILE_LIMIT: (max: number) => `Tối đa ${max} tệp cùng lúc`,
-    AUDIO_PLAY_FAILED: 'Không thể phát âm thanh',
     SHARE_POST_FAILED: 'Chia sẻ bài viết thất bại',
-    CALL_BLOCKED_BY_ME: 'Bạn đã chặn cuộc gọi với người dùng này',
-    CALL_BLOCKED_BY_PARTNER: 'Không thể thực hiện cuộc gọi cho người dùng này',
-    CALL_FAILED: 'Không thể thực hiện cuộc gọi',
-    CALL_BUSY: 'Người dùng này hiện đang bận',
-    CALL_NOT_FRIEND: 'Chỉ có thể gọi cho bạn bè',
-    CALL_ALREADY_IN: 'Bạn đang trong một cuộc gọi khác',
     INVITE_MEMBER_FAILED: 'Không thể mời thành viên',
     REMOVE_MEMBER_FAILED: 'Không thể xóa thành viên',
     COPY_LINK_SUCCESS: 'Đã sao chép link tham gia nhóm',
@@ -104,35 +98,11 @@ export const TOAST_MESSAGES = {
     PIN_LIMIT: (max: number) => `Bạn chỉ có thể ghim tối đa ${max} cuộc hội thoại`,
   },
 
-  REPORT: {
-    SUBMIT_SUCCESS: 'Đã gửi báo cáo. Chúng tôi sẽ sớm xem xét',
-    SUBMIT_FAILED: 'Gửi báo cáo thất bại',
-    IMAGE_LIMIT: (max: number) => `Tối đa ${max} ảnh minh chứng`,
-    LOAD_FAILED: 'Không thể tải báo cáo',
-    NOT_FOUND: 'Không tìm thấy báo cáo',
-    LOAD_DETAIL_FAILED: 'Không thể tải chi tiết báo cáo',
-    RESOLVE_SUCCESS: 'Đã xử lý nội dung vi phạm',
-    WARN_SUCCESS: 'Đã gửi cảnh báo',
-    BAN_SUCCESS: 'Đã khóa tài khoản',
-    REJECT_SUCCESS: 'Đã từ chối báo cáo',
-    PROCESS_FAILED: 'Xử lý báo cáo thất bại',
-    REPORT_RESOLVED_SUCCESS: 'Báo cáo đã được xử lý',
-    REPORT_REJECTED_SUCCESS: 'Đã đóng báo cáo',
-  },
-
-  ADMIN: {
-    NO_PERMISSION: 'Bạn không có quyền truy cập trang này',
-    ACCESS_DENIED: 'Truy cập bị từ chối. Cần quyền quản trị',
-    LOAD_USERS_FAILED: 'Không thể tải danh sách người dùng',
-    BAN_SUCCESS: (name: string) => `Đã khóa tài khoản ${name}`,
-    UNBAN_SUCCESS: (name: string) => `Đã mở khóa tài khoản ${name}`,
-    BAN_FAILED: 'Khóa tài khoản thất bại',
-    UNBAN_FAILED: 'Mở khóa thất bại',
-  },
-
   COMMENT: {
-    CREATE_FAILED: (detail?: string) => detail ? `Lỗi bình luận: ${detail}` : 'Không thể gửi bình luận',
-    UPDATE_FAILED: (detail?: string) => detail ? `Lỗi cập nhật: ${detail}` : 'Không thể cập nhật bình luận',
+    CREATE_FAILED: (detail?: string) =>
+      detail ? `Lỗi bình luận: ${detail}` : 'Không thể gửi bình luận',
+    UPDATE_FAILED: (detail?: string) =>
+      detail ? `Lỗi cập nhật: ${detail}` : 'Không thể cập nhật bình luận',
   },
 
   GROUP: {

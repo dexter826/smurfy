@@ -14,7 +14,8 @@ import {
   onSnapshot,
   writeBatch,
   serverTimestamp,
-  arrayRemove
+  arrayRemove,
+  limit,
 } from 'firebase/firestore';
 import { db, auth } from '@/lib/firebase/config';
 import { FriendRequest, FriendRequestStatus, User, UserStatus } from '@shared/types';
@@ -33,21 +34,24 @@ export const friendService = {
         collection(db, 'friendRequests'),
         where('senderId', '==', senderId),
         where('receiverId', '==', receiverId),
-        where('status', '==', FriendRequestStatus.PENDING)
+        where('status', '==', FriendRequestStatus.PENDING),
       );
       const querySnapshot = await getDocs(q);
       return !querySnapshot.empty;
     } catch (error) {
-      console.error("Lỗi kiểm tra lời mời kết bạn", error);
+      console.error('Lỗi kiểm tra lời mời kết bạn', error);
       return false;
     }
   },
 
   /** Gửi lời mời kết bạn */
-  sendFriendRequest: async (senderId: string, receiverId: string): Promise<FriendRequest | void> => {
+  sendFriendRequest: async (
+    senderId: string,
+    receiverId: string,
+  ): Promise<FriendRequest | void> => {
     try {
       if (senderId === receiverId) {
-        throw new Error("Không thể gửi lời mời kết bạn cho chính mình");
+        throw new Error('Không thể gửi lời mời kết bạn cho chính mình');
       }
 
       const [receiverSnap, isFriendSnap] = await Promise.all([
@@ -55,29 +59,26 @@ export const friendService = {
         getDoc(doc(db, 'users', senderId, 'friends', receiverId)),
       ]);
 
-      if (!receiverSnap.exists()) throw new Error("Người dùng không tồn tại");
-      if ((receiverSnap.data() as any)?.status === UserStatus.BANNED) {
-        throw new Error("Không thể gửi lời mời kết bạn cho người dùng này");
-      }
+      if (!receiverSnap.exists()) throw new Error('Người dùng không tồn tại');
 
       const [blockToMe, blockByMe] = await Promise.all([
         userService.getBlockEntry(receiverId, senderId),
-        userService.getBlockEntry(senderId, receiverId)
+        userService.getBlockEntry(senderId, receiverId),
       ]);
 
       if ((blockToMe && isFullyBlocked(blockToMe)) || (blockByMe && isFullyBlocked(blockByMe))) {
-        throw new Error("Không thể kết bạn do cài đặt chặn hiện tại");
+        throw new Error('Không thể kết bạn do cài đặt chặn hiện tại');
       }
 
       if (isFriendSnap.exists()) {
-        throw new Error("Hai người đã là bạn bè");
+        throw new Error('Hai người đã là bạn bè');
       }
 
       const reverseRequestQuery = query(
         collection(db, 'friendRequests'),
         where('senderId', '==', receiverId),
         where('receiverId', '==', senderId),
-        where('status', '==', FriendRequestStatus.PENDING)
+        where('status', '==', FriendRequestStatus.PENDING),
       );
       const reverseSnap = await getDocs(reverseRequestQuery);
 
@@ -88,14 +89,14 @@ export const friendService = {
       }
 
       const alreadySent = await friendService.checkFriendRequestExists(senderId, receiverId);
-      if (alreadySent) throw new Error("Đã gửi lời mời kết bạn rồi");
+      if (alreadySent) throw new Error('Đã gửi lời mời kết bạn rồi');
 
       const requestData = {
         senderId,
         receiverId,
         status: FriendRequestStatus.PENDING,
         createdAt: serverTimestamp(),
-        updatedAt: serverTimestamp()
+        updatedAt: serverTimestamp(),
       };
 
       const docRef = await addDoc(collection(db, 'friendRequests'), requestData);
@@ -103,7 +104,7 @@ export const friendService = {
         receiverId,
         senderId,
         NotificationType.FRIEND_REQUEST,
-        { requestId: docRef.id }
+        { friendRequestId: docRef.id },
       );
 
       return {
@@ -111,7 +112,7 @@ export const friendService = {
         ...requestData,
       } as FriendRequest;
     } catch (error) {
-      console.error("Lỗi gửi lời mời kết bạn", error);
+      console.error('Lỗi gửi lời mời kết bạn', error);
       throw error;
     }
   },
@@ -123,13 +124,13 @@ export const friendService = {
         collection(db, 'friendRequests'),
         where('receiverId', '==', userId),
         where('status', '==', FriendRequestStatus.PENDING),
-        orderBy('createdAt', 'desc')
+        orderBy('createdAt', 'desc'),
       );
 
       const querySnapshot = await getDocs(q);
       return convertDocs<FriendRequest>(querySnapshot.docs);
     } catch (error) {
-      console.error("Lỗi lấy lời mời kết bạn", error);
+      console.error('Lỗi lấy lời mời kết bạn', error);
       return [];
     }
   },
@@ -140,14 +141,18 @@ export const friendService = {
       collection(db, 'friendRequests'),
       where('receiverId', '==', userId),
       where('status', '==', FriendRequestStatus.PENDING),
-      orderBy('createdAt', 'desc')
+      orderBy('createdAt', 'desc'),
     );
 
-    return onSnapshot(q, (snapshot) => {
-      callback(convertDocs<FriendRequest>(snapshot.docs));
-    }, (error) => {
-      console.error("Lỗi subscribe lời mời kết bạn", error);
-    });
+    return onSnapshot(
+      q,
+      (snapshot) => {
+        callback(convertDocs<FriendRequest>(snapshot.docs));
+      },
+      (error) => {
+        console.error('Lỗi subscribe lời mời kết bạn', error);
+      },
+    );
   },
 
   /** Lấy danh sách lời mời đã gửi */
@@ -157,13 +162,13 @@ export const friendService = {
         collection(db, 'friendRequests'),
         where('senderId', '==', userId),
         where('status', '==', FriendRequestStatus.PENDING),
-        orderBy('createdAt', 'desc')
+        orderBy('createdAt', 'desc'),
       );
 
       const querySnapshot = await getDocs(q);
       return convertDocs<FriendRequest>(querySnapshot.docs);
     } catch (error) {
-      console.error("Lỗi lấy lời mời đã gửi", error);
+      console.error('Lỗi lấy lời mời đã gửi', error);
       return [];
     }
   },
@@ -174,36 +179,52 @@ export const friendService = {
       collection(db, 'friendRequests'),
       where('senderId', '==', userId),
       where('status', '==', FriendRequestStatus.PENDING),
-      orderBy('createdAt', 'desc')
+      orderBy('createdAt', 'desc'),
     );
 
-    return onSnapshot(q, (snapshot) => {
-      callback(convertDocs<FriendRequest>(snapshot.docs));
-    }, (error) => {
-      console.error("Lỗi subscribe lời mời đã gửi", error);
-    });
+    return onSnapshot(
+      q,
+      (snapshot) => {
+        callback(convertDocs<FriendRequest>(snapshot.docs));
+      },
+      (error) => {
+        console.error('Lỗi subscribe lời mời đã gửi', error);
+      },
+    );
   },
 
   /** Chấp nhận lời mời kết bạn */
-  acceptFriendRequest: async (requestId: string, senderId: string, receiverId: string): Promise<void> => {
+  acceptFriendRequest: async (
+    requestId: string,
+    senderId: string,
+    receiverId: string,
+  ): Promise<void> => {
     try {
       const [blockToMe, blockByMe] = await Promise.all([
         userService.getBlockEntry(receiverId, senderId),
-        userService.getBlockEntry(senderId, receiverId)
+        userService.getBlockEntry(senderId, receiverId),
       ]);
 
       if ((blockToMe && isFullyBlocked(blockToMe)) || (blockByMe && isFullyBlocked(blockByMe))) {
-        throw new Error("Không thể chấp nhận kết bạn do cài đặt chặn hiện tại");
+        throw new Error('Không thể chấp nhận kết bạn do cài đặt chặn hiện tại');
       }
 
       const batch = writeBatch(db);
       const now = serverTimestamp();
 
-      batch.set(doc(db, 'users', senderId, 'friends', receiverId), { friendId: receiverId, createdAt: now, updatedAt: now });
-      batch.set(doc(db, 'users', receiverId, 'friends', senderId), { friendId: senderId, createdAt: now, updatedAt: now });
+      batch.set(doc(db, 'users', senderId, 'friends', receiverId), {
+        friendId: receiverId,
+        createdAt: now,
+        updatedAt: now,
+      });
+      batch.set(doc(db, 'users', receiverId, 'friends', senderId), {
+        friendId: senderId,
+        createdAt: now,
+        updatedAt: now,
+      });
       batch.update(doc(db, 'friendRequests', requestId), {
         status: FriendRequestStatus.ACCEPTED,
-        updatedAt: now
+        updatedAt: now,
       });
 
       await batch.commit();
@@ -211,10 +232,10 @@ export const friendService = {
         senderId,
         receiverId,
         NotificationType.FRIEND_ACCEPT,
-        { requestId }
+        { friendRequestId: requestId },
       );
     } catch (error) {
-      console.error("Lỗi chấp nhận kết bạn", error);
+      console.error('Lỗi chấp nhận kết bạn', error);
       throw error;
     }
   },
@@ -225,10 +246,10 @@ export const friendService = {
       const requestRef = doc(db, 'friendRequests', requestId);
       await updateDoc(requestRef, {
         status: FriendRequestStatus.REJECTED,
-        updatedAt: serverTimestamp()
+        updatedAt: serverTimestamp(),
       });
     } catch (error) {
-      console.error("Lỗi từ chối kết bạn", error);
+      console.error('Lỗi từ chối kết bạn', error);
       throw error;
     }
   },
@@ -238,7 +259,7 @@ export const friendService = {
     try {
       await deleteDoc(doc(db, 'friendRequests', requestId));
     } catch (error) {
-      console.error("Lỗi hủy lời mời kết bạn", error);
+      console.error('Lỗi hủy lời mời kết bạn', error);
       throw error;
     }
   },
@@ -252,23 +273,27 @@ export const friendService = {
       batch.delete(doc(db, 'users', friendId, 'friends', userId));
 
       const [sentSnap, receivedSnap] = await Promise.all([
-        getDocs(query(
-          collection(db, 'friendRequests'),
-          where('senderId', '==', userId),
-          where('receiverId', '==', friendId)
-        )),
-        getDocs(query(
-          collection(db, 'friendRequests'),
-          where('senderId', '==', friendId),
-          where('receiverId', '==', userId)
-        )),
+        getDocs(
+          query(
+            collection(db, 'friendRequests'),
+            where('senderId', '==', userId),
+            where('receiverId', '==', friendId),
+          ),
+        ),
+        getDocs(
+          query(
+            collection(db, 'friendRequests'),
+            where('senderId', '==', friendId),
+            where('receiverId', '==', userId),
+          ),
+        ),
       ]);
 
-      [...sentSnap.docs, ...receivedSnap.docs].forEach(d => batch.delete(d.ref));
+      [...sentSnap.docs, ...receivedSnap.docs].forEach((d) => batch.delete(d.ref));
 
       await batch.commit();
     } catch (error) {
-      console.error("Lỗi hủy kết bạn", error);
+      console.error('Lỗi hủy kết bạn', error);
       throw error;
     }
   },
@@ -277,12 +302,12 @@ export const friendService = {
   getAllFriends: async (currentUserId: string): Promise<User[]> => {
     try {
       const snap = await getDocs(collection(db, 'users', currentUserId, 'friends'));
-      const friendIds = snap.docs.map(d => d.id);
+      const friendIds = snap.docs.map((d) => d.id);
       if (friendIds.length === 0) return [];
       const friendsMap = await batchGetUsers(friendIds);
-      return Object.values(friendsMap).filter(u => u.status !== UserStatus.BANNED);
+      return Object.values(friendsMap);
     } catch (error) {
-      console.error("Lỗi lấy danh sách bạn bè", error);
+      console.error('Lỗi lấy danh sách bạn bè', error);
       return [];
     }
   },
@@ -293,7 +318,7 @@ export const friendService = {
     let previousFriendIds: string[] = [];
 
     return onSnapshot(friendsRef, async (snapshot) => {
-      const friendIds = snapshot.docs.map(d => d.id);
+      const friendIds = snapshot.docs.map((d) => d.id);
       if (friendIds.length === 0) {
         callback([]);
         return;
@@ -302,13 +327,11 @@ export const friendService = {
       try {
         await useUserCache.getState().fetchUsers(friendIds);
         const cachedUsers = useUserCache.getState().users;
-        const friends = friendIds
-          .map(id => cachedUsers[id])
-          .filter((u): u is User => Boolean(u) && u.status !== UserStatus.BANNED);
-        
+        const friends = friendIds.map((id) => cachedUsers[id]).filter((u): u is User => Boolean(u));
+
         callback(friends);
       } catch (error) {
-        console.error("Lỗi fetch friends realtime", error);
+        console.error('Lỗi fetch friends realtime', error);
       }
     });
   },
@@ -317,19 +340,19 @@ export const friendService = {
   searchFriends: async (searchTerm: string, currentUserId: string): Promise<User[]> => {
     try {
       const snap = await getDocs(collection(db, 'users', currentUserId, 'friends'));
-      const friendIds = snap.docs.map(d => d.id);
+      const friendIds = snap.docs.map((d) => d.id);
       if (friendIds.length === 0) return [];
 
       const friendsMap = await batchGetUsers(friendIds);
       const friends = Object.values(friendsMap);
 
-      return friends.filter(friend =>
-        friend.status !== UserStatus.BANNED &&
-        (friend.fullName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          friend.email?.toLowerCase().includes(searchTerm.toLowerCase()))
+      return friends.filter(
+        (friend) =>
+          friend.fullName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          friend.email?.toLowerCase().includes(searchTerm.toLowerCase()),
       );
     } catch (error) {
-      console.error("Lỗi tìm kiếm bạn bè", error);
+      console.error('Lỗi tìm kiếm bạn bè', error);
       return [];
     }
   },
@@ -342,21 +365,24 @@ export const friendService = {
       if (!userSnap.exists()) return;
 
       const suggestions = userSnap.data()?.suggestedFriends || [];
-      const updatedSuggestions = suggestions.filter((s: any) => 
-        (typeof s === 'string' ? s : s.id) !== targetUserId
+      const updatedSuggestions = suggestions.filter(
+        (s: any) => (typeof s === 'string' ? s : s.id) !== targetUserId,
       );
 
       await updateDoc(userRef, {
-        suggestedFriends: updatedSuggestions
+        suggestedFriends: updatedSuggestions,
       });
     } catch (error) {
-      console.error("Lỗi xóa gợi ý:", error);
+      console.error('Lỗi xóa gợi ý:', error);
     }
   },
 
   /** Tự động tạo gợi ý kết bạn mới */
-    /** Tự động tạo gợi ý kết bạn mới trực tiếp từ client */
-  generateFriendSuggestions: async (limitCount: number = 20, _force: boolean = false): Promise<string[]> => {
+  /** Tự động tạo gợi ý kết bạn mới trực tiếp từ client */
+  generateFriendSuggestions: async (
+    limitCount: number = 20,
+    _force: boolean = false,
+  ): Promise<string[]> => {
     try {
       const currentUserId = auth.currentUser?.uid;
       if (!currentUserId) return [];
@@ -368,31 +394,31 @@ export const friendService = {
 
       const excludeIds = new Set([
         currentUserId,
-        ...friendsSnap.docs.map(d => d.id),
-        ...blockedSnap.docs.map(d => d.id),
+        ...friendsSnap.docs.map((d) => d.id),
+        ...blockedSnap.docs.map((d) => d.id),
       ]);
 
       const usersQuery = query(
         collection(db, 'users'),
         where('status', '==', UserStatus.ACTIVE),
-        limit(limitCount + excludeIds.size)
+        limit(limitCount + excludeIds.size),
       );
 
       const snap = await getDocs(usersQuery);
       const suggestions = snap.docs
-        .map(d => d.id)
-        .filter(id => !excludeIds.has(id))
+        .map((d) => d.id)
+        .filter((id) => !excludeIds.has(id))
         .slice(0, limitCount);
 
       if (suggestions.length > 0) {
         await updateDoc(doc(db, 'users', currentUserId), {
-          suggestedFriends: suggestions
+          suggestedFriends: suggestions,
         }).catch(() => {});
       }
 
       return suggestions;
     } catch (error) {
-      console.error("Lỗi tạo gợi ý kết bạn", error);
+      console.error('Lỗi tạo gợi ý kết bạn', error);
       return [];
     }
   },
@@ -402,26 +428,22 @@ export const friendService = {
     try {
       const [userSnap, blockedUsersMap] = await Promise.all([
         getDoc(doc(db, 'users', userId)),
-        userService.getBlockedUsers(userId)
+        userService.getBlockedUsers(userId),
       ]);
 
       if (!userSnap.exists()) return [];
 
       const suggestions = userSnap.data()?.suggestedFriends || [];
-      const suggestedIds = suggestions.map((s: any) => typeof s === 'string' ? s : s.id);
-      
+      const suggestedIds = suggestions.map((s: any) => (typeof s === 'string' ? s : s.id));
+
       if (suggestedIds.length === 0) return [];
 
       const usersMap = await batchGetUsers(suggestedIds);
       return suggestedIds
-        .map(id => usersMap[id])
-        .filter((u): u is User => 
-          Boolean(u) && 
-          u.status !== UserStatus.BANNED && 
-          !blockedUsersMap[u.id]
-        );
+        .map((id) => usersMap[id])
+        .filter((u): u is User => Boolean(u) && !blockedUsersMap[u.id]);
     } catch (error) {
-      console.error("Lỗi lấy gợi ý kết bạn đã cache", error);
+      console.error('Lỗi lấy gợi ý kết bạn đã cache', error);
       return [];
     }
   },

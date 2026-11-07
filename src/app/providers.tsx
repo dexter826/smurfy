@@ -1,22 +1,12 @@
 import React from 'react';
-import { BrowserRouter, useLocation } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import { useAuthStore } from '@/features/auth';
 import { useSelfPresence } from '@/features/presence';
-import {
-  ConnectionStatus,
-  ErrorBoundary,
-  ToastContainer,
-  ReportModal,
-  TooltipProvider,
-} from '@/components/ui';
+import { ConnectionStatus, ErrorBoundary, ToastContainer, TooltipProvider } from '@/components/ui';
 
 const GlobalPresenceManager: React.FC = () => {
   const { user } = useAuthStore();
-  const location = useLocation();
-  const isAdminRoute = location.pathname.startsWith('/admin');
-
-  useSelfPresence(user, isAdminRoute);
-
+  useSelfPresence(user);
   return null;
 };
 
@@ -28,7 +18,6 @@ const AppProviders: React.FC<{ children: React.ReactNode }> = ({ children }) => 
         {children}
         <ConnectionStatus />
         <ToastContainer />
-        <ReportModal />
       </BrowserRouter>
     </TooltipProvider>
   </ErrorBoundary>

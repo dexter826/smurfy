@@ -1,7 +1,6 @@
-import React, { RefObject } from 'react';
-import { Maximize2, ChevronLeft, ChevronRight, Pause, Play } from 'lucide-react';
+import React from 'react';
+import { Maximize2, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Post, PostType } from '@shared/types';
-import { SensitiveMediaGuard } from '@/components/ui';
 import { SystemPostMedia } from '../shared/SystemPostMedia';
 
 interface PostViewCinemaProps {
@@ -9,15 +8,11 @@ interface PostViewCinemaProps {
   allMedia: Array<{
     url: string;
     thumbnail?: string;
-    type: 'image' | 'video';
-    isSensitive?: boolean;
+    type: 'image';
   }>;
   activeMediaIndex: number;
   setActiveMediaIndex: React.Dispatch<React.SetStateAction<number>>;
   setIsMediaViewerOpen: (open: boolean) => void;
-  videoRef: RefObject<HTMLVideoElement | null>;
-  isVideoPlaying: boolean;
-  setIsVideoPlaying: (playing: boolean) => void;
 }
 
 export const PostViewCinema: React.FC<PostViewCinemaProps> = ({
@@ -26,9 +21,6 @@ export const PostViewCinema: React.FC<PostViewCinemaProps> = ({
   activeMediaIndex,
   setActiveMediaIndex,
   setIsMediaViewerOpen,
-  videoRef,
-  isVideoPlaying,
-  setIsVideoPlaying,
 }) => (
   <div className="hidden lg:flex flex-[1.6] bg-chat items-center justify-center relative overflow-hidden border-r border-white/5 shrink-0">
     <div
@@ -53,51 +45,14 @@ export const PostViewCinema: React.FC<PostViewCinemaProps> = ({
           media={post.media || []}
           variant="cinema"
         />
-      ) : allMedia[activeMediaIndex].type === 'video' ? (
-        <SensitiveMediaGuard
-          isSensitive={allMedia[activeMediaIndex].isSensitive}
-          className="w-full h-full min-h-0 min-w-0"
-        >
-          <div className="w-full h-full flex items-center justify-center relative group/player">
-            <video
-              ref={videoRef}
-              src={allMedia[activeMediaIndex].url}
-              poster={allMedia[activeMediaIndex].thumbnail}
-              controls
-              playsInline
-              preload="metadata"
-              className="w-full h-full object-contain"
-              onPlay={() => setIsVideoPlaying(true)}
-              onPause={() => setIsVideoPlaying(false)}
-            />
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                if (videoRef.current) {
-                  videoRef.current.paused ? videoRef.current.play() : videoRef.current.pause();
-                }
-              }}
-              className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-4 bg-background hover:bg-active text-foreground rounded-full border border-border transition-all duration-200 active:scale-95 z-20 ${
-                isVideoPlaying ? 'opacity-0 group-hover/player:opacity-100' : 'opacity-100'
-              }`}
-            >
-              {isVideoPlaying ? <Pause size={28} /> : <Play size={28} />}
-            </button>
-          </div>
-        </SensitiveMediaGuard>
       ) : (
-        <SensitiveMediaGuard
-          isSensitive={allMedia[activeMediaIndex].isSensitive}
-          className="w-full h-full min-h-0 min-w-0"
-        >
-          <div className="w-full h-full flex items-center justify-center">
-            <img
-              src={allMedia[activeMediaIndex].url}
-              alt=""
-              className="w-full h-full object-contain hover:opacity-95 transition-opacity duration-200 animate-fade-in"
-            />
-          </div>
-        </SensitiveMediaGuard>
+        <div className="w-full h-full flex items-center justify-center">
+          <img
+            src={allMedia[activeMediaIndex].url}
+            alt=""
+            className="w-full h-full object-contain hover:opacity-95 transition-opacity duration-200 animate-fade-in"
+          />
+        </div>
       )}
 
       {allMedia.length > 1 && (

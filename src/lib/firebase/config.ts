@@ -1,15 +1,11 @@
-import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
-import {
-  initializeFirestore,
-  persistentLocalCache,
-  memoryLocalCache
-} from "firebase/firestore";
-import { getDatabase } from "firebase/database";
-import { connectAuthEmulator } from "firebase/auth";
-import { connectFirestoreEmulator } from "firebase/firestore";
-import { connectDatabaseEmulator } from "firebase/database";
-import { getValidatedEnvConfig } from "@/utils/validateEnv";
+import { initializeApp } from 'firebase/app';
+import { getAuth } from 'firebase/auth';
+import { initializeFirestore, persistentLocalCache, memoryLocalCache } from 'firebase/firestore';
+import { getDatabase } from 'firebase/database';
+import { connectAuthEmulator } from 'firebase/auth';
+import { connectFirestoreEmulator } from 'firebase/firestore';
+import { connectDatabaseEmulator } from 'firebase/database';
+import { getValidatedEnvConfig } from '@/utils/validateEnv';
 
 const envConfig = getValidatedEnvConfig();
 
@@ -29,19 +25,19 @@ const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 
 const hostname = window.location.hostname;
-const isLocal = (hostname === 'localhost' || 
-                hostname === '127.0.0.1' || 
-                hostname.startsWith('192.168.') || 
-                hostname.startsWith('10.') || 
-                hostname.startsWith('172.')) &&
-                import.meta.env.VITE_USE_FIREBASE_EMULATOR !== 'false';
+const isLocal =
+  (hostname === 'localhost' ||
+    hostname === '127.0.0.1' ||
+    hostname.startsWith('192.168.') ||
+    hostname.startsWith('10.') ||
+    hostname.startsWith('172.')) &&
+  import.meta.env.VITE_USE_FIREBASE_EMULATOR !== 'false';
 
 export const db = initializeFirestore(app, {
   localCache: isLocal ? memoryLocalCache() : persistentLocalCache({}),
 });
 
 export const rtdb = getDatabase(app);
-
 
 if (isLocal) {
   console.log(`--- Đang kết nối với Firebase Emulator tại ${hostname} ---`);

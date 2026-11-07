@@ -11,8 +11,6 @@ export const PAGINATION = {
   MESSAGES: 50,
   CHAT_MESSAGES: 30,
   NOTIFICATIONS: 15,
-  ADMIN_REPORTS: 50,
-  ADMIN_USERS: 50,
   FEED_CACHE_LIMIT: 50,
   CHAT_CACHE_LIMIT: 50,
   USER_CACHE_LIMIT: 100,
@@ -31,13 +29,11 @@ export const TIME_LIMITS = {
   MESSAGE_EDIT_WINDOW: 5 * 60 * 1000,
   TYPING_TIMEOUT: 3000,
   TOAST_DURATION: 3000,
-  VOICE_MAX_DURATION: 5 * 60 * 1000,
 } as const;
 
 /** Giới hạn số lượng tệp đa phương tiện */
 export const MEDIA_CONSTRAINTS = {
   MAX_IMAGES_PER_POST: 10,
-  MAX_VIDEOS_PER_POST: 3,
   MAX_IMAGES_PER_COMMENT: 1,
 } as const;
 
@@ -96,11 +92,9 @@ export const STORAGE_PATHS = {
 
 /** Giới hạn kích thước tệp tải lên */
 export const FILE_LIMITS = {
-  IMAGE: 5 * 1024 * 1024,      // 5MB — avatars, comment images
-  VIDEO: 50 * 1024 * 1024,     // 50MB — post videos
-  FILE: 10 * 1024 * 1024,      // 10MB — chat files
-  AVATAR: 5 * 1024 * 1024,     // 5MB
-  COVER: 10 * 1024 * 1024,     // 10MB
+  IMAGE: 5 * 1024 * 1024, // 5MB — avatars, comment images
+  AVATAR: 5 * 1024 * 1024, // 5MB
+  COVER: 10 * 1024 * 1024, // 10MB
   CHAT_MAX_FILES: 10,
 } as const;
 
@@ -113,26 +107,6 @@ export const IMAGE_COMPRESSION = {
   POST: { maxSizeMB: 1, maxWidthOrHeight: 1920 },
   COMMENT: { maxSizeMB: 0.5, maxWidthOrHeight: 1280 },
   CHAT: { maxSizeMB: 0.8, maxWidthOrHeight: 1920 },
-  REPORT: { maxSizeMB: 1, maxWidthOrHeight: 1280 },
-} as const;
-
-/** Cấu hình cho hệ thống báo cáo vi phạm */
-export const REPORT_CONFIG = {
-  DESCRIPTION_MAX_LENGTH: 500,
-  MAX_IMAGES_PER_REPORT: 5,
-  REASONS: {
-    spam: { label: 'Spam', description: 'Tin rác, quảng cáo không mong muốn' },
-    harassment: { label: 'Quấy rối & Bạo lực', description: 'Bắt nạt, đe dọa hoặc nội dung bạo lực' },
-    hate_speech: { label: 'Ngôn từ thù ghét', description: 'Phân biệt chủng tộc, giới tính, thù địch' },
-    sensitive: { label: 'Nội dung nhạy cảm', description: 'Hình ảnh/video khiêu dâm, người lớn' },
-    scam_impersonation: { label: 'Lừa đảo & Giả mạo', description: 'Chiếm đoạt tài sản hoặc mạo danh người khác' },
-    other: { label: 'Khác', description: 'Lý do khác' }
-  },
-  TYPE_LABELS: {
-    post: 'Bài viết',
-    comment: 'Bình luận',
-    user: 'Người dùng'
-  }
 } as const;
 
 /** Các loại cảm xúc trong hệ thống */
@@ -142,7 +116,7 @@ export const REACTIONS = [
   ReactionType.HAHA,
   ReactionType.WOW,
   ReactionType.SAD,
-  ReactionType.ANGRY
+  ReactionType.ANGRY,
 ] as const;
 
 export const REACTION_LABELS: Record<ReactionType, string> = {
@@ -151,7 +125,7 @@ export const REACTION_LABELS: Record<ReactionType, string> = {
   [ReactionType.HAHA]: 'Haha',
   [ReactionType.WOW]: 'Wow',
   [ReactionType.SAD]: 'Buồn',
-  [ReactionType.ANGRY]: 'Phẫn nộ'
+  [ReactionType.ANGRY]: 'Phẫn nộ',
 };
 
 /** Các địa chỉ kết nối API ngoại vi */
@@ -161,16 +135,23 @@ export const API_ENDPOINTS = {
   PROVINCES: envConfig.api.provincesUrl,
 } as const;
 
-/** Cấu hình Giphy API */
-export const GIPHY_CONFIG = {
-  BASE_URL: 'https://api.giphy.com/v1/gifs',
-  API_KEY: import.meta.env.VITE_GIPHY_API_KEY as string,
-  LIMIT: '20',
-  RATING: 'pg',
-} as const;
-
 export const INTEREST_SUGGESTIONS = [
-  'Du lịch', 'Âm nhạc', 'Thể thao', 'Đọc sách', 'Gaming', 'Nấu ăn',
-  'Nhiếp ảnh', 'Phim ảnh', 'Fitness', 'Nghệ thuật', 'Công nghệ', 'Thời trang',
-  'Yoga', 'Cà phê', 'Bóng đá', 'Bơi lội', 'Vẽ tranh', 'Karaoke',
+  'Du lịch',
+  'Âm nhạc',
+  'Thể thao',
+  'Đọc sách',
+  'Gaming',
+  'Nấu ăn',
+  'Nhiếp ảnh',
+  'Phim ảnh',
+  'Fitness',
+  'Nghệ thuật',
+  'Công nghệ',
+  'Thời trang',
+  'Yoga',
+  'Cà phê',
+  'Bóng đá',
+  'Bơi lội',
+  'Vẽ tranh',
+  'Karaoke',
 ];

@@ -4,16 +4,9 @@ import { rtdb, auth } from '@/lib/firebase/config';
 import { User } from '@shared/types';
 import { presenceService } from '../services/presenceService';
 
-export const useSelfPresence = (user: User | null, isAdminRoute: boolean = false) => {
+export const useSelfPresence = (user: User | null) => {
   useEffect(() => {
     if (!user) return;
-
-    if (isAdminRoute) {
-      if (auth.currentUser) {
-        presenceService.setOffline(user.id).catch(() => {});
-      }
-      return;
-    }
 
     const connectedRef = ref(rtdb, '.info/connected');
 
@@ -29,5 +22,5 @@ export const useSelfPresence = (user: User | null, isAdminRoute: boolean = false
         presenceService.setOffline(user.id).catch(() => {});
       }
     };
-  }, [user, isAdminRoute]);
+  }, [user]);
 };

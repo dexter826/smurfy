@@ -1,5 +1,12 @@
 import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
-import { RtdbMessage, RtdbConversation, RtdbUserChat, MemberRole, User, UserStatus } from '@shared/types';
+import {
+  RtdbMessage,
+  RtdbConversation,
+  RtdbUserChat,
+  MemberRole,
+  User,
+  UserStatus,
+} from '@shared/types';
 import { useAuthStore } from '@/features/auth';
 import { useRtdbChatStore } from '@/store';
 import { useContactStore } from '@/features/friend';
@@ -10,7 +17,7 @@ import {
   useChatMessages,
   useChatBlock,
   useChatGroups,
-  useConversationParticipants
+  useConversationParticipants,
 } from './chat';
 
 const EMPTY_MESSAGES: Array<{ id: string; data: RtdbMessage }> = [];
@@ -44,16 +51,21 @@ export const useChat = () => {
   } = useRtdbChatStore();
 
   const { users: usersMap, fetchUsers } = useUserCache();
-  const chatIsLoading = useLoadingStore(state => state.loadingStates['chat'] ?? false);
+  const chatIsLoading = useLoadingStore((state) => state.loadingStates['chat'] ?? false);
   const [viewMode, setViewMode] = useState<'normal' | 'archived'>('normal');
-  const [forwardingMessage, setForwardingMessage] = useState<{ id: string; data: RtdbMessage } | null>(null);
+  const [forwardingMessage, setForwardingMessage] = useState<{
+    id: string;
+    data: RtdbMessage;
+  } | null>(null);
   const [replyingTo, setReplyingTo] = useState<{ id: string; data: RtdbMessage } | null>(null);
-  const [editingMessage, setEditingMessage] = useState<{ id: string; data: RtdbMessage } | null>(null);
-  const sentRequests = useContactStore(state => state.sentRequests);
-  const receivedRequests = useContactStore(state => state.receivedRequests);
+  const [editingMessage, setEditingMessage] = useState<{ id: string; data: RtdbMessage } | null>(
+    null,
+  );
+  const sentRequests = useContactStore((state) => state.sentRequests);
+  const receivedRequests = useContactStore((state) => state.receivedRequests);
 
   const selectedConversation = useMemo(() => {
-    const found = conversations.find(c => c.id === selectedConversationId);
+    const found = conversations.find((c) => c.id === selectedConversationId);
     if (found) return found;
 
     if (!selectedConversationId?.startsWith('direct_') || !currentUser) return undefined;
@@ -92,16 +104,25 @@ export const useChat = () => {
   const filteredConversations = conversations;
 
   const archivedCount = useMemo(
-    () => conversations.filter(c => c.userChat?.isArchived).length,
-    [conversations]
+    () => conversations.filter((c) => c.userChat?.isArchived).length,
+    [conversations],
   );
 
-  const currentMessages = selectedConversationId ? (messages[selectedConversationId] ?? EMPTY_MESSAGES) : EMPTY_MESSAGES;
-  const currentTypingUsers = selectedConversationId ? (typingUsers[selectedConversationId] ?? EMPTY_TYPING) : EMPTY_TYPING;
+  const currentMessages = selectedConversationId
+    ? (messages[selectedConversationId] ?? EMPTY_MESSAGES)
+    : EMPTY_MESSAGES;
+  const currentTypingUsers = selectedConversationId
+    ? (typingUsers[selectedConversationId] ?? EMPTY_TYPING)
+    : EMPTY_TYPING;
 
-  const { isLoadingMore: storeIsLoadingMore, hasMoreMessages: storeHasMoreMessages } = useRtdbChatStore();
-  const isLoadingMore = selectedConversationId ? (storeIsLoadingMore[selectedConversationId] || false) : false;
-  const hasMoreMessages = selectedConversationId ? (storeHasMoreMessages[selectedConversationId] || false) : false;
+  const { isLoadingMore: storeIsLoadingMore, hasMoreMessages: storeHasMoreMessages } =
+    useRtdbChatStore();
+  const isLoadingMore = selectedConversationId
+    ? storeIsLoadingMore[selectedConversationId] || false
+    : false;
+  const hasMoreMessages = selectedConversationId
+    ? storeHasMoreMessages[selectedConversationId] || false
+    : false;
 
   const participantIds = useMemo(() => {
     if (!selectedConversation) return [];
@@ -110,13 +131,14 @@ export const useChat = () => {
 
   const participants = useConversationParticipants(participantIds);
 
-  const partnerId = selectedConversation && !selectedConversation.data.isGroup
-    ? participantIds.find(id => id !== currentUser?.id) ?? null
-    : null;
+  const partnerId =
+    selectedConversation && !selectedConversation.data.isGroup
+      ? (participantIds.find((id) => id !== currentUser?.id) ?? null)
+      : null;
 
   const partner = partnerId ? (usersMap[partnerId] ?? null) : null;
 
-  const friendIds = useContactStore(state => state.friends.map(f => f.id));
+  const friendIds = useContactStore((state) => state.friends.map((f) => f.id));
   const isFriend = useMemo(() => {
     if (!partnerId) return false;
     return friendIds.includes(partnerId);
@@ -124,14 +146,14 @@ export const useChat = () => {
 
   const friendRequestStatus = useMemo(() => {
     if (!partnerId) return 'none' as const;
-    if (sentRequests.some(r => r.receiverId === partnerId)) return 'sent' as const;
-    if (receivedRequests.some(r => r.senderId === partnerId)) return 'received' as const;
+    if (sentRequests.some((r) => r.receiverId === partnerId)) return 'sent' as const;
+    if (receivedRequests.some((r) => r.senderId === partnerId)) return 'received' as const;
     return 'none' as const;
   }, [partnerId, sentRequests, receivedRequests]);
 
-  const currentReceivedRequest = useMemo(() =>
-    partnerId ? receivedRequests.find(r => r.senderId === partnerId) ?? null : null,
-    [partnerId, receivedRequests]
+  const currentReceivedRequest = useMemo(
+    () => (partnerId ? (receivedRequests.find((r) => r.senderId === partnerId) ?? null) : null),
+    [partnerId, receivedRequests],
   );
 
   const actions = useChatActions({
@@ -162,8 +184,8 @@ export const useChat = () => {
   });
 
   const isConversationInStore = useMemo(
-    () => conversations.some(c => c.id === selectedConversationId),
-    [conversations, selectedConversationId]
+    () => conversations.some((c) => c.id === selectedConversationId),
+    [conversations, selectedConversationId],
   );
 
   useEffect(() => {
@@ -175,23 +197,34 @@ export const useChat = () => {
       unsubMessages();
       unsubTyping();
     };
-  }, [selectedConversationId, currentUser, isConversationInStore, subscribeToMessages, subscribeToTyping, markAsDelivered]);
+  }, [
+    selectedConversationId,
+    currentUser,
+    isConversationInStore,
+    subscribeToMessages,
+    subscribeToTyping,
+    markAsDelivered,
+  ]);
   const readTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  const handleMarkAsRead = useCallback((_messageId: string) => {
-    if (!selectedConversationId || !currentUser) return;
-    if (readTimeoutRef.current) clearTimeout(readTimeoutRef.current);
-    readTimeoutRef.current = setTimeout(() => {
-      markAsRead(selectedConversationId, currentUser.id);
-    }, 400);
-  }, [selectedConversationId, currentUser, markAsRead]);
+  const handleMarkAsRead = useCallback(
+    (_messageId: string) => {
+      if (!selectedConversationId || !currentUser) return;
+      if (readTimeoutRef.current) clearTimeout(readTimeoutRef.current);
+      readTimeoutRef.current = setTimeout(() => {
+        markAsRead(selectedConversationId, currentUser.id);
+      }, 400);
+    },
+    [selectedConversationId, currentUser, markAsRead],
+  );
 
   useEffect(() => {
     if (!selectedConversationId || !currentUser || !isConversationInStore) return;
 
     const msgs = messages[selectedConversationId] || [];
-    const hasUnread = msgs.some(m =>
-      m.data.senderId !== currentUser.id && (!m.data.readBy || !m.data.readBy[currentUser.id])
+    const hasUnread = msgs.some(
+      (m) =>
+        m.data.senderId !== currentUser.id && (!m.data.readBy || !m.data.readBy[currentUser.id]),
     );
 
     if (hasUnread) {
@@ -209,28 +242,40 @@ export const useChat = () => {
     if (!selectedConversationId || !currentUser) return;
     const msgs = messages[selectedConversationId] || [];
     if (msgs.length === 0) return;
-    const userIds = [...new Set(msgs.map(m => m.data.senderId))];
-    participantIds.forEach(id => userIds.push(id));
+    const userIds = [...new Set(msgs.map((m) => m.data.senderId))];
+    participantIds.forEach((id) => userIds.push(id));
     fetchUsers(userIds);
   }, [messages, selectedConversationId, currentUser, participantIds, fetchUsers]);
 
-  const handleSelectConversation = useCallback((id: string | null) => selectConversation(id), [selectConversation]);
+  const handleSelectConversation = useCallback(
+    (id: string | null) => selectConversation(id),
+    [selectConversation],
+  );
 
   const handleLoadMoreMessages = useCallback(async () => {
     if (selectedConversationId) await loadMoreMessages(selectedConversationId);
   }, [selectedConversationId, loadMoreMessages]);
 
-  const handleForwardMessage = useCallback((message: { id: string; data: RtdbMessage }) => setForwardingMessage(message), []);
+  const handleForwardMessage = useCallback(
+    (message: { id: string; data: RtdbMessage }) => setForwardingMessage(message),
+    [],
+  );
 
-  const handleTyping = useCallback(async (isTyping: boolean) => {
-    if (!selectedConversationId || !currentUser) return;
-    await setTyping(selectedConversationId, currentUser.id, isTyping);
-  }, [selectedConversationId, currentUser, setTyping]);
+  const handleTyping = useCallback(
+    async (isTyping: boolean) => {
+      if (!selectedConversationId || !currentUser) return;
+      await setTyping(selectedConversationId, currentUser.id, isTyping);
+    },
+    [selectedConversationId, currentUser, setTyping],
+  );
 
-  const handleSearch = useCallback(async (term: string) => {
-    if (!currentUser) return;
-    await searchConversations(currentUser.id, term);
-  }, [currentUser, searchConversations]);
+  const handleSearch = useCallback(
+    async (term: string) => {
+      if (!currentUser) return;
+      await searchConversations(currentUser.id, term);
+    },
+    [currentUser, searchConversations],
+  );
 
   return {
     currentUser,
@@ -248,7 +293,7 @@ export const useChat = () => {
     hasMoreMessages,
     isSearchFocused,
     searchResults,
-    searchHistory: currentUser?.id ? (searchHistory[currentUser.id] || []) : [],
+    searchHistory: currentUser?.id ? searchHistory[currentUser.id] || [] : [],
     viewMode,
     setViewMode,
     forwardingMessage,
@@ -264,7 +309,9 @@ export const useChat = () => {
     handleTyping,
     handleSearch,
     setSearchFocused,
-    addToSearchHistory: (item: User | { id: string; data: RtdbConversation; userChat: RtdbUserChat }) => {
+    addToSearchHistory: (
+      item: User | { id: string; data: RtdbConversation; userChat: RtdbUserChat },
+    ) => {
       if (currentUser?.id) addToSearchHistory(item, currentUser.id);
     },
     removeFromSearchHistory: (id: string) => {

@@ -1,16 +1,14 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
 import { useAuthStore } from '@/features/auth';
-import { UserStatus, UserRole } from '@shared/types';
 import { Loading } from '@/components/ui';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
-  requireAdmin?: boolean;
 }
 
-export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, requireAdmin }) => {
-  const { user, isPendingVerification, isInitialized, isBanned } = useAuthStore();
+export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
+  const { user, isPendingVerification, isInitialized } = useAuthStore();
 
   if (!isInitialized) {
     return <Loading variant="page" />;
@@ -20,16 +18,8 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, requir
     return <Navigate to="/verify-email" replace />;
   }
 
-  if (isBanned || user?.status === UserStatus.BANNED) {
-    return <Navigate to="/banned" replace />;
-  }
-
   if (!user) {
     return <Navigate to="/login" replace />;
-  }
-
-  if (requireAdmin && user?.role !== UserRole.ADMIN) {
-    return <Navigate to="/" replace />;
   }
 
   return <>{children}</>;

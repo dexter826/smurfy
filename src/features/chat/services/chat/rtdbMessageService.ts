@@ -5,9 +5,9 @@ import { messageReactionService } from './messages/messageReactionService';
 import { messageQueryService } from './messages/messageQueryService';
 
 export const rtdbMessageService = {
-    ...messageSendService,
-    ...messageStatusService,
-    ...messageActionService,
-    ...messageReactionService,
-    ...messageQueryService
+  ...messageSendService,
+  ...messageStatusService,
+  ...messageActionService,
+  ...messageReactionService,
+  ...messageQueryService,
 };

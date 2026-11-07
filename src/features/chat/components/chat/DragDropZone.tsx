@@ -27,10 +27,10 @@ export const DragDropZone: React.FC<DragDropZoneProps> = ({ children, disabled =
   const handleDragEnter = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     if (disabled) return;
-    
+
     // Check if the dragged items are files
     if (e.dataTransfer.items && e.dataTransfer.items.length > 0) {
-      const isFile = Array.from(e.dataTransfer.items).some(item => item.kind === 'file');
+      const isFile = Array.from(e.dataTransfer.items).some((item) => item.kind === 'file');
       if (!isFile) return;
     }
 
@@ -63,14 +63,16 @@ export const DragDropZone: React.FC<DragDropZoneProps> = ({ children, disabled =
 
     const files = Array.from(e.dataTransfer.files);
     if (files.length > 0) {
-      window.dispatchEvent(new CustomEvent('chat:drop-files', {
-        detail: { files }
-      }));
+      window.dispatchEvent(
+        new CustomEvent('chat:drop-files', {
+          detail: { files },
+        }),
+      );
     }
   };
 
   return (
-    <div 
+    <div
       className="relative flex-1 flex flex-col min-w-0 w-full h-full"
       onDragEnter={handleDragEnter}
       onDragLeave={handleDragLeave}
@@ -78,10 +80,10 @@ export const DragDropZone: React.FC<DragDropZoneProps> = ({ children, disabled =
       onDrop={handleDrop}
     >
       {children}
-      
+
       {/* Overlay */}
       {isDragging && !disabled && (
-        <div 
+        <div
           className="absolute inset-0 z-[var(--z-modal)] flex flex-col items-center justify-center bg-surface/60 backdrop-blur-sm transition-all duration-300 animate-in fade-in rounded-lg m-2 border-2 border-dashed border-primary/50"
           style={{ zIndex: 999 }}
         >

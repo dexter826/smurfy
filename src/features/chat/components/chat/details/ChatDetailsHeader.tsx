@@ -1,6 +1,6 @@
 import React from 'react';
 import { User, UserStatus, RtdbConversation, RtdbUserChat } from '@shared/types';
-import { UserAvatar, Avatar, UserStatusText, BannedBadge } from '@/components/ui';
+import { UserAvatar, Avatar, UserStatusText } from '@/components/ui';
 
 interface ChatDetailsHeaderProps {
   conversation: { id: string; data: RtdbConversation; userChat: RtdbUserChat };
@@ -11,7 +11,10 @@ interface ChatDetailsHeaderProps {
 
 /** Thông tin cơ bản của hội thoại. */
 export const ChatDetailsHeader: React.FC<ChatDetailsHeaderProps> = ({
-  conversation, currentUserId, participants, partner,
+  conversation,
+  currentUserId,
+  participants,
+  partner,
 }) => {
   const isGroup = conversation.data.isGroup;
   const displayName = isGroup ? conversation.data.name : partner?.fullName || 'Unknown';
@@ -20,13 +23,7 @@ export const ChatDetailsHeader: React.FC<ChatDetailsHeaderProps> = ({
   return (
     <div className="flex flex-col items-center py-5 px-4 border-b border-border">
       {isGroup ? (
-        <Avatar
-          src={avatarSrc}
-          name={displayName}
-          size="lg"
-          isGroup
-          members={participants}
-        />
+        <Avatar src={avatarSrc} name={displayName} size="lg" isGroup members={participants} />
       ) : (
         <UserAvatar
           userId={partner?.id ?? ''}
@@ -39,12 +36,7 @@ export const ChatDetailsHeader: React.FC<ChatDetailsHeaderProps> = ({
       )}
 
       <div className="mt-3 flex items-center gap-2 justify-center">
-        <h2 className="text-base font-semibold text-foreground text-center">
-          {displayName}
-        </h2>
-        {!isGroup && partner?.status === UserStatus.BANNED && (
-          <BannedBadge size="lg" />
-        )}
+        <h2 className="text-base font-semibold text-foreground text-center">{displayName}</h2>
       </div>
 
       {!isGroup && partner && (
@@ -55,11 +47,7 @@ export const ChatDetailsHeader: React.FC<ChatDetailsHeaderProps> = ({
         />
       )}
 
-      {isGroup && (
-        <p className="text-xs text-secondary mt-1">
-          {participants.length} thành viên
-        </p>
-      )}
+      {isGroup && <p className="text-xs text-secondary mt-1">{participants.length} thành viên</p>}
 
       {partner?.bio && (
         <p className="text-xs text-muted mt-2 text-center max-w-[240px] line-clamp-2 italic">

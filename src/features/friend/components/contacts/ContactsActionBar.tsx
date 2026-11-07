@@ -60,7 +60,9 @@ export const ContactsActionBar: React.FC<ContactsActionBarProps> = ({
             >
               <span>{mobileLabel}</span>
               {count !== undefined && count > 0 && (
-                <span className={`text-[9px] tabular-nums ${badge ? 'text-danger font-bold' : 'text-muted opacity-80'}`}>
+                <span
+                  className={`text-[9px] tabular-nums ${badge ? 'text-danger font-bold' : 'text-muted opacity-80'}`}
+                >
                   {count}
                 </span>
               )}

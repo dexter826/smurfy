@@ -13,7 +13,7 @@ function convertTimestamps(obj: any): any {
 
   // Xử lý Mảng
   if (Array.isArray(obj)) {
-    return obj.map(item => convertTimestamps(item));
+    return obj.map((item) => convertTimestamps(item));
   }
 
   // Xử lý Object
@@ -33,8 +33,8 @@ export function convertDoc<T>(doc: DocumentSnapshot): T {
   const data = doc.data();
   if (!data) return {} as T;
 
-  return { 
-    ...convertTimestamps(data), 
+  return {
+    ...convertTimestamps(data),
     id: doc.id,
   } as T;
 }
@@ -43,6 +43,5 @@ export function convertDoc<T>(doc: DocumentSnapshot): T {
  * Xử lý danh sách documents
  */
 export function convertDocs<T>(docs: DocumentSnapshot[]): T[] {
-  return docs.map(doc => convertDoc<T>(doc));
+  return docs.map((doc) => convertDoc<T>(doc));
 }
-

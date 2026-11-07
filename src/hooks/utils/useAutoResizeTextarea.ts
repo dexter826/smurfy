@@ -6,7 +6,7 @@ import { useEffect, RefObject } from 'react';
 export const useAutoResizeTextarea = (
   ref: RefObject<HTMLTextAreaElement | null>,
   content: string,
-  enabled = true
+  enabled = true,
 ) => {
   useEffect(() => {
     if (enabled && ref.current) {

@@ -1,7 +1,16 @@
 import React, { useState, useCallback, useRef } from 'react';
 import Cropper, { Area } from 'react-easy-crop';
 import { Modal, Button } from './index';
-import { ZoomIn, ZoomOut, RotateCcw, ImagePlus, Globe, Users, Lock, ChevronDown } from 'lucide-react';
+import {
+  ZoomIn,
+  ZoomOut,
+  RotateCcw,
+  ImagePlus,
+  Globe,
+  Users,
+  Lock,
+  ChevronDown,
+} from 'lucide-react';
 import { Visibility } from '@shared/types';
 import { Dropdown, DropdownItem } from './index';
 import { getCroppedImg } from '@/utils/imageUtils';
@@ -56,7 +65,7 @@ export const ImageCropper: React.FC<ImageCropperProps> = ({
     try {
       const croppedBlob = await getCroppedImg(image, croppedAreaPixels, rotation);
       const croppedFile = new File([croppedBlob], `cropped_${Date.now()}.jpg`, {
-        type: 'image/jpeg'
+        type: 'image/jpeg',
       });
       onCropComplete(croppedFile, visibility);
     } catch (error) {
@@ -96,13 +105,21 @@ export const ImageCropper: React.FC<ImageCropperProps> = ({
         <div className="flex flex-col w-full gap-4">
           {showShareOption && (
             <div className="flex items-center justify-between px-1 py-1 bg-surface-sunken rounded-xl mb-1">
-              <span className="text-xs font-semibold text-secondary px-2 uppercase tracking-wider">Ai có thể xem?</span>
+              <span className="text-xs font-semibold text-secondary px-2 uppercase tracking-wider">
+                Ai có thể xem?
+              </span>
               <Dropdown
                 trigger={
                   <button className="flex items-center gap-1.5 px-3 py-1.5 bg-surface hover:bg-hover rounded-lg border border-border transition-all text-sm font-medium text-foreground">
-                    {visibility === Visibility.PUBLIC && <Globe size={16} className="text-primary flex-shrink-0" />}
-                    {visibility === Visibility.FRIENDS && <Users size={16} className="text-primary flex-shrink-0" />}
-                    {visibility === Visibility.PRIVATE && <Lock size={16} className="text-primary flex-shrink-0" />}
+                    {visibility === Visibility.PUBLIC && (
+                      <Globe size={16} className="text-primary flex-shrink-0" />
+                    )}
+                    {visibility === Visibility.FRIENDS && (
+                      <Users size={16} className="text-primary flex-shrink-0" />
+                    )}
+                    {visibility === Visibility.PRIVATE && (
+                      <Lock size={16} className="text-primary flex-shrink-0" />
+                    )}
                     <span>
                       {visibility === Visibility.PUBLIC && 'Công khai'}
                       {visibility === Visibility.FRIENDS && 'Bạn bè'}
@@ -113,19 +130,19 @@ export const ImageCropper: React.FC<ImageCropperProps> = ({
                 }
                 align="right"
               >
-                <DropdownItem 
-                  icon={<Globe size={15} />} 
-                  label="Công khai" 
+                <DropdownItem
+                  icon={<Globe size={15} />}
+                  label="Công khai"
                   onClick={() => setVisibility(Visibility.PUBLIC)}
                 />
-                <DropdownItem 
-                  icon={<Users size={15} />} 
-                  label="Bạn bè" 
+                <DropdownItem
+                  icon={<Users size={15} />}
+                  label="Bạn bè"
                   onClick={() => setVisibility(Visibility.FRIENDS)}
                 />
-                <DropdownItem 
-                  icon={<Lock size={15} />} 
-                  label="Chỉ mình tôi" 
+                <DropdownItem
+                  icon={<Lock size={15} />}
+                  label="Chỉ mình tôi"
                   onClick={() => setVisibility(Visibility.PRIVATE)}
                 />
               </Dropdown>
@@ -162,11 +179,7 @@ export const ImageCropper: React.FC<ImageCropperProps> = ({
               <Button variant="secondary" onClick={onCancel}>
                 Hủy
               </Button>
-              <Button
-                variant="primary"
-                onClick={handleApply}
-                isLoading={isProcessing}
-              >
+              <Button variant="primary" onClick={handleApply} isLoading={isProcessing}>
                 Áp dụng
               </Button>
             </div>
@@ -188,7 +201,7 @@ export const ImageCropper: React.FC<ImageCropperProps> = ({
             onCropComplete={onCropAreaComplete}
             classes={{
               containerClassName: 'rounded-none',
-              cropAreaClassName: 'border-2 border-white shadow-lg'
+              cropAreaClassName: 'border-2 border-white shadow-lg',
             }}
           />
         </div>

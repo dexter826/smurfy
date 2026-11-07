@@ -18,15 +18,21 @@ const highlightText = (text: string, term: string): React.ReactNode => {
   const escaped = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   const parts = text.split(new RegExp(`(${escaped})`, 'gi'));
   return parts.map((part, i) =>
-    part.toLowerCase() === term.toLowerCase()
-      ? <mark key={i} className="bg-warning/30 text-foreground rounded px-0.5">{part}</mark>
-      : part
+    part.toLowerCase() === term.toLowerCase() ? (
+      <mark key={i} className="bg-warning/30 text-foreground rounded px-0.5">
+        {part}
+      </mark>
+    ) : (
+      part
+    ),
   );
 };
 
 /** Tìm kiếm tin nhắn trong hội thoại */
 export const ChatDetailsSearch: React.FC<ChatDetailsSearchProps> = ({
-  messages, usersMap, onMessageClick,
+  messages,
+  usersMap,
+  onMessageClick,
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -35,26 +41,20 @@ export const ChatDetailsSearch: React.FC<ChatDetailsSearchProps> = ({
     const term = searchTerm.toLowerCase();
     return messages
       .filter((msg) => {
-        if (
-          msg.data.type === MessageType.SYSTEM ||
-          msg.data.type === MessageType.CALL ||
-          msg.data.isRecalled
-        ) {
+        if (msg.data.type === MessageType.SYSTEM || msg.data.isRecalled) {
           return false;
         }
 
-        const sharedPostPayload = msg.data.type === MessageType.SHARE_POST
-          ? parseSharedPostMessage(msg.data.content)
-          : null;
+        const sharedPostPayload =
+          msg.data.type === MessageType.SHARE_POST
+            ? parseSharedPostMessage(msg.data.content)
+            : null;
 
         const contentToSearch = sharedPostPayload
           ? `${sharedPostPayload.authorName} ${sharedPostPayload.snippet}`.toLowerCase()
           : msg.data.content?.toLowerCase();
 
-        const contentMatch = contentToSearch?.includes(term);
-        const fileNameMatch = msg.data.type === MessageType.FILE &&
-          (msg.data.media || []).some(m => m.fileName?.toLowerCase().includes(term));
-        return contentMatch || fileNameMatch;
+        return !!contentToSearch?.includes(term);
       })
       .sort((a, b) => b.data.createdAt - a.data.createdAt)
       .slice(0, PAGINATION.MESSAGES);
@@ -76,11 +76,7 @@ export const ChatDetailsSearch: React.FC<ChatDetailsSearchProps> = ({
           icon={<Search size={15} />}
           rightElement={
             searchTerm ? (
-              <IconButton
-                onClick={() => setSearchTerm('')}
-                icon={<X size={14} />}
-                size="sm"
-              />
+              <IconButton onClick={() => setSearchTerm('')} icon={<X size={14} />} size="sm" />
             ) : undefined
           }
         />
@@ -96,9 +92,7 @@ export const ChatDetailsSearch: React.FC<ChatDetailsSearchProps> = ({
           />
         ) : (
           <div className="px-2 pb-4">
-            <p className="px-2 text-xs text-muted mb-2">
-              Tìm thấy {searchResults.length} tin nhắn
-            </p>
+            <p className="px-2 text-xs text-muted mb-2">Tìm thấy {searchResults.length} tin nhắn</p>
             <div className="space-y-0.5">
               {searchResults.map((msg) => {
                 const sender = usersMap[msg.data.senderId];
@@ -117,25 +111,15 @@ export const ChatDetailsSearch: React.FC<ChatDetailsSearchProps> = ({
                       </span>
                     </div>
                     <p className="text-xs text-foreground line-clamp-2 leading-relaxed">
-                      {msg.data.type === 'file' ? (
-                        <span className="flex items-center gap-1">
-                          <span className="text-primary font-semibold shrink-0">[File]</span>
-                          {highlightText(
-                            msg.data.media?.find(m => m.fileName)?.fileName || msg.data.content,
-                            searchTerm
-                          )}
-                        </span>
-                      ) : msg.data.type === MessageType.SHARE_POST ? (
-                        (() => {
-                          const payload = parseSharedPostMessage(msg.data.content);
-                          const text = payload
-                            ? `[Chia sẻ bài viết] ${payload.authorName}: ${payload.snippet}`
-                            : '[Chia sẻ bài viết]';
-                          return highlightText(text, searchTerm);
-                        })()
-                      ) : (
-                        highlightText(msg.data.content, searchTerm)
-                      )}
+                      {msg.data.type === MessageType.SHARE_POST
+                        ? (() => {
+                            const payload = parseSharedPostMessage(msg.data.content);
+                            const text = payload
+                              ? `[Chia sẻ bài viết] ${payload.authorName}: ${payload.snippet}`
+                              : '[Chia sẻ bài viết]';
+                            return highlightText(text, searchTerm);
+                          })()
+                        : highlightText(msg.data.content, searchTerm)}
                     </p>
                   </button>
                 );
@@ -144,12 +128,7 @@ export const ChatDetailsSearch: React.FC<ChatDetailsSearchProps> = ({
           </div>
         )
       ) : (
-        <EmptyState
-          icon={Search}
-          title="Nhập từ khóa để tìm kiếm"
-          size="sm"
-          className="py-10"
-        />
+        <EmptyState icon={Search} title="Nhập từ khóa để tìm kiếm" size="sm" className="py-10" />
       )}
     </div>
   );

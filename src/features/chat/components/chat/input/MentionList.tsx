@@ -33,9 +33,7 @@ export const MentionList: React.FC<MentionListProps> = ({ users, selectedIndex, 
               initialStatus={user.status}
               size="xs"
             />
-            <span className="text-sm font-medium text-foreground truncate">
-              {user.fullName}
-            </span>
+            <span className="text-sm font-medium text-foreground truncate">{user.fullName}</span>
           </button>
         ))}
       </div>

@@ -16,7 +16,11 @@ interface AddMemberModalProps {
 
 /** Modal thêm thành viên vào nhóm chat */
 export const AddMemberModal: React.FC<AddMemberModalProps> = ({
-  open, conversation, currentUserId, onOpenChange, onAddMembers,
+  open,
+  conversation,
+  currentUserId,
+  onOpenChange,
+  onAddMembers,
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [friends, setFriends] = useState<User[]>([]);
@@ -38,11 +42,14 @@ export const AddMemberModal: React.FC<AddMemberModalProps> = ({
     setSelectedIds([]);
     setSearchTerm('');
     setIsLoading(true);
-    friendService.getAllFriends(currentUserId)
-      .then(list => setFriends(
-        list.filter(f => !existingMemberIds.includes(f.id) && !pendingMemberIds.includes(f.id))
-      ))
-      .catch(() => { })
+    friendService
+      .getAllFriends(currentUserId)
+      .then((list) =>
+        setFriends(
+          list.filter((f) => !existingMemberIds.includes(f.id) && !pendingMemberIds.includes(f.id)),
+        ),
+      )
+      .catch(() => {})
       .finally(() => setIsLoading(false));
   }, [open]);
 
@@ -52,8 +59,8 @@ export const AddMemberModal: React.FC<AddMemberModalProps> = ({
       toast.error(`Nhóm tối đa ${GROUP_LIMITS.MAX_MEMBERS} thành viên`);
       return;
     }
-    setSelectedIds(prev =>
-      prev.includes(userId) ? prev.filter(id => id !== userId) : [...prev, userId]
+    setSelectedIds((prev) =>
+      prev.includes(userId) ? prev.filter((id) => id !== userId) : [...prev, userId],
     );
   };
 
@@ -69,8 +76,8 @@ export const AddMemberModal: React.FC<AddMemberModalProps> = ({
     }
   };
 
-  const filteredFriends = friends.filter(f =>
-    f.fullName.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredFriends = friends.filter((f) =>
+    f.fullName.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   const buttonLabel = `Mời ${selectedIds.length > 0 ? `(${selectedIds.length})` : ''}`;
@@ -84,7 +91,9 @@ export const AddMemberModal: React.FC<AddMemberModalProps> = ({
       fullScreen="mobile"
       footer={
         <div className="flex gap-3">
-          <Button variant="secondary" onClick={onOpenChange}>Hủy</Button>
+          <Button variant="secondary" onClick={onOpenChange}>
+            Hủy
+          </Button>
           <Button
             onClick={handleAdd}
             disabled={selectedIds.length === 0 || isAdding}
@@ -123,12 +132,12 @@ export const AddMemberModal: React.FC<AddMemberModalProps> = ({
           ) : filteredFriends.length === 0 ? (
             <EmptyState
               icon={UserPlus}
-              title={searchTerm ? "Không tìm thấy kết quả" : "Không có thành viên để thêm"}
+              title={searchTerm ? 'Không tìm thấy kết quả' : 'Không có thành viên để thêm'}
               size="sm"
               className="py-8"
             />
           ) : (
-            filteredFriends.map(friend => {
+            filteredFriends.map((friend) => {
               const isSelected = selectedIds.includes(friend.id);
               return (
                 <div

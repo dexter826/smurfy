@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { MoreHorizontal, Edit, Trash2, Flag } from 'lucide-react';
+import { MoreHorizontal, Edit, Trash2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { formatRelativeTime, formatDateTime } from '@/utils/dateUtils';
 import {
@@ -11,16 +11,7 @@ import {
   ReactionDetailsModal,
   UploadProgress,
 } from '@/components/ui';
-import {
-  Post,
-  PostStatus,
-  Visibility,
-  PostType,
-  User,
-  ReportType,
-  ReactionType,
-} from '@shared/types';
-import { useReportStore } from '@/features/admin';
+import { Post, PostStatus, Visibility, PostType, User, ReactionType } from '@shared/types';
 import { usePostStore } from '@/store';
 import { useFriendIds, useFilteredReactions } from '@/hooks';
 import {
@@ -30,8 +21,6 @@ import {
   PostMediaGrid,
   SystemPostMedia,
 } from './shared';
-import { LinkPreviewCard } from '@/components/shared/LinkPreviewCard';
-import { extractFirstUrl } from '@/services/linkPreviewService';
 
 interface PostItemProps {
   post: Post;
@@ -58,7 +47,6 @@ const PostItemInner: React.FC<PostItemProps> = ({
 }) => {
   const [isReactionsModalOpen, setIsReactionsModalOpen] = useState(false);
   const navigate = useNavigate();
-  const { openReportModal } = useReportStore();
   const { uploadingStates } = usePostStore();
   const friendIds = useFriendIds();
 
@@ -124,39 +112,22 @@ const PostItemInner: React.FC<PostItemProps> = ({
             <span title={formatDateTime(post.createdAt)}>{formatRelativeTime(post.createdAt)}</span>
             <span className="opacity-40">·</span>
             <VisibilityBadge visibility={post.visibility} size={11} />
-            {post.status === PostStatus.PENDING && (
-              <>
-                <span className="opacity-40">·</span>
-                <span className="text-muted font-medium">Đang xử lý...</span>
-              </>
-            )}
           </div>
         </div>
 
         {/* Menu */}
-        {isOwner ? (
-          !isDeleted && (
-            <Dropdown trigger={<IconButton icon={<MoreHorizontal size={18} />} size="sm" />}>
-              <DropdownItem
-                icon={<Edit size={15} />}
-                label={isSystemPost ? 'Chỉnh sửa quyền riêng tư' : 'Chỉnh sửa bài viết'}
-                onClick={() => onEdit?.(post.id)}
-              />
-              <DropdownItem
-                icon={<Trash2 size={15} />}
-                label="Xóa bài viết"
-                variant="danger"
-                onClick={() => onDelete?.(post.id)}
-              />
-            </Dropdown>
-          )
-        ) : (
+        {isOwner && !isDeleted && (
           <Dropdown trigger={<IconButton icon={<MoreHorizontal size={18} />} size="sm" />}>
             <DropdownItem
-              icon={<Flag size={15} />}
-              label="Báo cáo"
+              icon={<Edit size={15} />}
+              label={isSystemPost ? 'Chỉnh sửa quyền riêng tư' : 'Chỉnh sửa bài viết'}
+              onClick={() => onEdit?.(post.id)}
+            />
+            <DropdownItem
+              icon={<Trash2 size={15} />}
+              label="Xóa bài viết"
               variant="danger"
-              onClick={() => openReportModal(ReportType.POST, post.id, post.authorId)}
+              onClick={() => onDelete?.(post.id)}
             />
           </Dropdown>
         )}
@@ -173,14 +144,6 @@ const PostItemInner: React.FC<PostItemProps> = ({
               <span className="text-xs text-danger font-medium">{error}</span>
             </div>
           )}
-          {/* Link preview - only when no media attached */}
-          {!isUploading &&
-            (post.media?.length ?? 0) === 0 &&
-            (() => {
-              const url = extractFirstUrl(post.content);
-              if (!url) return null;
-              return <LinkPreviewCard url={url} className="mt-3" />;
-            })()}
         </div>
       )}
 
@@ -205,7 +168,7 @@ const PostItemInner: React.FC<PostItemProps> = ({
 
       {/* ── Reactions & comments ── */}
       {canShowInteractions && (
-        <div className={post.status === PostStatus.PENDING ? 'opacity-50 pointer-events-none' : ''}>
+        <div>
           <InteractionActions
             reactionSummary={filteredSummary}
             reactionCount={filteredCount}

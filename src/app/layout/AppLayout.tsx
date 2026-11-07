@@ -28,7 +28,7 @@ export const AppLayout: React.FC = () => {
   const totalUnread = useDocumentTitle();
 
   useEffect(() => {
-    if (!user || useAuthStore.getState().isBanned) return;
+    if (!user) return;
     const unsubChat = subscribeToConversations(user.id);
     const unsubRequests = subscribeToRequests(user.id);
     const unsubFriends = subscribeToFriends(user.id);
@@ -40,10 +40,8 @@ export const AppLayout: React.FC = () => {
       unsubNotifications();
     };
   }, [user, subscribeToConversations, subscribeToRequests, subscribeToFriends, initNotifications]);
-
-  const isAdmin = user?.role === 'admin';
   const isChatRoom = location.pathname === '/' && !!selectedConversationId;
-  const navItems = appNavItems(isAdmin, {
+  const navItems = appNavItems({
     unread: totalUnread,
     requests: receivedRequests.length,
     notifications: unreadNotifications,

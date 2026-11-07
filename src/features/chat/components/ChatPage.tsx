@@ -61,10 +61,6 @@ const ChatPage: React.FC = () => {
     handleDeleteForMe,
     handleForwardMessage,
     handleSendImage,
-    handleSendFile,
-    handleSendVideo,
-    handleSendVoice,
-    handleSendGif,
     handleTyping,
     handleSearch,
     handlePin,
@@ -129,8 +125,6 @@ const ChatPage: React.FC = () => {
     await chat.handleUnblock(modal.blockTarget?.id);
     modal.closeBlockModal();
   };
-
-
 
   if (!currentUser) return <MessengerSkeleton />;
 
@@ -250,10 +244,6 @@ const ChatPage: React.FC = () => {
               key={selectedConversationId}
               onSendText={handleSendText}
               onSendImages={handleSendImage}
-              onSendFile={handleSendFile}
-              onSendVideo={handleSendVideo}
-              onSendVoice={handleSendVoice}
-              onSendGif={handleSendGif}
               onTyping={handleTyping}
               blockedMessage={blockedMessage}
               onManageBlock={modal.openBlockModal}
@@ -349,7 +339,7 @@ const ChatPage: React.FC = () => {
         chat={chat}
         selectedConversation={selectedConversation ?? null}
         currentUserId={currentUser?.id ?? ''}
-        partner={partner ?? null}
+        partner={chat.partnerId ? (usersMap[chat.partnerId] ?? null) : null}
         myBlockOptions={myBlockOptions}
       />
     </div>
