@@ -15,9 +15,8 @@ import {
   ProfileMediaPreview,
   ProfileSkeleton
 } from './profile';
-import { Lock } from 'lucide-react';
 import { useProfile, usePostNavigation } from '@/hooks';
-import { UserStatus, ReactionType, Visibility, MediaObject, PostType, PostStatus, Post } from '@shared/types';
+import { ReactionType, Visibility, MediaObject, PostType, PostStatus, Post } from '@shared/types';
 
 import { db } from '@/lib/firebase/config';
 import { collection, query, where, orderBy, limit, getDocs } from 'firebase/firestore';
@@ -119,29 +118,6 @@ const ProfilePage: React.FC = () => {
   };
 
   if (loading || !profile || !currentUser) return <ProfileSkeleton />;
-
-  const isBannedProfile = profile.status === UserStatus.BANNED;
-
-  /* ── Banned profile (other user) ── */
-  if (isBannedProfile && !isOwnProfile) {
-    return (
-      <div className="h-full flex items-center justify-center p-4">
-        <div className="bg-surface rounded-2xl border border-border p-10 w-full max-w-md text-center animate-fade-in">
-          <div className="w-16 h-16 bg-background rounded-full flex items-center justify-center mx-auto mb-5 border border-border">
-            <Lock size={28} className="text-muted" />
-          </div>
-          <h2 className="text-xl font-bold text-foreground mb-2">Tài khoản này đã bị khóa</h2>
-          <p className="text-sm text-secondary mb-7 leading-relaxed">
-            Người dùng này đã vi phạm quy tắc cộng đồng hoặc không còn tồn tại trên hệ thống.
-          </p>
-          <div className="flex gap-3 justify-center">
-            <Button onClick={() => navigate(-1)} variant="secondary">Quay lại</Button>
-            <Button onClick={() => navigate('/')}>Trang chủ</Button>
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="h-full w-full overflow-y-auto">

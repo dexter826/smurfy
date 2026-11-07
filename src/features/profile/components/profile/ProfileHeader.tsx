@@ -1,14 +1,13 @@
 import React, { useRef, useState } from 'react';
 import {
   Users, MessageCircle, UserPlus, UserCheck, Edit,
-  Trash2, Pencil, Settings, MoreHorizontal, Flag, Ban, X, Image as ImageIcon,
+  Trash2, Pencil, Settings, MoreHorizontal, Ban, X, Image as ImageIcon,
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { User, ReportType, UserStatus, FriendStatus, Visibility } from '@shared/types';
+import { User, FriendStatus, Visibility } from '@shared/types';
 import { UserAvatar, Button, Dropdown, DropdownItem, ImageCropper, LazyImage, CircularProgress, CircularProgressOverlay } from '@/components/ui';
 import { toast } from '@/store/toastStore';
 import { useAuthStore } from '@/features/auth';
-import { useReportStore } from '@/features/admin';
 import { BookUser } from 'lucide-react';
 import { validateFile } from '@/utils/uploadUtils';
 
@@ -47,7 +46,6 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
   const userSettings = useAuthStore(state => state.settings);
   const avatarInputRef = useRef<HTMLInputElement>(null);
   const coverInputRef = useRef<HTMLInputElement>(null);
-  const { openReportModal } = useReportStore();
 
   const [cropState, setCropState] = useState<{
     open: boolean; type: 'avatar' | 'cover'; image: string;
@@ -223,10 +221,6 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
                     Cài đặt
                   </Button>
                 </>
-              ) : user.status === UserStatus.BANNED ? (
-                <span className="px-3 py-2 rounded-xl bg-danger/10 text-danger text-sm font-medium border border-danger/20">
-                  Tài khoản đã bị khóa
-                </span>
               ) : (
                 <>
                   {!isMessageBlockedByPartner && (
@@ -280,13 +274,6 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
                       >
                         Quản lý chặn
                       </Button>
-                      
-                      <Dropdown
-                        trigger={<Button variant="secondary" icon={<MoreHorizontal size={17} />} />}
-                        align="right"
-                      >
-                        <DropdownItem icon={<Flag size={15} />} label="Báo cáo" variant="danger" onClick={() => openReportModal(ReportType.USER, user.id, user.id)} />
-                      </Dropdown>
                     </div>
                   ) : (
                     <Dropdown
@@ -299,7 +286,6 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
                         variant="danger" 
                         onClick={onBlockClick} 
                       />
-                      <DropdownItem icon={<Flag size={15} />} label="Báo cáo" variant="danger" onClick={() => openReportModal(ReportType.USER, user.id, user.id)} />
                     </Dropdown>
                   )}
                 </>

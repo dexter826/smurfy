@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useCallback, useRef, useMemo } from 'react';
-import { MessageType, MediaObject } from '@shared/types';
+import { MediaObject } from '@shared/types';
 import { postService } from '@/features/feed';
-import { Skeleton, MediaViewer, LazyImage, SensitiveMediaGuard, EmptyState } from '@/components/ui';
-import { Image as ImageIcon, Loader2, Play } from 'lucide-react';
+import { Skeleton, MediaViewer, LazyImage, EmptyState } from '@/components/ui';
+import { Image as ImageIcon, Loader2 } from 'lucide-react';
 import { useAuthStore } from '@/features/auth';
 import { useFriendIds } from '@/hooks';
 import { DocumentSnapshot } from 'firebase/firestore';
@@ -16,9 +16,7 @@ interface PhotosTabProps {
 
 type MediaItem = {
   url: string;
-  type: MessageType.IMAGE | MessageType.VIDEO;
   thumbnailUrl?: string;
-  isSensitive?: boolean;
 };
 
 const PhotosTabInner: React.FC<PhotosTabProps> = ({
@@ -39,9 +37,7 @@ const PhotosTabInner: React.FC<PhotosTabProps> = ({
     posts.flatMap(post =>
       (post.media || []).map(m => ({
         url: m.url,
-        type: m.mimeType?.startsWith('video/') ? MessageType.VIDEO : MessageType.IMAGE,
         thumbnailUrl: m.thumbnailUrl,
-        isSensitive: m.isSensitive,
       }))
     ), []);
 
@@ -127,9 +123,8 @@ const PhotosTabInner: React.FC<PhotosTabProps> = ({
 
   const mediaViewerItems = useMemo(() =>
     media.map(m => ({
-      type: m.type === MessageType.VIDEO ? 'video' as const : 'image' as const,
+      type: 'image' as const,
       url: m.url,
-      isSensitive: m.isSensitive,
     })), [media]);
 
   if (loading && !isViewActivityBlocked) return <PhotosTabSkeleton />;
@@ -138,7 +133,7 @@ const PhotosTabInner: React.FC<PhotosTabProps> = ({
     return (
       <EmptyState
         icon={ImageIcon}
-        title="Chưa có ảnh hoặc video nào"
+        title="Chưa có ảnh nào"
         variant="boxed"
         size="md"
       />
@@ -150,7 +145,7 @@ const PhotosTabInner: React.FC<PhotosTabProps> = ({
       <div className="bg-surface rounded-2xl border border-border p-4 md:p-5">
         <div className="flex items-center justify-between mb-4">
           <h3 className="font-semibold text-base text-foreground">
-            Ảnh/Video
+            Ảnh
             <span className="text-muted font-normal ml-1.5 text-sm">
               ({media.length}{hasMore ? '+' : ''})
             </span>
@@ -164,34 +159,15 @@ const PhotosTabInner: React.FC<PhotosTabProps> = ({
               className="aspect-square bg-background rounded-xl overflow-hidden cursor-pointer group relative"
               onClick={() => setSelectedIndex(index)}
             >
-              <SensitiveMediaGuard isSensitive={item.isSensitive} size="sm" className="w-full h-full">
-                {item.type === MessageType.VIDEO ? (
-                  <video
-                    src={item.url}
-                    poster={item.thumbnailUrl}
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <LazyImage
-                    src={item.url}
-                    alt={`Media ${index + 1}`}
-                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                    wrapperClassName="w-full h-full"
-                  />
-                )}
+              <LazyImage
+                src={item.url}
+                alt={`Ảnh ${index + 1}`}
+                className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                wrapperClassName="w-full h-full"
+              />
 
-                {/* Hover overlay */}
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-200" />
-
-                {/* Video play icon */}
-                {item.type === MessageType.VIDEO && (
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-10 h-10 rounded-full bg-black/40 backdrop-blur-sm flex items-center justify-center border border-white/20 group-hover:bg-black/60 transition-all duration-200">
-                      <Play size={16} className="text-white fill-white ml-0.5" />
-                    </div>
-                  </div>
-                )}
-              </SensitiveMediaGuard>
+              {/* Hover overlay */}
+              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-200" />
             </div>
           ))}
         </div>

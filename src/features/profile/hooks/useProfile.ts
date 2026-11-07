@@ -48,8 +48,6 @@ export const useProfile = () => {
     profileUserId,
     isOwnProfile,
   });
-
-  const isBannedProfile = profile?.status === 'banned';
   const canViewContent = true;
 
 
@@ -108,7 +106,6 @@ export const useProfile = () => {
     loading: data.loading,
     profileUserId,
     isOwnProfile,
-    isBannedProfile,
     canViewContent,
     activeTab,
     setActiveTab,
