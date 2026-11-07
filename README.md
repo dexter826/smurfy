@@ -37,23 +37,27 @@ Smurfy Social là nền tảng mạng xã hội kết hợp giữa bảng tin ch
 ## Tính năng
 
 ### Tài khoản & Hồ sơ
+
 - **Đăng ký và xác thực**: Tạo tài khoản bằng email, xác minh tài khoản và hoàn thiện thông tin cá nhân ban đầu.
 - **Trang cá nhân**: Tùy biến ảnh đại diện, ảnh bìa, tiểu sử và thông tin giới thiệu.
 - **Quyền riêng tư**: Quản lý mức độ hiển thị thông tin và danh sách chặn người dùng.
 
 ### Bảng tin & Tương tác
-- **Đăng tải bài viết**: Chia sẻ trạng thái bằng văn bản, hình ảnh hoặc liên kết có xem trước nội dung.
+
+- **Đăng tải bài viết**: Chia sẻ trạng thái bằng văn bản và hình ảnh.
 - **Cảm xúc đa dạng**: Thả biểu cảm với 6 loại cảm xúc phổ biến trên từng bài viết.
 - **Bình luận phân luồng**: Trao đổi và trả lời trực tiếp từng bình luận trong luồng thảo luận.
 - **Chia sẻ & Nhắc hẹn**: Chia sẻ lại bài viết lên dòng thời gian và theo dõi lịch sinh nhật của bạn bè.
 
 ### Trò chuyện thời gian thực
+
 - **Tin nhắn cá nhân & Nhóm**: Trò chuyện trực tiếp 1-1 hoặc tạo nhóm trò chuyện không giới hạn thành viên.
-- **Nội dung phong phú**: Gửi tin nhắn văn bản, hình ảnh, ảnh động GIF, tệp đính kèm và tin nhắn thoại.
+- **Nội dung đính kèm**: Gửi tin nhắn văn bản và hình ảnh trực tiếp.
 - **Tương tác nhóm**: Mời thành viên qua liên kết, phê duyệt người tham gia và phân quyền quản trị nhóm.
 - **Trạng thái trực tiếp**: Hiển thị người dùng đang nhập tin nhắn và trạng thái đang hoạt động.
 
 ### Kết nối bạn bè
+
 - **Lời mời kết bạn**: Gửi, nhận, chấp nhận hoặc từ chối lời mời kết nối.
 - **Gợi ý kết bạn**: Tự động gợi ý người dùng dựa trên mạng lưới bạn chung.
 - **Quản lý quan hệ**: Xem danh sách bạn bè, hủy kết bạn và chặn khi cần thiết.
@@ -93,8 +97,9 @@ smurfy/
 ### Các bước cài đặt
 
 1. Sao chép mã nguồn về máy:
+
    ```bash
-   git clone https://github.com/your-username/smurfy.git
+   git clone https://github.com/dexter826/smurfy.git
    cd smurfy
    ```
 
@@ -114,8 +119,9 @@ cp .env.example .env
 ```
 
 Cập nhật các thông số cần thiết trong tệp `.env`:
+
 - Thông tin cấu hình dự án Firebase (API Key, Project ID, Database URL...).
-- Khóa API cho các dịch vụ mở rộng (lưu trữ ảnh, tìm kiếm GIF, xem trước liên kết).
+- Khóa API dịch vụ tải ảnh ImgBB (tùy chọn) và địa chỉ API tỉnh thành.
 
 ---
 
