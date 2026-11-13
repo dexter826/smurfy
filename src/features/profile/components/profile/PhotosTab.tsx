@@ -152,11 +152,11 @@ const PhotosTabInner: React.FC<PhotosTabProps> = ({ userId, isViewActivityBlocke
 
   return (
     <>
-      <div className="bg-surface rounded-2xl border border-border p-4 md:p-5">
+      <div className="bg-surface rounded-card border border-line p-4 md:p-5">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="font-semibold text-base text-foreground">
+          <h3 className="font-semibold text-base text-ink">
             Ảnh
-            <span className="text-muted font-normal ml-1.5 text-sm">
+            <span className="text-ink-3 font-normal ml-1.5 text-sm">
               ({media.length}
               {hasMore ? '+' : ''})
             </span>
@@ -167,7 +167,7 @@ const PhotosTabInner: React.FC<PhotosTabProps> = ({ userId, isViewActivityBlocke
           {media.map((item, index) => (
             <div
               key={`${item.url}-${index}`}
-              className="aspect-square bg-background rounded-xl overflow-hidden cursor-pointer group relative"
+              className="aspect-square bg-surface-2 rounded-control overflow-hidden cursor-pointer group relative"
               onClick={() => setSelectedIndex(index)}
             >
               <LazyImage
@@ -186,7 +186,7 @@ const PhotosTabInner: React.FC<PhotosTabProps> = ({ userId, isViewActivityBlocke
         <div ref={observerRef} className="h-4" />
         {loadingMore && (
           <div className="flex justify-center py-4">
-            <Loader2 size={22} className="animate-spin text-primary" />
+            <Loader2 size={22} className="animate-spin text-accent" />
           </div>
         )}
       </div>
@@ -202,11 +202,11 @@ const PhotosTabInner: React.FC<PhotosTabProps> = ({ userId, isViewActivityBlocke
 };
 
 const PhotosTabSkeleton: React.FC = () => (
-  <div className="bg-surface rounded-2xl border border-border p-4 md:p-5">
+  <div className="bg-surface rounded-card border border-line p-4 md:p-5">
     <Skeleton width={120} height={20} className="mb-4" />
     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2">
       {[...Array(10)].map((_, i) => (
-        <Skeleton key={i} variant="rect" className="aspect-square rounded-xl" />
+        <Skeleton key={i} variant="rect" className="aspect-square rounded-control" />
       ))}
     </div>
   </div>

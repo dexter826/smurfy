@@ -129,9 +129,9 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
     <>
       <div className="max-w-5xl mx-auto">
         {/* ── Cover photo ── */}
-        <div className="relative h-[200px] md:h-[320px] w-full md:rounded-b-2xl overflow-hidden shadow-sm">
+        <div className="relative h-[200px] md:h-[320px] w-full md:rounded-b-card overflow-hidden shadow-sm">
           {/* Gradient fallback behind image */}
-          <div className="absolute inset-0 bg-gradient-to-br from-primary to-primary-active" />
+          <div className="absolute inset-0 bg-surface-3" />
 
           <LazyImage
             src={user.cover?.url || '/cover-image.jpg'}
@@ -153,7 +153,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
                 trigger={
                   <button
                     disabled={!!uploadingType && uploadingType !== 'cover'}
-                    className="flex items-center gap-2 px-3 py-2 bg-black/35 hover:bg-black/55 backdrop-blur-md text-white text-sm font-medium rounded-xl border border-white/20 transition-all duration-200 disabled:opacity-50"
+                    className="flex items-center gap-2 px-3 py-2 bg-black/35 hover:bg-black/55 backdrop-blur-md text-white text-sm font-medium rounded-control border border-white/20 transition-all duration-200 disabled:opacity-50"
                   >
                     <Pencil size={15} />
                     <span className="hidden md:inline">Chỉnh sửa ảnh bìa</span>
@@ -200,7 +200,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
                   userId={user.id}
                   src={user.avatar?.url}
                   name={user.fullName}
-                  size="2xl"
+                  size="xl"
                   className={`border-4 border-surface ${user.avatar?.url && onAvatarClick ? 'cursor-pointer' : ''}`}
                   initialStatus={user.status}
                   showStatus={false}
@@ -223,7 +223,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
                     trigger={
                       <button
                         disabled={!!uploadingType && uploadingType !== 'avatar'}
-                        className="w-9 h-9 flex items-center justify-center bg-surface hover:bg-hover border-2 border-surface rounded-full shadow-md transition-colors duration-200 text-secondary hover:text-primary disabled:opacity-50"
+                        className="w-9 h-9 flex items-center justify-center bg-surface hover:bg-surface-2 border-2 border-surface rounded-full shadow-md transition-colors duration-200 text-ink-2 hover:text-accent-strong disabled:opacity-50"
                       >
                         <Pencil size={15} />
                       </button>
@@ -257,14 +257,12 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
 
             {/* Name */}
             <div className="flex-1 min-w-0 pb-1">
-              <h1 className="text-2xl md:text-3xl font-bold text-foreground truncate">
-                {user.fullName}
-              </h1>
+              <h1 className="text-2xl md:text-3xl font-bold text-ink truncate">{user.fullName}</h1>
               {!isOwnProfile && friendStatus !== FriendStatus.FRIEND && (
-                <div className="flex items-center justify-center md:justify-start gap-1.5 mt-1 text-muted text-xs md:text-sm font-medium animate-fade-in group">
+                <div className="flex items-center justify-center md:justify-start gap-1.5 mt-1 text-ink-3 text-xs md:text-sm font-medium animate-fade-in group">
                   <BookUser
                     size={14}
-                    className="text-primary/70 group-hover:text-primary transition-colors"
+                    className="text-accent-strong/70 group-hover:text-accent-strong transition-colors"
                   />
                   <span className="truncate">
                     {(() => {
@@ -313,7 +311,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
                           variant="secondary"
                           onClick={onFriendClick}
                           icon={<UserCheck size={17} />}
-                          className="bg-primary/10 text-primary border-primary/20 hover:bg-danger/10 hover:text-danger hover:border-danger/20"
+                          className="bg-accent-soft text-accent-strong border-accent/20 hover:bg-danger/10 hover:text-danger hover:border-danger/20"
                         >
                           Bạn bè
                         </Button>
@@ -356,7 +354,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
                     </div>
                   ) : (
                     <Dropdown
-                      trigger={<Button variant="secondary" icon={<MoreHorizontal size={17} />} />}
+                      trigger={<Button variant="ghost" icon={<MoreHorizontal size={17} />} />}
                       align="right"
                     >
                       <DropdownItem
