@@ -64,35 +64,35 @@ const EmailVerificationPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-[100dvh] bg-background selection:bg-primary/20 flex flex-col">
-      <header className="h-14 flex-shrink-0 bg-surface border-b border-border flex items-center px-4 gap-3">
+    <div className="min-h-[100dvh] bg-background selection:bg-accent/20 flex flex-col">
+      <header className="h-14 flex-shrink-0 bg-surface border-b border-line flex items-center px-4 gap-3">
         <img src="/logo.svg" alt="Smurfy" className="h-8 w-8 object-contain" />
-        <span className="font-display font-extrabold text-foreground">Smurfy</span>
+        <span className="font-display font-extrabold text-ink">Smurfy</span>
       </header>
 
       <main className="flex-1 overflow-y-auto flex flex-col animate-fade-in">
         <div className="w-full max-w-[480px] mx-auto flex flex-col flex-1 p-6">
           {/* Header */}
           <div className="mb-4">
-            <h1 className="text-2xl font-bold text-foreground mb-1">Xác thực email</h1>
-            <p className="text-sm text-secondary leading-relaxed">
+            <h1 className="text-2xl font-bold text-ink mb-1">Xác thực email</h1>
+            <p className="text-sm text-ink-2 leading-relaxed">
               Chúng tôi đã gửi link xác thực đến email của bạn. Vui lòng kiểm tra hộp thư để tiếp
               tục.
             </p>
           </div>
 
           {/* Steps hint */}
-          <div className="bg-background rounded-md p-4 mb-6 border border-border space-y-3">
+          <div className="bg-surface-2 rounded-control p-4 mb-6 border border-line space-y-3">
             {[
               { step: '1', text: 'Mở email từ Smurfy trong hộp thư của bạn' },
               { step: '2', text: 'Nhấn vào link xác thực trong email' },
               { step: '3', text: 'Quay lại đây và nhấn "Đã xác thực email"' },
             ].map(({ step, text }) => (
               <div key={step} className="flex items-center gap-3">
-                <div className="w-6 h-6 rounded-full bg-primary-soft text-primary-strong flex items-center justify-center flex-shrink-0">
+                <div className="w-6 h-6 rounded-full bg-accent-soft text-accent-strong flex items-center justify-center flex-shrink-0">
                   <span className="text-xs font-bold">{step}</span>
                 </div>
-                <p className="text-sm text-secondary">{text}</p>
+                <p className="text-sm text-ink-2">{text}</p>
               </div>
             ))}
           </div>
@@ -123,10 +123,10 @@ const EmailVerificationPage: React.FC = () => {
           </div>
 
           {/* Back to login */}
-          <div className="pt-6 mt-8 border-t border-border">
+          <div className="pt-6 mt-8 border-t border-line">
             <button
               onClick={handleLogout}
-              className="group flex items-center gap-2 text-sm font-medium text-muted hover:text-primary transition-colors duration-200"
+              className="group flex items-center gap-2 text-sm font-medium text-ink-3 hover:text-accent-strong transition-colors duration-200"
             >
               <ArrowLeft
                 size={15}

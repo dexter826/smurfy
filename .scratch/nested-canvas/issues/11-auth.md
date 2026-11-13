@@ -1,7 +1,7 @@
 # Auth — split brand field + form, onboarding/verify/join
 
 Type: task
-Status: ready-for-agent
+Status: resolved
 Blocked by: 02
 
 ## Scope
@@ -21,4 +21,16 @@ Blocked by: 02
 - Khớp frame c-auth + c-m-auth.
 - Đăng nhập/đăng ký/quên mật khẩu/xác minh email/onboarding hoạt động như cũ (không đổi authStore).
 
-## Comments
+## Answer
+
+**Đủ 6 mục:**
+1. Login split 52/48 theo frame c-auth: aside trái `bg-accent text-on-accent w-[52%]` (logo tile `bg-on-accent text-accent` + wordmark + headline 42px `-0.03em` + sub + 3 điểm giá trị + 2 rings `border-on-accent/20` — chữ tối trên accent); phải form card `rounded-card shadow-card` max-w-440.
+2. Tabs Đăng nhập/Đăng ký = seg (track `surface-2` p-3px, active `surface + shadow-card` bo 8 frame); stepper 2 chấm `bg-accent`/`accent-soft`; quên mật khẩu là view thứ 3 (giữ nguyên luồng).
+3. AuthBanner: `bg-{info/success/danger}-soft + border-l-4 border-l-{tên màu}` rounded-control; info dùng accent-soft (tone thương hiệu).
+4. OnboardingPage: giữ task-screen; chips sở thích `bg-accent text-on-accent` (chip-primary), hover `on-accent/10`.
+5. EmailVerificationPage: card giữa surface bo card trên canvas (header viền line từ ticket 01).
+6. Mobile: brand field rút thành dải trên (chỉ logo tile + wordmark; headline/rings `hidden lg:block`); form đầy đủ + logo giữa form.
+
+**Ghi chú:** headline/sub/marks là copy mới (COPY.md chưa có phần auth) — cần owner duyệt qua COPY.md nếu muốn chuẩn hoá; `JoinGroupPage` đã xong ở ticket 06.
+
+**Verify:** CI 3 pass (exit code thật); grep scope (auth/components) = 0 alias / 0 hex / 0 class chết; `contrast_check.py` PASS; khớp frame c-auth (split 52/48, logo tile, seg) + c-m-auth (dải trên + form).

@@ -187,264 +187,305 @@ const LoginPage: React.FC = () => {
       tabIndex={-1}
       onClick={toggle}
       aria-label={show ? 'Ẩn mật khẩu' : 'Hiện mật khẩu'}
-      className="p-2 text-muted hover:text-secondary transition-colors"
+      className="p-2 text-ink-3 hover:text-ink-2 transition-colors"
     >
       {show ? <EyeOff size={17} /> : <Eye size={17} />}
     </button>
   );
 
   return (
-    <div className="min-h-[100dvh] bg-primary flex flex-col items-center p-4 sm:p-6 overflow-y-auto">
-      <div className="my-auto w-full max-w-[440px] bg-surface rounded-lg shadow-lg p-6 sm:p-8">
-        <img src="/logo.svg" alt="Smurfy" className="h-16 w-16 object-contain mx-auto mb-5" />
-        {activeTab !== 'forgot' && (
-          <div className="flex bg-background rounded-sm p-1 mb-6 border border-border">
-            {(['login', 'register'] as Tab[]).map((tab) => (
-              <button
-                key={tab}
-                type="button"
-                onClick={() => handleTabChange(tab)}
-                className={`flex-1 py-2.5 text-sm font-semibold rounded-sm transition-all duration-200
-                  ${activeTab === tab ? 'bg-surface text-foreground shadow-sm border border-border' : 'text-muted hover:text-secondary'}`}
-              >
-                {tab === 'login' ? 'Đăng nhập' : 'Đăng ký'}
-              </button>
-            ))}
-          </div>
-        )}
+    <div className="min-h-[100dvh] flex flex-col lg:flex-row lg:overflow-hidden bg-surface">
+      {/* ── Brand field: dải trên (mobile) / 52% accent (desktop) — frame c-auth ── */}
+      <aside className="relative flex-shrink-0 bg-accent text-on-accent overflow-hidden px-6 py-4 lg:px-16 lg:py-14 lg:w-[52%] flex lg:flex-col lg:justify-between">
+        <div
+          aria-hidden="true"
+          className="hidden lg:block absolute -right-36 -bottom-36 w-[460px] h-[460px] rounded-full border border-on-accent/20"
+        />
+        <div
+          aria-hidden="true"
+          className="hidden lg:block absolute -right-24 -bottom-24 w-[320px] h-[320px] rounded-full border border-on-accent/15"
+        />
 
-        <div className="mb-5">
-          {activeTab === 'forgot' ? (
-            <>
-              <h1 className="text-2xl font-bold text-foreground mb-1">Khôi phục mật khẩu</h1>
-              <p className="text-sm text-secondary">Nhập email để nhận link đặt lại mật khẩu.</p>
-            </>
-          ) : activeTab === 'login' ? (
-            <>
-              <h1 className="text-2xl font-bold text-foreground mb-1">Chào mừng trở lại</h1>
-              <p className="text-sm text-secondary">Đăng nhập để tiếp tục với Smurfy.</p>
-            </>
-          ) : (
-            <>
-              <h1 className="text-2xl font-bold text-foreground mb-1">Tạo tài khoản</h1>
-              <p className="text-sm text-secondary">
-                {registerStep === 1
-                  ? 'Bước 1 của 2 — Thông tin của bạn.'
-                  : 'Bước 2 của 2 — Mật khẩu đăng nhập.'}
-              </p>
-              <div className="flex gap-1.5 mt-3" aria-hidden="true">
-                <div
-                  className={`h-1 flex-1 rounded-full ${
-                    registerStep === 1 ? 'bg-primary' : 'bg-primary-soft'
-                  }`}
-                />
-                <div
-                  className={`h-1 flex-1 rounded-full ${
-                    registerStep === 2 ? 'bg-primary' : 'bg-primary-soft'
-                  }`}
-                />
-              </div>
-            </>
-          )}
+        <div className="flex items-center gap-3 relative">
+          <span className="h-11 w-11 rounded-card bg-on-accent text-accent flex items-center justify-center font-display font-extrabold text-[22px]">
+            S
+          </span>
+          <span className="font-display text-2xl font-extrabold tracking-tight">Smurfy</span>
         </div>
 
-        {activeTab === 'forgot' && (
-          <form onSubmit={forgotForm.handleSubmit(onForgotSubmit)} className="space-y-4">
-            {verificationSent && (
-              <AuthBanner variant="success">Link đặt lại mật khẩu đã được gửi!</AuthBanner>
-            )}
-            <Input
-              label="Địa chỉ email"
-              icon={<Mail size={17} />}
-              type="email"
-              placeholder="Nhập địa chỉ email"
-              {...forgotForm.register('email')}
-              error={forgotForm.formState.errors.email?.message}
-              autoComplete="email"
-              size="lg"
-            />
-            <Button type="submit" variant="primary" size="lg" fullWidth isLoading={isLoading}>
-              Gửi mã khôi phục
-            </Button>
-            <div className="text-center pt-1">
-              <button
-                type="button"
-                onClick={() => handleTabChange('login')}
-                className="text-sm text-secondary hover:text-primary-strong font-medium transition-colors duration-200"
-              >
-                ← Quay lại đăng nhập
-              </button>
-            </div>
-          </form>
-        )}
+        <div className="relative max-w-[520px] mt-10 lg:mt-0">
+          <h2 className="hidden lg:block text-[42px] leading-[1.14] font-extrabold tracking-[-0.03em]">
+            Nơi kết nối cho cộng đồng Smurfy.
+          </h2>
+          <p className="hidden lg:block text-sm leading-relaxed max-w-[420px] opacity-85 mt-4">
+            Nhắn tin, chia sẻ nhật ký và giữ liên lạc với bạn bè — trong một không gian riêng tư và
+            an toàn.
+          </p>
+          <ul className="hidden lg:flex gap-6 text-xs font-semibold opacity-90 mt-8">
+            <li>Nhắn tin thời gian thực</li>
+            <li>Nhật ký riêng tư</li>
+            <li>Hoàn toàn miễn phí</li>
+          </ul>
+        </div>
+      </aside>
 
-        {activeTab !== 'forgot' && (
-          <form
-            onSubmit={
-              activeTab === 'login'
-                ? loginForm.handleSubmit(onLoginSubmit)
-                : registerForm.handleSubmit(onRegisterSubmit)
-            }
-            className="space-y-3.5"
-          >
-            {infoMessage && (
-              <AuthBanner
-                variant="info"
-                action={
-                  showResend
-                    ? { label: 'Gửi lại email xác thực', onClick: handleResendEmail }
-                    : undefined
-                }
-              >
-                {infoMessage}
-              </AuthBanner>
-            )}
-
-            {authError && <AuthBanner variant="error">{authError}</AuthBanner>}
-
-            {verificationSent && !authError && activeTab === 'login' && (
-              <AuthBanner variant="success">
-                Đã gửi link xác thực. Vui lòng kiểm tra email.
-              </AuthBanner>
-            )}
-
-            <Input
-              label="Email"
-              icon={<Mail size={17} />}
-              type="email"
-              placeholder="Nhập địa chỉ email"
-              {...(activeTab === 'login'
-                ? loginForm.register('email')
-                : registerForm.register('email'))}
-              error={
-                activeTab === 'login'
-                  ? loginForm.formState.errors.email?.message
-                  : registerForm.formState.errors.email?.message
-              }
-              autoComplete="email"
-              size="lg"
-            />
-
-            {activeTab === 'register' && registerStep === 1 && (
-              <>
-                <Input
-                  label="Họ tên"
-                  icon={<User size={17} />}
-                  placeholder="Nhập họ tên"
-                  {...registerForm.register('name')}
-                  error={registerForm.formState.errors.name?.message}
-                  size="lg"
-                />
-                <DatePicker
-                  label="Ngày sinh"
-                  value={registerForm.watch('dob')}
-                  onChange={(ts) => registerForm.setValue('dob', ts, { shouldValidate: true })}
-                  placeholder="Chọn ngày sinh"
-                  error={registerForm.formState.errors.dob?.message}
-                  size="lg"
-                />
-                <Button
+      {/* ── Form ── */}
+      <main className="flex-1 flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+        <div className="my-auto w-full max-w-[440px] bg-surface rounded-card shadow-card p-6 sm:p-8">
+          <img
+            src="/logo.svg"
+            alt="Smurfy"
+            className="h-16 w-16 object-contain mx-auto mb-5 lg:hidden"
+          />
+          {activeTab !== 'forgot' && (
+            <div className="flex bg-surface-2 rounded-control p-[3px] mb-6">
+              {(['login', 'register'] as Tab[]).map((tab) => (
+                <button
+                  key={tab}
                   type="button"
-                  variant="primary"
-                  size="lg"
-                  fullWidth
-                  className="mt-1"
-                  onClick={async () => {
-                    const ok = await registerForm.trigger(['name', 'email', 'dob']);
-                    if (ok) setRegisterStep(2);
-                  }}
+                  onClick={() => handleTabChange(tab)}
+                  className={`flex-1 py-2 text-sm font-semibold rounded-[8px] transition-all duration-200
+                  ${activeTab === tab ? 'bg-surface text-ink shadow-card' : 'text-ink-3 hover:text-ink-2'}`}
                 >
-                  Tiếp tục
-                </Button>
-                <div className="text-center pt-1">
-                  <button
-                    type="button"
-                    onClick={() => handleTabChange('login')}
-                    className="text-sm text-secondary hover:text-primary-strong font-medium transition-colors duration-200"
-                  >
-                    ← Quay lại đăng nhập
-                  </button>
+                  {tab === 'login' ? 'Đăng nhập' : 'Đăng ký'}
+                </button>
+              ))}
+            </div>
+          )}
+
+          <div className="mb-5">
+            {activeTab === 'forgot' ? (
+              <>
+                <h1 className="text-2xl font-bold text-ink mb-1">Khôi phục mật khẩu</h1>
+                <p className="text-sm text-ink-2">Nhập email để nhận link đặt lại mật khẩu.</p>
+              </>
+            ) : activeTab === 'login' ? (
+              <>
+                <h1 className="text-2xl font-bold text-ink mb-1">Chào mừng trở lại</h1>
+                <p className="text-sm text-ink-2">Đăng nhập để tiếp tục với Smurfy.</p>
+              </>
+            ) : (
+              <>
+                <h1 className="text-2xl font-bold text-ink mb-1">Tạo tài khoản</h1>
+                <p className="text-sm text-ink-2">
+                  {registerStep === 1
+                    ? 'Bước 1 của 2 — Thông tin của bạn.'
+                    : 'Bước 2 của 2 — Mật khẩu đăng nhập.'}
+                </p>
+                <div className="flex gap-1.5 mt-3" aria-hidden="true">
+                  <div
+                    className={`h-1 flex-1 rounded-full ${
+                      registerStep === 1 ? 'bg-accent' : 'bg-accent-soft'
+                    }`}
+                  />
+                  <div
+                    className={`h-1 flex-1 rounded-full ${
+                      registerStep === 2 ? 'bg-accent' : 'bg-accent-soft'
+                    }`}
+                  />
                 </div>
               </>
             )}
+          </div>
 
-            {(activeTab === 'login' || (activeTab === 'register' && registerStep === 2)) && (
-              <>
-                {activeTab === 'register' && registerStep === 2 && (
-                  <button
-                    type="button"
-                    onClick={() => setRegisterStep(1)}
-                    className="text-sm text-secondary hover:text-primary-strong font-medium transition-colors duration-200 self-start"
-                  >
-                    ← Quay lại bước trước
-                  </button>
-                )}
-                <Input
-                  label="Mật khẩu"
-                  icon={<Lock size={17} />}
-                  type={showPassword ? 'text' : 'password'}
-                  placeholder="Nhập mật khẩu"
-                  autoComplete={activeTab === 'login' ? 'current-password' : 'new-password'}
-                  {...(activeTab === 'login'
-                    ? loginForm.register('password')
-                    : registerForm.register('password'))}
-                  error={
-                    activeTab === 'login'
-                      ? loginForm.formState.errors.password?.message
-                      : registerForm.formState.errors.password?.message
+          {activeTab === 'forgot' && (
+            <form onSubmit={forgotForm.handleSubmit(onForgotSubmit)} className="space-y-4">
+              {verificationSent && (
+                <AuthBanner variant="success">Link đặt lại mật khẩu đã được gửi!</AuthBanner>
+              )}
+              <Input
+                label="Địa chỉ email"
+                icon={<Mail size={17} />}
+                type="email"
+                placeholder="Nhập địa chỉ email"
+                {...forgotForm.register('email')}
+                error={forgotForm.formState.errors.email?.message}
+                autoComplete="email"
+                size="lg"
+              />
+              <Button type="submit" variant="primary" size="lg" fullWidth isLoading={isLoading}>
+                Gửi mã khôi phục
+              </Button>
+              <div className="text-center pt-1">
+                <button
+                  type="button"
+                  onClick={() => handleTabChange('login')}
+                  className="text-sm text-ink-2 hover:text-accent-strong font-medium transition-colors duration-200"
+                >
+                  ← Quay lại đăng nhập
+                </button>
+              </div>
+            </form>
+          )}
+
+          {activeTab !== 'forgot' && (
+            <form
+              onSubmit={
+                activeTab === 'login'
+                  ? loginForm.handleSubmit(onLoginSubmit)
+                  : registerForm.handleSubmit(onRegisterSubmit)
+              }
+              className="space-y-3.5"
+            >
+              {infoMessage && (
+                <AuthBanner
+                  variant="info"
+                  action={
+                    showResend
+                      ? { label: 'Gửi lại email xác thực', onClick: handleResendEmail }
+                      : undefined
                   }
-                  size="lg"
-                  rightElement={passwordToggle(showPassword, () => setShowPassword((p) => !p))}
-                />
+                >
+                  {infoMessage}
+                </AuthBanner>
+              )}
 
-                {activeTab === 'register' && (
+              {authError && <AuthBanner variant="error">{authError}</AuthBanner>}
+
+              {verificationSent && !authError && activeTab === 'login' && (
+                <AuthBanner variant="success">
+                  Đã gửi link xác thực. Vui lòng kiểm tra email.
+                </AuthBanner>
+              )}
+
+              <Input
+                label="Email"
+                icon={<Mail size={17} />}
+                type="email"
+                placeholder="Nhập địa chỉ email"
+                {...(activeTab === 'login'
+                  ? loginForm.register('email')
+                  : registerForm.register('email'))}
+                error={
+                  activeTab === 'login'
+                    ? loginForm.formState.errors.email?.message
+                    : registerForm.formState.errors.email?.message
+                }
+                autoComplete="email"
+                size="lg"
+              />
+
+              {activeTab === 'register' && registerStep === 1 && (
+                <>
                   <Input
-                    label="Xác nhận mật khẩu"
-                    icon={<Lock size={17} />}
-                    type={showConfirmPassword ? 'text' : 'password'}
-                    placeholder="Xác nhận mật khẩu"
-                    autoComplete="new-password"
-                    {...registerForm.register('confirmPassword')}
-                    error={registerForm.formState.errors.confirmPassword?.message}
+                    label="Họ tên"
+                    icon={<User size={17} />}
+                    placeholder="Nhập họ tên"
+                    {...registerForm.register('name')}
+                    error={registerForm.formState.errors.name?.message}
                     size="lg"
-                    rightElement={passwordToggle(showConfirmPassword, () =>
-                      setShowConfirmPassword((p) => !p),
-                    )}
                   />
-                )}
-
-                {activeTab === 'login' && (
-                  <div className="flex items-center justify-between mt-2.5">
-                    <Checkbox
-                      label="Ghi nhớ đăng nhập"
-                      checked={rememberMe}
-                      onCheckedChange={(checked) => setRememberMe(checked === true)}
-                    />
+                  <DatePicker
+                    label="Ngày sinh"
+                    value={registerForm.watch('dob')}
+                    onChange={(ts) => registerForm.setValue('dob', ts, { shouldValidate: true })}
+                    placeholder="Chọn ngày sinh"
+                    error={registerForm.formState.errors.dob?.message}
+                    size="lg"
+                  />
+                  <Button
+                    type="button"
+                    variant="primary"
+                    size="lg"
+                    fullWidth
+                    className="mt-1"
+                    onClick={async () => {
+                      const ok = await registerForm.trigger(['name', 'email', 'dob']);
+                      if (ok) setRegisterStep(2);
+                    }}
+                  >
+                    Tiếp tục
+                  </Button>
+                  <div className="text-center pt-1">
                     <button
                       type="button"
-                      onClick={() => handleTabChange('forgot')}
-                      className="text-caption text-primary-strong hover:underline font-semibold transition-colors"
+                      onClick={() => handleTabChange('login')}
+                      className="text-sm text-ink-2 hover:text-accent-strong font-medium transition-colors duration-200"
                     >
-                      Quên mật khẩu?
+                      ← Quay lại đăng nhập
                     </button>
                   </div>
-                )}
+                </>
+              )}
 
-                <Button
-                  type="submit"
-                  variant="primary"
-                  size="lg"
-                  fullWidth
-                  isLoading={isLoading}
-                  className="mt-1"
-                >
-                  {activeTab === 'login' ? 'Đăng nhập' : 'Tạo tài khoản'}
-                </Button>
-              </>
-            )}
-          </form>
-        )}
-      </div>
+              {(activeTab === 'login' || (activeTab === 'register' && registerStep === 2)) && (
+                <>
+                  {activeTab === 'register' && registerStep === 2 && (
+                    <button
+                      type="button"
+                      onClick={() => setRegisterStep(1)}
+                      className="text-sm text-ink-2 hover:text-accent-strong font-medium transition-colors duration-200 self-start"
+                    >
+                      ← Quay lại bước trước
+                    </button>
+                  )}
+                  <Input
+                    label="Mật khẩu"
+                    icon={<Lock size={17} />}
+                    type={showPassword ? 'text' : 'password'}
+                    placeholder="Nhập mật khẩu"
+                    autoComplete={activeTab === 'login' ? 'current-password' : 'new-password'}
+                    {...(activeTab === 'login'
+                      ? loginForm.register('password')
+                      : registerForm.register('password'))}
+                    error={
+                      activeTab === 'login'
+                        ? loginForm.formState.errors.password?.message
+                        : registerForm.formState.errors.password?.message
+                    }
+                    size="lg"
+                    rightElement={passwordToggle(showPassword, () => setShowPassword((p) => !p))}
+                  />
+
+                  {activeTab === 'register' && (
+                    <Input
+                      label="Xác nhận mật khẩu"
+                      icon={<Lock size={17} />}
+                      type={showConfirmPassword ? 'text' : 'password'}
+                      placeholder="Xác nhận mật khẩu"
+                      autoComplete="new-password"
+                      {...registerForm.register('confirmPassword')}
+                      error={registerForm.formState.errors.confirmPassword?.message}
+                      size="lg"
+                      rightElement={passwordToggle(showConfirmPassword, () =>
+                        setShowConfirmPassword((p) => !p),
+                      )}
+                    />
+                  )}
+
+                  {activeTab === 'login' && (
+                    <div className="flex items-center justify-between mt-2.5">
+                      <Checkbox
+                        label="Ghi nhớ đăng nhập"
+                        checked={rememberMe}
+                        onCheckedChange={(checked) => setRememberMe(checked === true)}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => handleTabChange('forgot')}
+                        className="text-caption text-accent-strong hover:underline font-semibold transition-colors"
+                      >
+                        Quên mật khẩu?
+                      </button>
+                    </div>
+                  )}
+
+                  <Button
+                    type="submit"
+                    variant="primary"
+                    size="lg"
+                    fullWidth
+                    isLoading={isLoading}
+                    className="mt-1"
+                  >
+                    {activeTab === 'login' ? 'Đăng nhập' : 'Tạo tài khoản'}
+                  </Button>
+                </>
+              )}
+            </form>
+          )}
+        </div>
+      </main>
     </div>
   );
 };
