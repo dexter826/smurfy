@@ -1,0 +1,141 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1600" height="1034" viewBox="0 0 1600 1034"><rect width="1600" height="1034" fill="#f7f7f4"/><text x="60" y="78" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="40" font-weight="700" fill="#161616">Logo concepts</text><text x="60" y="116" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="20" fill="#6b6b6b">Concepts for review — pick a direction (or tell me what you like in each).</text><rect x="60" y="150" width="474.667" height="824" rx="18" fill="#fff" stroke="#161616" stroke-width="2"/><g><svg xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="t" viewBox="0 0 256 256" x="90" y="190" width="414.667" height="300" preserveAspectRatio="xMidYMid meet">
+  <title id="c0-t">Smurfy face — refresh</title>
+  <!-- mũ smurf: vòm + chóp lệch phải, đội trên đầu -->
+  <path d="M52 122 C 52 54 88 26 132 26 C 172 26 204 52 206 92 C 214 96 220 104 220 112 L 220 122 C 220 127 216 130 210 130 L 46 130 C 42 130 40 127 40 122 Z" fill="#000"/>
+  <!-- đầu: đĩa tròn, mắt khoét lỗ thật (evenodd) -->
+  <path fill="#000" fill-rule="evenodd" d="M128 88 a70 70 0 0 1 0 140 a70 70 0 0 1 0-140 Z M100 158 a13 13 0 0 1 0 26 a13 13 0 0 1 0-26 Z M156 158 a13 13 0 0 1 0 26 a13 13 0 0 1 0-26 Z"/>
+</svg>
+</g><g><svg xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="t" viewBox="0 0 560 256" x="90" y="514" width="414.667" height="170" preserveAspectRatio="xMidYMid meet">
+  <title id="l0-t">Smurfy lockup A</title>
+  <rect x="8" y="48" width="160" height="160" rx="36" fill="#4C9EEB"/>
+  <g transform="translate(28 68) scale(0.46875)">
+    <path d="M52 122 C 52 54 88 26 132 26 C 172 26 204 52 206 92 C 214 96 220 104 220 112 L 220 122 C 220 127 216 130 210 130 L 46 130 C 42 130 40 127 40 122 Z" fill="#0B1220"/>
+    <path fill="#0B1220" fill-rule="evenodd" d="M128 88 a70 70 0 0 1 0 140 a70 70 0 0 1 0-140 Z M100 158 a13 13 0 0 1 0 26 a13 13 0 0 1 0-26 Z M156 158 a13 13 0 0 1 0 26 a13 13 0 0 1 0-26 Z"/>
+  </g>
+  <text x="196" y="150" font-family="Arial, sans-serif" font-size="72" font-weight="800" fill="#0F172A" letter-spacing="-2">Smurfy</text>
+</svg>
+</g><g><svg xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="t" viewBox="0 0 256 256" x="90" y="710" width="64" height="64" preserveAspectRatio="xMidYMid meet">
+  <title id="s064-t">Smurfy face — refresh</title>
+  <!-- mũ smurf: vòm + chóp lệch phải, đội trên đầu -->
+  <path d="M52 122 C 52 54 88 26 132 26 C 172 26 204 52 206 92 C 214 96 220 104 220 112 L 220 122 C 220 127 216 130 210 130 L 46 130 C 42 130 40 127 40 122 Z" fill="#000"/>
+  <!-- đầu: đĩa tròn, mắt khoét lỗ thật (evenodd) -->
+  <path fill="#000" fill-rule="evenodd" d="M128 88 a70 70 0 0 1 0 140 a70 70 0 0 1 0-140 Z M100 158 a13 13 0 0 1 0 26 a13 13 0 0 1 0-26 Z M156 158 a13 13 0 0 1 0 26 a13 13 0 0 1 0-26 Z"/>
+</svg>
+</g><text x="122" y="794" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="12" fill="#8a8a8a" text-anchor="middle">64px</text><g><svg xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="t" viewBox="0 0 256 256" x="180" y="742" width="32" height="32" preserveAspectRatio="xMidYMid meet">
+  <title id="s032-t">Smurfy face — refresh</title>
+  <!-- mũ smurf: vòm + chóp lệch phải, đội trên đầu -->
+  <path d="M52 122 C 52 54 88 26 132 26 C 172 26 204 52 206 92 C 214 96 220 104 220 112 L 220 122 C 220 127 216 130 210 130 L 46 130 C 42 130 40 127 40 122 Z" fill="#000"/>
+  <!-- đầu: đĩa tròn, mắt khoét lỗ thật (evenodd) -->
+  <path fill="#000" fill-rule="evenodd" d="M128 88 a70 70 0 0 1 0 140 a70 70 0 0 1 0-140 Z M100 158 a13 13 0 0 1 0 26 a13 13 0 0 1 0-26 Z M156 158 a13 13 0 0 1 0 26 a13 13 0 0 1 0-26 Z"/>
+</svg>
+</g><text x="196" y="794" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="12" fill="#8a8a8a" text-anchor="middle">32px</text><g><svg xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="t" viewBox="0 0 256 256" x="238" y="758" width="16" height="16" preserveAspectRatio="xMidYMid meet">
+  <title id="s016-t">Smurfy face — refresh</title>
+  <!-- mũ smurf: vòm + chóp lệch phải, đội trên đầu -->
+  <path d="M52 122 C 52 54 88 26 132 26 C 172 26 204 52 206 92 C 214 96 220 104 220 112 L 220 122 C 220 127 216 130 210 130 L 46 130 C 42 130 40 127 40 122 Z" fill="#000"/>
+  <!-- đầu: đĩa tròn, mắt khoét lỗ thật (evenodd) -->
+  <path fill="#000" fill-rule="evenodd" d="M128 88 a70 70 0 0 1 0 140 a70 70 0 0 1 0-140 Z M100 158 a13 13 0 0 1 0 26 a13 13 0 0 1 0-26 Z M156 158 a13 13 0 0 1 0 26 a13 13 0 0 1 0-26 Z"/>
+</svg>
+</g><text x="246" y="794" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="12" fill="#8a8a8a" text-anchor="middle">16px</text><text x="90.0" y="830" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="26" font-weight="700" fill="#161616">A · A — Smurf face (refresh)</text><text x="90.0" y="858" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="15" font-weight="700" fill="#161616" letter-spacing="1.5">RECOMMENDED</text><text x="90.0" y="892" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="19" fill="#555">Mặt smurf vẽ lại: ít anchor, mắt khoét lỗ</text><text x="90.0" y="918" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="19" fill="#555">thật, chạy 1 màu</text><rect x="562.667" y="150" width="474.667" height="824" rx="18" fill="#fff" stroke="#e4e4e0" stroke-width="1"/><g><svg xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="t" viewBox="0 0 580 256" x="592.667" y="190" width="414.667" height="300" preserveAspectRatio="xMidYMid meet">
+  <title id="c1-t">Smurfy wordmark</title>
+  <g fill="none" stroke="#000" stroke-width="24" stroke-linecap="round" stroke-linejoin="round">
+    <!-- S -->
+    <path d="M88 84 C88 62 70 56 54 56 C34 56 26 70 26 84 C26 100 40 106 56 112 C74 118 88 126 88 144 C88 162 72 170 54 170 C38 170 26 162 24 148"/>
+    <!-- m -->
+    <path d="M132 170 V104 Q132 86 150 86 Q168 86 168 104 V170 M168 110 Q168 86 186 86 Q204 86 204 110 V170"/>
+    <!-- u -->
+    <path d="M244 86 V148 Q244 170 268 170 Q292 170 292 148 V86"/>
+    <!-- r -->
+    <path d="M332 170 V86 M332 118 Q338 86 366 86"/>
+    <!-- f -->
+    <path d="M412 170 V76 Q412 56 390 56 M386 92 H428"/>
+    <!-- y + đuôi cười -->
+    <path d="M470 86 L494 138 M518 86 L494 138 L506 172 Q514 194 542 186 Q560 180 562 168"/>
+  </g>
+</svg>
+</g><g><svg xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="t" viewBox="0 0 560 256" x="592.667" y="514" width="414.667" height="170" preserveAspectRatio="xMidYMid meet">
+  <title id="l1-t">Smurfy lockup B</title>
+  <g transform="translate(20 16) scale(0.88)" fill="none" stroke="#0F172A" stroke-width="24" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M88 84 C88 62 70 56 54 56 C34 56 26 70 26 84 C26 100 40 106 56 112 C74 118 88 126 88 144 C88 162 72 170 54 170 C38 170 26 162 24 148"/>
+    <path d="M132 170 V104 Q132 86 150 86 Q168 86 168 104 V170 M168 110 Q168 86 186 86 Q204 86 204 110 V170"/>
+    <path d="M244 86 V148 Q244 170 268 170 Q292 170 292 148 V86"/>
+    <path d="M332 170 V86 M332 118 Q338 86 366 86"/>
+    <path d="M412 170 V76 Q412 56 390 56 M386 92 H428"/>
+    <path d="M470 86 L494 138 M518 86 L494 138 L506 172 Q514 194 542 186 Q560 180 562 168"/>
+  </g>
+</svg>
+</g><g><svg xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="t" viewBox="0 0 580 256" x="592.667" y="710" width="64" height="64" preserveAspectRatio="xMidYMid meet">
+  <title id="s164-t">Smurfy wordmark</title>
+  <g fill="none" stroke="#000" stroke-width="24" stroke-linecap="round" stroke-linejoin="round">
+    <!-- S -->
+    <path d="M88 84 C88 62 70 56 54 56 C34 56 26 70 26 84 C26 100 40 106 56 112 C74 118 88 126 88 144 C88 162 72 170 54 170 C38 170 26 162 24 148"/>
+    <!-- m -->
+    <path d="M132 170 V104 Q132 86 150 86 Q168 86 168 104 V170 M168 110 Q168 86 186 86 Q204 86 204 110 V170"/>
+    <!-- u -->
+    <path d="M244 86 V148 Q244 170 268 170 Q292 170 292 148 V86"/>
+    <!-- r -->
+    <path d="M332 170 V86 M332 118 Q338 86 366 86"/>
+    <!-- f -->
+    <path d="M412 170 V76 Q412 56 390 56 M386 92 H428"/>
+    <!-- y + đuôi cười -->
+    <path d="M470 86 L494 138 M518 86 L494 138 L506 172 Q514 194 542 186 Q560 180 562 168"/>
+  </g>
+</svg>
+</g><text x="624.667" y="794" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="12" fill="#8a8a8a" text-anchor="middle">64px</text><g><svg xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="t" viewBox="0 0 580 256" x="682.667" y="742" width="32" height="32" preserveAspectRatio="xMidYMid meet">
+  <title id="s132-t">Smurfy wordmark</title>
+  <g fill="none" stroke="#000" stroke-width="24" stroke-linecap="round" stroke-linejoin="round">
+    <!-- S -->
+    <path d="M88 84 C88 62 70 56 54 56 C34 56 26 70 26 84 C26 100 40 106 56 112 C74 118 88 126 88 144 C88 162 72 170 54 170 C38 170 26 162 24 148"/>
+    <!-- m -->
+    <path d="M132 170 V104 Q132 86 150 86 Q168 86 168 104 V170 M168 110 Q168 86 186 86 Q204 86 204 110 V170"/>
+    <!-- u -->
+    <path d="M244 86 V148 Q244 170 268 170 Q292 170 292 148 V86"/>
+    <!-- r -->
+    <path d="M332 170 V86 M332 118 Q338 86 366 86"/>
+    <!-- f -->
+    <path d="M412 170 V76 Q412 56 390 56 M386 92 H428"/>
+    <!-- y + đuôi cười -->
+    <path d="M470 86 L494 138 M518 86 L494 138 L506 172 Q514 194 542 186 Q560 180 562 168"/>
+  </g>
+</svg>
+</g><text x="698.667" y="794" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="12" fill="#8a8a8a" text-anchor="middle">32px</text><g><svg xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="t" viewBox="0 0 580 256" x="740.667" y="758" width="16" height="16" preserveAspectRatio="xMidYMid meet">
+  <title id="s116-t">Smurfy wordmark</title>
+  <g fill="none" stroke="#000" stroke-width="24" stroke-linecap="round" stroke-linejoin="round">
+    <!-- S -->
+    <path d="M88 84 C88 62 70 56 54 56 C34 56 26 70 26 84 C26 100 40 106 56 112 C74 118 88 126 88 144 C88 162 72 170 54 170 C38 170 26 162 24 148"/>
+    <!-- m -->
+    <path d="M132 170 V104 Q132 86 150 86 Q168 86 168 104 V170 M168 110 Q168 86 186 86 Q204 86 204 110 V170"/>
+    <!-- u -->
+    <path d="M244 86 V148 Q244 170 268 170 Q292 170 292 148 V86"/>
+    <!-- r -->
+    <path d="M332 170 V86 M332 118 Q338 86 366 86"/>
+    <!-- f -->
+    <path d="M412 170 V76 Q412 56 390 56 M386 92 H428"/>
+    <!-- y + đuôi cười -->
+    <path d="M470 86 L494 138 M518 86 L494 138 L506 172 Q514 194 542 186 Q560 180 562 168"/>
+  </g>
+</svg>
+</g><text x="748.667" y="794" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="12" fill="#8a8a8a" text-anchor="middle">16px</text><text x="592.6666666666667" y="830" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="26" font-weight="700" fill="#161616">B · B — Wordmark monoline</text><text x="592.6666666666667" y="864" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="19" fill="#555">Chữ Smurfy monoline dẫn dắt, đuôi y quét</text><text x="592.6666666666667" y="890" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="19" fill="#555">thành nét cười</text><rect x="1065.33" y="150" width="474.667" height="824" rx="18" fill="#fff" stroke="#e4e4e0" stroke-width="1"/><g><svg xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="t" viewBox="0 0 256 256" x="1095.33" y="190" width="414.667" height="300" preserveAspectRatio="xMidYMid meet">
+  <title id="c2-t">Smurfy negative space</title>
+  <path fill="#000" fill-rule="evenodd" d="M12 60 a48 48 0 0 1 48-48 h136 a48 48 0 0 1 48 48 v136 a48 48 0 0 1-48 48 H60 a48 48 0 0 1-48-48 Z M128 84 a58 58 0 0 0-58 58 a58 58 0 0 0 58 58 a58 58 0 0 0 58-58 a58 58 0 0 0-58-58 Z M96 60 A 70 78 0 0 1 184 60 L 184 66 A 6 6 0 0 1 178 72 L 102 72 A 6 6 0 0 1 96 66 Z M112 142 a9 9 0 0 1 0 18 a9 9 0 0 1 0-18 Z M144 142 a9 9 0 0 1 0 18 a9 9 0 0 1 0-18 Z"/>
+</svg>
+</g><g><svg xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="t" viewBox="0 0 560 256" x="1095.33" y="514" width="414.667" height="170" preserveAspectRatio="xMidYMid meet">
+  <title id="l2-t">Smurfy lockup C</title>
+  <rect x="8" y="48" width="160" height="160" rx="36" fill="#0B1220"/>
+  <g transform="translate(28 68) scale(0.46875)" fill="#4C9EEB">
+    <path fill-rule="evenodd" d="M12 60 a48 48 0 0 1 48-48 h136 a48 48 0 0 1 48 48 v136 a48 48 0 0 1-48 48 H60 a48 48 0 0 1-48-48 Z M128 84 a58 58 0 0 0-58 58 a58 58 0 0 0 58 58 a58 58 0 0 0 58-58 a58 58 0 0 0-58-58 Z M96 60 A 70 78 0 0 1 184 60 L 184 66 A 6 6 0 0 1 178 72 L 102 72 A 6 6 0 0 1 96 66 Z M112 142 a9 9 0 0 1 0 18 a9 9 0 0 1 0-18 Z M144 142 a9 9 0 0 1 0 18 a9 9 0 0 1 0-18 Z"/>
+  </g>
+  <text x="196" y="150" font-family="Arial, sans-serif" font-size="72" font-weight="800" fill="#0F172A" letter-spacing="-2">Smurfy</text>
+</svg>
+</g><g><svg xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="t" viewBox="0 0 256 256" x="1095.33" y="710" width="64" height="64" preserveAspectRatio="xMidYMid meet">
+  <title id="s264-t">Smurfy negative space</title>
+  <path fill="#000" fill-rule="evenodd" d="M12 60 a48 48 0 0 1 48-48 h136 a48 48 0 0 1 48 48 v136 a48 48 0 0 1-48 48 H60 a48 48 0 0 1-48-48 Z M128 84 a58 58 0 0 0-58 58 a58 58 0 0 0 58 58 a58 58 0 0 0 58-58 a58 58 0 0 0-58-58 Z M96 60 A 70 78 0 0 1 184 60 L 184 66 A 6 6 0 0 1 178 72 L 102 72 A 6 6 0 0 1 96 66 Z M112 142 a9 9 0 0 1 0 18 a9 9 0 0 1 0-18 Z M144 142 a9 9 0 0 1 0 18 a9 9 0 0 1 0-18 Z"/>
+</svg>
+</g><text x="1127.33" y="794" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="12" fill="#8a8a8a" text-anchor="middle">64px</text><g><svg xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="t" viewBox="0 0 256 256" x="1185.33" y="742" width="32" height="32" preserveAspectRatio="xMidYMid meet">
+  <title id="s232-t">Smurfy negative space</title>
+  <path fill="#000" fill-rule="evenodd" d="M12 60 a48 48 0 0 1 48-48 h136 a48 48 0 0 1 48 48 v136 a48 48 0 0 1-48 48 H60 a48 48 0 0 1-48-48 Z M128 84 a58 58 0 0 0-58 58 a58 58 0 0 0 58 58 a58 58 0 0 0 58-58 a58 58 0 0 0-58-58 Z M96 60 A 70 78 0 0 1 184 60 L 184 66 A 6 6 0 0 1 178 72 L 102 72 A 6 6 0 0 1 96 66 Z M112 142 a9 9 0 0 1 0 18 a9 9 0 0 1 0-18 Z M144 142 a9 9 0 0 1 0 18 a9 9 0 0 1 0-18 Z"/>
+</svg>
+</g><text x="1201.33" y="794" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="12" fill="#8a8a8a" text-anchor="middle">32px</text><g><svg xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="t" viewBox="0 0 256 256" x="1243.33" y="758" width="16" height="16" preserveAspectRatio="xMidYMid meet">
+  <title id="s216-t">Smurfy negative space</title>
+  <path fill="#000" fill-rule="evenodd" d="M12 60 a48 48 0 0 1 48-48 h136 a48 48 0 0 1 48 48 v136 a48 48 0 0 1-48 48 H60 a48 48 0 0 1-48-48 Z M128 84 a58 58 0 0 0-58 58 a58 58 0 0 0 58 58 a58 58 0 0 0 58-58 a58 58 0 0 0-58-58 Z M96 60 A 70 78 0 0 1 184 60 L 184 66 A 6 6 0 0 1 178 72 L 102 72 A 6 6 0 0 1 96 66 Z M112 142 a9 9 0 0 1 0 18 a9 9 0 0 1 0-18 Z M144 142 a9 9 0 0 1 0 18 a9 9 0 0 1 0-18 Z"/>
+</svg>
+</g><text x="1251.33" y="794" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="12" fill="#8a8a8a" text-anchor="middle">16px</text><text x="1095.3333333333335" y="830" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="26" font-weight="700" fill="#161616">C · C — Negative-space tile</text><text x="1095.3333333333335" y="864" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="19" fill="#555">Tile đặc, mặt smurf là khoảng trống âm</text></svg>
