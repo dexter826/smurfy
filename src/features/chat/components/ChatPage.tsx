@@ -154,10 +154,10 @@ const ChatPage: React.FC = () => {
   };
 
   return (
-    <div className="flex h-full w-full overflow-hidden">
+    <div className="flex h-full w-full overflow-hidden md:gap-3 md:p-3">
       {/* ── Conversation list panel ── */}
       <div
-        className={`${selectedConversationId ? 'hidden md:flex' : 'flex'} md:w-[300px] lg:w-[360px] flex-shrink-0 w-full`}
+        className={`${selectedConversationId ? 'hidden md:flex' : 'flex'} md:w-[320px] flex-shrink-0 w-full bg-surface md:rounded-l-card md:border md:border-line md:shadow-card`}
       >
         <ConversationList
           conversations={filteredConversations}
@@ -196,7 +196,7 @@ const ChatPage: React.FC = () => {
 
       {/* ── Chat area ── */}
       <div
-        className={`flex-1 flex flex-col min-w-0 bg-chat ${selectedConversationId ? 'flex' : 'hidden md:flex'}`}
+        className={`flex-1 flex flex-col min-w-0 bg-surface md:border md:border-line md:border-l-0 md:rounded-r-card md:shadow-card ${selectedConversationId ? 'flex' : 'hidden md:flex'}`}
       >
         {selectedConversation ? (
           <DragDropZone disabled={!!blockedMessage || !!selectedConversation?.data.isDisbanded}>

@@ -27,12 +27,12 @@ export const FilePreview: React.FC<FilePreviewProps> = ({
   if (files.length === 0) return null;
 
   return (
-    <div className="px-3 pt-3 pb-3 border-b border-border bg-surface overflow-x-auto scroll-hide">
+    <div className="px-3 pt-3 pb-3 border-b border-line-soft bg-surface overflow-x-auto scroll-hide">
       <div className="flex gap-3">
         {files.map((item, index) => (
           <div key={item.id} className="relative flex-shrink-0 group">
             <div
-              className={`w-[72px] h-[72px] rounded-md border overflow-hidden transition-all duration-200 bg-background border-border ${
+              className={`w-[72px] h-[72px] rounded-control border overflow-hidden transition-all duration-200 bg-surface-2 border-line ${
                 onPreviewMedia ? 'cursor-pointer hover:brightness-95' : ''
               }`}
               onClick={() => onPreviewMedia?.(index)}
@@ -55,7 +55,7 @@ export const FilePreview: React.FC<FilePreviewProps> = ({
               <button
                 type="button"
                 onClick={() => onRemove(index)}
-                className="absolute -top-1.5 -right-1.5 w-6 h-6 flex items-center justify-center bg-white dark:bg-surface-sunken text-foreground rounded-full shadow-sm opacity-0 group-hover:opacity-100 transition-all duration-200 z-20 hover:bg-hover transform hover:scale-105 border border-border"
+                className="absolute -top-1.5 -right-1.5 w-6 h-6 flex items-center justify-center bg-surface dark:bg-surface-2 text-ink rounded-full shadow-sm opacity-0 group-hover:opacity-100 transition-all duration-200 z-20 hover:bg-surface-2 transform hover:scale-105 border border-line"
               >
                 <X size={12} />
               </button>

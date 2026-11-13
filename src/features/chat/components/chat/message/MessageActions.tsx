@@ -55,7 +55,7 @@ export const MessageActions: React.FC<MessageActionsProps> = ({
           size="sm"
           title="Trả lời"
           onClick={() => onReply?.(message)}
-          className="hidden md:flex hover:text-primary transition-all duration-200"
+          className="hidden md:flex hover:text-accent transition-all duration-200"
         />
       )}
 

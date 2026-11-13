@@ -151,7 +151,7 @@ const MessageBubbleInner: React.FC<MessageBubbleProps> = ({
   if (message.data.type === MessageType.SYSTEM) {
     return (
       <div className="flex justify-center my-2">
-        <span className="bg-surface-sunken/70 text-muted text-xs px-3 py-1 rounded-full italic text-center max-w-[85%]">
+        <span className="bg-surface-2/70 text-ink-3 text-xs px-3 py-1 rounded-full italic text-center max-w-[85%]">
           {message.data.content}
         </span>
       </div>
@@ -191,7 +191,7 @@ const MessageBubbleInner: React.FC<MessageBubbleProps> = ({
           {/* Sender Name Group Only */}
           {!isMe && showName && (
             <button
-              className="text-xs text-secondary ml-1 mb-0.5 font-semibold hover:text-primary transition-colors duration-200"
+              className="text-xs text-ink-2 ml-1 mb-0.5 font-semibold hover:text-accent-strong transition-colors duration-200"
               onClick={handleProfileClick}
             >
               {sender?.fullName || 'Người dùng'}
@@ -225,10 +225,10 @@ const MessageBubbleInner: React.FC<MessageBubbleProps> = ({
                       ? `shadow-sm ${hasReactions ? 'min-w-[92px]' : 'min-w-[60px]'} overflow-hidden
                         ${
                           isMe
-                            ? 'bg-message-sent border border-primary-edge text-on-primary rounded-md rounded-br-sm'
-                            : 'bg-message-received border border-border text-foreground rounded-md rounded-bl-sm'
+                            ? 'bg-accent border border-accent-edge text-on-accent rounded-card rounded-br-[5px]'
+                            : 'bg-surface-2 border border-line text-ink rounded-card rounded-bl-[5px]'
                         }`
-                      : `overflow-hidden ${isMe ? 'rounded-md rounded-br-sm' : 'rounded-md rounded-bl-sm'}`
+                      : `overflow-hidden ${isMe ? 'rounded-card rounded-br-[5px]' : 'rounded-card rounded-bl-[5px]'}`
                   }
                 `}
               >
@@ -280,11 +280,11 @@ const MessageBubbleInner: React.FC<MessageBubbleProps> = ({
                     ${
                       !shouldWrapBackground
                         ? `absolute bottom-2 ${isMe ? 'right-2' : 'left-2'} px-1.5 py-0.5 rounded-full bg-black/40 text-white backdrop-blur-sm z-20`
-                        : `${hasReactions ? 'pb-3' : 'pb-1.5'} ${isMe ? 'justify-end text-on-primary/70 px-3' : 'justify-start text-muted px-3'}`
+                        : `${hasReactions ? 'pb-3' : 'pb-1.5'} ${isMe ? 'justify-end text-on-accent/70 px-3' : 'justify-start text-ink-3 px-3'}`
                     }
                   `}
                   >
-                    {isPinned && <Pin size={10} className="text-muted flex-shrink-0" />}
+                    {isPinned && <Pin size={10} className="text-ink-3 flex-shrink-0" />}
                     {formatTimeOnly(message.data.createdAt)}
                   </div>
                 )}
@@ -311,7 +311,7 @@ const MessageBubbleInner: React.FC<MessageBubbleProps> = ({
                     className={`relative ${hasReactions || showActions ? 'opacity-100' : 'opacity-0 group-hover/message:opacity-100'} transition-opacity duration-200`}
                   >
                     <button
-                      className="w-7 h-6 flex items-center justify-center bg-surface rounded-full border border-border shadow-sm text-muted hover:text-primary hover:border-primary/30 transition-all duration-200"
+                      className="w-7 h-6 flex items-center justify-center bg-surface rounded-full border border-line shadow-sm text-ink-3 hover:text-accent hover:border-accent/30 transition-all duration-200"
                       onClick={(e) => {
                         e.stopPropagation();
                         setShowReactionSelector(!showReactionSelector);
@@ -431,14 +431,14 @@ const MessageBubbleInner: React.FC<MessageBubbleProps> = ({
                     {lastReadByUsers.map((reader) => (
                       <div
                         key={reader.id}
-                        className="flex items-center gap-3 p-2 hover:bg-hover rounded-sm transition-colors duration-200"
+                        className="flex items-center gap-3 p-2 hover:bg-surface-2 rounded-control transition-colors duration-200"
                       >
                         <UserAvatar userId={reader.id} size="md" showStatus />
                         <div className="flex-1 min-w-0">
-                          <div className="text-sm font-semibold text-foreground truncate">
+                          <div className="text-sm font-semibold text-ink truncate">
                             {reader.fullName}
                           </div>
-                          <UserStatusText userId={reader.id} className="text-xs text-muted" />
+                          <UserStatusText userId={reader.id} className="text-xs text-ink-3" />
                         </div>
                       </div>
                     ))}

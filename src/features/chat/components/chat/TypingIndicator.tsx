@@ -31,7 +31,7 @@ export const TypingIndicator: React.FC<TypingIndicatorProps> = ({
       className="absolute bottom-2 left-4 animate-fade-in pointer-events-none"
       style={{ zIndex: 'var(--z-sticky)' }}
     >
-      <div className="flex items-center gap-2 bg-surface border border-border/50 rounded-full px-3 py-1.5 shadow-sm">
+      <div className="flex items-center gap-2 bg-surface border border-line/50 rounded-full px-3 py-1.5 shadow-sm">
         {/* Animated Dots */}
         <div className="flex items-center gap-0.5">
           {[0, 1, 2].map((i) => (
@@ -42,7 +42,7 @@ export const TypingIndicator: React.FC<TypingIndicatorProps> = ({
             />
           ))}
         </div>
-        <span className="text-xs text-muted font-medium">{typingText}</span>
+        <span className="text-xs text-ink-3 font-medium">{typingText}</span>
       </div>
     </div>
   );
