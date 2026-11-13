@@ -23,6 +23,8 @@ Blocked by: 02
 
 ## Comments
 
+- 2026-11-14 — code-review 2 trục (fixed point `3711dc0`). **Đã fix:** focus ring 2px `focus` còn thiếu trên nút rail + logo + tab NavLinks (bất biến #5 — tab dùng outline inset `-outline-offset-4` vì ring ngoài bị clip ở đáy màn); `rounded-[14px]` → token `--radius-nav`/`rounded-nav` (§7 rail-button = 14px nhưng trước đó chưa có token); icon tab 22 → 21 (khớp frame `build_mobile.py` cả rail lẫn tabbar dùng 21); badge tab `text-caption` → `text-[10px]` khớp rail badge (frame: 9.5px); nhãn tab `text-xs` → `text-caption` (§7 nhãn caption). **Chấp nhận có ghi chú:** `text-[19px]`/`text-[10px]` ngoài thang chữ §3 nhưng là số liệu đúng của frame (rail-logo 19px, badge 9.5px) — metadata vi mô, không phải nội dung đọc; guard `if (!user) return null` trong Rail giữ theo idiom hiện có của AppLayout/AppTopBar (user được ProtectedRoute bảo đảm, guard chỉ thoả TS); badge chip Rail vs BottomNav còn duplicate nhẹ (16/18px, khác viền) — gộp là tuỳ chọn, bỏ qua; NotificationDropdown mồ côi chờ ticket 09; mobile thiếu header/avatar sheet là phần disclose đã nêu (ticket 07/09/10 dựng mhead theo frame); xung đột doc spec #4 (bo 8/12/16) vs DESIGN §7 (rail 14) — theo DESIGN vì là chuẩn đích.
+
 ## Answer
 
 **Đủ 6 mục:**

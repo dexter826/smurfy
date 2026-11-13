@@ -21,20 +21,20 @@ export const BottomNav: React.FC<BottomNavProps> = ({ badges }) => (
           to={to}
           end={end}
           className={({ isActive }) =>
-            `flex min-h-[56px] w-full flex-col items-center justify-center gap-1 py-2 transition-colors duration-200 ${
+            `flex min-h-[56px] w-full flex-col items-center justify-center gap-1 py-2 transition-colors duration-200 focus-visible:outline-2 focus-visible:-outline-offset-4 focus-visible:outline-focus/60 ${
               isActive ? 'text-accent-strong' : 'text-ink-3 hover:text-ink-2'
             }`
           }
         >
           <span className="relative">
-            <Icon size={22} aria-hidden="true" />
+            <Icon size={21} aria-hidden="true" />
             {badge > 0 && (
-              <span className="absolute -right-2 -top-1 flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-accent px-1 text-caption font-bold leading-none text-on-accent tabular-nums">
+              <span className="absolute -right-2 -top-1 flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-accent px-1 text-[10px] font-bold leading-none text-on-accent tabular-nums">
                 {badge > 99 ? '99+' : badge}
               </span>
             )}
           </span>
-          <span className="text-xs font-medium leading-none whitespace-nowrap">{label}</span>
+          <span className="text-caption font-medium leading-none whitespace-nowrap">{label}</span>
         </NavLink>
       );
     })}

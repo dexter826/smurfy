@@ -12,7 +12,7 @@ interface RailProps {
 }
 
 const railButton =
-  'relative flex h-[42px] w-[42px] items-center justify-center rounded-[14px] border transition-colors duration-200';
+  'relative flex h-[42px] w-[42px] items-center justify-center rounded-nav border transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus/60 focus-visible:ring-offset-2 focus-visible:ring-offset-canvas';
 
 const railButtonState = (isActive: boolean) =>
   isActive
@@ -35,7 +35,7 @@ export const Rail: React.FC<RailProps> = ({ badges, onLogout }) => {
     >
       <button
         onClick={() => navigate('/feed')}
-        className="mb-2 outline-none"
+        className="mb-2 rounded-control outline-none focus-visible:ring-2 focus-visible:ring-focus/60 focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
         aria-label="Về bảng tin"
       >
         <span className="flex h-10 w-10 items-center justify-center rounded-control bg-accent font-display text-[19px] font-extrabold text-on-accent">
