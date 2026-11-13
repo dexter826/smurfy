@@ -43,3 +43,5 @@ emulator_data/
 firebase_credentials.json
 sensitive-detection/
 run_local_worker.py
+
+skills-lock.json
