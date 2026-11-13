@@ -45,3 +45,6 @@ sensitive-detection/
 run_local_worker.py
 
 skills-lock.json
+# Python (scratch scripts)
+__pycache__/
+*.pyc
