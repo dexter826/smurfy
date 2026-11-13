@@ -17,6 +17,7 @@ export * from './Dropdown';
 export * from './DatePicker';
 export * from './Toast';
 export * from './Modal';
+export * from './SlideUpSheet';
 export * from './TextArea';
 export * from './UploadProgress';
 export * from './LazyMedia';

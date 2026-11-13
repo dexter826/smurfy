@@ -49,7 +49,7 @@ export const LazyImage: React.FC<LazyImageProps> = ({
 
   return (
     <div ref={containerRef} className={`relative overflow-hidden ${wrapperClassName}`}>
-      {!isLoaded && <div className={`w-full h-full bg-background animate-pulse ${className}`} />}
+      {!isLoaded && <div className={`w-full h-full bg-surface-2 animate-pulse ${className}`} />}
 
       {isInView && (
         <img

@@ -61,8 +61,8 @@ export const Modal: React.FC<ModalProps> = ({
   const positionClasses = isFullAlways
     ? 'inset-0 h-full max-h-full w-full max-w-full rounded-none'
     : isFullMobile
-      ? 'max-md:inset-0 max-md:h-full max-md:max-h-full max-md:rounded-none max-md:animate-slide-in-right md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:h-auto md:max-h-[90dvh] md:rounded-lg md:animate-fade-in duration-slow'
-      : 'left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 max-h-[90dvh] rounded-lg animate-fade-in duration-base';
+      ? 'max-md:inset-0 max-md:h-full max-md:max-h-full max-md:rounded-none max-md:animate-slide-in-right md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:h-auto md:max-h-[90dvh] md:rounded-dialog md:animate-fade-in duration-slow'
+      : 'left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 max-h-[90dvh] rounded-dialog animate-fade-in duration-base';
 
   return (
     <DialogPrimitive.Root open={open} onOpenChange={onOpenChange}>
@@ -70,15 +70,15 @@ export const Modal: React.FC<ModalProps> = ({
         <DialogPrimitive.Overlay className="fixed inset-0 z-modal bg-overlay backdrop-blur-sm animate-fade-in" />
         <DialogPrimitive.Content
           className={cn(
-            'fixed z-modal flex w-full flex-col overflow-hidden bg-surface shadow-xl outline-none',
+            'fixed z-modal flex w-full flex-col overflow-hidden bg-surface shadow-float outline-none',
             positionClasses,
             sizeClasses[size],
             className,
           )}
         >
           {showHeader ? (
-            <div className="flex flex-shrink-0 items-center justify-between border-b border-border px-5 py-4">
-              <DialogPrimitive.Title className="text-base font-bold text-foreground">
+            <div className="flex flex-shrink-0 items-center justify-between border-b border-line px-5 py-4">
+              <DialogPrimitive.Title className="text-base font-bold text-ink">
                 {title || ''}
               </DialogPrimitive.Title>
               {showCloseButton && (
@@ -107,7 +107,7 @@ export const Modal: React.FC<ModalProps> = ({
           </div>
 
           {footer && (
-            <div className="flex flex-shrink-0 justify-end gap-3 border-t border-border bg-background/30 px-4 py-3 pb-[calc(12px+env(safe-area-inset-bottom))] md:px-5 md:py-4 md:pb-4">
+            <div className="flex flex-shrink-0 justify-end gap-3 border-t border-line bg-canvas/30 px-4 py-3 pb-[calc(12px+env(safe-area-inset-bottom))] md:px-5 md:py-4 md:pb-4">
               {footer}
             </div>
           )}
@@ -144,7 +144,7 @@ export const AlertDialog: React.FC<AlertDialogProps> = ({
       <AlertDialogPrimitive.Content
         className={cn(
           'fixed left-1/2 top-1/2 z-dialog w-full max-w-[320px] -translate-x-1/2 -translate-y-1/2',
-          'rounded-lg border border-border bg-surface p-5 shadow-xl outline-none animate-fade-in',
+          'rounded-dialog border border-line bg-surface p-5 shadow-float outline-none animate-fade-in',
         )}
       >
         <div className="mb-5 flex flex-col items-center text-center">
@@ -153,14 +153,14 @@ export const AlertDialog: React.FC<AlertDialogProps> = ({
               <AlertTriangle size={22} aria-hidden="true" />
             </div>
           ) : (
-            <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-primary-soft text-primary">
+            <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-accent-soft text-accent-strong">
               <Info size={22} aria-hidden="true" />
             </div>
           )}
-          <AlertDialogPrimitive.Title className="mb-2 text-base font-bold text-foreground">
+          <AlertDialogPrimitive.Title className="mb-2 text-base font-bold text-ink">
             {title}
           </AlertDialogPrimitive.Title>
-          <AlertDialogPrimitive.Description className="text-sm leading-relaxed text-secondary">
+          <AlertDialogPrimitive.Description className="text-sm leading-relaxed text-ink-2">
             {message}
           </AlertDialogPrimitive.Description>
         </div>

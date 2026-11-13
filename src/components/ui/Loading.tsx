@@ -14,7 +14,7 @@ export const Loading: React.FC<LoadingProps> = ({
   size = 'md',
   text,
   className = '',
-  color = 'text-primary',
+  color = 'text-accent-strong',
 }) => {
   const iconSize = typeof size === 'number' ? size : { sm: 16, md: 32, lg: 48 }[size];
   const spinner = <Loader2 className={`animate-spin ${color} shrink-0`} size={iconSize} />;
@@ -27,7 +27,7 @@ export const Loading: React.FC<LoadingProps> = ({
       >
         {spinner}
         {text && (
-          <p className="text-secondary font-semibold tracking-wider text-xs uppercase animate-pulse">
+          <p className="text-ink-2 font-semibold tracking-wider text-xs uppercase animate-pulse">
             {text}
           </p>
         )}
@@ -41,7 +41,7 @@ export const Loading: React.FC<LoadingProps> = ({
         className={`absolute inset-0 z-10 flex flex-col items-center justify-center bg-overlay backdrop-blur-[2px] rounded-[inherit] transition-theme ${className}`}
       >
         {spinner}
-        {text && <p className="mt-2 text-secondary text-sm font-medium">{text}</p>}
+        {text && <p className="mt-2 text-ink-2 text-sm font-medium">{text}</p>}
       </div>
     );
   }
@@ -50,7 +50,7 @@ export const Loading: React.FC<LoadingProps> = ({
     return (
       <div className={`flex flex-col items-center justify-center p-8 w-full ${className}`}>
         {spinner}
-        {text && <p className="mt-2 text-secondary text-sm font-medium">{text}</p>}
+        {text && <p className="mt-2 text-ink-2 text-sm font-medium">{text}</p>}
       </div>
     );
   }
@@ -58,7 +58,7 @@ export const Loading: React.FC<LoadingProps> = ({
   return (
     <div className={`flex items-center justify-center ${className}`}>
       {spinner}
-      {text && <span className="ml-2 text-secondary text-sm font-medium">{text}</span>}
+      {text && <span className="ml-2 text-ink-2 text-sm font-medium">{text}</span>}
     </div>
   );
 };

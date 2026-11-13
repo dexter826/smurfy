@@ -104,28 +104,28 @@ export const ImageCropper: React.FC<ImageCropperProps> = ({
       footer={
         <div className="flex flex-col w-full gap-4">
           {showShareOption && (
-            <div className="flex items-center justify-between px-1 py-1 bg-surface-sunken rounded-xl mb-1">
-              <span className="text-xs font-semibold text-secondary px-2 uppercase tracking-wider">
+            <div className="flex items-center justify-between px-1 py-1 bg-surface-2 rounded-card mb-1">
+              <span className="text-xs font-semibold text-ink-2 px-2 uppercase tracking-wider">
                 Ai có thể xem?
               </span>
               <Dropdown
                 trigger={
-                  <button className="flex items-center gap-1.5 px-3 py-1.5 bg-surface hover:bg-hover rounded-lg border border-border transition-all text-sm font-medium text-foreground">
+                  <button className="flex items-center gap-1.5 px-3 py-1.5 bg-surface hover:bg-surface-2 rounded-control border border-line transition-all text-sm font-medium text-ink">
                     {visibility === Visibility.PUBLIC && (
-                      <Globe size={16} className="text-primary flex-shrink-0" />
+                      <Globe size={16} className="text-accent-strong flex-shrink-0" />
                     )}
                     {visibility === Visibility.FRIENDS && (
-                      <Users size={16} className="text-primary flex-shrink-0" />
+                      <Users size={16} className="text-accent-strong flex-shrink-0" />
                     )}
                     {visibility === Visibility.PRIVATE && (
-                      <Lock size={16} className="text-primary flex-shrink-0" />
+                      <Lock size={16} className="text-accent-strong flex-shrink-0" />
                     )}
                     <span>
                       {visibility === Visibility.PUBLIC && 'Công khai'}
                       {visibility === Visibility.FRIENDS && 'Bạn bè'}
                       {visibility === Visibility.PRIVATE && 'Chỉ mình tôi'}
                     </span>
-                    <ChevronDown size={15} className="text-muted" />
+                    <ChevronDown size={15} className="text-ink-3" />
                   </button>
                 }
                 align="right"
@@ -206,9 +206,9 @@ export const ImageCropper: React.FC<ImageCropperProps> = ({
           />
         </div>
 
-        <div className="px-4 py-3.5 bg-background border-t border-border">
+        <div className="px-4 py-3.5 bg-canvas border-t border-line">
           <div className="flex items-center gap-4">
-            <ZoomOut size={16} className="text-muted flex-shrink-0" />
+            <ZoomOut size={16} className="text-ink-3 flex-shrink-0" />
             <input
               type="range"
               min={1}
@@ -216,9 +216,9 @@ export const ImageCropper: React.FC<ImageCropperProps> = ({
               step={0.1}
               value={zoom}
               onChange={(e) => setZoom(Number(e.target.value))}
-              className="flex-1 h-1.5 bg-surface-sunken rounded-full appearance-none cursor-pointer accent-primary"
+              className="flex-1 h-1.5 bg-surface-2 rounded-full appearance-none cursor-pointer accent-accent"
             />
-            <ZoomIn size={16} className="text-muted flex-shrink-0" />
+            <ZoomIn size={16} className="text-ink-3 flex-shrink-0" />
           </div>
         </div>
       </div>

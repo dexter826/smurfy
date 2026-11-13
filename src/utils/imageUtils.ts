@@ -1,16 +1,7 @@
 import { IMAGE_COMPRESSION } from '../constants/appConfig';
 
-const AVATAR_GRADIENTS = [
-  ['#FF6B6B', '#FF8E53'],
-  ['#4E54C8', '#8F94FB'],
-  ['#11998E', '#38EF7D'],
-  ['#FC466B', '#3F5EFB'],
-  ['#F2994A', '#F2C94C'],
-  ['#56CCF2', '#2F80ED'],
-  ['#B122E5', '#FF63DE'],
-  ['#00B09B', '#96C93D'],
-  ['#642B73', '#C6426E'],
-] as const;
+// Dải xanh-xám trung tính cho chữ cái đầu avatar (DESIGN.md §6)
+const AVATAR_COLORS = ['#6E8CAE', '#748FAC', '#7A90AA', '#8092A8', '#8695A7', '#8C97A8'] as const;
 
 // Lấy chữ cái đầu (tối đa 2)
 export const getInitials = (name: string): string => {
@@ -20,16 +11,14 @@ export const getInitials = (name: string): string => {
   return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
 };
 
-// Tạo màu gradient từ seed
-export const getAvatarGradient = (seed: string): string => {
+// Màu avatar đặc, ổn định theo seed
+export const getAvatarColor = (seed: string): string => {
   let hash = 0;
   for (let i = 0; i < seed.length; i++) {
     hash = seed.charCodeAt(i) + ((hash << 5) - hash);
   }
-  const gradients = AVATAR_GRADIENTS;
-  const index = Math.abs(hash) % gradients.length;
-  const [c1, c2] = gradients[index];
-  return `linear-gradient(135deg, ${c1}, ${c2})`;
+  const index = Math.abs(hash) % AVATAR_COLORS.length;
+  return AVATAR_COLORS[index];
 };
 
 interface CompressionOptions {

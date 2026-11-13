@@ -27,8 +27,8 @@ export const Tooltip: React.FC<TooltipProps> = ({
         align={align}
         sideOffset={6}
         className={cn(
-          'z-popover max-w-60 rounded-sm border border-border bg-surface-elevated px-2 py-1',
-          'text-caption text-foreground shadow-dropdown',
+          'z-popover max-w-60 rounded-control border border-line bg-surface px-2 py-1',
+          'text-caption text-ink shadow-float',
           'data-[state=delayed-open]:animate-fade-in',
           className,
         )}

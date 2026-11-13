@@ -11,7 +11,7 @@ interface SkeletonProps extends SkeletonLibProps {
 }
 
 export const SkeletonProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <SkeletonTheme baseColor="var(--color-hover)" highlightColor="var(--color-surface)">
+  <SkeletonTheme baseColor="var(--color-skeleton)" highlightColor="var(--color-surface)">
     {children}
   </SkeletonTheme>
 );

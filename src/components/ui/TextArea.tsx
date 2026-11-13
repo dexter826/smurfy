@@ -63,7 +63,7 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
         {label && (
           <label
             htmlFor={inputId}
-            className="text-caption font-semibold text-secondary ml-1 cursor-pointer"
+            className="text-caption font-semibold text-ink-2 ml-1 cursor-pointer"
           >
             {label}
           </label>
@@ -71,9 +71,9 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
         <div
           className={`
         relative group overflow-hidden
-        bg-surface border border-border transition-all duration-200
-        ${props.disabled ? 'opacity-50 bg-background cursor-not-allowed' : 'focus-within:border-primary focus-within:ring-2 focus-within:ring-focus/50 hover:border-border-strong'}
-        ${!className.includes('rounded-') ? 'rounded-sm' : ''}
+        bg-surface border border-line transition-all duration-200
+        ${props.disabled ? 'opacity-50 bg-canvas cursor-not-allowed' : 'focus-within:border-accent focus-within:ring-2 focus-within:ring-focus/50 hover:border-line-strong'}
+        ${!className.includes('rounded-') ? 'rounded-control' : ''}
         ${error ? 'border-danger ring-2 ring-danger/50' : ''}
         ${className}
       `}
@@ -88,7 +88,7 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
               className={`
               absolute inset-0 w-full h-full pointer-events-none
               bg-transparent outline-none text-base leading-relaxed resize-none
-              whitespace-pre-wrap break-words text-foreground
+              whitespace-pre-wrap break-words text-ink
               ${icon ? 'pl-11' : 'pl-4'}
               ${!className.includes('py-') ? 'py-2' : ''}
               overflow-hidden z-20
@@ -108,7 +108,7 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
           )}
 
           {icon && (
-            <div className="absolute top-3 left-0 pl-3.5 flex items-start pointer-events-none text-muted group-focus-within:text-primary transition-colors duration-200">
+            <div className="absolute top-3 left-0 pl-3.5 flex items-start pointer-events-none text-ink-3 group-focus-within:text-accent transition-colors duration-200">
               {icon}
             </div>
           )}
@@ -118,8 +118,8 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
             id={inputId}
             className={`
             block w-full bg-transparent outline-none border-none text-base leading-relaxed resize-none
-            ${renderOverlay ? 'text-transparent caret-text-primary selection:bg-primary/20 selection:text-transparent' : 'text-foreground'}
-            placeholder:text-muted
+            ${renderOverlay ? 'text-transparent caret-accent selection:bg-accent/20 selection:text-transparent' : 'text-ink'}
+            placeholder:text-ink-3
             ${icon ? 'pl-11' : 'pl-4'}
             ${rightElement ? 'pr-8' : 'pr-4'}
             ${!className.includes('py-') ? 'py-2' : ''}
@@ -135,7 +135,7 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
               props.onScroll?.(e);
             }}
             onChange={onChange}
-            style={{ caretColor: 'var(--color-primary)' }}
+            style={{ caretColor: 'var(--color-accent)' }}
             {...props}
           />
 

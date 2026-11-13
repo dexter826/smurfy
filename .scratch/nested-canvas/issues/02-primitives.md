@@ -1,7 +1,7 @@
 # Primitives — components/ui theo Nested Canvas
 
 Type: task
-Status: ready-for-agent
+Status: resolved
 Blocked by: 01
 
 ## Scope
@@ -21,3 +21,25 @@ Blocked by: 01
 - Frame tham chiếu: c-auth (input/nút), c-chat (dropdown, bubble không nằm đây), c-m-dark (toast/badge).
 
 ## Comments
+
+## Answer
+
+**Làm đủ mục 1–6:**
+1. cva cho Button, IconButton, Badge, EmptyState, Toast (bar variants). API props giữ nguyên 100%.
+2. Toàn bộ `src/components/ui/` (34 file tsx) sang token mới trực tiếp: bo `control/card/dialog`, viền `line`, focus ring `focus/50`, nút primary `accent + on-accent + accent-edge` (hover `bg-accent-edge` — DESIGN không định nghĩa hover, edge là sắc đậm duy nhất trong bảng màu), dropdown/popover/tooltip/toast `rounded-card + line + shadow-float`, item chọn `accent-soft + accent-strong`.
+3. Thêm `SlideUpSheet` (mobile: sheet đáy, `rounded-t-dialog`, tay cầm `showHandle`, `slideInUp` 300ms; ≥lg: dialog giữa màn). Đã chuyển BlockOptionsModal + ReactionDetailsModal sang sheet (mục 3 nêu đích danh 2 modal này); bỏ shell portal tự viết + `useScrollLock` (Radix tự lock/focus-trap/Escape).
+4. 0 alias token trong `src/components/ui` (grep = 0), 0 hex, 0 legacy radius.
+5. SplashScreen bỏ Lottie (import + fetch + state `animationData`): CSS thuần logo + wordmark + shimmer bar; giữ timing 1800ms + fade 500ms.
+6. Thêm prop mới duy nhất: `showHandle` cho SlideUpSheet.
+
+**Đổi phụ (để phục vụ primitive):**
+- `getAvatarGradient` → `getAvatarColor` (`src/utils/imageUtils.ts`): dải đặc `#6E8CAE–#8C97A8` theo DESIGN §6; initials `text-on-accent`. Chỉ Avatar tiêu thụ nên đổi tên an toàn.
+- Checkbox box 16px dùng `rounded-[4px]` bám frame c-auth (`.box{border-radius:4px}`) — ngoài thang 10/16/20 vì là micro-control; swap cũ là 8px = tròn.
+- Avatar fallback lồng nhau `bg-canvas`; ConnectionStatus `z-toast` utility thay `z-[var(--z-toast)]`; Switch track unchecked `surface-3` (nền lún sâu), thumb `bg-surface shadow-xs`; Loading spinner mặc định `text-accent-strong` (đạt 3:1 non-text).
+
+**Chấp nhận nguyên trạng (có ghi chú):**
+- Media chrome trong MediaViewer/CircularProgressOverlay giữ `bg-black/*` + scrim đậm trên ảnh — màu chức năng trên nội dung media, không phải brand UI, không có hex; gradient scrim giữ vì là alpha-legibility (grep tiêu chí chỉ yêu cầu 0 hex/0 alias/0 class chết).
+- `lottie-react` giờ 0 consumer — gỡ dependency + xoá `splash.json` thuộc ticket 12 (handoff).
+- Toast `overflow-hidden` + bar giữ nguyên vị trí; bo chuyển `rounded-md`→`rounded-card`.
+
+**Verify:** `format:check` + `typecheck` + `build` pass; grep ui = 0 alias / 0 hex / 0 class chết; `contrast_check.py` RESULT PASS; build CSS sinh đủ `slide-in-up`, `rounded-t-dialog`, `control/card/dialog`, bộ accent. Frame: input/nút theo c-auth (44px, bo 10, viền line), toast/badge solid = accent + on-accent theo c-m-dark.
