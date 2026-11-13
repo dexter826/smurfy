@@ -56,8 +56,10 @@ export const SlideUpSheet: React.FC<SlideUpSheetProps> = ({
       <DialogPrimitive.Content
         className={cn(
           'fixed z-modal flex w-full flex-col overflow-hidden bg-surface shadow-float outline-none',
-          'inset-x-0 bottom-0 max-h-[90dvh] rounded-t-dialog animate-slide-in-up duration-slow',
-          'lg:left-1/2 lg:top-1/2 lg:bottom-auto lg:-translate-x-1/2 lg:-translate-y-1/2 lg:max-h-[90dvh] lg:rounded-dialog lg:animate-fade-in lg:duration-base',
+          // Mobile: sheet toàn màn trượt từ đáy, bo 2 góc trên
+          'inset-x-0 bottom-0 h-full max-h-full rounded-t-dialog animate-slide-in-up duration-slow',
+          // ≥lg: dialog giữa màn
+          'lg:inset-x-auto lg:bottom-auto lg:h-auto lg:left-1/2 lg:top-1/2 lg:-translate-x-1/2 lg:-translate-y-1/2 lg:max-h-[90dvh] lg:rounded-dialog lg:animate-fade-in lg:duration-base',
           sizeClasses[size],
           className,
         )}

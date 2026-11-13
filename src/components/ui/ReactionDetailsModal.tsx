@@ -108,13 +108,7 @@ export const ReactionDetailsModal: React.FC<ReactionDetailsModalProps> = ({
   }, [usersMap, reactionEntries, activeTab]);
 
   return (
-    <SlideUpSheet
-      open={open}
-      onOpenChange={() => onOpenChange()}
-      title="Cảm xúc"
-      size="sm"
-      bodyClassName="!p-0"
-    >
+    <SlideUpSheet open={open} onOpenChange={onOpenChange} title="Cảm xúc" size="sm">
       <div className="flex flex-col h-[500px] max-h-[70vh]">
         {/* Tabs */}
         {tabs.length > 1 && (

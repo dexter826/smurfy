@@ -34,7 +34,7 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ isReady, onFinish })
       }`}
     >
       <img src="/logo.svg" alt="Smurfy" className="h-28 w-28 object-contain" />
-      <h1 className="font-display font-extrabold text-3xl text-ink mt-4 tracking-tight">Smurfy</h1>
+      <h1 className="font-display font-extrabold text-4xl text-ink mt-4 tracking-tight">Smurfy</h1>
       <div className="w-24 h-1.5 mt-8 overflow-hidden rounded-full bg-surface-3">
         <div className="h-full w-1/2 rounded-full bg-accent animate-shimmer" />
       </div>

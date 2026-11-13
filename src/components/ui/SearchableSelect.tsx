@@ -152,7 +152,7 @@ export const SearchableSelect: React.FC<SearchableSelectProps> = ({
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder={searchPlaceholder}
-              className="w-full rounded-control border-none bg-canvas py-1.5 pl-7 pr-3 text-sm text-ink outline-none placeholder:text-ink-3"
+              className="w-full h-10 rounded-full bg-surface-2 border-none pl-7 pr-3 text-sm text-ink outline-none placeholder:text-ink-3"
             />
           </div>
         </div>

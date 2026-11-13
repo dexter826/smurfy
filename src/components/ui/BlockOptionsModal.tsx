@@ -130,9 +130,8 @@ export const BlockOptionsModal: React.FC<BlockOptionsModalProps> = ({
   return (
     <SlideUpSheet
       open={open}
-      onOpenChange={() => onOpenChange()}
+      onOpenChange={onOpenChange}
       title={`Quản lý chặn ${targetName}`}
-      bodyClassName="!p-0"
       footer={
         <>
           <Button variant="secondary" onClick={onOpenChange} className="flex-1 font-semibold h-11">
@@ -262,7 +261,7 @@ export const BlockOptionsModal: React.FC<BlockOptionsModalProps> = ({
       {/* Cảnh báo hủy kết bạn (Tối giản) */}
       {isFriend && isFullyBlocked(options) && (
         <div className="px-6 py-2 bg-danger/5 border-t border-danger/10 animate-fade-in">
-          <p className="text-[11px] text-danger/80 text-center font-medium">
+          <p className="text-caption text-danger/80 text-center font-medium">
             Lưu ý: Việc áp dụng tất cả các hạn chế sẽ đồng thời{' '}
             <span className="font-bold">hủy kết bạn</span>.
           </p>

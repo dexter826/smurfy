@@ -1,6 +1,6 @@
 import React from 'react';
 import { X, CheckCircle, AlertCircle, Info, AlertTriangle } from 'lucide-react';
-import { cva, type VariantProps } from 'class-variance-authority';
+import { cva } from 'class-variance-authority';
 import { useToastStore, ToastType } from '@/store/toastStore';
 import { IconButton } from './IconButton';
 import { cn } from '@/lib/cn';

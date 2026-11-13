@@ -43,3 +43,15 @@ Blocked by: 01
 - Toast `overflow-hidden` + bar giữ nguyên vị trí; bo chuyển `rounded-md`→`rounded-card`.
 
 **Verify:** `format:check` + `typecheck` + `build` pass; grep ui = 0 alias / 0 hex / 0 class chết; `contrast_check.py` RESULT PASS; build CSS sinh đủ `slide-in-up`, `rounded-t-dialog`, `control/card/dialog`, bộ accent. Frame: input/nút theo c-auth (44px, bo 10, viền line), toast/badge solid = accent + on-accent theo c-m-dark.
+
+**Code-review (2 trục, fixed point `6deb46f`) — đã fix trong commit `fix(nested-canvas)`:**
+- Import `VariantProps` không dùng ở Button/Badge/Toast/EmptyState (AGENTS §3 orphan) → bỏ; IconButton giữ vì có dùng.
+- Tooltip `rounded-control` → `rounded-card` (lớp nổi theo §6 "dropdown, toast" = card 16).
+- Search input trong SearchableSelect → đúng `search-field` §7: `rounded-full bg-surface-2 h-10`.
+- SlideUpSheet mobile thành **toàn màn** (`inset-x-0 bottom-0 h-full rounded-t-dialog`) theo ticket "full màn mobile" + DESIGN "sheet toàn màn từ dưới"; ≥lg vẫn dialog giữa.
+- DatePicker trigger md 40 → 44 (`h-11`) theo `text-field` cao 44.
+- SplashScreen wordmark 30 → 40px (`text-4xl`) theo `display-brand` §3. Logo **tile** theo c-auth đanh lại ở ticket 12 cùng checkpoint logo (logo.svg hiện tại có thể tối màu — đặt lên tile accent sẽ rủi ro tàng hình trước khi có asset mới).
+- Bỏ `bodyClassName="!p-0"` thừa (padding mặc định `none` = `p-0`) + bỏ middle-man `onOpenChange={() => onOpenChange()}` ở 2 sheet consumer.
+- BlockOptionsModal cảnh báo `text-[11px]` → `text-caption` (sàn 12px §3).
+
+**Chấp nhận có ghi chú:** hover primary dùng `accent-edge` làm fill (edge là token đậm duy nhất; Answer đã disclose); spinner/progress ring dùng `accent-strong` cho đạt 3:1 non-text; shadow-xs trên Switch thumb/ReactionDisplay thuộc thang shadow giữ lại (ticket 01 mục 6), không phải color alias; IconButton sm 36px là tension nội bộ của DESIGN §7 (sm 36 nhưng "touch ≥44") — để nguyên, ticket 03+ xử lý theo màn; hex avatar trong `imageUtils.ts` là ngoại lệ §2 (dải trung tính §6 — spec ghi "hex ngoài index.css" cấm nhưng DESIGN §6 tự định nghĩa dải này; đã ghi vào Answer để ticket 12 cân nhắc chuyển thành token nếu muốn); skeleton delay 150ms/300ms (§7) **defer** — không nằm trong 6 mục của ticket, sẽ áp ở các màn dùng skeleton (ticket 03+); `map.md` không tồn tại vì effort này đi flow to-spec→to-tickets (spec.md là record quyết định), không phải wayfinder; EmojiPicker overlay `bg-black/30` = media-chrome (đã liệt kê đủ trong danh sách chấp nhận).
