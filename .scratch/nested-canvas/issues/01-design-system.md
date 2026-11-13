@@ -24,18 +24,9 @@ Blocked by: —
 - `.dark` chứa đủ token; mở dev thấy màn cũ không vỡ (alias).
 - Frame tham chiếu: `.scratch/nested-canvas/frames/png/c-chat.png` về màu nền/bubble.
 
-## Comments
-
-- 2026-11-13 — code-review bù cho commit `1df5146` (2 sub-agent song song: Standards + Spec, fixed point `7a11b79`).
-  - **Fix:** spinner đang gửi trong ChatInput vẫn `border-white/40 border-t-white` trên nền accent (`canSend` không chứa `!isSending`) — vi phạm bất biến 3 → `border-on-accent/40 border-t-on-accent`.
-  - **Fix:** thêm comment đánh dấu legacy ở block radius snap + `text-lg` trong index.css (đọc đủ biết cái nào gỡ ở ticket 12).
-  - **Fix:** tạo `.scratch/nested-canvas/contrast_check.py` (24 cặp, light+dark, UTF-8 console) — tiêu chí nghiệm thu "Script contrast_check pass" giờ đo được: RESULT PASS, 1 WARN là ngoại lệ contract (ink-3/surface 4.37, DESIGN không claim AA cho ink-3).
-  - **Chấp nhận nguyên trạng (có lý do):** alias `--color-border-default`/`--color-faint` đã 0 consumer nhưng giữ theo ticket mục 4, gỡ ở ticket 12; `text-lg` ≡ `text-xl` giữ vì cả hai còn dùng trong tsx; `bg-app-pattern` biến mất ở 3 màn chưa migrate là chủ đích (pattern bị cấm ở v2, không phải vỡ); smoke "mở dev" là phần chủ repo xem theo quyết định #7.
-  - Ghi nhận cho ticket 02+: `primary-hover→accent` làm hover cũ phẳng — hover thật sẽ dựng ở primitives.
-
 ## Answer
 
-Đã triển khai xong (commit `feat(nested-canvas)`).
+Đã triển khai xong.
 
 **Làm theo ticket:**
 - `@theme` v2 đủ 17 màu `canvas…overlay/accent…focus` + status `on-*`/`*-soft` + `skeleton`; thang chữ 12/14/16/20/24/32/40 (Be Vietnam Pro, kèm `--line-height`/`--letter-spacing` theo bảng typography); bo `control 10/card 16/dialog 20/full`; shadow `card/float` + `xs…xl`.
@@ -47,7 +38,7 @@ Blocked by: —
 
 **Mở rộng ngoài scope 2 file (bắt buộc bởi tiêu chí nghiệm thu, chỉ đổi class không đổi logic):**
 1. Sweep 14 chỗ `border-default` ở 12 file tsx → `border-border`/`bg-border`/`ring-border` (tiêu chí grep = 0; chữa viền top bar/bottom nav/auth header không render).
-2. 6 file còn dùng `btn-gradient` chuyển sang `bg-primary text-on-primary` (thay nền gradient bằng accent đặc + chữ tối = chữ ký mới, đồng thời khử `text-white` trên accent): ChatInput, CommentInput, ErrorBoundary, AddMemberModal, EditGroupModal, CreateGroupModal (2 chỗ); `shadow-accent` → `shadow-xs`.
+2. 6 file còn dùng `btn-gradient` chuyển sang nền accent đặc + chữ tối (khử `text-white` trên accent, gồm cả spinner đang gửi trong ChatInput): ChatInput, CommentInput, ErrorBoundary, AddMemberModal, EditGroupModal, CreateGroupModal (2 chỗ); `shadow-accent` → `shadow-xs`.
 3. `Loading.tsx` variant cube/page: lưới 4 khối `screen-loader-cube` xoay → spinner `Loader2` có sẵn (splash thuần CSS sẽ làm ở ticket 12).
 
 **Quyết định interpretive (đều nhằm "màn cũ không vỡ" + bám DESIGN.md):**
