@@ -242,6 +242,7 @@ export const ChatDetailsActions: React.FC<ChatDetailsActionsProps> = ({
                   disabled={isCopyingInvite}
                   className="p-2 rounded-control hover:bg-surface-3 text-ink-3 hover:text-accent transition-all disabled:opacity-50 outline-none"
                   title="Sao chép link"
+                  aria-label="Sao chép link"
                 >
                   {copied ? <Check size={16} className="text-success" /> : <Copy size={16} />}
                 </button>
@@ -249,6 +250,7 @@ export const ChatDetailsActions: React.FC<ChatDetailsActionsProps> = ({
                   onClick={() => setShowQRCode(true)}
                   className="p-2 rounded-control hover:bg-surface-3 text-ink-3 hover:text-accent transition-all outline-none"
                   title="Hiển thị mã QR"
+                  aria-label="Hiển thị mã QR"
                 >
                   <QrCode size={16} />
                 </button>
@@ -257,6 +259,7 @@ export const ChatDetailsActions: React.FC<ChatDetailsActionsProps> = ({
                   disabled={isResettingInvite}
                   className="p-2 rounded-control hover:bg-surface-3 text-ink-3 hover:text-accent transition-all disabled:opacity-50 outline-none"
                   title="Tạo lại link"
+                  aria-label="Tạo lại link"
                 >
                   <RotateCcw size={16} className={isResettingInvite ? 'animate-spin' : ''} />
                 </button>

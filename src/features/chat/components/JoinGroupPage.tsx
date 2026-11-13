@@ -177,7 +177,7 @@ const JoinGroupPage: React.FC = () => {
               onClick={handleJoin}
               fullWidth
               size="lg"
-              className="h-14 text-base shadow-lg shadow-primary/20"
+              className="h-14 text-base shadow-card"
               isLoading={isJoining}
             >
               {!user

@@ -203,7 +203,11 @@ export const ChatDetailsPanel: React.FC<ChatDetailsPanelProps> = ({
   // ≥1280: panel inline 360 — flex child thứ ba của ChatPage
   if (isDesktop) {
     return (
-      <aside className="hidden xl:flex w-[360px] flex-shrink-0 flex-col bg-surface rounded-card border border-line shadow-card overflow-hidden">
+      <aside
+        className="flex w-[360px] flex-shrink-0 flex-col bg-surface rounded-card border border-line shadow-card overflow-hidden"
+        role="complementary"
+        aria-label="Chi tiết hội thoại"
+      >
         {panelHeader}
         {tabHeader}
         {tabContent}
@@ -221,7 +225,15 @@ export const ChatDetailsPanel: React.FC<ChatDetailsPanelProps> = ({
           style={{ zIndex: 'var(--z-overlay)' }}
         />
         <aside
-          className="fixed right-0 top-0 h-full w-[360px] bg-surface border-l border-line shadow-float flex flex-col animate-slide-in-right"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Chi tiết hội thoại"
+          tabIndex={-1}
+          autoFocus
+          onKeyDown={(e) => {
+            if (e.key === 'Escape') onOpenChange();
+          }}
+          className="fixed right-0 top-0 h-full w-[360px] bg-surface border-l border-line shadow-float flex flex-col animate-slide-in-right outline-none"
           style={{ zIndex: 'var(--z-modal)' }}
         >
           {panelHeader}
@@ -234,14 +246,7 @@ export const ChatDetailsPanel: React.FC<ChatDetailsPanelProps> = ({
 
   // Mobile: sheet trượt từ dưới (SlideUpSheet, ticket 02)
   return (
-    <SlideUpSheet
-      open={open}
-      onOpenChange={() => onOpenChange()}
-      title="Chi tiết"
-      size="lg"
-      showHandle
-      bodyClassName="!p-0"
-    >
+    <SlideUpSheet open={open} onOpenChange={onOpenChange} title="Chi tiết" size="lg" showHandle>
       {tabHeader}
       {tabContent}
     </SlideUpSheet>

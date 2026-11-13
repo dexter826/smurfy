@@ -99,13 +99,13 @@ const ChatDetailsMediaInner: React.FC<ChatDetailsMediaProps> = ({ messages, onMe
             />
           );
         return (
-          <div className="grid grid-cols-3 gap-0.5 p-0.5">
+          <div className="grid grid-cols-3 gap-1.5 p-1">
             {mediaItems.images.map((item, index) => (
               <button
                 key={item.key}
                 type="button"
                 onClick={() => setViewer({ open: true, index, items: imageViewerItems })}
-                className="aspect-square overflow-hidden hover:opacity-85 active:opacity-70 transition-opacity duration-200 group relative"
+                className="aspect-square overflow-hidden rounded-control hover:opacity-85 active:opacity-70 transition-opacity duration-200 group relative"
               >
                 <LazyImage
                   src={item.media.url || ''}

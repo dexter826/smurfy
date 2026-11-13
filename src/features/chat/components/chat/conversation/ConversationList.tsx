@@ -88,6 +88,16 @@ export const ConversationList = React.memo<ConversationListProps>(
     const pinnedConversations = displayConversations.filter((c) => c.userChat?.isPinned);
     const recentConversations = displayConversations.filter((c) => !c.userChat?.isPinned);
 
+    const renderSection = (
+      label: string,
+      items: Array<{ id: string; data: RtdbConversation; userChat: RtdbUserChat }>,
+    ) => (
+      <>
+        <div className="label-caps text-ink-3 px-4 pt-2 pb-1">{label}</div>
+        {items.map(renderConversationItem)}
+      </>
+    );
+
     const filterBadges = {
       stranger: strangerUnreadCount > 0 ? strangerUnreadCount : undefined,
     };
@@ -240,18 +250,8 @@ export const ConversationList = React.memo<ConversationListProps>(
                 />
               ) : (
                 <>
-                  {pinnedConversations.length > 0 && (
-                    <>
-                      <div className="label-caps text-ink-3 px-4 pt-2 pb-1">Đã ghim</div>
-                      {pinnedConversations.map(renderConversationItem)}
-                    </>
-                  )}
-                  {recentConversations.length > 0 && (
-                    <>
-                      <div className="label-caps text-ink-3 px-4 pt-2 pb-1">Gần đây</div>
-                      {recentConversations.map(renderConversationItem)}
-                    </>
-                  )}
+                  {pinnedConversations.length > 0 && renderSection('Đã ghim', pinnedConversations)}
+                  {recentConversations.length > 0 && renderSection('Gần đây', recentConversations)}
                 </>
               )}
             </div>
