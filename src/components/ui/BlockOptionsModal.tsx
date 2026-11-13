@@ -270,7 +270,7 @@ export const BlockOptionsModal: React.FC<BlockOptionsModalProps> = ({
           </div>
         )}
 
-        <div className="px-6 py-5 border-t border-border-default flex gap-3 pb-[calc(20px+env(safe-area-inset-bottom))] sm:pb-6">
+        <div className="px-6 py-5 border-t border-border flex gap-3 pb-[calc(20px+env(safe-area-inset-bottom))] sm:pb-6">
           <Button variant="secondary" onClick={onOpenChange} className="flex-1 font-semibold h-11">
             Hủy
           </Button>

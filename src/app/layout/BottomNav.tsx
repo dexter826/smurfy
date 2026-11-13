@@ -29,7 +29,7 @@ export const BottomNav: React.FC<BottomNavProps> = ({
 
   return (
     <nav
-      className="lg:hidden fixed bottom-0 left-0 right-0 z-modal bg-surface border-t border-default flex justify-around items-stretch"
+      className="lg:hidden fixed bottom-0 left-0 right-0 z-modal bg-surface border-t border-border flex justify-around items-stretch"
       style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
     >
       {tabs.map(({ to, icon: Icon, label, end, badgeKey }) => {

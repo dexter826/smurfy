@@ -25,12 +25,7 @@ export const Loading: React.FC<LoadingProps> = ({
         className={`fixed inset-0 flex flex-col justify-center items-center bg-surface gap-8 transition-theme ${className}`}
         style={{ zIndex: 'var(--z-toast)' }}
       >
-        <div className="grid grid-cols-2 gap-3 w-16 h-16 animate-rotate-loader">
-          <div className="w-full h-full rounded-lg screen-loader-cube" />
-          <div className="w-full h-full rounded-lg screen-loader-cube" />
-          <div className="w-full h-full rounded-lg screen-loader-cube" />
-          <div className="w-full h-full rounded-lg screen-loader-cube" />
-        </div>
+        {spinner}
         {text && (
           <p className="text-secondary font-semibold tracking-wider text-xs uppercase animate-pulse">
             {text}

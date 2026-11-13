@@ -205,7 +205,7 @@ export const CommentInput: React.FC<CommentInputProps> = ({
                   className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors duration-200 flex-shrink-0
                     ${
                       canSubmit
-                        ? 'btn-gradient text-white shadow-sm hover:brightness-110 active:brightness-95'
+                        ? 'bg-primary text-on-primary shadow-sm hover:brightness-110 active:brightness-95'
                         : 'bg-surface-sunken text-muted cursor-not-allowed'
                     }`}
                 >

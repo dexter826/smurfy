@@ -132,9 +132,9 @@ export const EditGroupModal: React.FC<EditGroupModalProps> = ({
               <button
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
-                className="absolute bottom-0 right-0 w-7 h-7 btn-gradient rounded-full flex items-center justify-center shadow-accent border-2 border-surface"
+                className="absolute bottom-0 right-0 w-7 h-7 bg-primary rounded-full flex items-center justify-center shadow-xs border-2 border-surface"
               >
-                <Camera size={13} className="text-white" />
+                <Camera size={13} className="text-on-primary" />
               </button>
               <input
                 ref={fileInputRef}

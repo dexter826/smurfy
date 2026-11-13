@@ -39,7 +39,7 @@ export const NotificationDropdown: React.FC = () => {
         />
       }
     >
-      <div className="flex items-center justify-between border-b border-border-default bg-surface px-5 py-4">
+      <div className="flex items-center justify-between border-b border-border bg-surface px-5 py-4">
         <div>
           <h3 className="text-sm font-bold tracking-tight text-foreground">Thông báo</h3>
           {unreadCount > 0 && (
@@ -61,7 +61,7 @@ export const NotificationDropdown: React.FC = () => {
 
       <NotificationList onItemClick={() => setOpen(false)} maxHeight="420px" />
 
-      <div className="border-t border-border-default bg-background/30 p-2">
+      <div className="border-t border-border bg-background/30 p-2">
         <button
           type="button"
           className="w-full rounded-sm py-2.5 text-sm font-bold text-secondary transition-colors duration-200 hover:bg-primary-soft hover:text-primary"

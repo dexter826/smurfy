@@ -157,8 +157,8 @@ export const AddMemberModal: React.FC<AddMemberModalProps> = ({
                     {friend.fullName}
                   </span>
                   {isSelected && (
-                    <div className="w-5 h-5 btn-gradient rounded-full flex items-center justify-center flex-shrink-0">
-                      <Check size={11} className="text-white" />
+                    <div className="w-5 h-5 bg-primary rounded-full flex items-center justify-center flex-shrink-0">
+                      <Check size={11} className="text-on-primary" />
                     </div>
                   )}
                 </div>

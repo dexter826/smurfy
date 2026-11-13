@@ -120,7 +120,7 @@ const OnboardingPage: React.FC = () => {
 
   return (
     <div className="min-h-[100dvh] bg-background selection:bg-primary/20 flex flex-col">
-      <header className="h-14 flex-shrink-0 bg-surface border-b border-default flex items-center px-4 gap-3">
+      <header className="h-14 flex-shrink-0 bg-surface border-b border-border flex items-center px-4 gap-3">
         <img src="/logo.svg" alt="Smurfy" className="h-8 w-8 object-contain" />
         <span className="font-display font-extrabold text-foreground">Smurfy</span>
       </header>

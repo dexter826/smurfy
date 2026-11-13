@@ -1,7 +1,7 @@
 # Design system — token v2 trong styles/index.css
 
 Type: task
-Status: ready-for-agent
+Status: resolved
 Blocked by: —
 
 ## Scope
@@ -25,3 +25,32 @@ Blocked by: —
 - Frame tham chiếu: `.scratch/nested-canvas/frames/png/c-chat.png` về màu nền/bubble.
 
 ## Comments
+
+## Answer
+
+Đã triển khai xong (commit `feat(nested-canvas)`).
+
+**Làm theo ticket:**
+- `@theme` v2 đủ 17 màu `canvas…overlay/accent…focus` + status `on-*`/`*-soft` + `skeleton`; thang chữ 12/14/16/20/24/32/40 (Be Vietnam Pro, kèm `--line-height`/`--letter-spacing` theo bảng typography); bo `control 10/card 16/dialog 20/full`; shadow `card/float` + `xs…xl`.
+- Dark qua `.dark` với đúng bảng dark của DESIGN.md (cơ chế `themeStore` giữ nguyên).
+- Alias di trú đủ danh sách mục 4, trỏ bằng `var()` nên tự theo dark theme. Đã smoke-test build CSS: `bg-background` → `var(--color-background)` → `var(--color-canvas)`.
+- Xoá: `btn-gradient`, `gradient-border`, `screen-loader-cube`, `bg-app-pattern`, `--gradient-*`, keyframes `cubePulse`/`rotateLoader`/`highlightFade`/`float`, `--shadow-accent*`.
+- Thêm `@utility scroll-hide`, `@utility tnum`, `slideInUp` (cho sheet), `prefers-reduced-motion` tắt toàn bộ animation/transition, scrollbar 6px theo `line-strong`.
+- `index.html`: font link → Be Vietnam Pro 400;500;600;700;800. `theme-color` giữ `#4C9EEB` cho ticket 12.
+
+**Mở rộng ngoài scope 2 file (bắt buộc bởi tiêu chí nghiệm thu, chỉ đổi class không đổi logic):**
+1. Sweep 14 chỗ `border-default` ở 12 file tsx → `border-border`/`bg-border`/`ring-border` (tiêu chí grep = 0; chữa viền top bar/bottom nav/auth header không render).
+2. 6 file còn dùng `btn-gradient` chuyển sang `bg-primary text-on-primary` (thay nền gradient bằng accent đặc + chữ tối = chữ ký mới, đồng thời khử `text-white` trên accent): ChatInput, CommentInput, ErrorBoundary, AddMemberModal, EditGroupModal, CreateGroupModal (2 chỗ); `shadow-accent` → `shadow-xs`.
+3. `Loading.tsx` variant cube/page: lưới 4 khối `screen-loader-cube` xoay → spinner `Loader2` có sẵn (splash thuần CSS sẽ làm ở ticket 12).
+
+**Quyết định interpretive (đều nhằm "màn cũ không vỡ" + bám DESIGN.md):**
+- Giữ tên radius legacy làm alias_snap lên thang mới: `sm/md→10`, `lg→16`, `xl/2xl→20`, `full` — màn chưa migrate không thành góc vuông; gỡ ở ticket 12.
+- `text-lg` snap 18→20px (thang mới không có 18); giữ `--text-caption`.
+- Shadow ở dark = `0 0 #0000` hết theo DESIGN §5.4 (dark phân tầng bằng surface + line, không bóng).
+- `primary-hover→accent` (đúng ticket mục 4) khiến hover cũ phẳng — chấp nhận, ticket 02 làm hover thật.
+
+**Contrast (tính WCAG):** mọi cặp chính PASS — on-accent/accent 6.60, ink/canvas 15.74, ink-2/surface 7.58, accent-strong/surface 6.83, accent-strong/accent-soft 6.07, accent-edge/surface 4.38 (non-text), status đủ 4.8+, dark full pass. Hai cặp borderline là sẵn của contract DESIGN.md, không phải lỗi thêm: `ink-3/surface` 4.37:1 (role chữ gợi ý/meta, DESIGN không claim AA cho ink-3) và `accent/surface` 2.84:1 non-text (lý do `accent-edge` tồn tại; nút primary luôn có viền edge).
+
+**Còn lại (cố ý không đụng — ngoài ticket này):** `bg-app-pattern` chết ở 3 file chưa migrate (ChatBox, NotFoundPage, ContactsPage → ticket 04/07/10); scrim `bg-gradient-to-b from-black/60` trong MediaViewer (ticket 07/08); `to-primary-active` chết từ trước ở ProfileHeader (ticket 08); `center-flex`/`text-ellipsis` dead từ trước (nêu ra, không xoá).
+
+**Verify:** `typecheck` + `build` + `format:check` pass; grep `border-default` tsx = 0; grep class đã xoá = 0; 0 hex trong file tsx đã sửa; 0 "gradient" trong index.css; build CSS có đủ alias + `.dark` + `scroll-hide`/`tnum`/reduced-motion; token khớp frame c-chat (canvas `#EDF1F6`, bubble nhận `#F6F8FB`, bubble gửi accent + `on-accent`).

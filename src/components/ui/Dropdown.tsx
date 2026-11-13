@@ -43,7 +43,7 @@ export const DropdownItem: React.FC<DropdownItemProps> = ({
 );
 
 export const DropdownSeparator: React.FC<{ className?: string }> = ({ className = '' }) => (
-  <DropdownMenuPrimitive.Separator className={cn('h-px bg-border-default', className)} />
+  <DropdownMenuPrimitive.Separator className={cn('h-px bg-border', className)} />
 );
 
 interface DropdownProps {

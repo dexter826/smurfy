@@ -84,9 +84,7 @@ const NotificationItemInner: React.FC<NotificationItemProps> = ({ notification, 
         hover:bg-hover active:bg-active
         focus-visible:ring-2 focus-visible:ring-primary/30 focus-visible:ring-inset
         ${
-          !notification.isRead
-            ? 'bg-primary/[0.04] border-primary/10'
-            : 'bg-surface border-border-default'
+          !notification.isRead ? 'bg-primary/[0.04] border-primary/10' : 'bg-surface border-border'
         }`}
       onClick={handleClick}
       onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && handleClick()}

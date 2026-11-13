@@ -54,7 +54,7 @@ export const ContactsActionBar: React.FC<ContactsActionBarProps> = ({
               className={`flex-1 relative py-2 min-h-[40px] text-[11px] font-bold rounded-lg transition-colors flex flex-col items-center justify-center gap-0.5
                 ${
                   isActive
-                    ? 'bg-surface text-primary shadow-xs ring-1 ring-border-default'
+                    ? 'bg-surface text-primary shadow-xs ring-1 ring-border'
                     : 'text-muted hover:text-secondary'
                 }`}
             >
@@ -119,7 +119,7 @@ export const ContactsActionBar: React.FC<ContactsActionBarProps> = ({
           <Input
             placeholder={`Tìm kiếm trong ${currentTabItem?.mobileLabel.toLowerCase() || 'danh bạ'}...`}
             icon={<Search size={16} />}
-            className="bg-background border-border-default"
+            className="bg-background border-border"
             value={searchTerm}
             onChange={(e) => onSearchChange(e.target.value)}
             containerClassName="flex-1"

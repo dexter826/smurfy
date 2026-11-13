@@ -284,7 +284,7 @@ export const ChatInput: React.FC<ChatInputProps> = (props) => {
             (!inputText.trim() && selectedFiles.length === 0) ||
             isSending
           }
-          className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 transition-colors duration-200 active:brightness-95 ${canSend ? 'btn-gradient text-white shadow-accent hover:brightness-110' : 'bg-surface-sunken text-muted cursor-not-allowed'}`}
+          className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 transition-colors duration-200 active:brightness-95 ${canSend ? 'bg-primary text-on-primary shadow-xs hover:brightness-110' : 'bg-surface-sunken text-muted cursor-not-allowed'}`}
         >
           {isSending ? (
             <span className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />

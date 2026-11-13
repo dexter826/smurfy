@@ -112,7 +112,7 @@ export const ReactionDetailsModal: React.FC<ReactionDetailsModalProps> = ({
       <div className="flex flex-col h-[500px] max-h-[70vh]">
         {/* Tabs */}
         {tabs.length > 1 && (
-          <div className="flex items-center gap-4 px-4 border-b border-border-default overflow-x-auto scroll-hide">
+          <div className="flex items-center gap-4 px-4 border-b border-border overflow-x-auto scroll-hide">
             {tabs.map((tab) => (
               <button
                 key={tab}

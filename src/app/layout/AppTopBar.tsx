@@ -19,7 +19,7 @@ export const AppTopBar: React.FC<AppTopBarProps> = ({ items, onLogout }) => {
   const mode = useResolvedTheme();
 
   return (
-    <header className="h-16 flex-shrink-0 bg-surface border-b border-default flex items-center px-4 lg:px-6 gap-4">
+    <header className="h-16 flex-shrink-0 bg-surface border-b border-border flex items-center px-4 lg:px-6 gap-4">
       <button
         onClick={() => navigate('/feed')}
         className="flex items-center gap-2.5 flex-shrink-0"
