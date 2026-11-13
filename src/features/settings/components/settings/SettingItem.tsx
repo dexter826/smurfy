@@ -24,7 +24,7 @@ const SettingItem: React.FC<SettingItemProps> = ({
   const base = `
     flex items-center justify-between p-4 bg-surface rounded-card border border-line
     transition-all duration-200 w-full text-left
-    ${isClickable ? 'cursor-pointer hover:bg-surface-2 active:bg-surface-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 focus-visible:ring-inset' : ''}
+    ${isClickable ? 'cursor-pointer hover:bg-surface-2 active:bg-surface-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/30 focus-visible:ring-inset' : ''}
     ${disabled ? 'opacity-50 cursor-not-allowed' : ''}
     ${className}
   `;

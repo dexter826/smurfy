@@ -37,7 +37,7 @@ export const TypingIndicator: React.FC<TypingIndicatorProps> = ({
           {[0, 1, 2].map((i) => (
             <span
               key={i}
-              className="w-1.5 h-1.5 rounded-full bg-muted animate-pulse-dot"
+              className="w-1.5 h-1.5 rounded-full bg-ink-3 animate-pulse-dot"
               style={{ animationDelay: `${i * 0.2}s` }}
             />
           ))}

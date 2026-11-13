@@ -130,7 +130,7 @@ const NotificationItemInner: React.FC<NotificationItemProps> = ({ notification, 
           >
             {formatRelativeTime(notification.createdAt)}
           </p>
-          {notification.isRead && <span className="w-1 h-1 bg-muted/40 rounded-full" />}
+          {notification.isRead && <span className="w-1 h-1 bg-ink-3/40 rounded-full" />}
         </div>
       </div>
 

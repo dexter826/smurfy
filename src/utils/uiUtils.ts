@@ -35,11 +35,11 @@ export const insertTextAtCursor = (
 };
 
 export const getReactionColorClass = (type: ReactionType | string | null) => {
-  if (!type) return 'text-muted';
+  if (!type) return 'text-ink-3';
   const rt = type.toLowerCase();
   switch (rt) {
     case 'like':
-      return '!text-primary hover:!text-primary-hover';
+      return '!text-accent-strong hover:!text-accent';
     case 'love':
     case 'angry':
       return '!text-danger hover:!text-danger/90';
@@ -48,7 +48,7 @@ export const getReactionColorClass = (type: ReactionType | string | null) => {
     case 'sad':
       return '!text-warning hover:!text-warning/90';
     default:
-      return '!text-primary hover:!text-primary-hover';
+      return '!text-accent-strong hover:!text-accent';
   }
 };
 
@@ -57,7 +57,7 @@ export const getReactionBgClass = (type: ReactionType | string | null) => {
   const rt = type.toLowerCase();
   switch (rt) {
     case 'like':
-      return '!bg-primary/5';
+      return '!bg-accent/5';
     case 'love':
     case 'angry':
       return '!bg-danger/5';
@@ -66,6 +66,6 @@ export const getReactionBgClass = (type: ReactionType | string | null) => {
     case 'sad':
       return '!bg-warning/10';
     default:
-      return '!bg-primary/5';
+      return '!bg-accent/5';
   }
 };
