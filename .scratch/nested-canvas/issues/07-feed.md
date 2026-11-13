@@ -26,13 +26,13 @@ Blocked by: 03
 ## Answer
 
 **Đủ 6 mục:**
-1. Feed desktop (hook `useMediaQuery` ≥1024): cột đọc `max-w-[640px]` giữa + rail phải 320 chứa BirthdayWidget + FriendSuggestionsWidget + thẻ "Hoạt động của bạn" (nút dẫn `/activity`, badge = unreadNotifications + receivedRequests, không đụng store logic); mobile: widget giữ sau composer, tự ẩn khi rỗng (widget đã `return null` sẵn).
+1. Feed desktop (hook `useMediaQuery` ≥**1280** — rail phải 320 chỉ bật xl theo bảng breakpoint §4; 1024–1279 chỉ cột đọc): cột đọc `max-w-[640px]` giữa + rail phải 320 chứa BirthdayWidget + FriendSuggestionsWidget + thẻ "Hoạt động của bạn" (nút dẫn `/activity`, badge = unreadNotifications + receivedRequests, không đụng store logic); mobile: widget giữ sau composer, tự ẩn khi rỗng (widget đã `return null` sẵn).
 2. Composer card: avatar + giả input tròn `bg-surface-2 rounded-full h-11` (frame `composer-fake`) + nút Đăng accent.
-3. PostItem: card `rounded-card border-line shadow-card` (post-card); media grid nền `line` gap 2px; thanh tương tác phân cách `line-soft`, hover `surface-2`, nút `rounded-control`; reaction pills giữ rc.
+3. PostItem: card `rounded-card border-line shadow-card` (post-card); media grid nền `bg-line` gap 2px (ticket: "gap 2px nền line"; §7 ghi "không gap" — theo ticket + frame `.media-2{gap:2px}`); composer giả input 40px viền `line-soft` (frame `composer-fake` 40px); thanh tương tác phân cách `line-soft`, hover `surface-2`, nút `rounded-control`; reaction pills giữ rc; FeedSkeleton đồng bộ cột 640.
 4. PostModal/PostViewModal/SharePostModal đã dùng primitive Modal (ticket 02) — chỉ restyle token; PostViewCinema giữ overlay tối + media chrome black/white (chức năng trên ảnh).
 5. Comment: bubble `surface-2 rounded-card`, input card `bg-surface rounded-card` + pill `bg-surface-2`, giữ phân luồng; skeleton `surface-2`.
 6. Stagger 60ms×n cap 300ms giữ nguyên (`motion-reduce:animate-none`).
 
-**Chấp nhận (media chrome):** `bg-black/*` + `text-white` trong PostViewCinema/PostModal xoá-ảnh — chức năng trên ảnh, không hex.
+**Chấp nhận (media chrome):** `bg-black/*` + `text-white` trong PostViewCinema, PostModal xoá-ảnh, PostMediaGrid placeholder, PostViewModal mobile strip, CommentItem lỗi-ảnh, SystemPostMedia — chức năng trên ảnh, không hex. text-[10px]/[11px] giữ theo số frame (badge/chip vi mô).
 
 **Verify:** CI 3 pass; grep scope (feed/components, comment/components) = 0 alias / 0 hex / 0 class chết; `contrast_check.py` PASS; khớp frame c-feed (cột đọc 640 + rail 320 + composer tròn + post-card) và c-m-feed.

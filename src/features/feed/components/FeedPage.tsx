@@ -39,7 +39,7 @@ const FeedPage: React.FC = () => {
   const { viewPost } = usePostNavigation();
   const openSharePost = useSharePostStore((state) => state.openSharePost);
   const navigate = useNavigate();
-  const isLarge = useMediaQuery('(min-width: 1024px)');
+  const isLarge = useMediaQuery('(min-width: 1280px)');
   const unreadNotifications = useNotificationStore((state) => state.unreadCount);
   const requestCount = useContactStore((state) => state.receivedRequests.length);
   const activityBadge = unreadNotifications + requestCount;
@@ -160,7 +160,7 @@ const FeedPage: React.FC = () => {
 
         {/* Rail phải 320 (desktop) */}
         {isLarge && (
-          <aside className="w-[320px] flex-shrink-0 hidden lg:flex flex-col gap-4">
+          <aside className="w-[320px] flex-shrink-0 flex flex-col gap-4">
             <BirthdayWidget />
             <FriendSuggestionsWidget />
             <button

@@ -155,7 +155,7 @@ export const CommentInput: React.FC<CommentInputProps> = ({
                       <button
                         type="button"
                         onClick={handleRemoveMedia}
-                        className="absolute -top-1.5 -right-1.5 w-5 h-5 bg-foreground text-surface rounded-full flex items-center justify-center shadow-md transition-colors duration-200 hover:bg-muted"
+                        className="absolute -top-1.5 -right-1.5 w-5 h-5 bg-ink text-surface rounded-full flex items-center justify-center shadow-md transition-colors duration-200 hover:bg-ink-2"
                       >
                         <X size={11} />
                       </button>
@@ -202,6 +202,7 @@ export const CommentInput: React.FC<CommentInputProps> = ({
                 <button
                   type="submit"
                   disabled={!canSubmit}
+                  aria-label="Gửi bình luận"
                   className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors duration-200 flex-shrink-0
                     ${
                       canSubmit

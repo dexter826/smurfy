@@ -248,6 +248,7 @@ const CommentItemInner: React.FC<CommentItemProps> = ({
                     <button
                       className="w-7 h-7 flex items-center justify-center rounded-full hover:bg-surface-2 text-ink-3 hover:text-ink transition-all duration-200"
                       title="Tùy chọn"
+                      aria-label="Tùy chọn bình luận"
                     >
                       <Ellipsis size={15} />
                     </button>

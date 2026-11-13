@@ -395,6 +395,7 @@ export const CommentSection: React.FC<CommentSectionProps> = ({
               <button
                 onClick={resetInput}
                 className="w-5 h-5 flex items-center justify-center rounded-full hover:bg-accent/10 text-accent-strong transition-colors duration-200"
+                aria-label="Huỷ"
               >
                 <X size={11} />
               </button>

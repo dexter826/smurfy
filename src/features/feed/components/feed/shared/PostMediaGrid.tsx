@@ -64,7 +64,7 @@ const PostMediaGridInner: React.FC<PostMediaGridProps> = ({ media, onClick, onIt
     const isBlob = item.url.startsWith('blob:');
 
     return (
-      <div className="bg-surface-2 relative select-none overflow-hidden">
+      <div className="bg-line relative select-none overflow-hidden">
         <div
           className="relative group cursor-pointer bg-black/5 flex items-center justify-center overflow-hidden max-h-[600px]"
           onClick={(e) => {
@@ -97,7 +97,7 @@ const PostMediaGridInner: React.FC<PostMediaGridProps> = ({ media, onClick, onIt
   }
 
   return (
-    <div className="bg-surface-2 relative select-none overflow-hidden">
+    <div className="bg-line relative select-none overflow-hidden">
       <div
         className={`grid gap-0.5 aspect-[4/3] sm:aspect-video cursor-pointer ${
           count === 2

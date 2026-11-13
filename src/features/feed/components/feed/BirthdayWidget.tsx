@@ -214,7 +214,7 @@ export const BirthdayWidget: React.FC = () => {
         size="md"
         padding="none"
       >
-        <div className="max-h-[70vh] overflow-y-auto divide-y divide-border scroll-hide">
+        <div className="max-h-[70vh] overflow-y-auto divide-y divide-line scroll-hide">
           {friendsWithBirthday.map((friend) => (
             <BirthdayRow
               key={friend.id}

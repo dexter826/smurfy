@@ -132,7 +132,7 @@ export const SharePostModal: React.FC<SharePostModalProps> = ({
                   name={authorName}
                   size="2xs"
                   showStatus={false}
-                  className="ring-1 ring-border"
+                  className="ring-1 ring-line"
                 />
                 <span className="text-xs font-black text-ink truncate">{authorName}</span>
               </div>

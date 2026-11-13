@@ -23,7 +23,7 @@ export const SystemPostMedia: React.FC<SystemPostMediaProps> = ({
 
   return (
     <div
-      className={`relative w-full overflow-hidden cursor-pointer ${isCinema ? 'h-full flex items-center justify-center bg-black' : 'bg-background/30 border-y border-line'}`}
+      className={`relative w-full overflow-hidden cursor-pointer ${isCinema ? 'h-full flex items-center justify-center bg-black' : 'bg-canvas/30 border-y border-line'}`}
       onClick={onClick}
     >
       {/* Nền mờ chỉ xuất hiện ở chế độ Cinema để lấp đầy không gian trống */}

@@ -76,7 +76,7 @@ export const ShareTargetItem: React.FC<ShareTargetItemProps> = ({
 
           {/* Badge Check Indicator */}
           {selected && (
-            <div className="absolute bottom-0 right-0 w-4 h-4 rounded-full bg-accent text-white border-2 border-surface flex items-center justify-center shadow-md z-20 animate-in zoom-in-50 duration-300">
+            <div className="absolute bottom-0 right-0 w-4 h-4 rounded-full bg-accent text-on-accent border-2 border-surface flex items-center justify-center shadow-md z-20 animate-in zoom-in-50 duration-300">
               <Check size={8} strokeWidth={5} />
             </div>
           )}
@@ -127,7 +127,7 @@ export const ShareTargetItem: React.FC<ShareTargetItemProps> = ({
       <div
         className={`w-5 h-5 shrink-0 rounded-md border flex items-center justify-center transition-all duration-200 ${
           selected
-            ? 'border-accent bg-accent text-white'
+            ? 'border-accent bg-accent text-on-accent'
             : 'border-line bg-surface group-hover:border-accent/50'
         }`}
       >
