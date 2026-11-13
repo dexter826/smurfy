@@ -53,3 +53,9 @@ Frame tham chiếu: `.scratch/nested-canvas/frames/` (đã duyệt hướng C, 2
 - Grep file đã sửa: 0 class không tồn tại (so danh sách từ `styles/index.css`), 0 hex ngoài token.
 - Script `contrast_check` pass cho mọi cặp màu token dùng trong ticket.
 - Khớp frame tham chiếu `.scratch/nested-canvas/frames/png/c-*.png`; lệch phải ghi lý do trong ticket.
+
+## Dọn dẹp sau khi triển khai xong
+
+- Sau khi PR `feat/nested-canvas` merge vào `main`: tạo commit riêng trên `main` xoá toàn bộ `.scratch/nested-canvas/` (spec, tickets, frames, script sinh) — theo đúng tiền lệ repo `fbc27e0 chore: remove completed scratch specs and legacy design doc`.
+- Xoá luôn nhánh `feat/nested-canvas` sau merge.
+- `DESIGN.md` v2 và `COPY.md` (đã cập nhật) giữ lại vì là hợp đồng giao diện/nội dung đang sống.

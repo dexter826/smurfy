@@ -15,6 +15,7 @@ Blocked by: 04,05,06,07,08,09,10,11
 4. **Quét toàn repo:** grep mọi `*.tsx`: 0 class không tồn tại (đối chiếu token v2), 0 hex ngoài `styles/index.css` + SVG symbol; xoá alias di trú ở ticket 01; xoá class chết (`scroll-hide` giờ đã định nghĩa, giữ).
 5. Cập nhật `COPY.md` chỉ cho nhãn bị IA tác động: "Hoạt động", sheet avatar, tab bar 4 mục; giữ toàn bộ phần còn lại.
 6. `npm run format:check` toàn repo; chạy `npm run build`; xoá dead code (`MobileMenuPage`, import mồ côi).
+7. Ghi nhận: xoá `.scratch/nested-canvas/` KHÔNG làm trong ticket này — thực hiện bằng commit riêng trên `main` sau khi PR merge (xem spec.md → "Dọn dẹp sau khi triển khai xong").
 
 ## Tiêu chí nghiệm thu
 - 3 lệnh CI pass; grep toàn src 0 hex ngoài ngoại lệ; alias token đã gỡ.
