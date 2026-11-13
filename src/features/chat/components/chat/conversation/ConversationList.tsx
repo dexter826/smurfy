@@ -143,7 +143,7 @@ export const ConversationList = React.memo<ConversationListProps>(
     );
 
     return (
-      <div className="flex flex-col h-full w-full bg-surface border-r border-border transition-theme">
+      <div className="flex flex-col h-full w-full bg-surface transition-theme">
         <ConversationHeader
           searchTerm={searchTerm}
           onSearchChange={handleSearchChange}
@@ -173,8 +173,8 @@ export const ConversationList = React.memo<ConversationListProps>(
               badges={filterBadges}
             />
           ) : (
-            <div className="flex-shrink-0 flex items-center px-4 h-10 bg-background border-b border-border">
-              <span className="text-xs font-semibold text-secondary flex items-center gap-2">
+            <div className="flex-shrink-0 flex items-center px-4 h-10 bg-surface-2 border-b border-line-soft">
+              <span className="text-xs font-semibold text-ink-2 flex items-center gap-2">
                 <Archive size={14} />
                 Hội thoại đã lưu trữ
               </span>

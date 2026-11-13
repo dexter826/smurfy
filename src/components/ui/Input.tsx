@@ -1,4 +1,5 @@
 import React from 'react';
+import { cn } from '@/lib/cn';
 
 interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'> {
   label?: string;
@@ -46,20 +47,18 @@ export const Input: React.FC<InputProps> = ({
         )}
         <input
           id={inputId}
-          className={`
-            w-full bg-surface border rounded-control transition-all duration-200 outline-none
-            text-ink placeholder:text-ink-3
-            ${
-              error
-                ? 'border-danger focus:ring-2 focus:ring-danger/50 focus:border-danger'
-                : 'border-line focus:ring-2 focus:ring-focus/50 focus:border-accent hover:border-line-strong'
-            }
-            disabled:bg-canvas disabled:text-ink-3 disabled:cursor-not-allowed disabled:border-line
-            ${sizeClasses[size]}
-            ${icon ? 'pl-10' : ''}
-            ${rightElement ? 'pr-10' : ''}
-            ${className}
-          `}
+          className={cn(
+            'w-full bg-surface border rounded-control transition-all duration-200 outline-none',
+            'text-ink placeholder:text-ink-3',
+            error
+              ? 'border-danger focus:ring-2 focus:ring-danger/50 focus:border-danger'
+              : 'border-line focus:ring-2 focus:ring-focus/50 focus:border-accent hover:border-line-strong',
+            'disabled:bg-canvas disabled:text-ink-3 disabled:cursor-not-allowed disabled:border-line',
+            sizeClasses[size],
+            icon ? 'pl-10' : '',
+            rightElement ? 'pr-10' : '',
+            className,
+          )}
           {...props}
         />
         {rightElement && (
