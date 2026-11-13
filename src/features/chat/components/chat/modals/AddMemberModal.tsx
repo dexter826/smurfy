@@ -108,10 +108,10 @@ export const AddMemberModal: React.FC<AddMemberModalProps> = ({
         {/* Approval mode banner */}
 
         {/* Member Count */}
-        <p className="text-xs text-secondary">
+        <p className="text-xs text-ink-2">
           Số thành viên hiện tại:{' '}
-          <span className="font-semibold text-foreground">{existingMemberIds.length}</span>
-          <span className="text-muted"> / {GROUP_LIMITS.MAX_MEMBERS}</span>
+          <span className="font-semibold text-ink">{existingMemberIds.length}</span>
+          <span className="text-ink-3"> / {GROUP_LIMITS.MAX_MEMBERS}</span>
         </p>
 
         {/* Search Input */}
@@ -120,14 +120,14 @@ export const AddMemberModal: React.FC<AddMemberModalProps> = ({
           placeholder="Tìm bạn bè..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="bg-background"
+          className="bg-surface-2"
         />
 
         {/* Friend List */}
         <div className="overflow-y-auto scroll-hide min-h-0 max-h-72 space-y-0.5">
           {isLoading ? (
             <div className="flex justify-center py-8">
-              <Loader2 className="animate-spin text-primary" size={22} />
+              <Loader2 className="animate-spin text-accent" size={22} />
             </div>
           ) : filteredFriends.length === 0 ? (
             <EmptyState
@@ -143,8 +143,8 @@ export const AddMemberModal: React.FC<AddMemberModalProps> = ({
                 <div
                   key={friend.id}
                   onClick={() => toggleSelect(friend.id)}
-                  className={`flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer transition-colors duration-200
-                    ${isSelected ? 'bg-primary/10' : 'hover:bg-hover'}`}
+                  className={`flex items-center gap-3 px-3 py-2.5 rounded-card cursor-pointer transition-colors duration-200
+                    ${isSelected ? 'bg-accent/10' : 'hover:bg-surface-2'}`}
                 >
                   <UserAvatar
                     userId={friend.id}
@@ -153,12 +153,12 @@ export const AddMemberModal: React.FC<AddMemberModalProps> = ({
                     size="sm"
                     initialStatus={friend.status}
                   />
-                  <span className="flex-1 text-sm font-medium text-foreground truncate">
+                  <span className="flex-1 text-sm font-medium text-ink truncate">
                     {friend.fullName}
                   </span>
                   {isSelected && (
-                    <div className="w-5 h-5 bg-primary rounded-full flex items-center justify-center flex-shrink-0">
-                      <Check size={11} className="text-on-primary" />
+                    <div className="w-5 h-5 bg-accent rounded-full flex items-center justify-center flex-shrink-0">
+                      <Check size={11} className="text-on-accent" />
                     </div>
                   )}
                 </div>

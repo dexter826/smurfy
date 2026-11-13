@@ -74,8 +74,8 @@ export const TransferAdminModal: React.FC<TransferAdminModalProps> = ({
             <Crown size={26} className="text-warning" />
           </div>
           <div>
-            <h3 className="text-base font-semibold text-foreground">Bạn đang là trưởng nhóm</h3>
-            <p className="text-sm text-secondary mt-1 leading-relaxed">
+            <h3 className="text-base font-semibold text-ink">Bạn đang là trưởng nhóm</h3>
+            <p className="text-sm text-ink-2 mt-1 leading-relaxed">
               {isTransferOnly
                 ? 'Chọn thành viên để chuyển quyền trưởng nhóm. Bạn sẽ trở thành Admin sau khi chuyển.'
                 : 'Vui lòng chọn một thành viên khác làm trưởng nhóm trước khi rời khỏi nhóm này.'}
@@ -94,13 +94,11 @@ export const TransferAdminModal: React.FC<TransferAdminModalProps> = ({
           />
 
           {selectedMember && (
-            <div className="flex items-center gap-3 p-3 bg-background rounded-xl border border-border animate-fade-in">
+            <div className="flex items-center gap-3 p-3 bg-surface-2 rounded-card border border-line animate-fade-in">
               <UserAvatar userId={selectedMember.id} size="sm" />
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-semibold text-foreground truncate">
-                  {selectedMember.fullName}
-                </p>
-                <p className="text-xs text-muted">Sẽ trở thành trưởng nhóm mới</p>
+                <p className="text-sm font-semibold text-ink truncate">{selectedMember.fullName}</p>
+                <p className="text-xs text-ink-3">Sẽ trở thành trưởng nhóm mới</p>
               </div>
               <Crown size={14} className="text-warning flex-shrink-0" />
             </div>

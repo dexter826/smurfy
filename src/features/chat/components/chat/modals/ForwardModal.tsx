@@ -114,11 +114,11 @@ export const ForwardModal: React.FC<ForwardModalProps> = ({
     >
       <div className="flex flex-col gap-6 min-h-0 px-1 py-1">
         {/* Message Preview */}
-        <div className="p-4 bg-background/50 rounded-2xl border border-border/50 backdrop-blur-sm">
-          <p className="text-[10px] text-muted mb-1.5 font-black uppercase tracking-widest opacity-70">
+        <div className="p-4 bg-canvas/50 rounded-card border border-line/50 backdrop-blur-sm">
+          <p className="text-[10px] text-ink-3 mb-1.5 font-black uppercase tracking-widest opacity-70">
             Nội dung chuyển tiếp
           </p>
-          <p className="text-sm text-foreground line-clamp-2 italic leading-relaxed font-medium">
+          <p className="text-sm text-ink line-clamp-2 italic leading-relaxed font-medium">
             {message.data.type === 'text'
               ? message.data.content
               : `[${getMessageTypeLabel(message.data.type)}]`}
@@ -131,13 +131,13 @@ export const ForwardModal: React.FC<ForwardModalProps> = ({
             icon={
               <Search
                 size={16}
-                className="text-muted group-focus-within:text-primary transition-colors"
+                className="text-ink-3 group-focus-within:text-accent transition-colors"
               />
             }
             placeholder="Tìm kiếm người dùng hoặc nhóm..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="bg-background/50 border-border/50 focus:border-primary/50 transition-all rounded-2xl"
+            className="bg-canvas/50 border-line-soft focus:border-accent/50 transition-all rounded-full"
           />
         </div>
 
@@ -147,7 +147,7 @@ export const ForwardModal: React.FC<ForwardModalProps> = ({
             <div className="flex flex-col gap-5 overflow-y-auto scroll-hide pr-1">
               {recentItems.length > 0 && (
                 <div className="flex flex-col gap-2.5">
-                  <span className="text-[10px] font-black text-muted uppercase tracking-widest opacity-80 px-1">
+                  <span className="text-[10px] font-black text-ink-3 uppercase tracking-widest opacity-80 px-1">
                     Trò chuyện gần đây
                   </span>
                   <div className="flex overflow-x-auto gap-3 pb-1 px-1 scroll-hide">
@@ -166,7 +166,7 @@ export const ForwardModal: React.FC<ForwardModalProps> = ({
                 </div>
               )}
               <div className="flex flex-col gap-2.5">
-                <span className="text-[10px] font-black text-muted uppercase tracking-widest opacity-80 px-1">
+                <span className="text-[10px] font-black text-ink-3 uppercase tracking-widest opacity-80 px-1">
                   Danh sách bạn bè
                 </span>
                 <div className="space-y-1">
@@ -195,7 +195,7 @@ export const ForwardModal: React.FC<ForwardModalProps> = ({
           ) : (
             /* Search Results */
             <div className="flex flex-col gap-3.5 overflow-y-auto scroll-hide min-h-0">
-              <span className="text-[10px] font-black text-muted uppercase tracking-widest opacity-80 px-1">
+              <span className="text-[10px] font-black text-ink-3 uppercase tracking-widest opacity-80 px-1">
                 Kết quả tìm kiếm
               </span>
               <div className="space-y-1.5">

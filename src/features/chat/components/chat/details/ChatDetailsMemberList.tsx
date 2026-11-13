@@ -86,31 +86,33 @@ export const ChatDetailsMemberList: React.FC<ChatDetailsMemberListProps> = ({
       {canManageMembers && pendingEntries.length > 0 && (
         <button
           onClick={() => setShowPendingModal(true)}
-          className="w-[calc(100%-1.5rem)] mx-3 mb-4 flex items-center gap-3 px-4 py-3 bg-primary/5 hover:bg-primary/10 rounded-xl border border-primary/10 transition-all duration-200 group"
+          className="w-[calc(100%-1.5rem)] mx-3 mb-4 flex items-center gap-3 px-4 py-3 bg-accent/5 hover:bg-accent/10 rounded-card border border-accent/10 transition-all duration-200 group"
         >
-          <div className="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center">
+          <div className="w-10 h-10 rounded-full bg-accent/10 text-accent-strong flex items-center justify-center">
             <Users size={20} />
           </div>
           <div className="flex-1 text-left">
-            <p className="text-sm font-bold text-primary">Phê duyệt thành viên</p>
-            <p className="text-xs text-primary/70">{pendingEntries.length} người đang chờ duyệt</p>
+            <p className="text-sm font-bold text-accent-strong">Phê duyệt thành viên</p>
+            <p className="text-xs text-accent-strong/70">
+              {pendingEntries.length} người đang chờ duyệt
+            </p>
           </div>
           <ChevronRight
             size={18}
-            className="text-primary/40 group-hover:translate-x-0.5 transition-transform"
+            className="text-accent-strong/40 group-hover:translate-x-0.5 transition-transform"
           />
         </button>
       )}
 
       {/* Members Header */}
       <div className="flex items-center justify-between px-4 py-2">
-        <p className="text-xs font-semibold text-muted uppercase tracking-wide">
+        <p className="text-xs font-semibold text-ink-3 uppercase tracking-wide">
           Thành viên ({participants.length})
         </p>
         {onAddMember && (
           <button
             onClick={onAddMember}
-            className="flex items-center gap-1.5 text-xs font-semibold text-primary hover:underline transition-colors duration-200"
+            className="flex items-center gap-1.5 text-xs font-semibold text-accent-strong hover:underline transition-colors duration-200"
           >
             <UserPlus size={13} />
             Thêm
@@ -128,7 +130,7 @@ export const ChatDetailsMemberList: React.FC<ChatDetailsMemberListProps> = ({
           return (
             <div
               key={member.id}
-              className="flex items-center gap-3 px-4 py-2.5 transition-colors duration-200 group hover:bg-hover active:bg-active"
+              className="flex items-center gap-3 px-4 py-2.5 transition-colors duration-200 group hover:bg-surface-2 active:bg-surface-3"
             >
               <div
                 onClick={() => !isCurrentUser && onMemberClick?.(member.id)}
@@ -143,9 +145,9 @@ export const ChatDetailsMemberList: React.FC<ChatDetailsMemberListProps> = ({
 
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-1.5 flex-wrap">
-                    <span className="text-sm font-medium text-foreground truncate">
+                    <span className="text-sm font-medium text-ink truncate">
                       {member.fullName}
-                      {isCurrentUser && <span className="text-muted font-normal"> (Bạn)</span>}
+                      {isCurrentUser && <span className="text-ink-3 font-normal"> (Bạn)</span>}
                     </span>
 
                     {role === 'creator' && (

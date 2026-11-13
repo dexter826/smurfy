@@ -19,7 +19,7 @@ const highlightText = (text: string, term: string): React.ReactNode => {
   const parts = text.split(new RegExp(`(${escaped})`, 'gi'));
   return parts.map((part, i) =>
     part.toLowerCase() === term.toLowerCase() ? (
-      <mark key={i} className="bg-warning/30 text-foreground rounded px-0.5">
+      <mark key={i} className="bg-warning/30 text-ink rounded px-0.5">
         {part}
       </mark>
     ) : (
@@ -62,7 +62,7 @@ export const ChatDetailsSearch: React.FC<ChatDetailsSearchProps> = ({
 
   return (
     <div className="py-3">
-      <p className="px-4 py-2 text-xs font-semibold text-muted uppercase tracking-wide">
+      <p className="px-4 py-2 text-xs font-semibold text-ink-3 uppercase tracking-wide">
         Tìm kiếm tin nhắn
       </p>
 
@@ -92,7 +92,7 @@ export const ChatDetailsSearch: React.FC<ChatDetailsSearchProps> = ({
           />
         ) : (
           <div className="px-2 pb-4">
-            <p className="px-2 text-xs text-muted mb-2">Tìm thấy {searchResults.length} tin nhắn</p>
+            <p className="px-2 text-xs text-ink-3 mb-2">Tìm thấy {searchResults.length} tin nhắn</p>
             <div className="space-y-0.5">
               {searchResults.map((msg) => {
                 const sender = usersMap[msg.data.senderId];
@@ -100,17 +100,17 @@ export const ChatDetailsSearch: React.FC<ChatDetailsSearchProps> = ({
                   <button
                     key={msg.id}
                     onClick={() => onMessageClick?.(msg.id)}
-                    className="w-full text-left px-3 py-2.5 rounded-xl hover:bg-hover active:bg-active transition-colors duration-200"
+                    className="w-full text-left px-3 py-2.5 rounded-card hover:bg-surface-2 active:bg-surface-3 transition-colors duration-200"
                   >
                     <div className="flex items-center justify-between mb-1">
-                      <span className="text-xs font-semibold text-secondary">
+                      <span className="text-xs font-semibold text-ink-2">
                         {sender?.fullName || 'Unknown'}
                       </span>
-                      <span className="text-[10px] text-muted">
+                      <span className="text-[10px] text-ink-3">
                         {formatTimeOnly(msg.data.createdAt)}
                       </span>
                     </div>
-                    <p className="text-xs text-foreground line-clamp-2 leading-relaxed">
+                    <p className="text-xs text-ink line-clamp-2 leading-relaxed">
                       {msg.data.type === MessageType.SHARE_POST
                         ? (() => {
                             const payload = parseSharedPostMessage(msg.data.content);

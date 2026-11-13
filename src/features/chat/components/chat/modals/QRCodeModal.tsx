@@ -91,15 +91,15 @@ export const QRCodeModal: React.FC<QRCodeModalProps> = ({
     <Modal open={open} onOpenChange={onOpenChange} title={title} size="sm" footer={renderFooter}>
       <div className="flex flex-col items-center py-5 space-y-5">
         {/* QR Code Container */}
-        <div className="bg-white p-4 rounded-2xl shadow-sm border border-border overflow-hidden">
+        <div className="bg-white p-4 rounded-card shadow-sm border border-line overflow-hidden">
           <QRCodeSVG ref={qrRef} value={value} size={180} level="M" includeMargin={false} />
         </div>
 
         <div className="text-center space-y-1 px-6">
           {avatarName && (
-            <h3 className="text-base font-bold text-foreground line-clamp-1">{avatarName}</h3>
+            <h3 className="text-base font-bold text-ink line-clamp-1">{avatarName}</h3>
           )}
-          <p className="text-[11px] text-muted leading-relaxed max-w-[220px]">{subtitle}</p>
+          <p className="text-[11px] text-ink-3 leading-relaxed max-w-[220px]">{subtitle}</p>
         </div>
       </div>
     </Modal>

@@ -116,12 +116,12 @@ const JoinGroupPage: React.FC = () => {
     if (errorText) {
       return (
         <div className="text-center space-y-6">
-          <div className="w-20 h-20 bg-danger/10 rounded-2xl flex items-center justify-center mx-auto text-danger shadow-sm border border-danger/5">
+          <div className="w-20 h-20 bg-danger/10 rounded-card flex items-center justify-center mx-auto text-danger shadow-sm border border-danger/5">
             <Info size={40} />
           </div>
           <div className="space-y-2">
-            <h1 className="text-2xl font-bold text-foreground">Không thể tham gia nhóm</h1>
-            <p className="text-sm text-secondary leading-relaxed px-4">{errorText}</p>
+            <h1 className="text-2xl font-bold text-ink">Không thể tham gia nhóm</h1>
+            <p className="text-sm text-ink-2 leading-relaxed px-4">{errorText}</p>
           </div>
           <Button
             onClick={() => navigate('/', { replace: true })}
@@ -149,12 +149,12 @@ const JoinGroupPage: React.FC = () => {
             />
 
             <div className="space-y-2.5">
-              <h1 className="text-3xl font-extrabold text-foreground tracking-tight line-clamp-2">
+              <h1 className="text-3xl font-extrabold text-ink tracking-tight line-clamp-2">
                 {groupInfo.name}
               </h1>
               <div className="flex items-center justify-center gap-5 text-sm font-semibold">
-                <div className="flex items-center gap-1.5 text-secondary bg-background px-3 py-1.5 rounded-full border border-border">
-                  <Users size={16} className="text-primary" />
+                <div className="flex items-center gap-1.5 text-ink-2 bg-surface-2 px-3 py-1.5 rounded-full border border-line">
+                  <Users size={16} className="text-accent" />
                   <span>{groupInfo.memberCount} thành viên</span>
                 </div>
                 {groupInfo.joinApprovalMode ? (
@@ -200,10 +200,10 @@ const JoinGroupPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-[100dvh] bg-background selection:bg-primary/20 flex flex-col">
-      <header className="h-14 flex-shrink-0 bg-surface border-b border-border flex items-center px-4 gap-3">
+    <div className="min-h-[100dvh] bg-canvas selection:bg-accent/20 flex flex-col">
+      <header className="h-14 flex-shrink-0 bg-surface border-b border-line flex items-center px-4 gap-3">
         <img src="/logo.svg" alt="Smurfy" className="h-8 w-8 object-contain" />
-        <span className="font-display font-extrabold text-foreground">Smurfy</span>
+        <span className="font-display font-extrabold text-ink">Smurfy</span>
       </header>
 
       <main className="flex-1 overflow-y-auto flex flex-col items-center justify-center p-6 animate-fade-in">
