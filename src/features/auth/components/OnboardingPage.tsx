@@ -202,13 +202,14 @@ const OnboardingPage: React.FC = () => {
                     {formData.interests.map((tag) => (
                       <span
                         key={tag}
-                        className="inline-flex items-center gap-2 px-3 py-2 rounded-full text-caption font-bold bg-accent text-on-accent animate-fade-in"
+                        className="inline-flex items-center gap-2 px-3 py-2 rounded-full text-caption font-bold bg-accent-soft text-accent-strong animate-fade-in"
                       >
                         {tag}
                         <button
                           type="button"
                           onClick={() => handleRemoveInterest(tag)}
-                          className="hover:bg-on-accent/10 rounded-full p-0.5 transition-colors"
+                          aria-label={`Xoá sở thích ${tag}`}
+                          className="hover:bg-accent/10 rounded-full p-0.5 transition-colors"
                         >
                           <X size={12} strokeWidth={3} />
                         </button>

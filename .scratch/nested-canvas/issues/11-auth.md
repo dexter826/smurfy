@@ -32,5 +32,6 @@ Blocked by: 02
 6. Mobile: brand field rút thành dải trên (chỉ logo tile + wordmark; headline/rings `hidden lg:block`); form đầy đủ + logo giữa form.
 
 **Ghi chú:** headline/sub/marks là copy mới (COPY.md chưa có phần auth) — cần owner duyệt qua COPY.md nếu muốn chuẩn hoá; `JoinGroupPage` đã xong ở ticket 06.
+**Sửa sau code-review:** headline 40px (`text-4xl` display-brand — frame 42 lệch, theo DESIGN); tile `rounded-control` + kích thước responsive 38/44 theo c-m-auth/c-auth; wordmark 20/24; stepper thành **2 chấm** (`w-2 h-2 rounded-full`); chips sở thích đổi sang **`chip-primary`** (`accent-soft + accent-strong` + X có `aria-label`); EmailVerificationPage bọc **card `bg-surface rounded-card border-line shadow-card`** giữa canvas; roots `bg-canvas`; info banner giữ accent-soft (đã disclose — nếu owner muốn tone info riêng thì đổi `info-soft`).
 
 **Verify:** CI 3 pass (exit code thật); grep scope (auth/components) = 0 alias / 0 hex / 0 class chết; `contrast_check.py` PASS; khớp frame c-auth (split 52/48, logo tile, seg) + c-m-auth (dải trên + form).

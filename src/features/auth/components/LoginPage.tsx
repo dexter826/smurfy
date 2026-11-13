@@ -207,14 +207,16 @@ const LoginPage: React.FC = () => {
         />
 
         <div className="flex items-center gap-3 relative">
-          <span className="h-11 w-11 rounded-card bg-on-accent text-accent flex items-center justify-center font-display font-extrabold text-[22px]">
+          <span className="h-[38px] w-[38px] lg:h-11 lg:w-11 rounded-control bg-on-accent text-accent flex items-center justify-center font-display font-extrabold text-xl lg:text-2xl">
             S
           </span>
-          <span className="font-display text-2xl font-extrabold tracking-tight">Smurfy</span>
+          <span className="font-display text-xl lg:text-2xl font-extrabold tracking-tight">
+            Smurfy
+          </span>
         </div>
 
         <div className="relative max-w-[520px] mt-10 lg:mt-0">
-          <h2 className="hidden lg:block text-[42px] leading-[1.14] font-extrabold tracking-[-0.03em]">
+          <h2 className="hidden lg:block text-4xl leading-[1.1] font-extrabold tracking-[-0.02em]">
             Nơi kết nối cho cộng đồng Smurfy.
           </h2>
           <p className="hidden lg:block text-sm leading-relaxed max-w-[420px] opacity-85 mt-4">
