@@ -6,7 +6,7 @@ export const NotificationSkeleton: React.FC = () => (
     {[...Array(5)].map((_, i) => (
       <div
         key={i}
-        className="flex items-start gap-3.5 px-4 py-3.5 bg-surface rounded-xl border border-border animate-in fade-in duration-500"
+        className="flex items-start gap-3.5 px-4 py-3.5 bg-surface rounded-card border border-line animate-in fade-in duration-500"
         style={{ animationDelay: `${i * 80}ms` }}
       >
         <Skeleton variant="circle" width={40} height={40} className="flex-shrink-0" />

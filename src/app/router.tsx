@@ -10,9 +10,7 @@ const FeedPage = React.lazy(() => import('@/features/feed/components/FeedPage'))
 const ContactsPage = React.lazy(() => import('@/features/friend/components/ContactsPage'));
 const ProfilePage = React.lazy(() => import('@/features/profile/components/ProfilePage'));
 const SettingsPage = React.lazy(() => import('@/features/settings/components/SettingsPage'));
-const NotificationsPage = React.lazy(
-  () => import('@/features/notification/components/NotificationsPage'),
-);
+const ActivityPage = React.lazy(() => import('@/features/notification/components/ActivityPage'));
 const EmailVerificationPage = React.lazy(
   () => import('@/features/auth/components/EmailVerificationPage'),
 );
@@ -40,8 +38,7 @@ const AppRoutes: React.FC = () => (
         <Route path="profile" element={<ProfilePage />} />
         <Route path="profile/:userId" element={<ProfilePage />} />
         <Route path="settings" element={<SettingsPage />} />
-        {/* TODO(ticket-09): thay NotificationsPage bằng ActivityPage gộp lời mời kết bạn */}
-        <Route path="activity" element={<NotificationsPage />} />
+        <Route path="activity" element={<ActivityPage />} />
         <Route path="notifications" element={<Navigate to="/activity" replace />} />
       </Route>
 

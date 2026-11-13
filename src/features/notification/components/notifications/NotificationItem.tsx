@@ -44,7 +44,7 @@ const NotificationItemInner: React.FC<NotificationItemProps> = ({ notification, 
         navigate(`/profile/${notification.actorId}`);
         break;
       case NotificationType.SYSTEM:
-        navigate('/notifications');
+        navigate('/activity');
         break;
       default:
         break;
@@ -80,12 +80,10 @@ const NotificationItemInner: React.FC<NotificationItemProps> = ({ notification, 
       role="button"
       tabIndex={0}
       className={`group relative flex items-start gap-3.5 px-4 py-3.5 cursor-pointer
-        transition-all duration-200 outline-none rounded-xl border
-        hover:bg-hover active:bg-active
-        focus-visible:ring-2 focus-visible:ring-primary/30 focus-visible:ring-inset
-        ${
-          !notification.isRead ? 'bg-primary/[0.04] border-primary/10' : 'bg-surface border-border'
-        }`}
+        transition-all duration-200 outline-none rounded-card border
+        hover:bg-surface-2 active:bg-surface-3
+        focus-visible:ring-2 focus-visible:ring-accent/30 focus-visible:ring-inset
+        ${!notification.isRead ? 'bg-accent/[0.04] border-accent/10' : 'bg-surface border-line'}`}
       onClick={handleClick}
       onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && handleClick()}
     >
@@ -94,13 +92,13 @@ const NotificationItemInner: React.FC<NotificationItemProps> = ({ notification, 
         {!isSystem ? (
           <UserAvatar userId={notification.actorId} size="md" showStatus={false} />
         ) : (
-          <div className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 shadow-sm bg-primary/10 text-primary">
+          <div className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 shadow-sm bg-accent-soft text-accent-strong">
             <Bell size={20} strokeWidth={2.5} />
           </div>
         )}
 
         {!notification.isRead && (
-          <span className="absolute -top-0.5 -right-0.5 w-3 h-3 bg-primary rounded-full border-2 border-surface ring-1 ring-primary/20 shadow-sm" />
+          <span className="absolute -top-0.5 -right-0.5 w-3 h-3 bg-accent rounded-full border-2 border-surface ring-1 ring-accent/20 shadow-sm" />
         )}
       </div>
 
@@ -108,11 +106,11 @@ const NotificationItemInner: React.FC<NotificationItemProps> = ({ notification, 
       <div className="flex-1 min-w-0 pt-0.5">
         <p
           className={`text-sm leading-relaxed break-words line-clamp-2
-          ${!notification.isRead ? 'text-foreground' : 'text-secondary'}`}
+          ${!notification.isRead ? 'text-ink' : 'text-ink-2'}`}
         >
           {!isSystem && (
             <span
-              className={`${!notification.isRead ? 'font-bold' : 'font-semibold'} text-foreground mr-1.5 hover:text-primary transition-colors duration-200 cursor-pointer`}
+              className={`${!notification.isRead ? 'font-bold' : 'font-semibold'} text-ink mr-1.5 hover:text-accent-strong transition-colors duration-200 cursor-pointer`}
               onClick={(e) => {
                 e.stopPropagation();
                 navigate(`/profile/${notification.actorId}`);
@@ -123,12 +121,13 @@ const NotificationItemInner: React.FC<NotificationItemProps> = ({ notification, 
               )}
             </span>
           )}
-          <span className={!notification.isRead ? 'font-medium text-foreground' : ''}>
-            {notifText}
-          </span>
+          <span className={!notification.isRead ? 'font-medium text-ink' : ''}>{notifText}</span>
         </p>
         <div className="mt-1.5 flex items-center gap-2">
-          <p className="text-[11px] text-muted" title={formatDateTime(notification.createdAt)}>
+          <p
+            className="text-caption text-ink-3 tnum"
+            title={formatDateTime(notification.createdAt)}
+          >
             {formatRelativeTime(notification.createdAt)}
           </p>
           {notification.isRead && <span className="w-1 h-1 bg-muted/40 rounded-full" />}
@@ -141,8 +140,8 @@ const NotificationItemInner: React.FC<NotificationItemProps> = ({ notification, 
         {!notification.isRead && (
           <button
             onClick={handleMarkAsRead}
-            className="w-8 h-8 flex items-center justify-center rounded-full text-muted
-              hover:text-primary hover:bg-primary/10 active:bg-primary/20 
+            className="w-8 h-8 flex items-center justify-center rounded-full text-ink-3
+              hover:text-accent-strong hover:bg-accent-soft active:bg-accent-soft 
               transition-all duration-200 
               md:opacity-0 md:group-hover:opacity-100"
             title="Đánh dấu đã đọc"
@@ -154,7 +153,7 @@ const NotificationItemInner: React.FC<NotificationItemProps> = ({ notification, 
         {/* Delete button */}
         <button
           onClick={handleDelete}
-          className="w-8 h-8 flex items-center justify-center rounded-full text-muted
+          className="w-8 h-8 flex items-center justify-center rounded-full text-ink-3
             hover:text-danger hover:bg-danger/10 active:bg-danger/20
             transition-all duration-200
             md:opacity-0 md:group-hover:opacity-100"

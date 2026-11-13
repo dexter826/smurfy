@@ -23,4 +23,18 @@ Blocked by: 03
 - Khớp frame c-activity + c-m-activity.
 - Chấp nhận/từ chối lời mời từ trang Hoạt động hoạt động; thông báo đọc/chưa đọc đúng.
 
-## Comments
+## Answer
+
+**Đủ 6 mục:**
+1. `ActivityPage.tsx` mới thay NotificationsPage: header "Hoạt động" (`text-2xl font-extrabold` = display-lg) + nút "Đọc tất cả" (`accent-strong`, gọi `markAllAsRead` hiện có); segmented `Tất cả · Lời mời kết bạn` kiểu seg (track `surface-2`, active `surface + shadow-card`); danh sách trong card `rounded-card border-line shadow-card`.
+2. Hai nguồn ghép view, sort thời gian giảm dần: notification rows render bằng `NotificationItem` giữ deep-link; request rows render inline (avatar + tên đậm + "đã gửi lời mời kết bạn" + số bạn chung + nút **Chấp nhận** primary/**Từ chối** secondary gọi `friendService` trực tiếp — KHÔNG đổi contactStore; handledIds local để ẩn sau khi xử lý).
+3. Badge rail = `unreadNotifications + receivedRequests.length` (đã làm ở ticket 03 trong AppLayout) — không đổi.
+4. **Xoá** `NotificationDropdown.tsx` + `NotificationsPage.tsx`; `markAllAsRead`/`clearAllNotifications`/`loadMore` trong store giữ nguyên.
+5. Mobile: cùng trang (header 56 + segmented + card + tab bar shell).
+6. Deep link: NotificationItem `handleClick` giữ nguyên; case SYSTEM đổi `/notifications` → `/activity`.
+
+**Router:** `/activity` → ActivityPage (lazy); `/notifications` → `Navigate to="/activity"`; TODO(ticket-09) gỡ.
+
+**Chấp nhận:** requests render inline thay vì tái dùng `FriendRequestItem` (component đó thuộc ticket 10 restyle cho contacts page — tránh ghép chéo); thời gian request/notification lấy `toMillis` của Timestamp Firestore.
+
+**Verify:** CI 3 pass; grep 0 stale reference NotificationsPage/NotificationDropdown/`/notifications` navigate; badge tổng đúng từ store; `contrast_check.py` PASS; khớp frame c-activity + c-m-activity.
