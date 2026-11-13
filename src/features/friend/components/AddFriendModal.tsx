@@ -22,8 +22,8 @@ const SearchResultSkeleton = () => (
       <Skeleton width="60%" height={32} className="mt-2" />
     </div>
     <div className="flex gap-2 w-full justify-center mt-2">
-      <Skeleton width={90} height={36} className="rounded-xl" />
-      <Skeleton width={90} height={36} className="rounded-xl" />
+      <Skeleton width={90} height={36} className="rounded-control" />
+      <Skeleton width={90} height={36} className="rounded-control" />
     </div>
   </div>
 );
@@ -157,10 +157,10 @@ export const AddFriendModal: React.FC<AddFriendModalProps> = ({ open, onOpenChan
         <div className="w-full flex flex-col items-center animate-fade-in gap-5">
           <UserAvatar userId={foundUser.id} size="xl" className="ring-2 ring-surface shadow-lg" />
           <div className="text-center">
-            <h3 className="text-lg font-semibold text-foreground mb-0.5">{foundUser.fullName}</h3>
-            <p className="text-xs text-muted">{foundUser.email}</p>
+            <h3 className="text-lg font-semibold text-ink mb-0.5">{foundUser.fullName}</h3>
+            <p className="text-xs text-ink-3">{foundUser.email}</p>
             {foundUser.bio && (
-              <p className="text-xs text-secondary mt-2 max-w-xs mx-auto line-clamp-2 italic">
+              <p className="text-xs text-ink-2 mt-2 max-w-xs mx-auto line-clamp-2 italic">
                 "{foundUser.bio}"
               </p>
             )}
@@ -212,7 +212,7 @@ export const AddFriendModal: React.FC<AddFriendModalProps> = ({ open, onOpenChan
               variant="ghost"
               icon={<UserIcon size={16} />}
               onClick={handleViewProfile}
-              className="text-secondary hover:text-primary"
+              className="text-ink-2 hover:text-accent"
             >
               Trang cá nhân
             </Button>
@@ -270,10 +270,10 @@ export const AddFriendModal: React.FC<AddFriendModalProps> = ({ open, onOpenChan
         </div>
 
         <div
-          className={`min-h-[220px] flex flex-col items-center justify-center rounded-2xl p-6 transition-all duration-300 ${
+          className={`min-h-[220px] flex flex-col items-center justify-center rounded-card p-6 transition-all duration-300 ${
             foundUser
-              ? 'bg-surface border border-border shadow-sm'
-              : 'border border-dashed border-border bg-background/40'
+              ? 'bg-surface border border-line shadow-sm'
+              : 'border border-dashed border-line bg-surface-2/40'
           }`}
         >
           {renderResultContent()}

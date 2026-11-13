@@ -30,8 +30,8 @@ export const FriendsListSection: React.FC<FriendsListSectionProps> = ({
       <div className="space-y-6">
         {[...Array(2)].map((_, i) => (
           <div key={i}>
-            <div className="w-12 h-4 bg-surface-sunken rounded mb-3 mx-1 animate-pulse" />
-            <div className="bg-surface rounded-xl border border-border overflow-hidden shadow-xs">
+            <div className="w-12 h-4 bg-surface-2 rounded mb-3 mx-1 animate-pulse" />
+            <div className="bg-surface rounded-card border border-line overflow-hidden shadow-xs">
               {[...Array(3)].map((_, j) => (
                 <FriendItem.Skeleton key={j} />
               ))}
@@ -61,10 +61,8 @@ export const FriendsListSection: React.FC<FriendsListSectionProps> = ({
     <div className="space-y-6">
       {groupedFriends.map((group) => (
         <div key={group.letter}>
-          <p className="text-xs font-bold text-primary mb-2 px-2 uppercase tracking-widest opacity-80">
-            {group.letter}
-          </p>
-          <div className="bg-surface rounded-xl border border-border overflow-hidden shadow-xs divide-y divide-border/60">
+          <p className="label-caps text-ink-3 mb-2 px-2 opacity-80">{group.letter}</p>
+          <div className="bg-surface rounded-card border border-line overflow-hidden shadow-xs divide-y divide-line/60">
             {group.friends.map((friend) => (
               <FriendItem
                 key={friend.id}

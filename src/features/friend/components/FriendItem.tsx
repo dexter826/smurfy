@@ -43,15 +43,15 @@ const FriendItemInner: React.FC<FriendItemProps> = ({
   return (
     <div
       className={`relative flex items-center justify-between px-4 py-3 transition-colors duration-200 group
-        border-b border-border/60 last:border-0
-        hover:bg-hover active:bg-active cursor-pointer`}
+        border-b border-line/60 last:border-0
+        hover:bg-surface-2 active:bg-surface-3 cursor-pointer`}
       onClick={handleClick}
     >
       <div className="flex items-center gap-3 flex-1 min-w-0">
         <UserAvatar userId={friend.id} size="md" />
         <div className="min-w-0">
           <div className="flex items-center gap-1.5 flex-wrap">
-            <h3 className="text-sm font-semibold text-foreground truncate">{friend.fullName}</h3>
+            <h3 className="text-sm font-semibold text-ink truncate">{friend.fullName}</h3>
           </div>
           <UserStatusText userId={friend.id} className="text-xs" initialStatus={friend.status} />
         </div>
@@ -91,7 +91,7 @@ const FriendItemInner: React.FC<FriendItemProps> = ({
 };
 
 const FriendItemSkeleton: React.FC = () => (
-  <div className="flex items-center justify-between px-4 py-3 border-b border-border/60 last:border-0">
+  <div className="flex items-center justify-between px-4 py-3 border-b border-line/60 last:border-0">
     <div className="flex items-center gap-3 flex-1">
       <Skeleton variant="circle" width={40} height={40} />
       <div className="space-y-1.5">
@@ -99,7 +99,7 @@ const FriendItemSkeleton: React.FC = () => (
         <Skeleton variant="line" width={75} height={11} className="opacity-60" />
       </div>
     </div>
-    <Skeleton variant="rect" width={30} height={30} className="rounded-lg opacity-40" />
+    <Skeleton variant="rect" width={30} height={30} className="rounded-control opacity-40" />
   </div>
 );
 

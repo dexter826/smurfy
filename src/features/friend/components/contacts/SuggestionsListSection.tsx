@@ -25,7 +25,7 @@ export const SuggestionsListSection: React.FC<SuggestionsListSectionProps> = ({
 }) => {
   if (isLoading) {
     return (
-      <div className="bg-surface rounded-xl border border-border overflow-hidden shadow-xs divide-y divide-border/60">
+      <div className="bg-surface rounded-card border border-line overflow-hidden shadow-card divide-y divide-line/60">
         {[...Array(5)].map((_, i) => (
           <SuggestionItem.Skeleton key={i} />
         ))}
@@ -49,12 +49,12 @@ export const SuggestionsListSection: React.FC<SuggestionsListSectionProps> = ({
   }
 
   return (
-    <div className="bg-surface rounded-xl border border-border overflow-hidden shadow-xs divide-y divide-border/60">
+    <div className="bg-surface rounded-card border border-line overflow-hidden shadow-card divide-y divide-line/60">
       {suggestions.map((user) => (
         <div
           key={user.id}
           onClick={() => onSelectUser?.(user)}
-          className={`transition-colors ${selectedUserId === user.id ? 'bg-primary/5 ring-1 ring-inset ring-primary/20' : ''}`}
+          className={`transition-colors ${selectedUserId === user.id ? 'bg-accent/5 ring-1 ring-inset ring-primary/20' : ''}`}
         >
           <SuggestionItem user={user} onAddFriend={onAddFriend} onDismiss={onDismiss} />
         </div>

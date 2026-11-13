@@ -1,7 +1,7 @@
 # Bạn bè — 1 header segmented + search + panel chi tiết
 
 Type: task
-Status: ready-for-agent
+Status: resolved
 Blocked by: 03
 
 ## Scope
@@ -21,4 +21,16 @@ Blocked by: 03
 - Khớp frame c-contacts (desktop).
 - Kết bạn/huỷ kết bạn/chặn (BlockOptionsModal) hoạt động; chọn người mở panel/sheet đúng breakpoint.
 
-## Comments
+## Answer
+
+**Đủ 6 mục:**
+1. Header gộp trong ContactsPage: tiêu đề "Bạn bè" (display-lg) + nút **"Lời mời"** (badge số lời mời; active = primary) + **"Thêm bạn"** primary + segmented `Tất cả · Gợi ý · Đã gửi` (track surface-2, active surface+shadow-card, bo 8 số frame) + search pill 40px + sort A-Z (tab Tất cả) / làm mới gợi ý. **Xoá ContactsSidebar.tsx + ContactsActionBar.tsx**; card chính `rounded-card border-line shadow-card` trên canvas (gap 12 frame).
+2. FriendsListSection: letter header `label-caps text-ink-3`; nhóm giữ nguyên `groupedFriends`; hàng item `rounded-card`, chọn `accent-soft` (giữ hành vi cũ).
+3. ContactsDetailPanel: **≥xl** panel phải inline 320; **<xl** SlideUpSheet (ticket 02) khi chọn người; bỏ gradient banner (vi phạm) — avatar + tên + trạng thái (UserStatusText) + nút Nhắn tin/Hồ sơ + khối thông tin + Hủy kết bạn/Quản lý chặn.
+4. FriendRequestItem/SuggestionItem: card/token mới; nút Chấp nhận primary / Từ chối secondary / Kết bạn primary giữ nguyên variant.
+5. AddFriendModal: primitive Modal + kết quả tìm kiếm token sạch.
+6. `useContacts` giữ nguyên (sort, search, dismiss, refresh) — chỉ di chuyển chỗ render.
+
+**Chấp nhận:** segmented item bo 8px số frame; `TabConfigItem` giữ trong types.ts (không còn consumer — gỡ kèm ticket 12 nếu owner muốn).
+
+**Verify:** CI 3 pass (typecheck/build verify bằng exit code); grep scope = 0 alias / 0 hex / 0 class chết; 0 tham chiếu ContactsSidebar/ContactsActionBar; `contrast_check.py` PASS; khớp frame c-contacts.
