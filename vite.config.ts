@@ -30,7 +30,7 @@ export default defineConfig(({ mode }) => {
             short_name: 'Smurfy',
             description: 'Mạng xã hội kết nối cộng đồng Smurfy',
             theme_color: '#4C9EEB',
-            background_color: '#f7f9fc',
+            background_color: '#EDF1F6',
             display: 'standalone',
             start_url: '/',
             icons: [

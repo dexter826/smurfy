@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 580 256" width="580" height="256" role="img" aria-labelledby="t"><title id="t">Smurfy</title>
+  <g transform="translate(20 16) scale(0.88)" fill="none" stroke="#FFFFFF" stroke-width="24" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M88 84 C88 62 70 56 54 56 C34 56 26 70 26 84 C26 100 40 106 56 112 C74 118 88 126 88 144 C88 162 72 170 54 170 C38 170 26 162 24 148"/>
+    <path d="M132 170 V104 Q132 86 150 86 Q168 86 168 104 V170 M168 110 Q168 86 186 86 Q204 86 204 110 V170"/>
+    <path d="M244 86 V148 Q244 170 268 170 Q292 170 292 148 V86"/>
+    <path d="M332 170 V86 M332 118 Q338 86 366 86"/>
+    <path d="M412 170 V76 Q412 56 390 56 M386 92 H428"/>
+    <path d="M470 86 L494 138 M518 86 L494 138 L506 172 Q514 194 542 186 Q560 180 562 168"/>
+  </g>
+</svg>

@@ -1,7 +1,7 @@
 # Brand asset + quét toàn bộ token
 
 Type: task
-Status: claimed
+Status: resolved
 Blocked by: 04,05,06,07,08,09,10,11
 
 ## Scope
@@ -22,4 +22,15 @@ Blocked by: 04,05,06,07,08,09,10,11
 - Asset mới render đúng ở 16/32/192/512; manifest PWA hợp lệ; splash chạy không phụ thuộc Lottie.
 - COPY.md diff chỉ chứa các nhãn liên quan IA.
 
-## Comments
+## Answer
+
+**Đủ 7 mục:**
+1. **Logo checkpoint đã trình (concepts.png, commit `f0c9de6`)** — 3 khái niệm: (A) refresh mặt smurf trên tile — mắt khoét lỗ evenodd thật, hết white-knockout, ~20 anchor thay vì 195, 1 màu; (B) wordmark monoline "Smurfy" tự dựng, đuôi y quét thành nét cười; (C) tile âm bản (negative-space). **Chủ repo chọn A** ("Ok" sau checkpoint).
+2. **Kit đã xuất vào `public/`:** `favicon.ico` (16/32/48), `logo192.png`, `pwa-192x192.png`, `pwa-512x512.png` (maskable, safe-zone), `apple-touch-icon.png` (180), `masked-icon.svg`, `logo.svg` (tile accent + mặt on-accent), `logo_text_blue.png`/`logo_text_white.png` (1024×452), `og-image.png`/`twitter-image.png` (1200×630, tile + wordmark + tagline trên canvas). `background_color` manifest đổi `#f7f9fc`→`#EDF1F6`; `theme_color` giữ `#4C9EEB` (palette không đổi). Masters + renders giữ trong `.scratch/nested-canvas/logo/` (dọn theo spec sau merge).
+3. Splash: SplashScreen đã CSS thuần từ ticket 02; **xoá `public/static/animations/splash.json` + dependency `lottie-react`** + nhánh vendor-lottie trong `vite.config.ts` (0 consumer).
+4. **Quét toàn repo:** settings (màn không có ticket riêng) + mọi file còn sót đã chuyển token v2; **gỡ block alias di trú + legacy radius snaps + `--shadow-dropdown`** khỏi `index.css` — `git grep` 0 class cũ; `text-lg` giữ (5 chỗ dùng, snap 18→20 thành bậc 20 chính thức); `TabConfigItem` giữ trong types.ts (không consumer — nêu ra, không xoá).
+5. `COPY.md` thêm mục **3.9 Nhãn điều hướng**: rail/tab 4 mục, menu tài khoản, bộ lọc Hoạt động + Bạn bè, "Đọc tất cả" — chỉ nhãn bị IA tác động.
+6. CI 3 lệnh pass toàn repo; dead code đã dọn theo từng ticket (MobileMenuPage/AppTopBar/NotificationDropdown/ContactsSidebar/ContactsActionBar/NotificationsPage).
+7. Xoá `.scratch/nested-canvas/` **không làm ở đây** — commit riêng trên `main` sau merge (tiền lệ `fbc27e0`).
+
+**Verify:** CI 3 pass (exit code thật); `svg_audit` score A=99/100 (cũ 90 + 2 WARN knockout); kit render đúng 16/32/180/192/512 + maskable safe-zone; manifest hợp lệ; splash không phụ thuộc Lottie; COPY.md diff chỉ nhãn IA.

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-labelledby="t">
+  <title id="t">Smurfy symbol tile</title>
+  <rect x="32" y="32" width="448" height="448" rx="96" fill="#4C9EEB"/>
+  <g transform="translate(96 96) scale(1.25)" fill="#0B1220">
+    <path d="M52 122 C 52 54 88 26 132 26 C 172 26 204 52 206 92 C 214 96 220 104 220 112 L 220 122 C 220 127 216 130 210 130 L 46 130 C 42 130 40 127 40 122 Z"/>
+    <path fill-rule="evenodd" d="M128 88 a70 70 0 0 1 0 140 a70 70 0 0 1 0-140 Z M100 158 a13 13 0 0 1 0 26 a13 13 0 0 1 0-26 Z M156 158 a13 13 0 0 1 0 26 a13 13 0 0 1 0-26 Z"/>
+  </g>
+</svg>
