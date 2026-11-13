@@ -156,7 +156,7 @@ const PhotosTabInner: React.FC<PhotosTabProps> = ({ userId, isViewActivityBlocke
         <div className="flex items-center justify-between mb-4">
           <h3 className="font-semibold text-base text-ink">
             Ảnh
-            <span className="text-ink-3 font-normal ml-1.5 text-sm">
+            <span className="text-ink-3 font-normal ml-1.5 text-sm tnum">
               ({media.length}
               {hasMore ? '+' : ''})
             </span>

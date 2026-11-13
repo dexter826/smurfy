@@ -257,7 +257,17 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
 
             {/* Name */}
             <div className="flex-1 min-w-0 pb-1">
-              <h1 className="text-2xl md:text-3xl font-bold text-ink truncate">{user.fullName}</h1>
+              <div className="flex items-center justify-center md:justify-start gap-2">
+                <h1 className="text-2xl md:text-3xl font-bold text-ink truncate">
+                  {user.fullName}
+                </h1>
+                {user.status === 'active' && (
+                  <span className="inline-flex items-center gap-1.5 bg-accent-soft text-accent-strong text-xs font-medium px-2 py-0.5 rounded-full flex-shrink-0">
+                    <span className="w-1.5 h-1.5 rounded-full bg-success" aria-hidden="true" />
+                    Đang hoạt động
+                  </span>
+                )}
+              </div>
               {!isOwnProfile && friendStatus !== FriendStatus.FRIEND && (
                 <div className="flex items-center justify-center md:justify-start gap-1.5 mt-1 text-ink-3 text-xs md:text-sm font-medium animate-fade-in group">
                   <BookUser
@@ -354,7 +364,13 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
                     </div>
                   ) : (
                     <Dropdown
-                      trigger={<Button variant="ghost" icon={<MoreHorizontal size={17} />} />}
+                      trigger={
+                        <Button
+                          variant="ghost"
+                          icon={<MoreHorizontal size={17} />}
+                          aria-label="Tuỳ chọn khác"
+                        />
+                      }
                       align="right"
                     >
                       <DropdownItem

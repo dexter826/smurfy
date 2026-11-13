@@ -261,7 +261,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
               placeholder="Nhập vài dòng giới thiệu về bản thân..."
               rows={2}
               rightElement={
-                <div className="text-xs text-ink-3 pr-2 pb-2 pointer-events-none">
+                <div className="text-xs text-ink-3 pr-2 pb-2 pointer-events-none tnum">
                   {formData.bio?.length || 0}/{VALIDATION.BIO_MAX_LENGTH}
                 </div>
               }
@@ -372,7 +372,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
                 onKeyDown={handleInterestKeyDown}
                 placeholder="Nhập sở thích rồi nhấn Enter..."
                 maxLength={VALIDATION.INTEREST_MAX_LENGTH}
-                className="flex-1 px-3.5 py-2 text-sm rounded-xl border border-line bg-background text-ink placeholder:text-ink-3 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-accent transition-colors"
+                className="flex-1 px-3.5 py-2 text-sm rounded-control border border-line bg-surface-2 text-ink placeholder:text-ink-3 focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent transition-colors"
               />
               <Button
                 type="button"
@@ -392,7 +392,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
                 {formData.interests?.map((tag) => (
                   <span
                     key={tag}
-                    className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-accent/10 text-primary border border-accent/20"
+                    className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-accent-soft text-accent-strong border border-accent/20"
                   >
                     {tag}
                     <button

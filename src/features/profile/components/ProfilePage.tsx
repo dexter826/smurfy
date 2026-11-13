@@ -152,9 +152,9 @@ const ProfilePage: React.FC = () => {
   if (loading || !profile || !currentUser) return <ProfileSkeleton />;
 
   return (
-    <div className="h-full w-full overflow-y-auto">
+    <div className="h-full w-full overflow-y-auto bg-canvas">
       {/* Header card */}
-      <div className="bg-canvas rounded-card border border-line shadow-card mb-4 mx-3 md:mx-4 mt-3 md:mt-4 overflow-hidden">
+      <div className="bg-surface rounded-card border border-line shadow-card mb-4 mx-3 md:mx-4 mt-3 md:mt-4 overflow-hidden">
         <ProfileHeader
           user={profile}
           isOwnProfile={isOwnProfile}

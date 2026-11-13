@@ -3,9 +3,9 @@ import { Skeleton } from '@/components/ui/Skeleton';
 
 export const ProfileSkeleton: React.FC = () => (
   <div className="h-full w-full overflow-y-auto bg-canvas animate-fade-in">
-    <div className="bg-canvas rounded-card border border-line shadow-card mb-4 mx-3 md:mx-4 mt-3 md:mt-4 overflow-hidden">
+    <div className="bg-surface rounded-card border border-line shadow-card mb-4 mx-3 md:mx-4 mt-3 md:mt-4 overflow-hidden">
       {/* Cover */}
-      <div className="relative w-full h-[200px] md:h-[320px] md:rounded-b-2xl overflow-hidden">
+      <div className="relative w-full h-[200px] md:h-[320px] md:rounded-b-card overflow-hidden">
         <Skeleton height="100%" width="100%" />
       </div>
 
@@ -42,7 +42,7 @@ export const ProfileSkeleton: React.FC = () => (
     <div className="max-w-5xl mx-auto px-4 pt-4 pb-12">
       <div className="flex flex-col md:flex-row gap-4 md:gap-6">
         {/* Left sidebar */}
-        <div className="w-full md:w-[320px] lg:w-[360px] flex-shrink-0 space-y-4">
+        <div className="w-full md:w-[340px] flex-shrink-0 space-y-4">
           <div className="bg-surface rounded-card border border-line p-4 space-y-4">
             <Skeleton width={100} height={20} />
             {[...Array(3)].map((_, i) => (

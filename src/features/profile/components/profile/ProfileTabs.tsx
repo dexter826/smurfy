@@ -23,7 +23,7 @@ export const ProfileTabs: React.FC<ProfileTabsProps> = ({ activeTab, onTabChange
             border-b-2 -mb-px
             ${
               activeTab === tab.id
-                ? 'text-primary border-accent'
+                ? 'text-accent-strong border-accent'
                 : 'text-ink-2 border-transparent hover:text-ink hover:border-line-strong'
             }`}
         >
