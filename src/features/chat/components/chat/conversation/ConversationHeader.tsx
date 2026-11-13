@@ -33,81 +33,57 @@ export const ConversationHeader: React.FC<ConversationHeaderProps> = ({
   onMarkAllRead,
 }) => (
   <div className="flex-shrink-0 px-3 pt-3 pb-2 border-b border-line-soft bg-surface">
-    {!isSearchFocused && !searchTerm ? (
-      <>
-        {/* Title Row */}
-        <div className="flex items-center justify-between h-10">
-          <h2 className="text-xl font-bold text-ink">Tin nhắn</h2>
-          <div className="flex items-center gap-0.5">
-            {onNewGroup && (
-              <IconButton
-                onClick={onNewGroup}
-                variant="primary"
-                size="sm"
-                icon={<Users size={18} />}
-                title="Tạo nhóm mới"
-                aria-label="Tạo nhóm mới"
-              />
-            )}
-
+    {!isSearchFocused && !searchTerm && (
+      /* Title Row */
+      <div className="flex items-center justify-between h-10 mb-2">
+        <h2 className="text-xl font-bold text-ink">Tin nhắn</h2>
+        <div className="flex items-center gap-0.5">
+          {onNewGroup && (
             <IconButton
-              onClick={() => onViewModeChange?.(viewMode === 'archived' ? 'normal' : 'archived')}
-              icon={<Archive size={18} />}
-              variant="ghost"
-              title={viewMode === 'archived' ? 'Quay lại tin nhắn' : 'Tin nhắn đã lưu trữ'}
-              aria-label="Tin nhắn đã lưu trữ"
-              className={
-                viewMode === 'archived' ? 'text-accent-strong bg-accent-soft' : 'text-ink-2'
-              }
-            />
-          </div>
-        </div>
-
-        {/* Search Pill */}
-        <div className="relative flex items-center mt-2">
-          <Input
-            icon={<Search size={15} />}
-            placeholder="Tìm kiếm..."
-            value={searchTerm}
-            onChange={onSearchChange}
-            onFocus={() => onSearchFocus(true)}
-            className="bg-surface-2 rounded-full text-sm"
-            containerClassName="flex-1"
-          />
-          {searchTerm && (
-            <IconButton
-              onClick={onClearSearch}
-              className="absolute right-2"
-              icon={<X size={14} />}
+              onClick={onNewGroup}
+              variant="primary"
               size="sm"
-              aria-label="Xoá tìm kiếm"
+              icon={<Users size={18} />}
+              title="Tạo nhóm mới"
+              aria-label="Tạo nhóm mới"
             />
           )}
-        </div>
-      </>
-    ) : (
-      /* Searching Row */
-      <div className="flex items-center gap-1.5 h-10">
-        <div className="relative flex-1 flex items-center">
-          <Input
-            icon={<Search size={15} />}
-            placeholder="Tìm kiếm..."
-            value={searchTerm}
-            onChange={onSearchChange}
-            onFocus={() => onSearchFocus(true)}
-            className="bg-surface-2 rounded-full text-sm"
-            containerClassName="flex-1"
+
+          <IconButton
+            onClick={() => onViewModeChange?.(viewMode === 'archived' ? 'normal' : 'archived')}
+            icon={<Archive size={18} />}
+            variant="ghost"
+            title={viewMode === 'archived' ? 'Quay lại tin nhắn' : 'Tin nhắn đã lưu trữ'}
+            aria-label={viewMode === 'archived' ? 'Quay lại tin nhắn' : 'Tin nhắn đã lưu trữ'}
+            className={viewMode === 'archived' ? 'text-accent-strong bg-accent-soft' : 'text-ink-2'}
           />
-          {searchTerm && (
-            <IconButton
-              onClick={onClearSearch}
-              className="absolute right-2"
-              icon={<X size={14} />}
-              size="sm"
-              aria-label="Xoá tìm kiếm"
-            />
-          )}
         </div>
+      </div>
+    )}
+
+    {/* Search Pill */}
+    <div className="flex items-center gap-1.5">
+      <div className="relative flex-1 flex items-center">
+        <Input
+          icon={<Search size={15} />}
+          placeholder="Tìm kiếm..."
+          value={searchTerm}
+          onChange={onSearchChange}
+          onFocus={() => onSearchFocus(true)}
+          className="h-10 bg-surface-2 border-line-soft rounded-full text-sm"
+          containerClassName="flex-1"
+        />
+        {searchTerm && (
+          <IconButton
+            onClick={onClearSearch}
+            className="absolute right-2"
+            icon={<X size={14} />}
+            size="sm"
+            aria-label="Xoá tìm kiếm"
+          />
+        )}
+      </div>
+      {isSearchFocused && (
         <Button
           onClick={onCancelSearch}
           variant="ghost"
@@ -116,7 +92,7 @@ export const ConversationHeader: React.FC<ConversationHeaderProps> = ({
         >
           Hủy
         </Button>
-      </div>
-    )}
+      )}
+    </div>
   </div>
 );

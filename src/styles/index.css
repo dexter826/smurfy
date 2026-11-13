@@ -276,6 +276,13 @@
 @utility tnum {
   font-variant-numeric: tabular-nums;
 }
+@utility label-caps {
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
 
 input::-ms-reveal,
 input::-ms-clear {

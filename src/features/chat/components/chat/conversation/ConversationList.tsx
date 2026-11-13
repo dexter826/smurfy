@@ -85,6 +85,9 @@ export const ConversationList = React.memo<ConversationListProps>(
         activeFilter,
       });
 
+    const pinnedConversations = displayConversations.filter((c) => c.userChat?.isPinned);
+    const recentConversations = displayConversations.filter((c) => !c.userChat?.isPinned);
+
     const filterBadges = {
       stranger: strangerUnreadCount > 0 ? strangerUnreadCount : undefined,
     };
@@ -236,7 +239,20 @@ export const ConversationList = React.memo<ConversationListProps>(
                   className="mt-8 px-8"
                 />
               ) : (
-                displayConversations.map(renderConversationItem)
+                <>
+                  {pinnedConversations.length > 0 && (
+                    <>
+                      <div className="label-caps text-ink-3 px-4 pt-2 pb-1">Đã ghim</div>
+                      {pinnedConversations.map(renderConversationItem)}
+                    </>
+                  )}
+                  {recentConversations.length > 0 && (
+                    <>
+                      <div className="label-caps text-ink-3 px-4 pt-2 pb-1">Gần đây</div>
+                      {recentConversations.map(renderConversationItem)}
+                    </>
+                  )}
+                </>
               )}
             </div>
           )}

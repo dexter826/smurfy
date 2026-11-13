@@ -99,6 +99,7 @@ export const SearchResults: React.FC<SearchResultsProps> & { Skeleton: React.FC 
                     e.stopPropagation();
                     onRemoveFromHistory?.(item.id);
                   }}
+                  aria-label="Xoá khỏi lịch sử tìm kiếm"
                   className="w-7 h-7 flex items-center justify-center rounded-full text-ink-3 hover:bg-surface-2 opacity-0 group-hover:opacity-100 transition-all duration-200"
                 >
                   <X size={13} />
@@ -218,6 +219,7 @@ const HistoryConversationItem: React.FC<HistoryConversationItemProps> = ({
             e.stopPropagation();
             onRemove();
           }}
+          aria-label="Xoá khỏi lịch sử tìm kiếm"
           className="w-7 h-7 flex items-center justify-center rounded-full text-ink-3 hover:bg-surface-2 opacity-0 group-hover:opacity-100 transition-all duration-200"
         >
           <X size={13} />
