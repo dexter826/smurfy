@@ -20,14 +20,12 @@ Blocked by: 03
 - Đối chiếu frame c-chat: vị trí header, bubble, composer, panel lồng khớp; lệch ghi lý do vào ticket.
 - Nhắn thử 1-1/nhóm: reply, edit, recall, forward, reaction, typing hoạt động như cũ.
 
-## Comments
-
 ## Answer
 
 **Đủ 6 mục:**
-1. Thread panel hoá: `ChatPage` thêm `md:gap-3 md:p-3` trên canvas; khung chat = `bg-surface md:border md:border-line md:border-l-0 md:rounded-r-card md:shadow-card` (nối liền panel list ở cột trái theo frame c-chat — list bo trái, thread bo phải, seam 1px); khu tin nhắn `bg-surface-2`; header 60px viền `line-soft`; composer viền trên `line-soft`. Mobile giữ full-bleed không bo (`md:` prefix).
-2. Bubble: gửi `bg-accent text-on-accent border-accent-edge rounded-card rounded-br-[5px]`; nhận `bg-surface-2 text-ink border-line rounded-card rounded-bl-[5px]`; tên gửi group `hover:text-accent-strong`; reply preview viền trái `accent`/2px; giờ `caption`/`ink-3` tabular (giữ nguyên cấu trúc grid 32px + ẩn avatar tin liên tiếp).
-3. Composer: input pill `rounded-control bg-surface-2`; nút gửi `bg-accent text-on-accent` (spinner `on-accent`); reply/edit bar viền trái accent 4px trên `surface-2`; MentionList nổi `rounded-card shadow-float`.
+1. Thread panel hoá: `ChatPage` root `md:gap-3 md:p-3` (12px theo frame c-chat `.app{padding:12px;gap:12px}` — lệch §4 spacing.md 16px, lý do: frame đã duyệt); khung chat = `bg-surface md:border md:border-line md:border-l-0 md:rounded-r-card md:shadow-card`, list wrapper `md:-mr-3` huỷ gap để list+thread nối thành một card liền (khớp `.panel{margin-right:-12px}` của frame), seam = border phải của list; khu tin nhắn `bg-surface-2`; header 60px viền `line-soft` (frame extra `.thread-head{height:60px}`); composer viền trên `line-soft` (đồng bộ cả state loading/blocked). Mobile giữ full-bleed không bo (`md:` prefix).
+2. Bubble: gửi `bg-accent text-on-accent border-accent-edge rounded-card rounded-br-[5px]`; nhận `bg-surface-2 text-ink border-line rounded-card rounded-bl-[5px]`; tên gửi group `text-accent-strong` (§7); reply preview viền trái **2px currentColor** (§7 "cùng màu chữ" — bỏ border-accent/40 cứng, để kế thừa màu chữ từng nhánh); giờ `caption`/`ink-3` + `tnum`; giữ nguyên cấu trúc grid 32px + ẩn avatar tin liên tiếp.
+3. Composer: input pill `rounded-control bg-surface-2`; nút gửi `bg-accent text-on-accent` (spinner `on-accent`); reply/edit bar viền trái accent 4px trên `surface-2`; MentionList nổi `rounded-card shadow-float` với mục chọn `accent-soft` + `accent-strong` (§7 dropdown).
 4. DragDropZone: overlay `bg-surface/60 backdrop-blur-sm rounded-card border-2 dashed border-accent/50`.
 5. Banner: request = `accent-soft rounded-control` (nội dung pill trên surface), pin = `warning-soft rounded-control` (mx/my trong panel), block bar giữ `bg-danger/10`.
 6. ChatBoxSkeleton: bubble skeleton `rounded-card` + góc 5px, sent skeleton `bg-accent/15`.

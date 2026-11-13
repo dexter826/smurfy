@@ -157,7 +157,7 @@ const ChatPage: React.FC = () => {
     <div className="flex h-full w-full overflow-hidden md:gap-3 md:p-3">
       {/* ── Conversation list panel ── */}
       <div
-        className={`${selectedConversationId ? 'hidden md:flex' : 'flex'} md:w-[320px] flex-shrink-0 w-full bg-surface md:rounded-l-card md:border md:border-line md:shadow-card`}
+        className={`${selectedConversationId ? 'hidden md:flex' : 'flex'} md:w-[320px] flex-shrink-0 w-full bg-surface md:-mr-3 md:rounded-l-card md:border md:border-line md:shadow-card`}
       >
         <ConversationList
           conversations={filteredConversations}

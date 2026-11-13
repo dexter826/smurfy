@@ -191,7 +191,7 @@ const MessageBubbleInner: React.FC<MessageBubbleProps> = ({
           {/* Sender Name Group Only */}
           {!isMe && showName && (
             <button
-              className="text-xs text-ink-2 ml-1 mb-0.5 font-semibold hover:text-accent-strong transition-colors duration-200"
+              className="text-xs text-accent-strong ml-1 mb-0.5 font-semibold transition-colors duration-200"
               onClick={handleProfileClick}
             >
               {sender?.fullName || 'Người dùng'}
@@ -274,7 +274,7 @@ const MessageBubbleInner: React.FC<MessageBubbleProps> = ({
                 {!message.data.isRecalled && (
                   <div
                     className={`
-                    text-caption flex items-center gap-1
+                    text-caption tnum flex items-center gap-1
                     transition-all duration-500 ease-out transform
                     ${isContentReady ? 'opacity-100 scale-100' : 'opacity-0 scale-90'}
                     ${

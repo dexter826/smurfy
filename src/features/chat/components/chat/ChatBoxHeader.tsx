@@ -79,7 +79,6 @@ const ChatBoxHeaderInner: React.FC<ChatBoxHeaderProps> = ({
         onClick={onInfoClick}
         title="Thông tin hội thoại"
         variant="ghost"
-
         icon={<Info size={19} />}
         size="md"
       />

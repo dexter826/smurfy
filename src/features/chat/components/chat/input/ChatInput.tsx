@@ -124,8 +124,8 @@ export const ChatInput: React.FC<ChatInputProps> = (props) => {
 
   if (isLoadingSettings) {
     return (
-      <div className="flex-shrink-0 border-t border-line bg-surface pb-safe h-[60px] flex items-center justify-center">
-        <div className="w-5 h-5 border-2 border-accent/20 border-t-primary rounded-full animate-spin" />
+      <div className="flex-shrink-0 border-t border-line-soft bg-surface pb-safe h-[60px] flex items-center justify-center">
+        <div className="w-5 h-5 border-2 border-accent/20 border-t-accent rounded-full animate-spin" />
       </div>
     );
   }
@@ -133,7 +133,7 @@ export const ChatInput: React.FC<ChatInputProps> = (props) => {
   if (blockedMessage || isDisbanded) {
     return (
       <div
-        className="flex-shrink-0 border-t border-line bg-surface pb-safe"
+        className="flex-shrink-0 border-t border-line-soft bg-surface pb-safe"
         style={{ zIndex: 'var(--z-sticky)' }}
       >
         <div className="flex items-center justify-between px-4 py-3 gap-3">
@@ -178,7 +178,7 @@ export const ChatInput: React.FC<ChatInputProps> = (props) => {
       {/* Reply Or Edit Banner */}
       {(replyingTo || editingMessage) && (
         <div className="px-4 py-2 border-b border-line-soft bg-surface-2 flex items-center justify-between gap-3 animate-in slide-in-from-bottom-2 duration-300">
-          <div className="flex items-center gap-3 overflow-hidden flex-1 min-w-0 border-l-4 border-accent pl-3">
+          <div className="flex items-center gap-3 overflow-hidden flex-1 min-w-0 border-l-2 border-accent pl-3">
             <div className="w-8 h-8 rounded-full bg-accent/10 flex items-center justify-center flex-shrink-0">
               {editingMessage ? (
                 <Edit2 size={14} className="text-accent" />
@@ -206,7 +206,7 @@ export const ChatInput: React.FC<ChatInputProps> = (props) => {
             icon={<X size={14} />}
             size="sm"
             variant="ghost"
-            className="flex-shrink-0"
+            className="flex-shrink-0 hover:bg-surface-3"
           />
         </div>
       )}
@@ -230,7 +230,7 @@ export const ChatInput: React.FC<ChatInputProps> = (props) => {
           size="md"
           variant="ghost"
           disabled={disabled || isSending}
-          className="flex-shrink-0"
+          className="flex-shrink-0 hover:bg-surface-3"
         />
 
         <input
