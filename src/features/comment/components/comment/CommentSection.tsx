@@ -250,7 +250,7 @@ export const CommentSection: React.FC<CommentSectionProps> = ({
 
   return (
     <div
-      className={`flex flex-col min-h-0 transition-all duration-200 ${className} ${!header ? 'border-t border-border' : 'h-full bg-surface'}`}
+      className={`flex flex-col min-h-0 transition-all duration-200 ${className} ${!header ? 'border-t border-line' : 'h-full bg-surface'}`}
     >
       {/* Scrollable comment list */}
       <div className="flex-1 overflow-y-auto scroll-hide">
@@ -261,9 +261,9 @@ export const CommentSection: React.FC<CommentSectionProps> = ({
           <div className="px-4 pt-2 pb-1 flex items-center justify-end">
             <Dropdown
               trigger={
-                <button className="flex items-center gap-1 text-[11px] font-semibold text-muted transition-colors duration-200">
+                <button className="flex items-center gap-1 text-[11px] font-semibold text-ink-3 transition-colors duration-200">
                   <span>Sắp xếp:</span>
-                  <span className="text-secondary">
+                  <span className="text-ink-2">
                     {rootSortOrder[postId] === 'asc' ? 'Cũ nhất' : 'Mới nhất'}
                   </span>
                   <ChevronDown size={12} />
@@ -273,12 +273,12 @@ export const CommentSection: React.FC<CommentSectionProps> = ({
             >
               <DropdownItem
                 label="Mới nhất"
-                className={rootSortOrder[postId] !== 'asc' ? 'bg-primary/5 !text-primary' : ''}
+                className={rootSortOrder[postId] !== 'asc' ? 'bg-accent/5 !text-accent-strong' : ''}
                 onClick={() => setRootSortOrder(postId, 'desc')}
               />
               <DropdownItem
                 label="Cũ nhất"
-                className={rootSortOrder[postId] === 'asc' ? 'bg-primary/5 !text-primary' : ''}
+                className={rootSortOrder[postId] === 'asc' ? 'bg-accent/5 !text-accent-strong' : ''}
                 onClick={() => setRootSortOrder(postId, 'asc')}
               />
             </Dropdown>
@@ -312,8 +312,8 @@ export const CommentSection: React.FC<CommentSectionProps> = ({
           ) : (
             <div className="flex flex-col">
               {rootHiddenCount > 0 && (
-                <div className="mx-4 my-2 py-2 border-b border-border/30 text-center">
-                  <p className="text-xs text-muted italic">
+                <div className="mx-4 my-2 py-2 border-b border-line/30 text-center">
+                  <p className="text-xs text-ink-3 italic">
                     Có {totalCommentCount} bình luận.{' '}
                     {readonly
                       ? readonlyMessage === ''
@@ -362,7 +362,7 @@ export const CommentSection: React.FC<CommentSectionProps> = ({
                     size="sm"
                     onClick={() => fetchRootComments(postId, hiddenActivityUserIds, true)}
                     isLoading={isLoading}
-                    className="text-primary w-full justify-center text-xs font-semibold hover:bg-primary/5"
+                    className="text-accent-strong w-full justify-center text-xs font-semibold hover:bg-accent/5"
                   >
                     Xem thêm bình luận...
                   </Button>
@@ -376,7 +376,7 @@ export const CommentSection: React.FC<CommentSectionProps> = ({
       {/* Sticky input area */}
       {!readonly && (
         <div
-          className={`flex-shrink-0 sticky bottom-0 bg-surface border-t border-border
+          className={`flex-shrink-0 sticky bottom-0 bg-surface border-t border-line
             ${
               variant === 'cinema'
                 ? 'p-4 md:p-5 bg-surface/95 backdrop-blur-md shadow-md'
@@ -387,14 +387,14 @@ export const CommentSection: React.FC<CommentSectionProps> = ({
         >
           {/* Replying-to banner */}
           {replyingTo && (
-            <div className="flex items-center justify-between mb-2.5 px-3 py-1.5 bg-primary/5 border border-primary/15 rounded-xl">
-              <span className="text-xs text-primary font-medium flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse-dot flex-shrink-0" />
+            <div className="flex items-center justify-between mb-2.5 px-3 py-1.5 bg-accent/5 border border-accent/15 rounded-card">
+              <span className="text-xs text-accent-strong font-medium flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse-dot flex-shrink-0" />
                 Đang trả lời <strong>{users[replyingTo.authorId || '']?.fullName}</strong>
               </span>
               <button
                 onClick={resetInput}
-                className="w-5 h-5 flex items-center justify-center rounded-full hover:bg-primary/10 text-primary transition-colors duration-200"
+                className="w-5 h-5 flex items-center justify-center rounded-full hover:bg-accent/10 text-accent-strong transition-colors duration-200"
               >
                 <X size={11} />
               </button>

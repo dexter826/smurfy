@@ -122,7 +122,7 @@ export const CommentInput: React.FC<CommentInputProps> = ({
       <div className="flex-1 min-w-0">
         <form onSubmit={handleSubmit(handleFormSubmit)}>
           {/* Input bubble */}
-          <div className="bg-background border border-border rounded-2xl transition-all duration-200 focus-within:border-primary/30 focus-within:bg-surface">
+          <div className="bg-surface border border-line rounded-card transition-all duration-200 focus-within:border-accent/30 focus-within:bg-surface">
             <textarea
               {...register('content')}
               ref={(e) => {
@@ -131,7 +131,7 @@ export const CommentInput: React.FC<CommentInputProps> = ({
               }}
               placeholder={placeholder}
               rows={1}
-              className="w-full bg-transparent border-none outline-none text-sm resize-none px-3.5 pt-2.5 pb-1 placeholder:text-muted max-h-32 scroll-hide text-foreground"
+              className="w-full bg-transparent border-none outline-none text-sm resize-none px-3.5 pt-2.5 pb-1 placeholder:text-ink-3 max-h-32 scroll-hide text-ink"
               onKeyDown={(e) => {
                 if (e.key === 'Enter' && !e.shiftKey) {
                   e.preventDefault();
@@ -150,7 +150,7 @@ export const CommentInput: React.FC<CommentInputProps> = ({
                       <img
                         src={previewUrl || formData.image}
                         alt="Preview"
-                        className="h-20 w-auto rounded-xl object-cover border border-border"
+                        className="h-20 w-auto rounded-control object-cover border border-line"
                       />
                       <button
                         type="button"
@@ -175,7 +175,7 @@ export const CommentInput: React.FC<CommentInputProps> = ({
                   size="sm"
                   title="Thêm ảnh"
                   disabled={false}
-                  className="text-muted hover:text-success"
+                  className="text-ink-3 hover:text-success"
                 />
                 <EmojiPicker
                   onEmojiSelect={(emoji) =>
@@ -205,8 +205,8 @@ export const CommentInput: React.FC<CommentInputProps> = ({
                   className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors duration-200 flex-shrink-0
                     ${
                       canSubmit
-                        ? 'bg-primary text-on-primary shadow-sm hover:brightness-110 active:brightness-95'
-                        : 'bg-surface-sunken text-muted cursor-not-allowed'
+                        ? 'bg-accent text-on-accent shadow-sm hover:brightness-110 active:brightness-95'
+                        : 'bg-surface-2 text-ink-3 cursor-not-allowed'
                     }`}
                 >
                   <Send size={14} className={canSubmit ? 'fill-current' : ''} />

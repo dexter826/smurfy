@@ -179,8 +179,8 @@ export const PostModal: React.FC<PostModalProps> = ({
           <div className="w-full space-y-3">
             {/* Media toolbar */}
             {!isSystemPost && (
-              <div className="flex items-center justify-between bg-background rounded-xl px-3 py-2 border border-border">
-                <span className="text-xs font-semibold text-secondary">Thêm vào bài viết</span>
+              <div className="flex items-center justify-between bg-surface-2 rounded-card px-3 py-2 border border-line">
+                <span className="text-xs font-semibold text-ink-2">Thêm vào bài viết</span>
                 <div className="flex gap-0.5">
                   <IconButton
                     type="button"
@@ -231,7 +231,7 @@ export const PostModal: React.FC<PostModalProps> = ({
         <div className="flex flex-col min-h-[150px]">
           {/* Author + visibility row */}
           <div
-            className="sticky top-0 bg-surface px-4 md:px-6 py-3 border-b border-border flex items-center justify-between flex-shrink-0"
+            className="sticky top-0 bg-surface px-4 md:px-6 py-3 border-b border-line flex items-center justify-between flex-shrink-0"
             style={{ zIndex: 'var(--z-sticky)' }}
           >
             <div className="flex items-center gap-3">
@@ -242,7 +242,7 @@ export const PostModal: React.FC<PostModalProps> = ({
                 size="md"
                 initialStatus={currentUser.status}
               />
-              <span className="font-semibold text-foreground text-sm">{currentUser.fullName}</span>
+              <span className="font-semibold text-ink text-sm">{currentUser.fullName}</span>
             </div>
             <Select
               value={formData.visibility}
@@ -279,7 +279,7 @@ export const PostModal: React.FC<PostModalProps> = ({
                     }
                   }}
                   placeholder="Hãy viết gì đó..."
-                  className={`w-full resize-none outline-none bg-transparent text-foreground placeholder:text-muted overflow-hidden transition-all duration-200 leading-relaxed
+                  className={`w-full resize-none outline-none bg-transparent text-ink placeholder:text-ink-3 overflow-hidden transition-all duration-200 leading-relaxed
                     ${
                       isLargeText
                         ? 'text-xl md:text-2xl font-medium min-h-[120px]'
@@ -293,7 +293,7 @@ export const PostModal: React.FC<PostModalProps> = ({
                     className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${
                       (formData.content?.length || 0) >= VALIDATION.POST_CONTENT_MAX_LENGTH * 0.9
                         ? 'text-danger bg-danger/5'
-                        : 'text-muted bg-background'
+                        : 'text-ink-3 bg-surface-2'
                     }`}
                   >
                     {formData.content?.length || 0}/{VALIDATION.POST_CONTENT_MAX_LENGTH}
@@ -312,7 +312,7 @@ export const PostModal: React.FC<PostModalProps> = ({
                   return (
                     <div
                       key={`${item.url}-${idx}`}
-                      className={`relative group rounded-xl overflow-hidden bg-background border border-border
+                      className={`relative group rounded-card overflow-hidden bg-surface-2 border border-line
                         ${isLarge ? 'col-span-2 aspect-video' : 'aspect-square md:aspect-video'}`}
                     >
                       <img

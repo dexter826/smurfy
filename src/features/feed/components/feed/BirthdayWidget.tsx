@@ -22,7 +22,7 @@ interface BirthdayRowProps {
 }
 
 const BirthdayRow: React.FC<BirthdayRowProps> = ({ friend, onQuickWish, onOpenChat }) => (
-  <div className="p-4 flex items-center gap-3 hover:bg-background/30 transition-colors">
+  <div className="p-4 flex items-center gap-3 hover:bg-canvas/30 transition-colors">
     <Link to={`/profile/${friend.id}`} className="shrink-0">
       <Avatar src={friend.avatar?.url} name={friend.fullName} size="lg" />
     </Link>
@@ -30,7 +30,7 @@ const BirthdayRow: React.FC<BirthdayRowProps> = ({ friend, onQuickWish, onOpenCh
     <div className="flex-grow min-w-0">
       <Link
         to={`/profile/${friend.id}`}
-        className="text-sm font-bold text-foreground hover:text-primary transition-colors truncate block"
+        className="text-sm font-bold text-ink hover:text-accent-strong transition-colors truncate block"
       >
         {friend.fullName}
       </Link>
@@ -40,7 +40,7 @@ const BirthdayRow: React.FC<BirthdayRowProps> = ({ friend, onQuickWish, onOpenCh
           <button
             key={i}
             onClick={() => onQuickWish(friend, wish)}
-            className="px-2.5 py-1 rounded-full bg-background border border-border text-[10px] font-medium text-secondary hover:border-primary/40 hover:text-primary active:scale-95 transition-all"
+            className="px-2.5 py-1 rounded-full bg-surface-2 border border-line text-[10px] font-medium text-ink-2 hover:border-accent/40 hover:text-accent-strong active:scale-95 transition-all"
           >
             {wish}
           </button>
@@ -50,7 +50,7 @@ const BirthdayRow: React.FC<BirthdayRowProps> = ({ friend, onQuickWish, onOpenCh
 
     <button
       onClick={() => onOpenChat(friend)}
-      className="p-2 text-muted hover:text-primary hover:bg-primary/5 rounded-full transition-all shrink-0"
+      className="p-2 text-ink-3 hover:text-accent-strong hover:bg-accent/5 rounded-full transition-all shrink-0"
       title="Vào Chat"
     >
       <MessageCircle size={20} strokeWidth={1.5} />
@@ -113,9 +113,9 @@ export const BirthdayWidget: React.FC = () => {
 
   return (
     <>
-      <div className="bg-surface rounded-2xl border border-border mb-4 animate-fade-in shadow-sm overflow-hidden transition-all duration-300">
+      <div className="bg-surface rounded-card border border-line mb-4 animate-fade-in shadow-sm overflow-hidden transition-all duration-300">
         <div className="flex items-center gap-3 p-3 sm:p-4">
-          <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-primary/5 flex items-center justify-center text-primary border border-primary/10">
+          <div className="flex-shrink-0 w-10 h-10 rounded-control bg-accent/5 flex items-center justify-center text-accent border border-accent/10">
             <Cake size={20} strokeWidth={1.5} />
           </div>
 
@@ -124,19 +124,17 @@ export const BirthdayWidget: React.FC = () => {
               <div className="flex flex-col">
                 <div className="flex items-center justify-between">
                   <div>
-                    <h3 className="text-xs font-bold text-foreground">
-                      Hôm nay là sinh nhật của bạn!
-                    </h3>
-                    <p className="text-[10px] text-secondary">Chúc bạn một ngày rực rỡ 🎂</p>
+                    <h3 className="text-xs font-bold text-ink">Hôm nay là sinh nhật của bạn!</h3>
+                    <p className="text-[10px] text-ink-2">Chúc bạn một ngày rực rỡ 🎂</p>
                   </div>
                 </div>
 
                 {friendsWithBirthday.length > 0 && (
                   <div
-                    className="mt-2 pt-2 border-t border-border/50 flex items-center justify-between cursor-pointer group"
+                    className="mt-2 pt-2 border-t border-line/50 flex items-center justify-between cursor-pointer group"
                     onClick={() => setIsModalOpen(true)}
                   >
-                    <p className="text-[10px] text-secondary truncate group-hover:text-primary transition-colors">
+                    <p className="text-[10px] text-ink-2 truncate group-hover:text-accent-strong transition-colors">
                       Hôm nay cũng là sinh nhật của{' '}
                       {friendsWithBirthday.length === 1
                         ? firstFriend.fullName
@@ -162,10 +160,10 @@ export const BirthdayWidget: React.FC = () => {
                 onClick={() => setIsModalOpen(true)}
               >
                 <div className="min-w-0">
-                  <h3 className="text-xs font-bold text-foreground truncate group-hover:text-primary transition-colors">
+                  <h3 className="text-xs font-bold text-ink truncate group-hover:text-accent-strong transition-colors">
                     Sinh nhật bạn bè
                   </h3>
-                  <p className="text-[10px] text-secondary truncate mt-0.5">
+                  <p className="text-[10px] text-ink-2 truncate mt-0.5">
                     Hôm nay là sinh nhật của {firstFriend.fullName} 🎂
                   </p>
                 </div>
@@ -184,10 +182,10 @@ export const BirthdayWidget: React.FC = () => {
                 onClick={() => setIsModalOpen(true)}
               >
                 <div className="min-w-0">
-                  <h3 className="text-xs font-bold text-foreground group-hover:text-primary transition-colors">
+                  <h3 className="text-xs font-bold text-ink group-hover:text-accent-strong transition-colors">
                     Sinh nhật bạn bè
                   </h3>
-                  <p className="text-[10px] text-secondary truncate mt-0.5">
+                  <p className="text-[10px] text-ink-2 truncate mt-0.5">
                     Hôm nay là sinh nhật của {firstFriend.fullName} và{' '}
                     {friendsWithBirthday.length - 1} người khác 🎂
                   </p>

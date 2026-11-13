@@ -137,19 +137,17 @@ export const PostViewModal: React.FC<PostViewModalProps> = ({
     return (
       <Modal open={open} onOpenChange={onOpenChange} showHeader={false} size="md" padding="none">
         <div className="p-8 text-center">
-          <div className="w-14 h-14 rounded-full bg-background border border-border flex items-center justify-center mx-auto mb-4">
-            <AlertCircle size={24} className="text-muted" />
+          <div className="w-14 h-14 rounded-full bg-surface-2 border border-line flex items-center justify-center mx-auto mb-4">
+            <AlertCircle size={24} className="text-ink-3" />
           </div>
-          <h3 className="text-lg font-semibold text-foreground mb-2">
-            Không thể truy cập bài viết
-          </h3>
-          <p className="text-sm text-secondary leading-relaxed">
+          <h3 className="text-lg font-semibold text-ink mb-2">Không thể truy cập bài viết</h3>
+          <p className="text-sm text-ink-2 leading-relaxed">
             Bài viết đã bị xóa hoặc bạn không còn quyền xem nội dung này.
           </p>
           <button
             type="button"
             onClick={onOpenChange}
-            className="mt-5 px-4 py-2 rounded-lg border border-border text-sm font-semibold text-foreground hover:bg-hover transition-colors"
+            className="mt-5 px-4 py-2 rounded-control border border-line text-sm font-semibold text-ink hover:bg-surface-2 transition-colors"
           >
             Đóng
           </button>
@@ -174,13 +172,13 @@ export const PostViewModal: React.FC<PostViewModalProps> = ({
       >
         {isCinema && (
           <div className="hidden lg:flex flex-[1.6] bg-chat items-center justify-center border-r border-white/5 shrink-0">
-            <Skeleton className="w-[80%] aspect-video rounded-xl opacity-10" />
+            <Skeleton className="w-[80%] aspect-video rounded-card opacity-10" />
           </div>
         )}
         <div
           className={`flex flex-col bg-surface shrink-0 transition-theme ${isCinema ? 'h-full w-full lg:w-[460px] flex-1 lg:flex-none' : 'w-full h-auto'}`}
         >
-          <div className="p-4 md:p-5 border-b border-border flex items-center gap-3 shrink-0">
+          <div className="p-4 md:p-5 border-b border-line flex items-center gap-3 shrink-0">
             <Skeleton variant="circle" width={42} height={42} />
             <div className="space-y-1.5 flex-1">
               <Skeleton width={140} height={14} />
@@ -230,7 +228,7 @@ export const PostViewModal: React.FC<PostViewModalProps> = ({
       >
         {/* Header */}
         <div
-          className="flex items-center gap-3 px-4 py-3 border-b border-border shrink-0 bg-surface"
+          className="flex items-center gap-3 px-4 py-3 border-b border-line shrink-0 bg-surface"
           style={{ zIndex: 'var(--z-sticky)' }}
         >
           <UserAvatar
@@ -244,21 +242,19 @@ export const PostViewModal: React.FC<PostViewModalProps> = ({
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-1.5 flex-wrap">
               <button
-                className="font-semibold text-sm text-foreground hover:text-primary transition-colors duration-200 truncate"
+                className="font-semibold text-sm text-ink hover:text-accent-strong transition-colors duration-200 truncate"
                 onClick={handleProfileClick}
               >
                 {author?.fullName || 'Người dùng'}
               </button>
               {post.type === PostType.AVATAR_UPDATE && (
-                <span className="text-sm text-secondary font-normal">
-                  vừa cập nhật ảnh đại diện.
-                </span>
+                <span className="text-sm text-ink-2 font-normal">vừa cập nhật ảnh đại diện.</span>
               )}
               {post.type === PostType.COVER_UPDATE && (
-                <span className="text-sm text-secondary font-normal">vừa cập nhật ảnh bìa.</span>
+                <span className="text-sm text-ink-2 font-normal">vừa cập nhật ảnh bìa.</span>
               )}
             </div>
-            <div className="flex items-center gap-1.5 text-xs text-muted mt-0.5">
+            <div className="flex items-center gap-1.5 text-xs text-ink-3 mt-0.5">
               <span title={formatDateTime(post.createdAt)}>
                 {formatRelativeTime(post.createdAt)}
               </span>
@@ -308,7 +304,7 @@ export const PostViewModal: React.FC<PostViewModalProps> = ({
               {/* Post text (Displayed first on mobile) */}
               {!isSystemPost && post.content && (
                 <div className="px-4 md:px-5 py-3 w-full">
-                  <p className="text-foreground whitespace-pre-line break-words text-sm leading-relaxed">
+                  <p className="text-ink whitespace-pre-line break-words text-sm leading-relaxed">
                     <TruncatedText content={post.content} threshold={300} />
                   </p>
                 </div>
@@ -316,7 +312,7 @@ export const PostViewModal: React.FC<PostViewModalProps> = ({
 
               {/* Mobile media grid - Displayed after text with "Full" style */}
               {hasMedia && (
-                <div className="lg:hidden w-full relative bg-background/20">
+                <div className="lg:hidden w-full relative bg-canvas/20">
                   {/* Mobile Fullscreen button - Glassmorphism style preserved */}
                   <div className="absolute top-3 right-3 z-20">
                     <button
@@ -330,12 +326,12 @@ export const PostViewModal: React.FC<PostViewModalProps> = ({
 
                   {!isSystemPost ? (
                     <div
-                      className={`grid gap-1 w-full bg-background/10 ${allMedia.length === 1 ? 'grid-cols-1' : 'grid-cols-2'}`}
+                      className={`grid gap-1 w-full bg-canvas/10 ${allMedia.length === 1 ? 'grid-cols-1' : 'grid-cols-2'}`}
                     >
                       {allMedia.map((media, idx) => (
                         <div
                           key={idx}
-                          className={`relative cursor-pointer group overflow-hidden bg-surface border border-border/30
+                          className={`relative cursor-pointer group overflow-hidden bg-surface border border-line/30
                             ${allMedia.length > 2 && idx === 0 && allMedia.length % 2 !== 0 ? 'col-span-2 aspect-video' : 'aspect-square'}`}
                           onClick={() => {
                             setActiveMediaIndex(idx);
@@ -372,8 +368,8 @@ export const PostViewModal: React.FC<PostViewModalProps> = ({
                     onReact={(type) => onReact(post.id, type)}
                     onShareClick={canShare ? handleSharePost : undefined}
                     onViewReactions={() => setIsReactionsModalOpen(true)}
-                    statsClassName="px-4 md:px-5 py-2.5 flex justify-between items-center border-b border-border/50"
-                    actionClassName="flex px-1 py-1 gap-0.5 border-b border-border"
+                    statsClassName="px-4 md:px-5 py-2.5 flex justify-between items-center border-b border-line/50"
+                    actionClassName="flex px-1 py-1 gap-0.5 border-b border-line"
                     selectorPosition="bottom"
                   />
                 </div>
