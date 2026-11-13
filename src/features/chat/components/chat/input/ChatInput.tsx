@@ -287,7 +287,7 @@ export const ChatInput: React.FC<ChatInputProps> = (props) => {
           className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 transition-colors duration-200 active:brightness-95 ${canSend ? 'bg-primary text-on-primary shadow-xs hover:brightness-110' : 'bg-surface-sunken text-muted cursor-not-allowed'}`}
         >
           {isSending ? (
-            <span className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />
+            <span className="w-4 h-4 border-2 border-on-accent/40 border-t-on-accent rounded-full animate-spin" />
           ) : (
             <Send size={16} className={canSend ? 'fill-current' : ''} />
           )}

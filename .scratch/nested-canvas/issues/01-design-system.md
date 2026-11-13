@@ -26,6 +26,13 @@ Blocked by: —
 
 ## Comments
 
+- 2026-11-13 — code-review bù cho commit `1df5146` (2 sub-agent song song: Standards + Spec, fixed point `7a11b79`).
+  - **Fix:** spinner đang gửi trong ChatInput vẫn `border-white/40 border-t-white` trên nền accent (`canSend` không chứa `!isSending`) — vi phạm bất biến 3 → `border-on-accent/40 border-t-on-accent`.
+  - **Fix:** thêm comment đánh dấu legacy ở block radius snap + `text-lg` trong index.css (đọc đủ biết cái nào gỡ ở ticket 12).
+  - **Fix:** tạo `.scratch/nested-canvas/contrast_check.py` (24 cặp, light+dark, UTF-8 console) — tiêu chí nghiệm thu "Script contrast_check pass" giờ đo được: RESULT PASS, 1 WARN là ngoại lệ contract (ink-3/surface 4.37, DESIGN không claim AA cho ink-3).
+  - **Chấp nhận nguyên trạng (có lý do):** alias `--color-border-default`/`--color-faint` đã 0 consumer nhưng giữ theo ticket mục 4, gỡ ở ticket 12; `text-lg` ≡ `text-xl` giữ vì cả hai còn dùng trong tsx; `bg-app-pattern` biến mất ở 3 màn chưa migrate là chủ đích (pattern bị cấm ở v2, không phải vỡ); smoke "mở dev" là phần chủ repo xem theo quyết định #7.
+  - Ghi nhận cho ticket 02+: `primary-hover→accent` làm hover cũ phẳng — hover thật sẽ dựng ở primitives.
+
 ## Answer
 
 Đã triển khai xong (commit `feat(nested-canvas)`).
