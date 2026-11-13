@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { Loading } from '@/components/ui';
 import { AppLayout } from './layout/AppLayout';
 import { ProtectedRoute } from './layout/ProtectedRoute';
@@ -16,7 +16,6 @@ const NotificationsPage = React.lazy(
 const EmailVerificationPage = React.lazy(
   () => import('@/features/auth/components/EmailVerificationPage'),
 );
-const MobileMenuPage = React.lazy(() => import('./pages/MobileMenuPage'));
 const OnboardingPage = React.lazy(() => import('@/features/auth/components/OnboardingPage'));
 const NotFoundPage = React.lazy(() => import('./pages/NotFoundPage'));
 const JoinGroupPage = React.lazy(() => import('@/features/chat/components/JoinGroupPage'));
@@ -41,8 +40,9 @@ const AppRoutes: React.FC = () => (
         <Route path="profile" element={<ProfilePage />} />
         <Route path="profile/:userId" element={<ProfilePage />} />
         <Route path="settings" element={<SettingsPage />} />
-        <Route path="notifications" element={<NotificationsPage />} />
-        <Route path="menu" element={<MobileMenuPage />} />
+        {/* TODO(ticket-09): thay NotificationsPage bằng ActivityPage gộp lời mời kết bạn */}
+        <Route path="activity" element={<NotificationsPage />} />
+        <Route path="notifications" element={<Navigate to="/activity" replace />} />
       </Route>
 
       <Route path="/verify-email" element={<EmailVerificationPage />} />

@@ -8,8 +8,7 @@ import { AlertDialog, Loading } from '@/components/ui';
 import { useLogout } from '../../hooks/utils/useLogout';
 import { CONFIRM_MESSAGES } from '../../constants';
 import { useSoundUnlock, useDocumentTitle } from './hooks/useShellEffects';
-import { appNavItems } from './navItems';
-import { AppTopBar } from './AppTopBar';
+import { Rail } from './Rail';
 import { BottomNav } from './BottomNav';
 import { GlobalModals } from './GlobalModals';
 
@@ -41,15 +40,16 @@ export const AppLayout: React.FC = () => {
     };
   }, [user, subscribeToConversations, subscribeToRequests, subscribeToFriends, initNotifications]);
   const isChatRoom = location.pathname === '/' && !!selectedConversationId;
-  const navItems = appNavItems({
+  const badges = {
     unread: totalUnread,
     requests: receivedRequests.length,
-    notifications: unreadNotifications,
-  });
+    // Hoạt động = thông báo + lời mời kết bạn (spec #14)
+    activity: unreadNotifications + receivedRequests.length,
+  };
 
   return (
-    <div className="flex flex-col h-[100dvh] w-full bg-background overflow-hidden transition-theme">
-      <AppTopBar items={navItems} onLogout={() => setShowLogoutConfirm(true)} />
+    <div className="flex h-[100dvh] w-full bg-canvas overflow-hidden transition-theme">
+      <Rail badges={badges} onLogout={() => setShowLogoutConfirm(true)} />
 
       <main
         className={`flex-1 relative flex flex-col overflow-hidden ${
@@ -61,13 +61,7 @@ export const AppLayout: React.FC = () => {
         </React.Suspense>
       </main>
 
-      {!isChatRoom && (
-        <BottomNav
-          unread={totalUnread}
-          unreadNotifications={unreadNotifications}
-          newRequests={receivedRequests.length}
-        />
-      )}
+      {!isChatRoom && <BottomNav badges={badges} />}
 
       <AlertDialog
         open={showLogoutConfirm}
