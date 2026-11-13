@@ -1,16 +1,13 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { ChevronLeft, CheckCheck, UserPlus, BellOff, UserCheck, UserX } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import React, { useMemo } from 'react';
+import { ChevronLeft, CheckCheck, UserPlus, BellOff, UserCheck, UserX, Trash2 } from 'lucide-react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useNotificationStore } from '../store/notificationStore';
 import { useContactStore } from '@/features/friend';
 import { useAuthStore } from '@/features/auth';
 import { useUserCache } from '@/store/userCacheStore';
-import { friendService } from '@/features/friend/services/friendService';
 import { NotificationItem } from './notifications/NotificationItem';
 import { EmptyState } from '@/components/ui';
-import { FriendRequest, Notification } from '@shared/types';
-
-type ActivityFilter = 'all' | 'requests';
+import { FriendRequest, Notification, NotificationType } from '@shared/types';
 
 interface RequestRow {
   kind: 'request';
@@ -21,8 +18,11 @@ interface RequestRow {
 interface NotificationRow {
   kind: 'notification';
   notification: Notification;
+  friendRequest?: FriendRequest;
   time: number;
 }
+
+type ActivityFilter = 'all' | 'requests';
 
 type ActivityRow = RequestRow | NotificationRow;
 
@@ -36,6 +36,7 @@ const toMillis = (value: unknown): number => {
 /** Trang Hoạt động — gộp thông báo + lời mời kết bạn (spec #9, #14). */
 export const ActivityPage: React.FC = () => {
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
   const { user } = useAuthStore();
   const {
     notifications,
@@ -45,50 +46,90 @@ export const ActivityPage: React.FC = () => {
     currentLimit,
     loadMore,
   } = useNotificationStore();
-  const { receivedRequests } = useContactStore();
+  const { receivedRequests, acceptFriendRequest, rejectFriendRequest } = useContactStore();
   const { getUser, fetchUsers } = useUserCache();
-  const [filter, setFilter] = useState<ActivityFilter>('all');
-  const [handledIds, setHandledIds] = useState<Set<string>>(new Set());
+
+  const filter: ActivityFilter = searchParams.get('tab') === 'requests' ? 'requests' : 'all';
+  const setFilter = (next: ActivityFilter) => {
+    setSearchParams(next === 'all' ? {} : { tab: next }, { replace: true });
+  };
 
   // Fetch sender cho lời mời (chỉ đọc cache, không đổi store)
-  useEffect(() => {
+  useMemo(() => {
     const missing = receivedRequests.map((r) => r.senderId).filter((id) => !getUser(id));
     if (missing.length > 0) fetchUsers(missing);
   }, [receivedRequests, getUser, fetchUsers]);
 
   const rows = useMemo<ActivityRow[]>(() => {
+    // Lời mời đã có notification FRIEND_REQUEST → gắn nút inline vào đúng notification đó,
+    // tránh hiện trùng hai dòng cho cùng một sự kiện
+    const requestBySender = new Map(receivedRequests.map((r) => [r.senderId, r]));
+    const consumed = new Set<string>();
+
+    const notificationRows: NotificationRow[] = notifications.map((n) => {
+      if (n.type === NotificationType.FRIEND_REQUEST) {
+        const request = requestBySender.get(n.actorId);
+        if (request) {
+          consumed.add(request.id);
+          return {
+            kind: 'notification',
+            notification: n,
+            friendRequest: request,
+            time: toMillis(n.createdAt),
+          };
+        }
+      }
+      return { kind: 'notification', notification: n, time: toMillis(n.createdAt) };
+    });
+
     const requestRows: RequestRow[] = receivedRequests
-      .filter((r) => !handledIds.has(r.id))
+      .filter((r) => !consumed.has(r.id))
       .map((r) => ({ kind: 'request', request: r, time: toMillis(r.updatedAt) }));
-    const notificationRows: NotificationRow[] = notifications.map((n) => ({
-      kind: 'notification',
-      notification: n,
-      time: toMillis(n.createdAt),
-    }));
-    const merged = [...requestRows, ...notificationRows].sort((a, b) => b.time - a.time);
-    return filter === 'requests' ? requestRows.sort((a, b) => b.time - a.time) : merged;
-  }, [notifications, receivedRequests, filter, handledIds]);
+
+    const merged = [...notificationRows, ...requestRows].sort((a, b) => b.time - a.time);
+    return filter === 'requests'
+      ? merged.filter((r) => r.kind === 'request').sort((a, b) => b.time - a.time)
+      : merged;
+  }, [notifications, receivedRequests, filter]);
 
   const handleAccept = async (request: FriendRequest) => {
-    setHandledIds((prev) => new Set(prev).add(request.id));
-    await friendService.acceptFriendRequest(request.id, request.senderId, user?.id ?? '');
+    await acceptFriendRequest(request.id, request.senderId, user?.id ?? '');
   };
 
   const handleReject = async (request: FriendRequest) => {
-    setHandledIds((prev) => new Set(prev).add(request.id));
-    await friendService.rejectFriendRequest(request.id);
+    await rejectFriendRequest(request.id);
   };
 
-  const renderRequestRow = (row: RequestRow) => {
-    const sender = getUser(row.request.senderId);
-    const mutualCount = user?.suggestedFriends?.find(
-      (s) => s.id === row.request.senderId,
-    )?.mutualCount;
-    return (
-      <div
-        key={`req-${row.request.id}`}
-        className="group relative flex items-start gap-3.5 px-4 py-3.5 rounded-card border border-accent/10 bg-accent/[0.04] transition-all duration-200 outline-none"
+  const renderRequestActions = (request: FriendRequest) => (
+    <div className="flex items-center gap-2 mt-2.5">
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          handleAccept(request);
+        }}
+        className="inline-flex items-center gap-1.5 px-3 min-h-[36px] rounded-control bg-accent text-on-accent text-xs font-semibold border border-accent-edge hover:bg-accent-edge transition-colors"
       >
+        <UserCheck size={14} aria-hidden="true" />
+        Chấp nhận
+      </button>
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          handleReject(request);
+        }}
+        className="inline-flex items-center gap-1.5 px-3 min-h-[36px] rounded-control bg-surface text-ink text-xs font-semibold border border-line hover:bg-surface-2 transition-colors"
+      >
+        <UserX size={14} aria-hidden="true" />
+        Từ chối
+      </button>
+    </div>
+  );
+
+  const renderRequestBody = (senderId: string, withActions: boolean, request?: FriendRequest) => {
+    const sender = getUser(senderId);
+    const mutualCount = user?.suggestedFriends?.find((s) => s.id === senderId)?.mutualCount;
+    return (
+      <>
         <div className="flex-shrink-0 relative">
           {sender ? (
             <img
@@ -106,7 +147,7 @@ export const ActivityPage: React.FC = () => {
             <button
               onClick={(e) => {
                 e.stopPropagation();
-                navigate(`/profile/${row.request.senderId}`);
+                navigate(`/profile/${senderId}`);
               }}
               className="font-bold mr-1.5 hover:text-accent-strong transition-colors duration-200"
             >
@@ -117,24 +158,9 @@ export const ActivityPage: React.FC = () => {
           {typeof mutualCount === 'number' && mutualCount > 0 && (
             <p className="mt-1 text-caption text-ink-3 tnum">{mutualCount} bạn chung</p>
           )}
-          <div className="flex items-center gap-2 mt-2.5">
-            <button
-              onClick={() => handleAccept(row.request)}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-control bg-accent text-on-accent text-xs font-semibold border border-accent-edge hover:bg-accent-edge transition-colors"
-            >
-              <UserCheck size={14} aria-hidden="true" />
-              Chấp nhận
-            </button>
-            <button
-              onClick={() => handleReject(row.request)}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-control bg-surface text-ink text-xs font-semibold border border-line hover:bg-surface-2 transition-colors"
-            >
-              <UserX size={14} aria-hidden="true" />
-              Từ chối
-            </button>
-          </div>
+          {withActions && request && renderRequestActions(request)}
         </div>
-      </div>
+      </>
     );
   };
 
@@ -146,22 +172,35 @@ export const ActivityPage: React.FC = () => {
           <button
             onClick={() => navigate(-1)}
             aria-label="Quay lại"
-            className="md:hidden w-9 h-9 flex items-center justify-center rounded-control text-ink-2 hover:bg-surface-2 transition-colors"
+            className="md:hidden w-11 h-11 flex items-center justify-center rounded-control text-ink-2 hover:bg-surface-2 transition-colors -ml-2"
           >
             <ChevronLeft size={22} />
           </button>
           <h1 className="text-2xl font-extrabold text-ink tracking-tight">Hoạt động</h1>
         </div>
 
-        {unreadCount > 0 && (
-          <button
-            onClick={() => user && markAllAsRead(user.id)}
-            className="flex items-center gap-1.5 px-3 py-2 rounded-control text-xs font-semibold text-accent-strong hover:bg-accent-soft transition-colors duration-200"
-          >
-            <CheckCheck size={15} />
-            <span className="hidden sm:inline">Đọc tất cả</span>
-          </button>
-        )}
+        <div className="flex items-center gap-1">
+          {unreadCount > 0 && (
+            <button
+              onClick={() => user && markAllAsRead(user.id)}
+              aria-label="Đọc tất cả hoạt động"
+              className="flex items-center gap-1.5 px-3 min-h-[36px] rounded-control text-xs font-semibold text-accent-strong hover:bg-accent-soft transition-colors duration-200"
+            >
+              <CheckCheck size={15} />
+              <span className="hidden sm:inline">Đọc tất cả</span>
+            </button>
+          )}
+          {notifications.length > 0 && (
+            <button
+              onClick={() => user && clearAllNotifications(user.id)}
+              aria-label="Xóa tất cả thông báo"
+              className="flex items-center gap-1.5 px-3 min-h-[36px] rounded-control text-xs font-semibold text-ink-3 hover:text-danger hover:bg-danger/10 transition-colors duration-200"
+            >
+              <Trash2 size={15} />
+              <span className="hidden sm:inline">Xóa tất cả</span>
+            </button>
+          )}
+        </div>
       </header>
 
       {/* ── Segmented ── */}
@@ -176,7 +215,7 @@ export const ActivityPage: React.FC = () => {
             <button
               key={tab.id}
               onClick={() => setFilter(tab.id)}
-              className={`flex-1 py-1.5 rounded-[8px] text-xs font-semibold text-center transition-all duration-200 outline-none ${
+              className={`flex-1 py-2 rounded-[8px] text-xs font-semibold text-center transition-all duration-200 outline-none ${
                 filter === tab.id
                   ? 'bg-surface text-ink shadow-card'
                   : 'text-ink-3 hover:text-ink-2'
@@ -214,7 +253,19 @@ export const ActivityPage: React.FC = () => {
               <div className="flex flex-col gap-1.5">
                 {rows.map((row) =>
                   row.kind === 'request' ? (
-                    renderRequestRow(row)
+                    <div
+                      key={`req-${row.request.id}`}
+                      className="group relative flex items-start gap-3.5 px-4 py-3.5 rounded-card border border-accent/10 bg-accent/[0.04] transition-all duration-200 outline-none"
+                    >
+                      {renderRequestBody(row.request.senderId, true, row.request)}
+                    </div>
+                  ) : row.friendRequest ? (
+                    <div
+                      key={`notif-req-${row.notification.id}`}
+                      className="group relative flex items-start gap-3.5 px-4 py-3.5 rounded-card border border-accent/10 bg-accent/[0.04] transition-all duration-200 outline-none"
+                    >
+                      {renderRequestBody(row.notification.actorId, true, row.friendRequest)}
+                    </div>
                   ) : (
                     <NotificationItem key={row.notification.id} notification={row.notification} />
                   ),

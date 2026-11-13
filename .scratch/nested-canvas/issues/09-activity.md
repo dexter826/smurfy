@@ -1,7 +1,7 @@
 # Hoạt động — gộp thông báo + lời mời kết bạn
 
 Type: task
-Status: ready-for-agent
+Status: resolved
 Blocked by: 03
 
 ## Scope
@@ -27,7 +27,7 @@ Blocked by: 03
 
 **Đủ 6 mục:**
 1. `ActivityPage.tsx` mới thay NotificationsPage: header "Hoạt động" (`text-2xl font-extrabold` = display-lg) + nút "Đọc tất cả" (`accent-strong`, gọi `markAllAsRead` hiện có); segmented `Tất cả · Lời mời kết bạn` kiểu seg (track `surface-2`, active `surface + shadow-card`); danh sách trong card `rounded-card border-line shadow-card`.
-2. Hai nguồn ghép view, sort thời gian giảm dần: notification rows render bằng `NotificationItem` giữ deep-link; request rows render inline (avatar + tên đậm + "đã gửi lời mời kết bạn" + số bạn chung + nút **Chấp nhận** primary/**Từ chối** secondary gọi `friendService` trực tiếp — KHÔNG đổi contactStore; handledIds local để ẩn sau khi xử lý).
+2. Hai nguồn ghép view, sort thời gian giảm dần: notification FRIEND_REQUEST có lời mời khớp (theo actorId) → render dạng row lời mời với nút **Chấp nhận** primary/**Từ chối** secondary **gọi method `contactStore.acceptFriendRequest/rejectFriendRequest`** (optimistic + rollback sẵn của store — không đổi store, không bypass); lời mời không có notification → row riêng; notifications khác render qua `NotificationItem`. Không còn hiện trùng hai dòng cho một sự kiện.
 3. Badge rail = `unreadNotifications + receivedRequests.length` (đã làm ở ticket 03 trong AppLayout) — không đổi.
 4. **Xoá** `NotificationDropdown.tsx` + `NotificationsPage.tsx`; `markAllAsRead`/`clearAllNotifications`/`loadMore` trong store giữ nguyên.
 5. Mobile: cùng trang (header 56 + segmented + card + tab bar shell).
@@ -37,4 +37,6 @@ Blocked by: 03
 
 **Chấp nhận:** requests render inline thay vì tái dùng `FriendRequestItem` (component đó thuộc ticket 10 restyle cho contacts page — tránh ghép chéo); thời gian request/notification lấy `toMillis` của Timestamp Firestore.
 
+**Sửa sau code-review (một agent gộp 2 trục):** dùng store method thay gọi `friendService` trực tiếp (badge rail giờ tự giảm, không reset khi remount); khử trùng lặp FRIEND_REQUEST notification + request row; filter đồng bộ URL `?tab=` (§8); khôi phục nút "Xóa tất cả" (`clearAllNotifications`); aria-label cho "Đọc tất cả"/"Xóa tất cả"; touch target back 44px; `useMemo` fetch thay useEffect.
+**Chấp nhận:** nút Chấp nhận/Từ chối `min-h-[36px]` = bậc sm của DESIGN §7 (tension nội bộ "≥44" đã ghi từ ticket 02); segmented item bo 8px số frame; filter thiếu deep-link cũ — giờ có `?tab=`.
 **Verify:** CI 3 pass; grep 0 stale reference NotificationsPage/NotificationDropdown/`/notifications` navigate; badge tổng đúng từ store; `contrast_check.py` PASS; khớp frame c-activity + c-m-activity.
