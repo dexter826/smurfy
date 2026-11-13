@@ -74,7 +74,7 @@ const SuggestionItemInner: React.FC<SuggestionItemProps> = ({
         <button
           onClick={handleAdd}
           disabled={isSending}
-          className="mt-3 w-full flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg bg-accent/10 text-primary text-xs font-semibold hover:bg-accent/20 active:bg-accent/30 transition-colors duration-200 disabled:opacity-50"
+          className="mt-3 w-full flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-control bg-accent text-on-accent text-xs font-semibold hover:bg-accent-edge transition-colors duration-200 disabled:opacity-50"
         >
           <UserPlus size={14} />
           Kết bạn
@@ -100,7 +100,7 @@ const SuggestionItemInner: React.FC<SuggestionItemProps> = ({
         <button
           onClick={handleAdd}
           disabled={isSending}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-accent/10 text-primary text-xs font-semibold hover:bg-accent/20 active:bg-accent/30 transition-colors duration-200 disabled:opacity-50"
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-control bg-accent text-on-accent text-xs font-semibold hover:bg-accent-edge transition-colors duration-200 disabled:opacity-50"
         >
           <UserPlus size={13} />
           Kết bạn

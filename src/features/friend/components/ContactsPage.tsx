@@ -136,7 +136,13 @@ const ContactsPage: React.FC = () => {
               >
                 Lời mời
                 {receivedRequests.length > 0 && (
-                  <span className="bg-on-accent/20 text-on-accent text-[10px] font-bold min-w-[18px] h-[18px] px-1 rounded-full inline-flex items-center justify-center tnum">
+                  <span
+                    className={`text-[10px] font-bold min-w-[18px] h-[18px] px-1 rounded-full inline-flex items-center justify-center tnum ${
+                      activeTab === 'requests'
+                        ? 'bg-surface text-accent-strong'
+                        : 'bg-accent text-on-accent'
+                    }`}
+                  >
                     {receivedRequests.length > 99 ? '99+' : receivedRequests.length}
                   </span>
                 )}

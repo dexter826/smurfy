@@ -44,7 +44,8 @@ const FriendItemInner: React.FC<FriendItemProps> = ({
     <div
       className={`relative flex items-center justify-between px-4 py-3 transition-colors duration-200 group
         border-b border-line/60 last:border-0
-        hover:bg-surface-2 active:bg-surface-3 cursor-pointer`}
+        hover:bg-surface-2 active:bg-surface-3 cursor-pointer
+        ${isSelected ? 'bg-accent-soft' : ''}`}
       onClick={handleClick}
     >
       <div className="flex items-center gap-3 flex-1 min-w-0">

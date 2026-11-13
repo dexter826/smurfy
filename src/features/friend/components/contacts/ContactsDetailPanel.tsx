@@ -16,6 +16,7 @@ import { User, Gender, GENDER_LABELS } from '@shared/types';
 import { UserAvatar, UserStatusText, Button, IconButton, SlideUpSheet } from '@/components/ui';
 import { toDate } from '@/utils/dateUtils';
 import { useAuthStore } from '@/features/auth';
+import { useMediaQuery } from '@/hooks/utils/useMediaQuery';
 
 interface ContactsDetailPanelProps {
   selectedUser: User | null;
@@ -36,10 +37,12 @@ export const ContactsDetailPanel: React.FC<ContactsDetailPanelProps> = ({
 }) => {
   const navigate = useNavigate();
   const currentUser = useAuthStore((state) => state.user);
+  const isDesktop = useMediaQuery('(min-width: 1024px)');
 
   if (!selectedUser) {
+    if (!isDesktop) return null;
     return (
-      <aside className="hidden xl:flex flex-col w-[320px] border-l border-line bg-surface flex-shrink-0 h-full p-6 items-center justify-center text-center">
+      <aside className="flex flex-col w-[320px] border-l border-line bg-surface flex-shrink-0 h-full p-6 items-center justify-center text-center">
         <div className="w-14 h-14 rounded-card bg-surface-2 flex items-center justify-center text-ink-3 mb-4 border border-line">
           <Users size={26} />
         </div>
@@ -172,10 +175,10 @@ export const ContactsDetailPanel: React.FC<ContactsDetailPanelProps> = ({
     </div>
   );
 
-  return (
-    <>
-      {/* ≥xl: panel phải inline */}
-      <aside className="hidden xl:flex flex-col w-[320px] border-l border-line bg-surface flex-shrink-0 h-full overflow-hidden">
+  // ≥1024: panel phải inline (DESIGN §4 — Bạn bè giữ panel phải từ 1024)
+  if (isDesktop) {
+    return (
+      <aside className="flex flex-col w-[320px] border-l border-line bg-surface flex-shrink-0 h-full overflow-hidden">
         <div className="flex justify-end px-3 pt-3">
           <IconButton
             icon={<X size={16} />}
@@ -187,17 +190,19 @@ export const ContactsDetailPanel: React.FC<ContactsDetailPanelProps> = ({
         </div>
         <div className="flex-1 overflow-y-auto scroll-hide">{detailContent}</div>
       </aside>
+    );
+  }
 
-      {/* <xl: sheet trượt từ dưới */}
-      <SlideUpSheet
-        open={!!selectedUser}
-        onOpenChange={onClose}
-        title="Chi tiết liên hệ"
-        size="lg"
-        showHandle
-      >
-        {detailContent}
-      </SlideUpSheet>
-    </>
+  // <1024: sheet trượt từ dưới
+  return (
+    <SlideUpSheet
+      open={!!selectedUser}
+      onOpenChange={onClose}
+      title="Chi tiết liên hệ"
+      size="lg"
+      showHandle
+    >
+      {detailContent}
+    </SlideUpSheet>
   );
 };

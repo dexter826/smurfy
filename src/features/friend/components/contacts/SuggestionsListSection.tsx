@@ -54,7 +54,7 @@ export const SuggestionsListSection: React.FC<SuggestionsListSectionProps> = ({
         <div
           key={user.id}
           onClick={() => onSelectUser?.(user)}
-          className={`transition-colors ${selectedUserId === user.id ? 'bg-accent/5 ring-1 ring-inset ring-primary/20' : ''}`}
+          className={`transition-colors ${selectedUserId === user.id ? 'bg-accent-soft ring-1 ring-inset ring-accent/20' : ''}`}
         >
           <SuggestionItem user={user} onAddFriend={onAddFriend} onDismiss={onDismiss} />
         </div>
