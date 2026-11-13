@@ -69,14 +69,14 @@ const BlockedUsersSection: React.FC<BlockedUsersSectionProps> = ({
         {[...Array(3)].map((_, i) => (
           <div
             key={i}
-            className="flex items-center gap-3.5 p-4 bg-surface rounded-2xl border border-border"
+            className="flex items-center gap-3.5 p-4 bg-surface rounded-card border border-line"
           >
             <Skeleton variant="circle" width={44} height={44} />
             <div className="flex-1 space-y-1.5">
               <Skeleton width="40%" height={14} />
               <Skeleton width="60%" height={11} />
             </div>
-            <Skeleton width={88} height={36} className="rounded-xl" />
+            <Skeleton width={88} height={36} className="rounded-control" />
           </div>
         ))}
       </div>
@@ -88,12 +88,12 @@ const BlockedUsersSection: React.FC<BlockedUsersSectionProps> = ({
   }
 
   return (
-    <div className="bg-surface rounded-2xl border border-border overflow-hidden animate-fade-in">
+    <div className="bg-surface rounded-card border border-line overflow-hidden animate-fade-in">
       {blockedList.map((item, idx) => (
         <div
           key={item.user.id}
-          className={`flex items-center gap-3.5 px-4 py-3.5 hover:bg-hover transition-colors duration-200
-            ${idx < blockedList.length - 1 ? 'border-b border-border/60' : ''}`}
+          className={`flex items-center gap-3.5 px-4 py-3.5 hover:bg-surface-2 transition-colors duration-200
+            ${idx < blockedList.length - 1 ? 'border-b border-line/60' : ''}`}
         >
           <UserAvatar
             userId={item.user.id}
@@ -102,7 +102,7 @@ const BlockedUsersSection: React.FC<BlockedUsersSectionProps> = ({
             size="md"
           />
           <div className="flex-1 min-w-0">
-            <h3 className="text-sm font-semibold text-foreground truncate">{item.user.fullName}</h3>
+            <h3 className="text-sm font-semibold text-ink truncate">{item.user.fullName}</h3>
             <BlockOptionTags options={item.options} />
           </div>
           <Button

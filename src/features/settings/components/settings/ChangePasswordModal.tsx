@@ -72,7 +72,7 @@ const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({ open, onOpenC
       type="button"
       tabIndex={-1}
       onClick={toggleVisibility}
-      className="p-2 text-muted hover:text-secondary transition-colors duration-200"
+      className="p-2 text-ink-3 hover:text-ink-2 transition-colors duration-200"
     >
       {showPasswords ? <EyeOff size={17} /> : <Eye size={17} />}
     </button>
@@ -108,12 +108,12 @@ const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({ open, onOpenC
       }
     >
       <div className="space-y-4">
-        <p className="text-sm text-secondary">
+        <p className="text-sm text-ink-2">
           Vui lòng nhập mật khẩu hiện tại và mật khẩu mới của bạn.
         </p>
 
         {error && (
-          <div className="flex items-center gap-2 p-3.5 bg-danger/5 border border-danger/20 rounded-xl text-danger text-sm animate-fade-in">
+          <div className="flex items-center gap-2 p-3.5 bg-danger/5 border border-danger/20 rounded-control text-danger text-sm animate-fade-in">
             <AlertCircle size={16} className="flex-shrink-0" />
             <span className="font-medium">{error}</span>
           </div>
@@ -121,7 +121,7 @@ const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({ open, onOpenC
 
         {/* Success banner */}
         {success && (
-          <div className="flex items-center gap-2 p-3.5 bg-success/5 border border-success/20 rounded-xl text-success text-sm animate-fade-in">
+          <div className="flex items-center gap-2 p-3.5 bg-success/5 border border-success/20 rounded-control text-success text-sm animate-fade-in">
             <CheckCircle2 size={16} className="flex-shrink-0" />
             <span className="font-medium">Đổi mật khẩu thành công!</span>
           </div>

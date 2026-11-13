@@ -1,7 +1,7 @@
 # Brand asset + quét toàn bộ token
 
 Type: task
-Status: ready-for-agent
+Status: claimed
 Blocked by: 04,05,06,07,08,09,10,11
 
 ## Scope

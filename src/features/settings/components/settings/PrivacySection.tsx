@@ -50,7 +50,7 @@ const PrivacySection: React.FC = () => {
     [currentUser, updateSettings],
   );
 
-  if (!settings || !currentUser) return <Skeleton height={200} className="rounded-2xl" />;
+  if (!settings || !currentUser) return <Skeleton height={200} className="rounded-card" />;
 
   const visibilityMap: Record<Visibility, { label: string; Icon: typeof Users }> = {
     [Visibility.PUBLIC]: { label: 'Công khai', Icon: Globe },
@@ -103,16 +103,14 @@ const PrivacySection: React.FC = () => {
       />
 
       {/* Post visibility */}
-      <div className="p-4 bg-surface rounded-2xl border border-border">
+      <div className="p-4 bg-surface rounded-card border border-line">
         <div className="flex items-center gap-3.5 mb-3">
-          <div className="w-9 h-9 bg-primary/10 rounded-xl flex items-center justify-center text-primary flex-shrink-0">
+          <div className="w-9 h-9 bg-accent/10 rounded-control flex items-center justify-center text-accent flex-shrink-0">
             <Users size={18} />
           </div>
           <div>
-            <h3 className="text-sm font-semibold text-foreground">
-              Quyền riêng tư bài viết mặc định
-            </h3>
-            <p className="text-xs text-muted mt-0.5">Áp dụng cho các bài viết mới của bạn</p>
+            <h3 className="text-sm font-semibold text-ink">Quyền riêng tư bài viết mặc định</h3>
+            <p className="text-xs text-ink-3 mt-0.5">Áp dụng cho các bài viết mới của bạn</p>
           </div>
         </div>
 
@@ -121,12 +119,12 @@ const PrivacySection: React.FC = () => {
           className="w-full"
           matchTriggerWidth
           trigger={
-            <div className="flex items-center justify-between w-full px-3.5 py-2.5 bg-background rounded-xl border border-border hover:bg-hover transition-colors duration-200 cursor-pointer">
+            <div className="flex items-center justify-between w-full px-3.5 py-2.5 bg-canvas rounded-control border border-line hover:bg-surface-2 transition-colors duration-200 cursor-pointer">
               <div className="flex items-center gap-2.5">
-                <VisibilityIcon size={16} className="text-primary flex-shrink-0" />
-                <span className="text-sm font-medium text-foreground">{visibilityLabel}</span>
+                <VisibilityIcon size={16} className="text-accent flex-shrink-0" />
+                <span className="text-sm font-medium text-ink">{visibilityLabel}</span>
               </div>
-              <ChevronDown size={15} className="text-muted" />
+              <ChevronDown size={15} className="text-ink-3" />
             </div>
           }
         >

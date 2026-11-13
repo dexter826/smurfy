@@ -171,7 +171,7 @@ export const PostViewModal: React.FC<PostViewModalProps> = ({
         bodyClassName={`overflow-hidden flex flex-col h-full ${isCinema ? 'lg:flex-row' : ''}`}
       >
         {isCinema && (
-          <div className="hidden lg:flex flex-[1.6] bg-chat items-center justify-center border-r border-white/5 shrink-0">
+          <div className="hidden lg:flex flex-[1.6] bg-surface-2 items-center justify-center border-r border-white/5 shrink-0">
             <Skeleton className="w-[80%] aspect-video rounded-card opacity-10" />
           </div>
         )}

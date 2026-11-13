@@ -174,7 +174,7 @@ export const ProfileAboutCard: React.FC<ProfileAboutCardProps> = ({ profile, isO
                 {profile.interests.map((tag) => (
                   <span
                     key={tag}
-                    className="px-2.5 py-1 text-xs font-medium rounded-full bg-accent/10 text-primary border border-accent/20"
+                    className="px-2.5 py-1 text-xs font-medium rounded-full bg-accent-soft text-accent-strong border border-accent/20"
                   >
                     {tag}
                   </span>

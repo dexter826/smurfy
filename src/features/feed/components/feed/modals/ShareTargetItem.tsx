@@ -125,7 +125,7 @@ export const ShareTargetItem: React.FC<ShareTargetItemProps> = ({
       </div>
 
       <div
-        className={`w-5 h-5 shrink-0 rounded-md border flex items-center justify-center transition-all duration-200 ${
+        className={`w-5 h-5 shrink-0 rounded-[4px] border flex items-center justify-center transition-all duration-200 ${
           selected
             ? 'border-accent bg-accent text-on-accent'
             : 'border-line bg-surface group-hover:border-accent/50'
