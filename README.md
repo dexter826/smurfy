@@ -20,7 +20,6 @@
 
 - [Giới thiệu](#giới-thiệu)
 - [Tính năng](#tính-năng)
-- [Thiết kế giao diện](#thiết-kế-giao-diện)
 - [Cấu trúc thư mục](#cấu-trúc-thư-mục)
 - [Cài đặt](#cài-đặt)
 - [Cấu hình](#cấu-hình)
@@ -31,7 +30,7 @@
 
 ## Giới thiệu
 
-Smurfy Social là mạng xã hội kết hợp bảng tin chia sẻ nội dung và hệ thống nhắn tin tức thời, xây dựng trên Firebase (Auth, Cloud Firestore, Realtime Database). Frontend dùng React 19 + TypeScript + Vite, giao diện theo ngôn ngữ thiết kế **Nested Canvas** được đặc tả trong [DESIGN.md](DESIGN.md).
+Smurfy Social là mạng xã hội kết hợp bảng tin chia sẻ nội dung và hệ thống nhắn tin tức thời, xây dựng trên Firebase (Auth, Cloud Firestore, Realtime Database). Frontend dùng React 19, TypeScript, Vite và Tailwind CSS v4.
 
 ---
 
@@ -68,12 +67,6 @@ Smurfy Social là mạng xã hội kết hợp bảng tin chia sẻ nội dung v
 - **Quản lý quan hệ**: gửi, nhận, chấp nhận, từ chối, huỷ kết bạn và chặn người dùng.
 - **Gợi ý kết bạn**: đề xuất dựa trên số bạn chung, kèm nút làm mới danh sách.
 - **Tìm kiếm**: tìm bạn bè, lời mời và gợi ý theo tên.
-
----
-
-## Thiết kế giao diện
-
-Ngôn ngữ thiết kế **Nested Canvas** được đặc tả trong [DESIGN.md](DESIGN.md): canvas xám lạnh làm nền, panel trắng nổi bo góc 16px với viền mảnh, một accent cornflower `#4C9EEB` duy nhất đi kèm chữ tối. Typography dùng Be Vietnam Pro, dark mode full parity. Toàn bộ nội dung chữ trên giao diện tuân theo [COPY.md](COPY.md).
 
 ---
 
