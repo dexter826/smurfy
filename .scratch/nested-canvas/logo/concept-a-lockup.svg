@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 256" width="560" height="256" role="img" aria-labelledby="t">
-  <title id="t">Smurfy lockup A</title>
-  <rect x="8" y="48" width="160" height="160" rx="36" fill="#4C9EEB"/>
-  <g transform="translate(28 68) scale(0.46875)">
-    <path d="M52 122 C 52 54 88 26 132 26 C 172 26 204 52 206 92 C 214 96 220 104 220 112 L 220 122 C 220 127 216 130 210 130 L 46 130 C 42 130 40 127 40 122 Z" fill="#0B1220"/>
-    <path fill="#0B1220" fill-rule="evenodd" d="M128 88 a70 70 0 0 1 0 140 a70 70 0 0 1 0-140 Z M100 158 a13 13 0 0 1 0 26 a13 13 0 0 1 0-26 Z M156 158 a13 13 0 0 1 0 26 a13 13 0 0 1 0-26 Z"/>
-  </g>
-  <text x="196" y="150" font-family="Arial, sans-serif" font-size="72" font-weight="800" fill="#0F172A" letter-spacing="-2">Smurfy</text>
-</svg>

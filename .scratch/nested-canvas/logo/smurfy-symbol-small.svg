@@ -1,7 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" role="img" aria-labelledby="t">
-  <title id="t">Smurfy face — refresh</title>
-  <!-- mũ smurf: vòm + chóp lệch phải, đội trên đầu -->
-  <path d="M52 122 C 52 54 88 26 132 26 C 172 26 204 52 206 92 C 214 96 220 104 220 112 L 220 122 C 220 127 216 130 210 130 L 46 130 C 42 130 40 127 40 122 Z" fill="#000"/>
-  <!-- đầu: đĩa tròn, mắt khoét lỗ thật (evenodd) -->
-  <path fill="#000" fill-rule="evenodd" d="M128 88 a70 70 0 0 1 0 140 a70 70 0 0 1 0-140 Z M99 156 a16 16 0 0 1 0 32 a16 16 0 0 1 0-32 Z M155 156 a16 16 0 0 1 0 32 a16 16 0 0 1 0-32 Z"/>
-</svg>
