@@ -152,9 +152,9 @@ const ProfilePage: React.FC = () => {
   if (loading || !profile || !currentUser) return <ProfileSkeleton />;
 
   return (
-    <div className="h-full w-full overflow-y-auto">
+    <div className="h-full w-full overflow-y-auto bg-canvas">
       {/* Header card */}
-      <div className="bg-surface shadow-sm mb-4">
+      <div className="bg-surface rounded-card border border-line shadow-card mb-4 mx-3 md:mx-4 mt-3 md:mt-4 overflow-hidden">
         <ProfileHeader
           user={profile}
           isOwnProfile={isOwnProfile}
@@ -187,7 +187,7 @@ const ProfilePage: React.FC = () => {
           {activeTab === 'posts' ? (
             <div className="flex flex-col md:flex-row gap-4 md:gap-6">
               {/* ── Left sidebar ── */}
-              <div className="w-full md:w-[320px] lg:w-[360px] flex-shrink-0 space-y-4">
+              <div className="w-full md:w-[340px] flex-shrink-0 space-y-4">
                 <ProfileAboutCard profile={profile} isOwnProfile={isOwnProfile} />
                 <ProfileMediaPreview
                   media={latestMedia}

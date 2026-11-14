@@ -33,22 +33,22 @@ export const ConnectionStatus: React.FC = () => {
   const status = !isOnline ? 'offline' : !isFirebaseConnected ? 'connecting' : 'online';
 
   return (
-    <div className="fixed top-24 left-0 right-0 z-[var(--z-toast)] pointer-events-none flex justify-center px-4">
+    <div className="fixed top-24 left-0 right-0 z-toast pointer-events-none flex justify-center px-4">
       <div
         className={`
-                    pointer-events-auto flex items-center gap-3 px-5 py-2.5 rounded-2xl shadow-dropdown
+                    pointer-events-auto flex items-center gap-3 px-5 py-2.5 rounded-card shadow-float
                     backdrop-blur-xl border transition-all duration-500 transform
                     ${
                       status === 'online'
-                        ? 'bg-success/90 border-success/20 text-white translate-y-0 scale-100'
+                        ? 'bg-success/90 border-success/20 text-on-success translate-y-0 scale-100'
                         : status === 'offline'
-                          ? 'bg-danger/90 border-danger/20 text-white translate-y-0 scale-105'
-                          : 'bg-warning/90 border-warning/20 text-foreground translate-y-0 scale-100'
+                          ? 'bg-danger/90 border-danger/20 text-on-danger translate-y-0 scale-105'
+                          : 'bg-warning/90 border-warning/20 text-on-warning translate-y-0 scale-100'
                     }
                     animate-in slide-in-from-top-4 duration-300
                 `}
       >
-        <div className="flex items-center justify-center w-6 h-6 rounded-full bg-white/20">
+        <div className="flex items-center justify-center w-6 h-6 rounded-full bg-surface/20">
           {status === 'online' && <Wifi size={14} className="animate-pulse" />}
           {status === 'offline' && <WifiOff size={14} />}
           {status === 'connecting' && <Loader2 size={14} className="animate-spin" />}

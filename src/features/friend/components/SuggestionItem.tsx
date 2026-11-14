@@ -50,11 +50,11 @@ const SuggestionItemInner: React.FC<SuggestionItemProps> = ({
   if (variant === 'card') {
     return (
       <div
-        className={`relative flex flex-col items-center p-4 border border-border rounded-xl bg-background flex-shrink-0 snap-start group shadow-sm hover:shadow-md transition-shadow ${className || 'w-[160px] min-w-[160px]'}`}
+        className={`relative flex cursor-pointer flex-col items-center p-4 border border-line rounded-card bg-surface-2 flex-shrink-0 snap-start group shadow-sm hover:shadow-md transition-shadow ${className || 'w-[160px] min-w-[160px]'}`}
       >
         <button
           onClick={handleDismiss}
-          className="absolute top-2 right-2 w-7 h-7 flex items-center justify-center rounded-full bg-surface/50 text-muted hover:bg-hover hover:text-secondary transition-colors"
+          className="absolute top-2 right-2 w-7 h-7 flex items-center justify-center rounded-full bg-surface/50 text-ink-3 hover:bg-surface-2 hover:text-ink-2 transition-colors"
           aria-label="Bỏ qua gợi ý"
         >
           <X size={14} />
@@ -64,17 +64,17 @@ const SuggestionItemInner: React.FC<SuggestionItemProps> = ({
           onClick={() => navigate(`/profile/${user.id}`)}
         >
           <UserAvatar userId={user.id} name={user.fullName} src={user.avatar?.url} size="xl" />
-          <p className="mt-3 text-sm font-semibold text-foreground text-center truncate w-full">
+          <p className="mt-3 text-sm font-semibold text-ink text-center truncate w-full">
             {user.fullName}
           </p>
-          <p className="text-[11px] text-muted text-center line-clamp-2 h-8 leading-4 mt-0.5">
+          <p className="text-[11px] text-ink-3 text-center line-clamp-2 h-8 leading-4 mt-0.5">
             {smartReason}
           </p>
         </button>
         <button
           onClick={handleAdd}
           disabled={isSending}
-          className="mt-3 w-full flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary/10 text-primary text-xs font-semibold hover:bg-primary/20 active:bg-primary/30 transition-colors duration-200 disabled:opacity-50"
+          className="mt-3 w-full flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-control bg-accent text-on-accent text-xs font-semibold hover:bg-accent-edge transition-colors duration-200 disabled:opacity-50"
         >
           <UserPlus size={14} />
           Kết bạn
@@ -84,15 +84,15 @@ const SuggestionItemInner: React.FC<SuggestionItemProps> = ({
   }
 
   return (
-    <div className="relative flex items-center justify-between px-4 py-3 border-b border-border/60 last:border-0 hover:bg-hover active:bg-active transition-colors duration-200 group">
+    <div className="relative flex items-center justify-between px-4 py-3 border-b border-line/60 last:border-0 hover:bg-surface-2 active:bg-surface-3 transition-colors duration-200 group">
       <button
         className="flex items-center gap-3 flex-1 min-w-0 text-left"
         onClick={() => navigate(`/profile/${user.id}`)}
       >
         <UserAvatar userId={user.id} name={user.fullName} src={user.avatar?.url} size="md" />
         <div className="min-w-0">
-          <p className="text-sm font-semibold text-foreground truncate">{user.fullName}</p>
-          <p className="text-xs text-muted truncate">{smartReason}</p>
+          <p className="text-sm font-semibold text-ink truncate">{user.fullName}</p>
+          <p className="text-xs text-ink-3 truncate">{smartReason}</p>
         </div>
       </button>
 
@@ -100,14 +100,14 @@ const SuggestionItemInner: React.FC<SuggestionItemProps> = ({
         <button
           onClick={handleAdd}
           disabled={isSending}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary/10 text-primary text-xs font-semibold hover:bg-primary/20 active:bg-primary/30 transition-colors duration-200 disabled:opacity-50"
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-control bg-accent text-on-accent text-xs font-semibold hover:bg-accent-edge transition-colors duration-200 disabled:opacity-50"
         >
           <UserPlus size={13} />
           Kết bạn
         </button>
         <button
           onClick={handleDismiss}
-          className="w-7 h-7 flex items-center justify-center rounded-lg text-muted hover:bg-hover hover:text-secondary transition-colors duration-200"
+          className="w-7 h-7 flex items-center justify-center rounded-control text-ink-3 hover:bg-surface-2 hover:text-ink-2 transition-colors duration-200"
           aria-label="Bỏ qua gợi ý"
         >
           <X size={14} />
@@ -124,18 +124,18 @@ const SuggestionItemSkeleton: React.FC<{ variant?: 'list' | 'card'; className?: 
   if (variant === 'card') {
     return (
       <div
-        className={`flex flex-col items-center p-4 border border-border rounded-xl bg-background flex-shrink-0 snap-start space-y-3 shadow-sm ${className || 'w-[160px] min-w-[160px]'}`}
+        className={`flex flex-col items-center p-4 border border-line rounded-card bg-surface-2 flex-shrink-0 snap-start space-y-3 shadow-sm ${className || 'w-[160px] min-w-[160px]'}`}
       >
         <Skeleton variant="circle" width={64} height={64} className="mt-2" />
         <Skeleton variant="line" width={100} height={14} />
         <Skeleton variant="line" width={80} height={10} className="mb-2" />
-        <Skeleton variant="rect" width="100%" height={32} className="rounded-lg mt-1" />
+        <Skeleton variant="rect" width="100%" height={32} className="rounded-control mt-1" />
       </div>
     );
   }
 
   return (
-    <div className="flex items-center justify-between px-4 py-3 border-b border-border/60 last:border-0">
+    <div className="flex items-center justify-between px-4 py-3 border-b border-line/60 last:border-0">
       <div className="flex items-center gap-3 flex-1">
         <Skeleton variant="circle" width={40} height={40} />
         <div className="space-y-1.5">
@@ -144,8 +144,8 @@ const SuggestionItemSkeleton: React.FC<{ variant?: 'list' | 'card'; className?: 
         </div>
       </div>
       <div className="flex gap-1.5">
-        <Skeleton variant="rect" width={72} height={30} className="rounded-lg" />
-        <Skeleton variant="rect" width={28} height={28} className="rounded-lg opacity-40" />
+        <Skeleton variant="rect" width={72} height={30} className="rounded-control" />
+        <Skeleton variant="rect" width={28} height={28} className="rounded-control opacity-40" />
       </div>
     </div>
   );

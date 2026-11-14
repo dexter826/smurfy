@@ -1,4 +1,5 @@
 import React from 'react';
+import { cn } from '@/lib/cn';
 
 interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'> {
   label?: string;
@@ -33,33 +34,31 @@ export const Input: React.FC<InputProps> = ({
       {label && (
         <label
           htmlFor={inputId}
-          className="text-caption font-semibold text-secondary ml-1 cursor-pointer"
+          className="text-caption font-semibold text-ink-2 ml-1 cursor-pointer"
         >
           {label}
         </label>
       )}
       <div className="relative group">
         {icon && (
-          <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-muted group-focus-within:text-primary transition-colors duration-200">
+          <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-ink-3 group-focus-within:text-accent transition-colors duration-200">
             {icon}
           </div>
         )}
         <input
           id={inputId}
-          className={`
-            w-full bg-surface border rounded-sm transition-all duration-200 outline-none
-            text-foreground placeholder:text-muted
-            ${
-              error
-                ? 'border-danger focus:ring-2 focus:ring-danger/50 focus:border-danger'
-                : 'border-border focus:ring-2 focus:ring-focus/50 focus:border-primary hover:border-border-strong'
-            }
-            disabled:bg-background disabled:text-muted disabled:cursor-not-allowed disabled:border-border
-            ${sizeClasses[size]}
-            ${icon ? 'pl-10' : ''}
-            ${rightElement ? 'pr-10' : ''}
-            ${className}
-          `}
+          className={cn(
+            'w-full bg-surface border rounded-control transition-all duration-200 outline-none',
+            'text-ink placeholder:text-ink-3',
+            error
+              ? 'border-danger focus:ring-2 focus:ring-danger/50 focus:border-danger'
+              : 'border-line focus:ring-2 focus:ring-focus/50 focus:border-accent hover:border-line-strong',
+            'disabled:bg-canvas disabled:text-ink-3 disabled:cursor-not-allowed disabled:border-line',
+            sizeClasses[size],
+            icon ? 'pl-10' : '',
+            rightElement ? 'pr-10' : '',
+            className,
+          )}
           {...props}
         />
         {rightElement && (

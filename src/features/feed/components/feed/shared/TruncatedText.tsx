@@ -20,7 +20,7 @@ function renderWithLinks(text: string): React.ReactNode[] {
           href={href}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-primary underline break-all hover:opacity-80 transition-opacity"
+          className="text-accent-strong underline break-all hover:opacity-80 transition-opacity"
           onClick={(e) => e.stopPropagation()}
         >
           {part}
@@ -35,7 +35,7 @@ export const TruncatedText: React.FC<TruncatedTextProps> = ({
   content,
   threshold = 300,
   className = '',
-  expandClassName = 'text-primary font-semibold cursor-pointer hover:underline ml-1.5 text-sm transition-colors duration-200',
+  expandClassName = 'text-accent-strong font-semibold cursor-pointer hover:underline ml-1.5 text-sm transition-colors duration-200',
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const shouldTruncate = content.length > threshold;

@@ -20,19 +20,15 @@ export const MessageReplyPreview: React.FC<MessageReplyPreviewProps> = ({
 }) => (
   <div
     className={`
-      mx-1 mt-1 mb-1 px-2.5 py-1.5 rounded-sm border-l-4 text-caption cursor-pointer
+      mx-1 mt-1 mb-1 px-2.5 py-1.5 rounded-control border-l-2 text-caption cursor-pointer
       transition-all duration-200 hover:brightness-95 active:scale-[0.98]
-      ${
-        isMe
-          ? 'bg-on-primary/10 border-on-primary/40 text-on-primary/80'
-          : 'bg-black/5 dark:bg-white/5 border-primary/40 text-secondary'
-      }
-      ${!shouldWrapBackground ? 'bg-black/40 backdrop-blur-md border-primary/60 text-white/90' : ''}
+      ${isMe ? 'bg-on-accent/10 text-on-accent/80' : 'bg-black/5 dark:bg-white/5 text-ink-2'}
+      ${!shouldWrapBackground ? 'bg-black/40 backdrop-blur-md text-white/90' : ''}
     `}
     onClick={() => replyToMsg && scrollToMessage(message.data.replyToId!)}
   >
     <div
-      className={`font-bold mb-0.5 ${!shouldWrapBackground ? 'text-primary-strong' : isMe ? 'text-on-primary' : 'text-primary'}`}
+      className={`font-bold mb-0.5 ${!shouldWrapBackground ? 'text-accent-strong' : isMe ? 'text-on-accent' : 'text-accent-strong'}`}
     >
       {replyAuthorName}
     </div>

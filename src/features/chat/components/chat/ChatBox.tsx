@@ -146,7 +146,7 @@ export const ChatBox: React.FC<ChatBoxProps> = ({
   const { pinnedMessagesDetails, unpinMessage } = useRtdbChatStore();
 
   return (
-    <div className="relative flex-1 flex flex-col min-h-0 bg-chat bg-app-pattern transition-theme">
+    <div className="relative flex-1 flex flex-col min-h-0 transition-theme">
       <ChatBoxHeader
         conversation={conversation}
         participants={participants}
@@ -181,7 +181,7 @@ export const ChatBox: React.FC<ChatBoxProps> = ({
       <div
         ref={messagesContainerRef}
         onScroll={handleScroll}
-        className="flex-1 overflow-y-auto overflow-x-hidden bg-transparent scroll-hide"
+        className="flex-1 overflow-y-auto overflow-x-hidden bg-surface-2 scroll-hide"
       >
         {isLoading ? (
           <ChatBoxSkeleton />
@@ -236,11 +236,11 @@ export const ChatBox: React.FC<ChatBoxProps> = ({
         {(!shouldAutoScroll || unreadCount > 0) && (
           <button
             onClick={() => scrollToBottom('smooth')}
-            className="absolute bottom-4 right-4 z-30 w-10 h-10 bg-surface border border-border rounded-full shadow-lg flex items-center justify-center text-secondary hover:text-primary transition-all duration-300 animate-in fade-in zoom-in slide-in-from-bottom-4"
+            className="absolute bottom-4 right-4 z-30 w-10 h-10 bg-surface border border-line rounded-full shadow-lg flex items-center justify-center text-ink-2 hover:text-accent transition-all duration-300 animate-in fade-in zoom-in slide-in-from-bottom-4"
           >
             <ChevronDown size={20} />
             {unreadCount > 0 && (
-              <span className="absolute -top-1 -right-1 bg-primary text-white text-[10px] font-bold min-w-[18px] h-[18px] px-1 rounded-full flex items-center justify-center border-2 border-surface">
+              <span className="absolute -top-1 -right-1 bg-accent text-on-accent text-[10px] font-bold min-w-[18px] h-[18px] px-1 rounded-full flex items-center justify-center border-2 border-surface">
                 {unreadCount > 99 ? '99+' : unreadCount}
               </span>
             )}

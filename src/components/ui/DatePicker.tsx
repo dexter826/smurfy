@@ -31,7 +31,7 @@ interface DatePickerProps {
 
 const sizeClasses: Record<NonNullable<DatePickerProps['size']>, string> = {
   sm: 'h-9 px-3 text-sm',
-  md: 'h-10 px-4 text-sm',
+  md: 'h-11 px-4 text-sm',
   lg: 'h-12 px-6 text-base',
 };
 
@@ -62,21 +62,21 @@ export const DatePicker: React.FC<DatePickerProps> = ({
   };
 
   const renderHeader = () => (
-    <div className="flex items-center justify-between border-b border-border px-4 py-3">
-      <div className="flex items-center gap-1 text-sm font-bold text-foreground">
+    <div className="flex items-center justify-between border-b border-line px-4 py-3">
+      <div className="flex items-center gap-1 text-sm font-bold text-ink">
         {view === 'days' && (
           <>
             <button
               type="button"
               onClick={() => setView('months')}
-              className="rounded-sm px-1 py-0.5 capitalize transition-colors duration-200 hover:bg-hover hover:text-primary"
+              className="rounded-control px-1 py-0.5 capitalize transition-colors duration-200 hover:bg-surface-2 hover:text-accent-strong"
             >
               {format(currentMonth, 'MMMM', { locale: vi })}
             </button>
             <button
               type="button"
               onClick={() => setView('years')}
-              className="rounded-sm px-1 py-0.5 transition-colors duration-200 hover:bg-hover hover:text-primary"
+              className="rounded-control px-1 py-0.5 transition-colors duration-200 hover:bg-surface-2 hover:text-accent-strong"
             >
               {format(currentMonth, 'yyyy')}
             </button>
@@ -86,7 +86,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
           <button
             type="button"
             onClick={() => setView('years')}
-            className="rounded-sm px-1 py-0.5 transition-colors duration-200 hover:bg-hover hover:text-primary"
+            className="rounded-control px-1 py-0.5 transition-colors duration-200 hover:bg-surface-2 hover:text-accent-strong"
           >
             Năm {format(currentMonth, 'yyyy')}
           </button>
@@ -119,7 +119,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
         {(view === 'years' || view === 'months') && (
           <button
             type="button"
-            className="ml-1 rounded-sm px-2 py-1 text-caption font-semibold text-primary transition-colors duration-200 hover:bg-hover active:bg-active"
+            className="ml-1 rounded-control px-2 py-1 text-caption font-semibold text-accent-strong transition-colors duration-200 hover:bg-surface-2 active:bg-surface-3"
             onClick={() => setView('days')}
           >
             Hủy
@@ -145,10 +145,10 @@ export const DatePicker: React.FC<DatePickerProps> = ({
             setView('days');
           }}
           className={cn(
-            'h-12 rounded-sm text-sm transition-all duration-200',
+            'h-12 rounded-control text-sm transition-all duration-200',
             currentMonth.getMonth() === m.index
-              ? 'bg-primary text-on-primary font-bold shadow-sm'
-              : 'text-foreground hover:bg-hover active:bg-active',
+              ? 'bg-accent text-on-accent font-bold'
+              : 'text-ink hover:bg-surface-2 active:bg-surface-3',
           )}
         >
           {m.name}
@@ -172,10 +172,10 @@ export const DatePicker: React.FC<DatePickerProps> = ({
               setView('months');
             }}
             className={cn(
-              'h-12 rounded-sm text-sm transition-all duration-200',
+              'h-12 rounded-control text-sm transition-all duration-200',
               center === y
-                ? 'bg-primary text-on-primary font-bold shadow-sm'
-                : 'text-foreground hover:bg-hover active:bg-active',
+                ? 'bg-accent text-on-accent font-bold'
+                : 'text-ink hover:bg-surface-2 active:bg-surface-3',
             )}
           >
             {y}
@@ -209,18 +209,18 @@ export const DatePicker: React.FC<DatePickerProps> = ({
             }}
             aria-pressed={isSelected}
             className={cn(
-              'relative flex h-10 w-full items-center justify-center rounded-sm text-sm transition-all duration-200',
-              !inMonth ? 'text-muted opacity-40' : 'text-foreground',
+              'relative flex h-10 w-full items-center justify-center rounded-control text-sm transition-all duration-200',
+              !inMonth ? 'text-ink-3 opacity-40' : 'text-ink',
               isSelected
-                ? 'bg-primary text-on-primary font-bold shadow-sm'
-                : 'hover:bg-hover active:bg-active',
-              isToday(d) && !isSelected ? 'font-bold text-primary' : '',
+                ? 'bg-accent text-on-accent font-bold'
+                : 'hover:bg-surface-2 active:bg-surface-3',
+              isToday(d) && !isSelected ? 'font-bold text-accent-strong' : '',
             )}
           >
             {format(d, 'd')}
             {isToday(d) && !isSelected && (
               <div
-                className="absolute bottom-1 h-1 w-1 rounded-full bg-primary"
+                className="absolute bottom-1 h-1 w-1 rounded-full bg-accent"
                 aria-hidden="true"
               />
             )}
@@ -240,7 +240,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
       <div className="p-2">
         <div className="mb-2 grid grid-cols-7">
           {['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'].map((d) => (
-            <div key={d} className="py-2 text-center text-caption font-bold uppercase text-muted">
+            <div key={d} className="py-2 text-center text-caption font-bold uppercase text-ink-3">
               {d}
             </div>
           ))}
@@ -264,7 +264,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
       trigger={
         <div className="flex flex-col gap-1.5">
           {label && (
-            <label className="ml-1 cursor-pointer text-caption font-semibold text-secondary">
+            <label className="ml-1 cursor-pointer text-caption font-semibold text-ink-2">
               {label}
             </label>
           )}
@@ -272,20 +272,20 @@ export const DatePicker: React.FC<DatePickerProps> = ({
             type="button"
             disabled={disabled}
             className={cn(
-              'flex w-full items-center justify-between rounded-sm border bg-surface outline-none',
+              'flex w-full items-center justify-between rounded-control border bg-surface outline-none',
               'transition-all duration-200',
-              'border-border hover:border-border-strong',
-              'focus-visible:ring-2 focus-visible:ring-focus/50 focus-visible:border-primary',
-              'data-[state=open]:border-primary data-[state=open]:ring-2 data-[state=open]:ring-focus/50',
+              'border-line hover:border-line-strong',
+              'focus-visible:ring-2 focus-visible:ring-focus/50 focus-visible:border-accent',
+              'data-[state=open]:border-accent data-[state=open]:ring-2 data-[state=open]:ring-focus/50',
               error && 'border-danger ring-2 ring-danger/50',
-              disabled ? 'cursor-not-allowed opacity-50 bg-background' : 'cursor-pointer',
+              disabled ? 'cursor-not-allowed opacity-50 bg-canvas' : 'cursor-pointer',
               sizeClasses[size],
             )}
           >
-            <span className={cn('truncate', !value ? 'text-muted' : 'text-foreground')}>
+            <span className={cn('truncate', !value ? 'text-ink-3' : 'text-ink')}>
               {value ? format(new Date(value), 'dd/MM/yyyy') : placeholder}
             </span>
-            <CalendarIcon size={18} className="flex-shrink-0 text-muted" aria-hidden="true" />
+            <CalendarIcon size={18} className="flex-shrink-0 text-ink-3" aria-hidden="true" />
           </button>
           {error && (
             <p className="ml-1 animate-fade-in text-caption font-medium text-danger">{error}</p>

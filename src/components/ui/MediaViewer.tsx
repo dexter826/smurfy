@@ -133,7 +133,7 @@ export const MediaViewer: React.FC<MediaViewerProps> = ({
           <img
             src={current?.url}
             alt={`Ảnh ${currentIndex + 1}`}
-            className="max-w-full max-h-full object-contain shadow-xl rounded-sm"
+            className="max-w-full max-h-full object-contain shadow-xl rounded-control"
             onClick={(e) => e.stopPropagation()}
           />
         </div>

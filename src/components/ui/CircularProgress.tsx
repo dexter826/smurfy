@@ -65,7 +65,7 @@ export const CircularProgress: React.FC<CircularProgressProps> = ({
           fill="none"
           stroke="currentColor"
           strokeWidth={strokeWidth}
-          className="opacity-20 text-muted"
+          className="opacity-20 text-ink-3"
         />
         <circle
           cx={numericSize / 2}
@@ -79,7 +79,7 @@ export const CircularProgress: React.FC<CircularProgressProps> = ({
           strokeDashoffset={offset}
           className={cn(
             'transition-[stroke-dashoffset] duration-slow',
-            isError ? 'text-danger' : isComplete ? 'text-success' : 'text-primary',
+            isError ? 'text-danger' : isComplete ? 'text-success' : 'text-accent-strong',
           )}
         />
       </svg>
@@ -100,14 +100,14 @@ export const CircularProgress: React.FC<CircularProgressProps> = ({
           <button
             type="button"
             onClick={onCancel}
-            className="rounded-full hover:bg-hover active:bg-active transition-colors p-0.5"
+            className="rounded-full hover:bg-surface-2 active:bg-surface-3 transition-colors p-0.5"
             aria-label="Hủy"
           >
-            <X size={numericSize * 0.4} className="text-secondary" aria-hidden="true" />
+            <X size={numericSize * 0.4} className="text-ink-2" aria-hidden="true" />
           </button>
         ) : showPercentage && numericSize > 32 ? (
           <span
-            className="text-foreground font-bold tracking-tighter"
+            className="text-ink font-bold tracking-tighter"
             style={{ fontSize: numericSize * 0.28 }}
           >
             {Math.round(pct)}%
@@ -136,7 +136,7 @@ export const CircularProgressOverlay: React.FC<CircularProgressOverlayProps> = (
         blur && 'backdrop-blur-[2px]',
       )}
     >
-      <CircularProgress {...props} className="bg-surface/90 p-1 rounded-full shadow-lg" />
+      <CircularProgress {...props} className="bg-surface/90 p-1 rounded-full shadow-float" />
     </div>
   );
 };

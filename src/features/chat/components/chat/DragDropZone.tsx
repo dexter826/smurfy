@@ -84,14 +84,14 @@ export const DragDropZone: React.FC<DragDropZoneProps> = ({ children, disabled =
       {/* Overlay */}
       {isDragging && !disabled && (
         <div
-          className="absolute inset-0 z-[var(--z-modal)] flex flex-col items-center justify-center bg-surface/60 backdrop-blur-sm transition-all duration-300 animate-in fade-in rounded-lg m-2 border-2 border-dashed border-primary/50"
+          className="absolute inset-0 z-[var(--z-modal)] flex flex-col items-center justify-center bg-surface/60 backdrop-blur-sm transition-all duration-300 animate-in fade-in rounded-card m-2 border-2 border-dashed border-accent/50"
           style={{ zIndex: 999 }}
         >
-          <div className="w-16 h-16 bg-primary/5 rounded-full flex items-center justify-center mb-4">
-            <UploadCloud size={32} className="text-primary/70" />
+          <div className="w-16 h-16 bg-accent/5 rounded-full flex items-center justify-center mb-4">
+            <UploadCloud size={32} className="text-accent/70" />
           </div>
-          <h3 className="text-xl font-medium text-foreground mb-1">Thả tệp để đính kèm</h3>
-          <p className="text-xs text-secondary">Tệp sẽ được nạp vào hàng đợi tin nhắn</p>
+          <h3 className="text-xl font-medium text-ink mb-1">Thả tệp để đính kèm</h3>
+          <p className="text-xs text-ink-2">Tệp sẽ được nạp vào hàng đợi tin nhắn</p>
         </div>
       )}
     </div>

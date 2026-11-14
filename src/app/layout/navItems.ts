@@ -1,21 +1,20 @@
-import { MessageCircle, LayoutGrid, Users, Settings } from 'lucide-react';
+import { Bell, LayoutGrid, MessageCircle, Users } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 
-export interface TopNavItem {
+export type AppBadgeKey = 'unread' | 'requests' | 'activity';
+
+export interface AppNavItem {
   to: string;
   icon: LucideIcon;
   label: string;
   end?: boolean;
-  badge?: number;
+  badgeKey?: AppBadgeKey;
 }
 
-export const appNavItems = (badges: {
-  unread: number;
-  requests: number;
-  notifications: number;
-}): TopNavItem[] => [
-  { to: '/', icon: MessageCircle, label: 'Tin nhắn', end: true, badge: badges.unread },
+/** 4 mục điều hướng dùng chung cho rail desktop và tab bar mobile (spec #19). */
+export const appNavItems: AppNavItem[] = [
+  { to: '/', icon: MessageCircle, label: 'Tin nhắn', end: true, badgeKey: 'unread' },
   { to: '/feed', icon: LayoutGrid, label: 'Nhật ký' },
-  { to: '/contacts', icon: Users, label: 'Bạn bè', badge: badges.requests },
-  { to: '/settings', icon: Settings, label: 'Cài đặt' },
+  { to: '/contacts', icon: Users, label: 'Bạn bè', badgeKey: 'requests' },
+  { to: '/activity', icon: Bell, label: 'Hoạt động', badgeKey: 'activity' },
 ];

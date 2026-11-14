@@ -149,25 +149,26 @@ export const CreateGroupModal: React.FC<CreateGroupModalProps> = ({
         placeholder="Tìm kiếm bạn bè..."
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        className="bg-background"
+        className="bg-surface-2"
       />
 
       {/* Selection Count Info */}
       <div className="flex justify-between items-center px-1 text-[11px]">
-        <span className="text-secondary font-medium">
-          Đã chọn: <span className="text-primary">{formData.memberIds.length}</span> thành viên
+        <span className="text-ink-2 font-medium">
+          Đã chọn: <span className="text-accent-strong">{formData.memberIds.length}</span> thành
+          viên
         </span>
-        <span className="text-muted">Tối đa {GROUP_LIMITS.MAX_MEMBERS} người</span>
+        <span className="text-ink-3">Tối đa {GROUP_LIMITS.MAX_MEMBERS} người</span>
       </div>
 
       {/* Friend List */}
       <div className="overflow-y-auto scroll-hide min-h-0 max-h-64 space-y-0.5">
         {isLoading ? (
           <div className="flex justify-center py-8">
-            <Loader2 className="animate-spin text-primary" size={22} />
+            <Loader2 className="animate-spin text-accent" size={22} />
           </div>
         ) : filteredFriends.length === 0 ? (
-          <div className="text-center py-8 text-sm text-muted">
+          <div className="text-center py-8 text-sm text-ink-3">
             {searchTerm ? 'Không tìm thấy bạn bè' : 'Bạn chưa có bạn bè nào'}
           </div>
         ) : (
@@ -177,16 +178,16 @@ export const CreateGroupModal: React.FC<CreateGroupModalProps> = ({
               <div
                 key={friend.id}
                 onClick={() => toggleSelect(friend.id)}
-                className={`flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer transition-colors duration-200
-                  ${isSelected ? 'bg-primary/10' : 'hover:bg-hover'}`}
+                className={`flex items-center gap-3 px-3 py-2.5 rounded-card cursor-pointer transition-colors duration-200
+                  ${isSelected ? 'bg-accent/10' : 'hover:bg-surface-2'}`}
               >
                 <UserAvatar userId={friend.id} size="sm" />
-                <span className="flex-1 text-sm font-medium text-foreground truncate">
+                <span className="flex-1 text-sm font-medium text-ink truncate">
                   {friend.fullName}
                 </span>
                 {isSelected && (
-                  <div className="w-5 h-5 btn-gradient rounded-full flex items-center justify-center flex-shrink-0">
-                    <Check size={11} className="text-white" />
+                  <div className="w-5 h-5 bg-accent rounded-full flex items-center justify-center flex-shrink-0">
+                    <Check size={11} className="text-on-accent" />
                   </div>
                 )}
               </div>
@@ -208,19 +209,19 @@ export const CreateGroupModal: React.FC<CreateGroupModalProps> = ({
         {/* Avatar Picker */}
         <div className="flex flex-col items-center">
           <div className="relative">
-            <div className="w-20 h-20 rounded-full overflow-hidden bg-primary/10 flex items-center justify-center">
+            <div className="w-20 h-20 rounded-full overflow-hidden bg-accent/10 flex items-center justify-center">
               {previewUrl ? (
                 <img src={previewUrl} alt="Preview" className="w-full h-full object-cover" />
               ) : (
-                <Users size={30} className="text-primary" />
+                <Users size={30} className="text-accent" />
               )}
             </div>
             <button
               type="button"
               onClick={() => fileInputRef.current?.click()}
-              className="absolute bottom-0 right-0 w-7 h-7 btn-gradient rounded-full flex items-center justify-center shadow-accent border-2 border-surface"
+              className="absolute bottom-0 right-0 w-7 h-7 bg-accent rounded-full flex items-center justify-center shadow-xs border-2 border-surface"
             >
-              <Camera size={13} className="text-white" />
+              <Camera size={13} className="text-on-accent" />
             </button>
             <input
               ref={fileInputRef}
@@ -230,7 +231,7 @@ export const CreateGroupModal: React.FC<CreateGroupModalProps> = ({
               className="hidden"
             />
           </div>
-          <p className="text-xs text-muted mt-2">
+          <p className="text-xs text-ink-3 mt-2">
             Nhóm với {totalMembers} thành viên (bao gồm bạn)
           </p>
         </div>
@@ -241,13 +242,13 @@ export const CreateGroupModal: React.FC<CreateGroupModalProps> = ({
           placeholder="Nhập tên nhóm..."
           {...register('name')}
           error={errors.name?.message}
-          className="bg-background"
+          className="bg-surface-2"
         />
 
         {/* Member Stack (Flat Design) */}
-        <div className="pt-4 border-t border-border/50">
+        <div className="pt-4 border-t border-line/50">
           <div className="flex justify-between items-center mb-4">
-            <span className="text-[10px] font-bold text-muted uppercase tracking-widest">
+            <span className="text-[10px] font-bold text-ink-3 uppercase tracking-widest">
               Thành viên ({totalMembers})
             </span>
           </div>
@@ -256,7 +257,7 @@ export const CreateGroupModal: React.FC<CreateGroupModalProps> = ({
               {currentUser && (
                 <div className="relative inline-block rounded-full ring-2 ring-surface">
                   <Avatar src={currentUser.avatar?.url} name={currentUser.fullName} size="sm" />
-                  <div className="absolute -top-1 -left-1 bg-surface rounded-full p-0.5 border border-border shadow-sm">
+                  <div className="absolute -top-1 -left-1 bg-surface rounded-full p-0.5 border border-line shadow-sm">
                     <Crown size={8} className="text-warning fill-warning" />
                   </div>
                 </div>
@@ -270,7 +271,7 @@ export const CreateGroupModal: React.FC<CreateGroupModalProps> = ({
                 );
               })}
               {totalMembers > 8 && (
-                <div className="flex items-center justify-center w-8 h-8 rounded-full bg-background border-2 border-surface text-[10px] font-bold text-muted">
+                <div className="flex items-center justify-center w-8 h-8 rounded-full bg-surface-2 border-2 border-surface text-[10px] font-bold text-ink-3">
                   +{totalMembers - 8}
                 </div>
               )}

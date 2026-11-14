@@ -41,7 +41,7 @@ export const Popover: React.FC<PopoverProps> = ({
         sideOffset={sideOffset}
         collisionPadding={12}
         className={cn(
-          'z-popover rounded-md border border-border bg-surface shadow-dropdown',
+          'z-popover rounded-card border border-line bg-surface shadow-float',
           'outline-none animate-fade-in',
           contentClassName,
         )}

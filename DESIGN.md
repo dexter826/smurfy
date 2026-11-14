@@ -1,150 +1,137 @@
 ---
-version: 1
-name: Smurfy — Cornflower Social
-description: Mạng xã hội Việt chat-first. Giao diện thân thiện với bo tròn mềm trên nền trung tính; một màu primary cornflower sáng với chữ tối trên nền màu là chữ ký nhận diện duy nhất.
+version: 2
+name: Smurfy — Nested Canvas
+description: Mạng xã hội Việt chat-first. Bề mặt lồng nhau: canvas xám lạnh làm nền, panel trắng nổi bo 16px với viền mảnh và bóng nhẹ; một accent cornflower sáng với chữ tối là chữ ký duy nhất.
 colors:
-  background: '#f7f9fc'
-  surface: '#ffffff'
-  surface-elevated: '#ffffff'
-  surface-sunken: '#eaf0f7'
-  hover: '#eef3f9'
-  active: '#e4ecf5'
-  overlay: 'rgb(2 6 23 / 0.5)'
-  chat: '#f5f7f9'
-  message-sent: '#4c9eeb'
-  message-received: '#ffffff'
-  primary: '#4c9eeb'
-  primary-hover: '#3d8be0'
-  primary-strong: '#2367a8'
-  primary-soft: 'rgb(76 158 235 / 0.12)'
-  primary-edge: '#2e7cc4'
-  on-primary: '#0b1220'
-  text-primary: '#0f172a'
-  text-secondary: '#475569'
-  text-muted: '#64748b'
-  text-faint: '#7d8da3'
-  border: '#dce5ef'
-  border-default: '#e6ecf4'
-  border-strong: '#c9d7e7'
-  focus: '#4c9eeb'
-  success: '#15803d'
-  on-success: '#ffffff'
-  warning: '#b45309'
-  on-warning: '#ffffff'
-  danger: '#dc2626'
-  on-danger: '#ffffff'
-  info: '#0369a1'
-  on-info: '#ffffff'
+  canvas: '#EDF1F6'
+  surface: '#FFFFFF'
+  surface-2: '#F6F8FB'
+  surface-3: '#E9EEF5'
+  line: '#E7EDF5'
+  line-soft: '#EDF1F7'
+  line-strong: '#D5DDE8'
+  ink: '#0F172A'
+  ink-2: '#475569'
+  ink-3: '#6B7A8F'
+  overlay: 'rgb(15 23 42 / 0.5)'
+  accent: '#4C9EEB'
+  on-accent: '#0B1220'
+  accent-strong: '#1D5E93'
+  accent-soft: '#E8F3FD'
+  accent-edge: '#2E7CC4'
+  focus: '#4C9EEB'
+  success: '#15803D'
+  on-success: '#FFFFFF'
+  warning: '#B45309'
+  on-warning: '#FFFFFF'
+  danger: '#DC2626'
+  on-danger: '#FFFFFF'
+  info: '#0369A1'
+  on-info: '#FFFFFF'
   success-soft: 'rgb(21 128 61 / 0.12)'
   warning-soft: 'rgb(180 83 9 / 0.12)'
   danger-soft: 'rgb(220 38 38 / 0.12)'
   info-soft: 'rgb(3 105 161 / 0.12)'
-  skeleton: 'color-mix(in srgb, {colors.text-primary} 8%, {colors.surface})'
+  skeleton: 'color-mix(in srgb, {colors.ink} 8%, {colors.surface})'
+  shadow-card: '0 1px 2px rgb(15 23 42 / 0.04)'
+  shadow-float: '0 8px 24px rgb(15 23 42 / 0.12)'
 themes:
   dark:
     colors:
-      background: '#12161f'
-      surface: '#1a2230'
-      surface-elevated: '#232d3d'
-      surface-sunken: '#1e2530'
-      hover: '#202836'
-      active: '#283242'
+      canvas: '#0B111C'
+      surface: '#141D2B'
+      surface-2: '#1B2636'
+      surface-3: '#212D3F'
+      line: '#2A3647'
+      line-soft: '#26313F'
+      line-strong: '#384457'
+      ink: '#E8EEF6'
+      ink-2: '#A9B8CB'
+      ink-3: '#8CA0B8'
       overlay: 'rgb(2 6 23 / 0.7)'
-      chat: '#090c10'
-      message-sent: '#4c9eeb'
-      message-received: '#1e242d'
-      primary: '#4c9eeb'
-      primary-hover: '#3d8be0'
-      primary-strong: '#7fb6ef'
-      primary-soft: 'rgb(76 158 235 / 0.2)'
-      primary-edge: '#2e7cc4'
-      on-primary: '#0b1220'
-      text-primary: '#e8eef6'
-      text-secondary: '#a9b8cb'
-      text-muted: '#8ca0b8'
-      text-faint: '#64748b'
-      border: '#2a3446'
-      border-default: '#1e2530'
-      border-strong: '#384457'
-      focus: '#4c9eeb'
-      success: '#4ade80'
-      on-success: '#0b1220'
-      warning: '#fbbf24'
-      on-warning: '#0b1220'
-      danger: '#f87171'
-      on-danger: '#0b1220'
-      info: '#38bdf8'
-      on-info: '#0b1220'
+      accent: '#4C9EEB'
+      on-accent: '#0B1220'
+      accent-strong: '#7FB6EF'
+      accent-soft: 'rgb(76 158 235 / 0.2)'
+      accent-edge: '#2E7CC4'
+      focus: '#4C9EEB'
+      success: '#4ADE80'
+      on-success: '#0B1220'
+      warning: '#FBBF24'
+      on-warning: '#0B1220'
+      danger: '#F87171'
+      on-danger: '#0B1220'
+      info: '#38BDF8'
+      on-info: '#0B1220'
       success-soft: 'rgb(74 222 128 / 0.12)'
       warning-soft: 'rgb(251 191 36 / 0.12)'
       danger-soft: 'rgb(248 113 113 / 0.12)'
       info-soft: 'rgb(56 189 248 / 0.12)'
-      skeleton: 'color-mix(in srgb, {colors.text-primary} 8%, {colors.surface})'
+      skeleton: 'color-mix(in srgb, {colors.ink} 8%, {colors.surface})'
 typography:
   display-brand:
-    fontFamily: Nunito
-    fontSize: 36px
+    fontFamily: Be Vietnam Pro
+    fontSize: 40px
     fontWeight: 800
-    lineHeight: 1
-    letterSpacing: 0
+    lineHeight: 1.05
+    letterSpacing: '-0.03em'
   display-xl:
-    fontFamily: Nunito
-    fontSize: 30px
+    fontFamily: Be Vietnam Pro
+    fontSize: 32px
     fontWeight: 800
     lineHeight: 1.1
-    letterSpacing: 0
+    letterSpacing: '-0.02em'
   display-lg:
-    fontFamily: Nunito
+    fontFamily: Be Vietnam Pro
     fontSize: 24px
     fontWeight: 800
     lineHeight: 1.15
-    letterSpacing: 0
+    letterSpacing: '-0.02em'
   title-lg:
-    fontFamily: Nunito
+    fontFamily: Be Vietnam Pro
     fontSize: 20px
     fontWeight: 700
-    lineHeight: 1.3
-    letterSpacing: 0
+    lineHeight: 1.25
+    letterSpacing: '-0.01em'
   title-md:
-    fontFamily: Nunito
-    fontSize: 18px
+    fontFamily: Be Vietnam Pro
+    fontSize: 16px
     fontWeight: 700
     lineHeight: 1.35
     letterSpacing: 0
   body:
-    fontFamily: Nunito Sans
+    fontFamily: Be Vietnam Pro
     fontSize: 16px
     fontWeight: 400
     lineHeight: 1.5
     letterSpacing: 0
   body-sm:
-    fontFamily: Nunito Sans
+    fontFamily: Be Vietnam Pro
     fontSize: 14px
     fontWeight: 400
     lineHeight: 1.5
     letterSpacing: 0
   caption:
-    fontFamily: Nunito Sans
+    fontFamily: Be Vietnam Pro
     fontSize: 12px
     fontWeight: 500
     lineHeight: 1.4
     letterSpacing: 0
   label-caps:
-    fontFamily: Nunito Sans
-    fontSize: 11px
+    fontFamily: Be Vietnam Pro
+    fontSize: 12px
     fontWeight: 600
     lineHeight: 1.2
     letterSpacing: 0.08em
     textTransform: uppercase
 rounded:
-  control: 8px
-  card: 12px
-  dialog: 16px
+  control: 10px
+  card: 16px
+  dialog: 20px
   full: 9999px
 spacing:
-  micro-1: 2px
-  micro-2: 6px
-  micro-3: 10px
+  micro-2: 2px
+  micro-3: 6px
   xxs: 4px
   xs: 8px
   sm: 12px
@@ -157,20 +144,20 @@ spacing:
   section: 64px
 components:
   button-primary:
-    backgroundColor: '{colors.primary}'
-    textColor: '{colors.on-primary}'
-    border: '{colors.primary-edge}'
+    backgroundColor: '{colors.accent}'
+    textColor: '{colors.on-accent}'
+    border: '{colors.accent-edge}'
     typography: '{typography.body-sm}'
     rounded: '{rounded.control}'
   button-secondary:
-    backgroundColor: transparent
-    textColor: '{colors.primary-strong}'
-    border: '{colors.primary-edge}'
+    backgroundColor: '{colors.surface}'
+    textColor: '{colors.ink}'
+    border: '{colors.line}'
     typography: '{typography.body-sm}'
     rounded: '{rounded.control}'
   button-ghost:
     backgroundColor: transparent
-    textColor: '{colors.text-secondary}'
+    textColor: '{colors.ink-2}'
     border: transparent
     typography: '{typography.body-sm}'
     rounded: '{rounded.control}'
@@ -183,19 +170,12 @@ components:
   button-size-sm:
     padding: 6px 12px
     typography: '{typography.body-sm}'
-    gap: '{spacing.micro-2}'
   button-size-md:
     padding: 10px 16px
     typography: '{typography.body-sm}'
-    gap: '{spacing.xs}'
   button-size-lg:
     padding: 12px 24px
     typography: '{typography.body}'
-    gap: '{spacing.xs}'
-  icon-button-sm:
-    width: 36px
-    height: 36px
-    rounded: '{rounded.control}'
   icon-button-md:
     width: 44px
     height: 44px
@@ -203,23 +183,23 @@ components:
   icon-button-lg:
     width: 48px
     height: 48px
-    rounded: '{rounded.card}'
+    rounded: '{rounded.control}'
   text-field:
     height: 44px
     typography: '{typography.body}'
-    textColor: '{colors.text-primary}'
-    placeholderColor: '{colors.text-muted}'
+    textColor: '{colors.ink}'
+    placeholderColor: '{colors.ink-3}'
     rounded: '{rounded.control}'
-    border: '{colors.border}'
+    border: '{colors.line}'
   search-field:
-    height: 44px
-    padding: 0 36px 0 40px
-    typography: '{typography.body}'
+    height: 40px
+    typography: '{typography.body-sm}'
     rounded: '{rounded.full}'
-    backgroundColor: '{colors.surface-sunken}'
+    backgroundColor: '{colors.surface-2}'
+    border: '{colors.line-soft}'
   chip-primary:
-    backgroundColor: '{colors.primary-soft}'
-    textColor: '{colors.primary-strong}'
+    backgroundColor: '{colors.accent-soft}'
+    textColor: '{colors.accent-strong}'
     typography: '{typography.caption}'
     rounded: '{rounded.full}'
     padding: 2px 8px
@@ -228,46 +208,23 @@ components:
     textColor: '{colors.on-success}'
     typography: '{typography.caption}'
     rounded: '{rounded.full}'
-  chip-neutral:
-    backgroundColor: 'rgb(0 0 0 / 0.6)'
-    textColor: '#ffffff'
-    typography: '{typography.caption}'
-    rounded: '{rounded.full}'
-  chip-muted:
-    backgroundColor: '{colors.surface-sunken}'
-    textColor: '{colors.text-secondary}'
-    typography: '{typography.caption}'
-    rounded: '{rounded.full}'
-  dropdown-trigger:
-    height: 44px
-    padding: 0 16px
-    rounded: '{rounded.control}'
-    border: '{colors.border}'
-    typography: '{typography.body}'
   dropdown-panel:
-    backgroundColor: '{colors.surface-elevated}'
-    border: '{colors.border}'
+    backgroundColor: '{colors.surface}'
+    border: '{colors.line}'
     rounded: '{rounded.card}'
-    padding: '{spacing.xs}'
-    maxHeight: 280px
+    shadow: '{colors.shadow-float}'
   dialog-overlay:
-    backgroundColor: 'rgb(0 0 0 / 0.5)'
+    backgroundColor: '{colors.overlay}'
   dialog-panel:
-    backgroundColor: '{colors.surface-elevated}'
+    backgroundColor: '{colors.surface}'
     rounded: '{rounded.dialog}'
+    shadow: '{colors.shadow-float}'
     maxHeight: 90dvh
-  dialog-header:
-    padding: 12px 16px
-    borderBottom: '{colors.border-default}'
-  dialog-footer:
-    padding: 12px 16px
-    borderTop: '{colors.border-default}'
-    safeArea: bottom
   toast:
-    backgroundColor: '{colors.surface-elevated}'
-    border: '{colors.border}'
+    backgroundColor: '{colors.surface}'
+    border: '{colors.line}'
     rounded: '{rounded.card}'
-    padding: 12px 14px
+    shadow: '{colors.shadow-float}'
     typography: '{typography.body-sm}'
   skeleton:
     backgroundColor: '{colors.skeleton}'
@@ -275,253 +232,274 @@ components:
   avatar:
     rounded: '{rounded.full}'
   message-bubble-sent:
-    backgroundColor: '{colors.message-sent}'
-    textColor: '{colors.on-primary}'
-    typography: '{typography.body}'
+    backgroundColor: '{colors.accent}'
+    textColor: '{colors.on-accent}'
+    typography: '{typography.body-sm}'
     rounded: '{rounded.card}'
-    borderBottomRightRadius: 4px
+    borderBottomRightRadius: 5px
   message-bubble-received:
-    backgroundColor: '{colors.message-received}'
-    textColor: '{colors.text-primary}'
-    typography: '{typography.body}'
+    backgroundColor: '{colors.surface-2}'
+    textColor: '{colors.ink}'
+    typography: '{typography.body-sm}'
     rounded: '{rounded.card}'
-    borderBottomLeftRadius: 4px
+    borderBottomLeftRadius: 5px
   post-card:
     backgroundColor: '{colors.surface}'
     rounded: '{rounded.card}'
-    border: '{colors.border-default}'
+    border: '{colors.line}'
+    shadow: '{colors.shadow-card}'
+  list-panel:
+    width: 320px
+    backgroundColor: '{colors.surface}'
+    borderRight: '{colors.line}'
+  detail-panel:
+    width: 360px
+    backgroundColor: '{colors.surface}'
+    borderLeft: '{colors.line}'
+  rail:
+    width: 72px
+    backgroundColor: transparent
+  rail-button:
+    width: 42px
+    height: 42px
+    rounded: 14px
+    backgroundColor: '{colors.surface}'
+    border: '{colors.line}'
   bottom-nav:
     height: 56px
     backgroundColor: '{colors.surface}'
-    borderTop: '{colors.border}'
+    borderTop: '{colors.line}'
     safeArea: bottom
-  sidebar:
-    width: 264px
-    backgroundColor: '{colors.surface}'
-    borderRight: '{colors.border-default}'
-  side-panel:
-    width: 320px
-    backgroundColor: '{colors.surface}'
-    borderLeft: '{colors.border-default}'
 ---
 
 ## 1. Overview
 
-Smurfy là mạng xã hội tiếng Việt hướng chat-first: trò chuyện trực tiếp, nhóm, bảng tin (feed) và quản lý quan hệ bạn bè. Ngôn ngữ thiết kế lấy cảm hứng từ hình tượng loài smurf — thân thiện, tròn trịa, năng động — thể hiện qua hệ bo góc mềm, phông chữ Nunito có đầu nét bo tròn, và một màu nhấn cornflower sáng duy nhất.
+Smurfy là mạng xã hội tiếng Việt hướng chat-first. Ngôn ngữ thiết kế v2 **"Nested Canvas"** — bề mặt lồng nhau: mọi khối nội dung là một panel trắng bo 16px nổi trên canvas xám lạnh `#EDF1F6`, phân tầng bằng viền mảnh + bóng nhẹ thay vì đường kẻ đậm. Chữ ký nhận diện duy nhất: accent cornflower `#4C9EEB` luôn đi với chữ tối `#0B1220` trên nền màu đặc.
 
 ### Đặc tính cốt lõi
 
-- **Chữ ký nhận diện:** Màu `primary` cornflower sáng `#4c9eeb` luôn đi kèm văn bản màu tối `on-primary` trên nền màu đặc — một xử lý màu hiếm gặp trong nhóm ứng dụng chat, tạo bản sắc riêng thay vì bám theo các mạng xã hội phổ biến.
-- **Chế độ hiển thị:** Chủ đề sáng là chuẩn gốc; chủ đề tối đồng bộ đầy đủ (full parity). Lần truy cập đầu theo tuỳ chọn hệ điều hành (`prefers-color-scheme`), lựa chọn thủ công của người dùng được ghi nhớ.
-- **Kiểu chữ:** Nunito dùng cho tiêu đề và chữ hiển thị; Nunito Sans dùng cho toàn bộ nội dung đọc, biểu mẫu và nhãn giao diện. Cả hai hỗ trợ đầy đủ dấu tiếng Việt.
-- **Cấu trúc hình học:** Khối bố cục rõ ràng (block-based) có kỷ luật; bo tròn thân thiện nhưng phẳng — không mô phỏng khối đất sét (claymorphism), không bóng đổ 3D, không gradient trang trí.
-- **Nền tảng:** Tối ưu trước cho thiết bị di động (mobile-first), vận hành dạng PWA, bản địa hóa tiếng Việt toàn bộ giao diện.
-- **Tin nhắn:** Bong bóng tin nhắn phân cực rõ — phía người gửi dùng nền `primary` với chữ `on-primary`, phía người nhận dùng nền `surface` với chữ `text-primary`.
+- **Chữ ký nhận diện:** nền `accent` + chữ `on-accent` tối (6.6:1). Nghiêm cấm chữ trắng trên `#4C9EEB` (2.84:1). Liên kết văn bản dùng `accent-strong`.
+- **Phân tầng:** `canvas` → `surface` (panel, bo `card` 16px, viền `line` 1px, `shadow-card`) → lớp nổi (dropdown/dialog/toast, `shadow-float`). Không gradient, không bóng trang trí ở chủ đề tối.
+- **Kiểu chữ:** Be Vietnam Pro toàn bộ — display 700/800 cho tiêu đề, 400/500 cho nội dung; đầy đủ dấu tiếng Việt. Số đếm/giờ dùng `tabular-nums`.
+- **Chủ đề:** sáng là chuẩn gốc; tối full parity (bề mặt xanh-đen `#0B111C` → `#141D2B` → `#1B2636`, viền `#26313F`).
+- **Shell:** desktop — rail icon 72px + list panel 320 + canvas + detail panel 360 (≥1280). Mobile — header 56 + nội dung + tab bar 4 mục + safe-area; sheet cho chi tiết.
+- **Hình học:** bo góc đúng 3 bậc `control` 10, `card` 16, `dialog` 20 + `full`. Icon Lucide nét 1.7, cỡ 16/20/24.
+- **Motion:** micro 150–200ms; panel/sheet trượt 300ms; stagger danh sách ≤300ms; tôn trọng `prefers-reduced-motion`.
 
 ---
 
 ## 2. Colors
 
-Hệ thống màu tuân thủ độ tương phản tiếp cận WCAG AA trên cả hai chủ đề. Mọi thành phần giao diện bắt buộc tham chiếu qua token ngữ nghĩa; không định nghĩa mã màu trực tiếp trong mã nguồn giao diện.
+Mọi thành phần tham chiếu qua token ngữ nghĩa; cấm mã màu trực tiếp trong component.
 
-| Token              | Light                    | Dark                      | Vai trò ngữ nghĩa                                              |
-| :----------------- | :----------------------- | :------------------------ | :------------------------------------------------------------- |
-| `background`       | `#f7f9fc`                | `#12161f`                 | Nền canvas chính của ứng dụng                                  |
-| `surface`          | `#ffffff`                | `#1a2230`                 | Bề mặt phân cấp cấp 1 (card, panel, sidebar)                   |
-| `surface-elevated` | `#ffffff`                | `#232d3d`                 | Bề mặt nổi (dialog, dropdown, toast, popover)                  |
-| `surface-sunken`   | `#eaf0f7`                | `#1e2530`                 | Bề mặt lún (ô tìm kiếm, khối phụ)                              |
-| `hover`            | `#eef3f9`                | `#202836`                 | Nền hover tĩnh của mục danh sách và control                    |
-| `active`           | `#e4ecf5`                | `#283242`                 | Nền trạng thái nhấn hoặc đã chọn tĩnh                          |
-| `overlay`          | `rgb(2 6 23 / 0.5)`      | `rgb(2 6 23 / 0.7)`       | Lớp phủ hộp thoại và ngăn kéo                                  |
-| `chat`             | `#f5f7f9`                | `#090c10`                 | Nền khu vực luồng tin nhắn                                     |
-| `message-sent`     | `#4c9eeb`                | `#4c9eeb`                 | Nền bong bóng tin nhắn phía người gửi                          |
-| `message-received` | `#ffffff`                | `#1e242d`                 | Nền bong bóng tin nhắn phía người nhận                         |
-| `primary`          | `#4c9eeb`                | `#4c9eeb`                 | Màu nhấn duy nhất: nút chính, trạng thái kích hoạt, nhấn mạnh  |
-| `primary-hover`    | `#3d8be0`                | `#3d8be0`                 | Trạng thái hover của màu nhấn                                  |
-| `primary-strong`   | `#2367a8`                | `#7fb6ef`                 | Liên kết văn bản và nhấn mạnh chữ đạt AA trên nền đọc          |
-| `primary-soft`     | `rgb(76 158 235 / 0.12)` | `rgb(76 158 235 / 0.2)`   | Nền màu nhấn loãng (chip, mục điều hướng kích hoạt, highlight) |
-| `primary-edge`     | `#2e7cc4`                | `#2e7cc4`                 | Viền định hình nút primary đạt ngưỡng non-text 3:1             |
-| `on-primary`       | `#0b1220`                | `#0b1220`                 | Văn bản và biểu tượng trên nền primary đặc                     |
-| `text-primary`     | `#0f172a`                | `#e8eef6`                 | Mực chính cho tiêu đề và nội dung đọc                          |
-| `text-secondary`   | `#475569`                | `#a9b8cb`                 | Mực phụ cho mô tả và nhãn (đạt chuẩn AA)                       |
-| `text-muted`       | `#64748b`                | `#8ca0b8`                 | Văn bản gợi ý (placeholder, hint, siêu dữ liệu)                |
-| `text-faint`       | `#7d8da3`                | `#64748b`                 | Chữ cỡ lớn hoặc thành phần trang trí (tỷ lệ 3:1)               |
-| `border`           | `#dce5ef`                | `#2a3446`                 | Viền điều khiển (input, control)                               |
-| `border-default`   | `#e6ecf4`                | `#1e2530`                 | Đường phân cách danh mục, cấu trúc và thẻ                      |
-| `border-strong`    | `#c9d7e7`                | `#384457`                 | Viền nhấn mạnh, thanh cuộn, phân cách cần rõ hơn               |
-| `focus`            | `#4c9eeb`                | `#4c9eeb`                 | Đường viền chỉ thị focus bàn phím                              |
-| `success`          | `#15803d`                | `#4ade80`                 | Chỉ thị trạng thái thành công                                  |
-| `on-success`       | `#ffffff`                | `#0b1220`                 | Văn bản trên nền trạng thái thành công                         |
-| `warning`          | `#b45309`                | `#fbbf24`                 | Chỉ thị cảnh báo hoặc lưu ý                                    |
-| `on-warning`       | `#ffffff`                | `#0b1220`                 | Văn bản trên nền trạng thái cảnh báo                           |
-| `danger`           | `#dc2626`                | `#f87171`                 | Chỉ thị lỗi hoặc hành động phá hủy dữ liệu                     |
-| `on-danger`        | `#ffffff`                | `#0b1220`                 | Văn bản trên nền trạng thái lỗi                                |
-| `info`             | `#0369a1`                | `#38bdf8`                 | Chỉ thị thông tin hướng dẫn                                    |
-| `on-info`          | `#ffffff`                | `#0b1220`                 | Văn bản trên nền trạng thái thông tin                          |
-| `success-soft`     | `rgb(21 128 61 / 0.12)`  | `rgb(74 222 128 / 0.12)`  | Nền nhạt cho trạng thái thành công                             |
-| `warning-soft`     | `rgb(180 83 9 / 0.12)`   | `rgb(251 191 36 / 0.12)`  | Nền nhạt cho trạng thái cảnh báo                               |
-| `danger-soft`      | `rgb(220 38 38 / 0.12)`  | `rgb(248 113 113 / 0.12)` | Nền nhạt cho trạng thái lỗi                                    |
-| `info-soft`        | `rgb(3 105 161 / 0.12)`  | `rgb(56 189 248 / 0.12)`  | Nền nhạt cho trạng thái thông tin                              |
-| `skeleton`         | computed                 | computed                  | Màu nền khung chờ nội dung                                     |
+| Token          | Light                     | Dark                      | Vai trò                                                       |
+| :------------- | :------------------------ | :------------------------ | :------------------------------------------------------------ |
+| `canvas`       | `#EDF1F6`                 | `#0B111C`                 | Nền ứng dụng, chỗ các panel nổi lên                            |
+| `surface`      | `#FFFFFF`                 | `#141D2B`                 | Panel, thẻ, list panel, detail panel                           |
+| `surface-2`    | `#F6F8FB`                 | `#1B2636`                 | Ô tìm kiếm, track segmented, bubble nhận, nền lún              |
+| `surface-3`    | `#E9EEF5`                 | `#212D3F`                 | Nền lún sâu hơn (fallback avatar, placeholder)                 |
+| `line`         | `#E7EDF5`                 | `#2A3647`                 | Viền panel, card, control                                      |
+| `line-soft`    | `#EDF1F7`                 | `#26313F`                 | Phân cách trong panel (header/footer, dòng chia)               |
+| `line-strong`  | `#D5DDE8`                 | `#384457`                 | Viền nhấn mạnh, hover viền control                             |
+| `ink`          | `#0F172A`                 | `#E8EEF6`                 | Mực chính: tiêu đề, nội dung                                   |
+| `ink-2`        | `#475569`                 | `#A9B8CB`                 | Mực phụ: mô tả, nhãn (AA)                                      |
+| `ink-3`        | `#6B7A8F`                 | `#8CA0B8`                 | Mực gợi ý: placeholder, siêu dữ liệu, thời gian                |
+| `overlay`      | `rgb(15 23 42 / 0.5)`     | `rgb(2 6 23 / 0.7)`       | Lớp phủ dialog/sheet                                           |
+| `accent`       | `#4C9EEB`                 | `#4C9EEB`                 | Màu nhấn duy nhất: CTA, kích hoạt, badge, bubble gửi           |
+| `on-accent`    | `#0B1220`                 | `#0B1220`                 | Chữ/icon trên nền accent đặc (luôn tối)                        |
+| `accent-strong`| `#1D5E93`                 | `#7FB6EF`                 | Liên kết văn bản, nhấn mạnh chữ trên nền đọc                   |
+| `accent-soft`  | `#E8F3FD`                 | `rgb(76 158 235 / 0.2)`   | Nền kích hoạt (mục chọn, chip)                                 |
+| `accent-edge`  | `#2E7CC4`                 | `#2E7CC4`                 | Viền định hình nút primary đạt 3:1 non-text                    |
+| `focus`        | `#4C9EEB`                 | `#4C9EEB`                 | Vòng focus bàn phím 2px                                        |
+| `success`      | `#15803D`                 | `#4ADE80`                 | Trạng thái thành công                                          |
+| `on-success`   | `#FFFFFF`                 | `#0B1220`                 | Chữ trên nền success                                           |
+| `warning`      | `#B45309`                 | `#FBBF24`                 | Cảnh báo                                                       |
+| `on-warning`   | `#FFFFFF`                 | `#0B1220`                 | Chữ trên nền warning                                           |
+| `danger`       | `#DC2626`                 | `#F87171`                 | Lỗi, hành động phá hủy                                         |
+| `on-danger`    | `#FFFFFF`                 | `#0B1220`                 | Chữ trên nền danger                                            |
+| `info`         | `#0369A1`                 | `#38BDF8`                 | Thông tin hướng dẫn                                            |
+| `on-info`      | `#FFFFFF`                 | `#0B1220`                 | Chữ trên nền info                                              |
+| `*-soft`       | `rgb(... / 0.12)`         | `rgb(... / 0.12)`         | Nền nhạt trạng thái                                            |
+| `skeleton`     | computed                  | computed                  | Nền khung chờ                                                  |
+| `shadow-card`  | `0 1px 2px rgb(15 23 42 / 0.04)`  | —                | Bóng panel/card (chỉ chủ đề sáng)                              |
+| `shadow-float` | `0 8px 24px rgb(15 23 42 / 0.12)` | —               | Bóng lớp nổi: dropdown, dialog, toast (chỉ chủ đề sáng)        |
 
 ### Nguyên tắc sử dụng màu
 
-1. **Màu nhấn duy nhất:** Token `primary` là điểm nhấn duy nhất của giao diện. Signature của thương hiệu là nền `primary` sáng kết hợp chữ `on-primary` tối — không thay chữ trắng lên nền primary.
-2. **Liên kết khác nút:** Liên kết văn bản dùng `primary-strong`; nút bấm dùng nền `primary`. Nút primary trên chủ đề sáng giữ viền `primary-edge` để đạt ngưỡng tương phản non-text 3:1 so với nền sáng.
-3. **Ngữ cảnh màu trạng thái:** Các token `success`, `warning`, `danger`, `info` chỉ dùng để truyền tải trạng thái nghiệp vụ, không dùng trang trí thuần túy.
-4. **Độ tương phản:** Văn bản nội dung tối thiểu 4.5:1; phần tử phi văn bản (viền, icon phân biệt) tối thiểu 3:1. Mọi màu mới bổ sung phải kiểm chứng trước khi vào token.
-5. **Ngoại lệ mã màu:** Mã màu trực tiếp chỉ cho phép đối với tài nguyên thương hiệu bên thứ ba và giá trị fallback trong SVG symbol.
+1. **Accent duy nhất:** `accent` là hue duy nhất của UI. Màu trạng thái (`success/warning/danger/info`) chỉ truyền tải trạng thái nghiệp vụ, không trang trí. Màu avatar là trung tính xanh-xám (xem §6), không cạnh tranh accent.
+2. **Chữ trên accent luôn tối:** mọi chữ/icon trên nền `accent` đặc dùng `on-accent` `#0B1220`. Không bao giờ chữ trắng trên `#4C9EEB`.
+3. **Liên kết khác nút:** liên kết văn bản dùng `accent-strong`; nút dùng nền `accent` + viền `accent-edge`.
+4. **Tương phản:** văn bản ≥4.5:1; phần tử phi văn bản ≥3:1. Cặp mới phải kiểm chứng bằng script trước khi vào token.
+5. **Ngoại lệ mã màu:** chỉ cho tài nguyên thương hiệu bên thứ ba và giá trị fallback trong SVG symbol.
 
 ---
 
 ## 3. Typography
 
-Hệ thống kiểu chữ gồm hai phông chữ chuyên biệt: **Nunito** (rounded sans) tạo dấu ấn thân thiện, tròn trịa cho tiêu đề và chữ hiển thị; **Nunito Sans** bảo đảm khả năng đọc tiếng Việt ở mọi cấp độ nội dung. Cả hai đều có bộ ký tự tiếng Việt đầy đủ.
+Một họ duy nhất: **Be Vietnam Pro** (Google Fonts), trọng số 400/500/600/700/800.
 
-| Cấp bậc         | Phông chữ   | Cỡ chữ | Trọng số | Độ cao dòng | Khoảng cách chữ    |
-| :-------------- | :---------- | :----- | :------- | :---------- | :----------------- |
-| `display-brand` | Nunito      | 36px   | 800      | 1.0         | 0                  |
-| `display-xl`    | Nunito      | 30px   | 800      | 1.1         | 0                  |
-| `display-lg`    | Nunito      | 24px   | 800      | 1.15        | 0                  |
-| `title-lg`      | Nunito      | 20px   | 700      | 1.3         | 0                  |
-| `title-md`      | Nunito      | 18px   | 700      | 1.35        | 0                  |
-| `body`          | Nunito Sans | 16px   | 400      | 1.5         | 0                  |
-| `body-sm`       | Nunito Sans | 14px   | 400      | 1.5         | 0                  |
-| `caption`       | Nunito Sans | 12px   | 500      | 1.4         | 0                  |
-| `label-caps`    | Nunito Sans | 11px   | 600      | 1.2         | 0.08em (Uppercase) |
+| Cấp bậc         | Cỡ   | Trọng số | Độ cao dòng | Khoảng cách chữ | Dùng cho                                             |
+| :-------------- | :--- | :------- | :---------- | :-------------- | :--------------------------------------------------- |
+| `display-brand` | 40px | 800      | 1.05        | −0.03em         | Splash, hero auth                                     |
+| `display-xl`    | 32px | 800      | 1.1         | −0.02em         | Trạng thái rỗng lớn                                   |
+| `display-lg`    | 24px | 800      | 1.15        | −0.02em         | Tiêu đề trang (Nhật ký, Hoạt động, Bạn bè)            |
+| `title-lg`      | 20px | 700      | 1.25        | −0.01em         | Tiêu đề panel, tên hội thoại ở list                   |
+| `title-md`      | 16px | 700      | 1.35        | 0               | Tiêu đề khối, tên người                               |
+| `body`          | 16px | 400      | 1.5         | 0               | Nội dung đọc, input                                   |
+| `body-sm`       | 14px | 400      | 1.5         | 0               | Nội dung danh sách, bubble, nút                       |
+| `caption`       | 12px | 500      | 1.4         | 0               | Siêu dữ liệu, thời gian, đếm số                       |
+| `label-caps`    | 12px | 600      | 1.2         | +0.08em         | Nhãn khối viết hoa (Đã ghim, Thành viên, Gần đây)     |
 
 ### Nguyên tắc định dạng chữ
 
-1. **Phân cấp chức năng:** Nunito chỉ dùng cho điểm neo thị giác (tiêu đề cấp cao, wordmark, trạng thái rỗng). Toàn bộ nội dung văn bản dài, biểu mẫu, tin nhắn và danh sách dùng Nunito Sans.
-2. **Kích thước cố định:** Cỡ chữ chỉ tham chiếu từ bảng phân cấp; không dùng thang cỡ chữ mặc định ngoài token. Văn bản nội dung không dưới 12px; `label-caps` 11px chỉ dùng cho nhãn ngắn viết hoa.
-3. **Hiển thị số:** Chỉ số đo lường, số lượng chưa đọc, thời lượng và ngày tháng kích hoạt `tabular-nums` để thẳng hàng trong danh sách.
+1. **Một họ:** không dùng họ thứ hai. Nhấn mạnh bằng trọng số (700/800) và cỡ chữ, không bằng italic/uppercase tràn lan.
+2. **Thang cố định:** chỉ dùng các bậc 12/14/16/20/24/32/40; không tự đặt cỡ ngoài bảng. Nội dung không dưới 12px.
+3. **Số thẳng hàng:** mọi số đếm, giờ, ngày bật `tabular-nums`.
+4. **Truncation:** tên dài một dòng có ellipsis; không xuống dòng trong list item.
 
 ---
 
 ## 4. Layout
 
-Hệ thống bố cục theo tỷ lệ chuẩn 4px/8px kết hợp micro-spacing phục vụ căn chỉnh chi tiết. Ứng dụng chạy trong khung màn hình cố định (`100dvh`, `overflow-hidden`) với khoảng an toàn thiết bị (safe-area insets).
+Ứng dụng khung `100dvh` + `overflow-hidden`, tôn trọng safe-area. Bố cục lồng nhau: mỗi vùng là một panel `surface` bo `card` trên `canvas`, cách nhau `spacing.md` (16px) ở màn hình lớn.
 
-### Thang khoảng cách (Spacing Scale)
+### Shell
 
-- **Micro Spacing:** `micro-1` (2px), `micro-2` (6px), `micro-3` (10px) — dùng cho khoảng cách giữa biểu tượng và văn bản, điều chỉnh tinh.
-- **Layout Spacing:** `xxs` (4px), `xs` (8px), `sm` (12px), `md` (16px), `lg` (20px), `xl` (24px), `xxl` (32px), `xxxl` (40px), `huge` (48px), `section` (64px).
+| Vùng      | Desktop ≥1280                          | Desktop 1024–1279                       | Mobile <1024                                |
+| :-------- | :------------------------------------- | :-------------------------------------- | :------------------------------------------ |
+| Rail      | 72px: logo + 4 nav (Tin nhắn · Nhật ký · Bạn bè · Hoạt động) + Cài đặt + avatar | như ≥1280 | Ẩn; thay bằng header 56 + tab bar |
+| Chat      | list 320 + thread + details 360        | list 320 + thread; details = drawer     | list → thread toàn màn; details = sheet     |
+| Feed      | rail + cột đọc (≤640) + rail phải 320  | rail + cột đọc                          | cuộn dọc một cột                            |
+| Bạn bè    | rail + danh sách + panel phải 320      | như ≥1280, panel phải giữ               | một cột, chọn người mở sheet                |
+| Hồ sơ     | rail + cover/header + 2 cột (giới thiệu 340 + bài viết) | như ≥1280, thu cột | một cột                                     |
+| Cài đặt   | rail + sidebar 280 + nội dung          | như ≥1280                               | danh sách → chi tiết (back trong header)     |
+| Auth      | split: brand field 52% + form          | như ≥1280                               | form đầy đủ + wordmark đầu trang            |
 
-### Lưới hiển thị và Điểm ngắt (Responsive Breakpoints)
+### Breakpoints
 
-| Breakpoint | Chiều rộng | Bố cục và Hành vi hiển thị                                                                                          |
-| :--------- | :--------- | :------------------------------------------------------------------------------------------------------------------ |
-| **Mobile** | < 1024px   | Top bar gọn 56px; thanh điều hướng đáy (Bottom Navigation) tối đa 5 mục; hộp thoại mở rộng toàn màn hình.           |
-| **lg**     | ≥ 1024px   | Thanh điều hướng ngang phía trên khung nội dung trung tâm; bottom nav ẩn.                                           |
-| **xl**     | ≥ 1280px   | Panel phải 320px (danh bạ, chi tiết tuỳ trang) hiện ở các trang cần; nội dung trung tâm giới hạn chiều rộng tối đa. |
+| Breakpoint | Chiều rộng | Vai trò                                                    |
+| :--------- | :--------- | :--------------------------------------------------------- |
+| `xs`       | 480px      | Tiện ích nhỏ                                               |
+| mobile     | < 1024px   | Tab bar 4 mục; sheet thay drawer; dialog toàn màn dạng sheet |
+| `lg`       | ≥ 1024px   | Rail xuất hiện, tab bar ẩn                                 |
+| `xl`       | ≥ 1280px   | Panel phải 360 và rail phải 320 bật                        |
 
-Bảng tin và luồng chat giới hạn chiều rộng khung đọc; đoạn văn dài không vượt 80 ký tự mỗi dòng. Không xuất hiện thanh cuộn ngang ở bất kỳ điểm ngắt nào.
+Không thanh cuộn ngang ở bất kỳ breakpoint nào. Đoạn đọc dài không quá 80 ký tự/dòng.
 
 ---
 
 ## 5. Elevation & Depth
 
-Phân tầng thị giác ưu tiên bề mặt màu và đường viền; bóng đổ chỉ dùng ở chủ đề sáng.
+Phân tầng bằng **bề mặt + viền + bóng nhẹ**; không dùng màu đậm để chia tầng.
 
-1. **Lớp nền (Base Plane):** Token `background` là bề mặt sâu nhất; khu vực chat dùng token `chat` riêng.
-2. **Lớp thành phần (Component Plane):** Token `surface` cho thẻ, panel, sidebar.
-3. **Lớp nổi (Floating Plane):** Token `surface-elevated` cho hộp thoại, menu thả xuống, thông báo nổi.
-4. **Chủ đề sáng:** Thang bóng `shadow-xs` → `shadow-xl` nâng dần theo mức nổi; thành phần nổi dùng bóng rõ hơn nền.
-5. **Chủ đề tối:** Phân tầng bằng bước màu bề mặt (`#12161f` → `#1a2230` → `#232d3d`) kết hợp viền `border`; bóng đổ hạn chế.
-6. **Lớp phủ (Overlay):** Hộp thoại dùng lớp phủ `rgb(0 0 0 / 0.5)`; thứ tự xếp lớp theo thang `--z-header` … `--z-toast`.
+1. **Canvas:** `canvas` `#EDF1F6` là nền sâu nhất; mọi panel nổi trên nó.
+2. **Panel:** `surface` bo `card` 16px, viền `line` 1px, `shadow-card` (sáng). Panel có thể lồng panel (`surface-2` bên trong).
+3. **Lớp nổi:** dropdown/dialog/toast = `surface` + `line` + `shadow-float`; dialog thêm `backdrop-blur-sm` trên overlay.
+4. **Chủ đề tối:** phân tầng bằng bước màu bề mặt (`#0B111C` → `#141D2B` → `#1B2636`) + viền `line`; không dùng bóng.
+5. **Thứ tự z:** `--z-header` 100 → `--z-sticky` 110 → `--z-dropdown` 500 → `--z-overlay` 600 → `--z-modal` 700 → `--z-popover` 800 → `--z-dialog` 900 → `--z-toast` 1000.
 
 ---
 
 ## 6. Shapes
 
-Hệ thống hình học duy trì bo góc mềm, thân thiện theo tính cách mascot nhưng phẳng và có kiểm soát.
-
-| Token             | Giá trị | Phạm vi áp dụng                                                |
-| :---------------- | :------ | :------------------------------------------------------------- |
-| `rounded.control` | 8px     | Nút bấm, ô nhập liệu, icon button, khung chuyển đổi trạng thái |
-| `rounded.card`    | 12px    | Thẻ bài viết, panel, bong bóng tin nhắn, dropdown, toast       |
-| `rounded.dialog`  | 16px    | Hộp thoại trung tâm và bảng trượt (sheet)                      |
-| `rounded.full`    | 9999px  | Ảnh đại diện, chip, thanh ray, nút công tắc, ô tìm kiếm        |
+| Token          | Giá trị | Phạm vi áp dụng                                              |
+| :------------- | :------ | :----------------------------------------------------------- |
+| `rounded.control` | 10px | Nút, input, icon button, segmented, chip tròn thành 9999     |
+| `rounded.card`    | 16px | Panel, card bài viết, bubble, dropdown, toast, thumbnail     |
+| `rounded.dialog`  | 20px | Dialog trung tâm và sheet (chỉ bo 2 góc trên khi là sheet)   |
+| `rounded.full`    | 9999px | Avatar, status dot, badge đếm, ô tìm kiếm                    |
 
 ### Quy tắc định hình
 
-- Không sử dụng giá trị bo góc nằm ngoài bảng định nghĩa.
-- Không kết hợp dáng mô phỏng khối đất sét (claymorphism), bóng 3D hoặc gradient trang trí vào hình khối.
-- Biểu tượng dùng một bộ duy nhất (Lucide), nét 2px, kích thước 16/20/24px; không dùng emoji làm biểu tượng.
+- Không dùng bo góc ngoài 4 giá trị trên; không bo góc lồi 0px cho card.
+- Biểu tượng: Lucide duy nhất, nét 1.7px, cỡ 16/20/24; không emoji làm icon.
+- Avatar: chữ cái đầu trên nền xanh-xám trung tính (dải `#6E8CAE`–`#8C97A8`), status dot `success`/`ink-3` có viền `surface` 2px.
+- Không gradient, không claymorphism, không bóng 3D trang trí.
 
 ---
 
 ## 7. Components
 
-Mỗi thành phần là một hợp đồng giao diện chuẩn. Nội dung chữ hiển thị trong các thành phần bắt buộc tuân theo tài liệu `COPY.md`.
+Nội dung chữ trong component tuân theo `COPY.md`.
 
 ### Button & IconButton
 
-- **Phân loại biến thể:** `button-primary` (hành động chính), `button-secondary` (viền, hành động phụ), `button-ghost` (không viền, emphasis thấp), `button-danger` (hành động phá hủy dữ liệu).
-- **Quy chuẩn tương tác:** Trạng thái xử lý hiển thị con quay 16px tại chỗ, giữ nguyên kích thước nút, kèm `aria-busy="true"`. Icon button không chứa chữ bắt buộc có `aria-label`. Vùng chạm tối thiểu 44×44px. Hành động tại chỗ dùng `<button>`; điều hướng trang dùng `<a>`/`<Link>`.
+- Variants: `primary` (nền `accent`, chữ `on-accent`, viền `accent-edge`), `secondary` (nền `surface`, viền `line`), `ghost`, `danger`. Variants khai báo bằng `cva`.
+- Kích thước: `sm` 36px, `md` 44px, `lg` 48px; vùng chạm tối thiểu 44×44.
+- Loading: spinner 16px tại chỗ + `aria-busy`, giữ nguyên kích thước.
+- Icon button không chữ phải có `aria-label`. Focus ring 2px `focus` + offset 2px.
+- Điều hướng trang dùng `<a>`/`<Link>`; hành động tại chỗ dùng `<button>`.
 
-### TextField & SearchField
+### Segmented control
 
-- `text-field` cao 44px, viền `border`, bo góc `control`; `search-field` bo tròn hoàn toàn trên nền `surface-sunken`.
-- Nhãn hiển thị luôn hiện; thông báo lỗi xuất hiện ngay dưới ô nhập liệu với màu `danger`, liên kết qua `aria-invalid` và `aria-describedby`. Placeholder không thay thế nhãn.
+- Track: `surface-2`, bo `control`, padding 3px. Mục kích hoạt: `surface` + `shadow-card`, chữ `ink`; mục thường `ink-3`.
+- Dùng cho: bộ lọc hội thoại, tab Hoạt động (Tất cả · Lời mời kết bạn), tab Bạn bè (Tất cả · Gợi ý · Đã gửi), auth (Đăng nhập · Đăng ký).
+- Không dùng segmented để điều hướng trang; điều hướng trang dùng tab chữ + gạch chân accent 2px (`ptab`).
 
-### Chip
+### TextField, SearchField & TextArea
 
-- `chip-primary` (nhấn mạnh/kích hoạt, nền `primary-soft`), `chip-success` (trạng thái), `chip-neutral` (nằm trên ảnh), `chip-muted` (phụ trợ).
-- Chip hiển thị trạng thái hoặc phân loại, không đóng vai trò nút bấm chính.
+- `text-field` cao 44, viền `line`, bo `control`; focus: viền `accent` + ring `focus` 2px mờ.
+- `search-field` bo `full`, nền `surface-2`, cao 40, icon tìm kiếm trái.
+- Nhãn luôn hiển thị; lỗi ngay dưới ô với `danger` + `aria-invalid` + `aria-describedby`; placeholder không thay nhãn.
+
+### Chip & Badge
+
+- `chip-primary` (`accent-soft`/`accent-strong`) cho phân loại/kích hoạt; `chip-success` cho trạng thái.
+- Badge đếm: nền `accent`, chữ `on-accent`, viền màu nền 2px khi đè lên avatar/rail; `tabular-nums`; >99 hiển thị `99+`.
+- Status pill trực tuyến: `accent-soft` + chấm `success`.
 
 ### Dropdown, Select & DatePicker
 
-- Bảng chọn (`dropdown-panel`) xuất hiện/biến mất 120–200ms, đóng khi nhấn Escape hoặc click ngoài, hoàn trả tiêu điểm về nút kích hoạt.
-- Điều hướng bàn phím đầy đủ (mũi tên, Enter, Space, Escape); mục chọn hiện trạng thái kích hoạt bằng nền `primary-soft`.
+- Panel `dropdown-panel` (bo `card`, `shadow-float`), mở/đóng 150–200ms, Escape/click ngoài đóng, trả focus về trigger.
+- Mục chọn nền `accent-soft` + chữ `accent-strong`; keyboard nav đầy đủ (mũi tên, Enter, Space, Escape).
 
 ### Dialog & AlertDialog
 
-- Lớp phủ `dialog-overlay` tối 50%; hộp thoại khóa tiêu điểm bên trong (focus trap), đóng bằng Escape, hoàn trả tiêu điểm ban đầu.
-- Hộp thoại xác nhận hành động nguy hiểm đặt tiêu điểm mặc định vào hành động an toàn; nút xác nhận dùng `button-danger`.
+- Overlay `overlay` + `backdrop-blur-sm`; panel bo `dialog`, `shadow-float`, focus trap.
+- Mobile: dialog chuyển thành sheet toàn màn từ dưới, bo `dialog` cho 2 góc trên, có tay cầm kéo khi cần.
+- Dialog xác nhận phá hủy: tiêu đề hỏi trực diện (`Xóa {đối tượng}?`), nút xác nhận `danger`, focus mặc định vào hành động an toàn.
 
 ### Toast
 
-- Thông báo nổi trên `surface-elevated`, dùng `aria-live` phù hợp; không chặn tương tác nền; xếp lớp dưới cùng theo thang z-index.
+- `surface` + `line` + `shadow-float`, bo `card`, `aria-live`, không chặn tương tác, `--z-toast`.
 
 ### MessageBubble
 
-- Bong bóng người gửi: nền `message-sent`, chữ `on-primary`, bo góc `card` với góc dưới-phải 4px.
-- Bong bóng người nhận: nền `message-received`, chữ `text-primary`, bo góc `card` với góc dưới-trái 4px.
-- Siêu dữ liệu (giờ, trạng thái đã xem) dùng `caption` với `text-muted`; số chưa đọc dùng `tabular-nums`.
+- Gửi: nền `accent`, chữ `on-accent`, bo `card` với góc dưới-phải 5px.
+- Nhận: nền `surface-2`, chữ `ink`, bo `card` với góc dưới-trái 5px; hiển thị tên gửi `accent-strong` trong nhóm.
+- Reply preview: viền trái 2px cùng màu chữ, text ellipsis 1 dòng.
+- Siêu dữ liệu (giờ, đã xem) `caption` `ink-3`; tin nhắn liên tiếp của cùng người gửi ẩn avatar, giữ lề.
 
-### PostCard & Avatar
+### PostCard & Feed
 
-- Thẻ bài viết: nền `surface`, bo góc `card`, viền `border-default`; khoảng cách trong theo thang `xl`.
-- Avatar bo tròn hoàn toàn, có vòng trạng thái trực tuyến dùng `success`/`text-faint`; kích thước chuẩn 32/40/56px.
+- Card: `post-card` (bo `card`, viền `line`, `shadow-card`), header avatar + tên + thời gian + visibility, media grid 2 cột không gap với `line` làm nền.
+- Thanh tương tác: 3 action (Thích · Bình luận · Chia sẻ) phân cách trên bằng `line-soft`, hover nền `surface-2`.
+- Composer dạng giả input tròn `search-field` trên card; mở PostModal đầy đủ.
+
+### Rail & BottomNav
+
+- Rail 72px: logo tile 40 (bo `control`, nền `accent`, chữ `on-accent`), 4 nút nav 42×42 bo 14 (`surface` + viền `line`), mục kích hoạt: chữ `accent-strong` + ring `accent-soft` 3px; badge đếm trên nút. Đáy: Cài đặt + avatar (sheet khi bấm avatar).
+- BottomNav 56px: 4 mục `Tin nhắn · Nhật ký · Bạn bè · Hoạt động`, icon + nhãn `caption`, mục kích hoạt `accent-strong`, badge `accent`; safe-area đáy.
+- Avatar sheet (mobile) / menu (desktop): Hồ sơ · Cài đặt · Giao diện · Đăng xuất — sheet trượt từ dưới.
 
 ### Skeleton & Loading
 
-- Trạng thái chờ chỉ hiển thị sau ngưỡng 150ms và giữ tối thiểu 300ms khi đã xuất hiện.
-- Khung xương mô phỏng chính xác lưới, tỷ lệ và số lượng phần tử nội dung thực; không dùng con quay thay thế cho toàn trang danh sách.
-
-### BottomNav & Sidebar
-
-- Bottom Navigation cao 56px, tối đa 5 mục, nền `surface`, viền trên `border`, bảo đảm safe-area đáy; mục kích hoạt dùng `primary-soft` + `primary-strong`.
-- Sidebar desktop rộng 264px; mục điều hướng icon + nhãn; trạng thái kích hoạt dùng `primary-soft`; huy hiệu số dùng `chip-primary` với `tabular-nums`.
+- Chỉ hiển thị sau 150ms, giữ tối thiểu 300ms; mô phỏng đúng lưới thật của màn (panel, avatar, 2 dòng chữ); không spinner toàn trang cho danh sách.
 
 ---
 
 ## 8. Do's and Don'ts
 
-Bảng đối chiếu nguyên tắc đúng và sai trong toàn bộ hệ thống:
-
-| Do                                                                              | Don't                                                                                |
-| :------------------------------------------------------------------------------ | :----------------------------------------------------------------------------------- |
-| Tham chiếu mọi màu và khoảng cách qua Design Token.                             | Không viết mã màu trực tiếp (hex/rgba) hoặc số đo tùy tiện trong mã nguồn component. |
-| Dùng nền `primary` kết hợp chữ `on-primary` tối cho nút chính và bubble gửi.    | Không dùng chữ trắng trên nền primary.                                               |
-| Duy trì `primary` là màu nhấn duy nhất trên toàn giao diện.                     | Không thêm màu nhấn thứ hai hay gradient blue làm trang trí.                         |
-| Dùng `primary-strong` cho liên kết văn bản.                                     | Không dùng `primary` làm màu chữ liên kết trên nền đọc.                              |
-| Duy trì viền focus rõ ràng (2px, màu `focus`) cho tiếp cận bàn phím.            | Không tắt outline focus hoặc chỉ dựa vào hiệu ứng hover.                             |
-| Hiển thị nhãn form luôn hiện; lỗi ngay dưới ô nhập.                             | Không dùng placeholder thay nhãn; không gom lỗi về đầu form.                         |
-| Giữ vùng chạm tối thiểu 44×44px cho mọi điều khiển.                             | Không dùng điều khiển icon-only thiếu `aria-label`.                                  |
-| Chuyển trạng thái với thời lượng 150–300ms; tôn trọng `prefers-reduced-motion`. | Không đổi trạng thái tức thời (0ms) hay chạy hiệu ứng bắt buộc.                      |
-| Dùng bo góc theo thang chuẩn (`control` 8, `card` 12, `dialog` 16, `full`).     | Không dùng giá trị bo góc ngoài bảng hay trộn dáng claymorphism/3D.                  |
-| Khung xương tải mô phỏng đúng bố cục nội dung.                                  | Không hiển thị phần trăm giả lập hay con quay toàn trang thay cho danh sách.         |
-| Cho phép thu phóng trình duyệt tự nhiên.                                        | Không vô hiệu hóa zoom (`maximum-scale=1`, `user-scalable=0`).                       |
-| Đồng bộ trạng thái bộ lọc và tab hiển thị lên URL tham số.                      | Không ẩn trạng thái xem trong bộ nhớ cục bộ của component riêng lẻ.                  |
+| Do                                                                                    | Don't                                                                                          |
+| :------------------------------------------------------------------------------------ | :--------------------------------------------------------------------------------------------- |
+| Mọi màu/khoảng cách/bo góc qua token; component dùng `cva` cho variants.              | Không hex/rgba trực tiếp trong component; không class không tồn tại.                           |
+| Nền `accent` đi với chữ `on-accent` tối (nút chính, badge, bubble gửi).               | Không chữ trắng trên `#4C9EEB`; không gradient.                                                |
+| `accent` là hue duy nhất; trạng thái chỉ dùng token success/warning/danger/info.      | Không thêm accent thứ hai; không dùng màu trạng thái trang trí.                                |
+| Liên kết văn bản = `accent-strong`.                                                   | Không dùng `accent` làm màu chữ liên kết trên nền đọc.                                         |
+| Panel lồng nhau: surface trên canvas, bo 16, viền 1px, bóng nhẹ.                     | Không đổ khối màu đậm làm panel; không bo 0px cho card.                                        |
+| Focus ring 2px `focus` cho mọi control; aria-label cho icon button; touch ≥44px.      | Không tắt outline; không icon-only thiếu nhãn.                                                 |
+| Nhãn form luôn hiển thị; lỗi ngay dưới ô nhập.                                       | Không placeholder thay nhãn; không gom lỗi về đầu form.                                        |
+| Micro motion 150–200ms; stagger ≤300ms; `prefers-reduced-motion` tắt toàn bộ.         | Không đổi trạng thái 0ms; không animation bắt buộc khi user giảm chuyển động.                  |
+| Số đếm/giờ `tabular-nums`; danh sách dài virtualize/giới hạn số lượng render.         | Không số nhảy hàng; không render toàn bộ lịch sử tin nhắn cùng lúc.                            |
+| Bộ lọc/tab hiển thị đồng bộ URL tham số (deep link).                                  | Không giữ trạng thái xem trong state component riêng lẻ.                                       |
+| `scroll-hide` cho vùng cuộn không cần scrollbar; scrollbar mỏng 6px nơi cần.          | Không để scrollbar mặc định thô trong panel.                                                   |

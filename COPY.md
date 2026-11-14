@@ -90,6 +90,14 @@ Giọng điệu tổng thể duy trì tính chuyên nghiệp, điềm đạm và
 - Cung cấp thông tin theo từng bước logic; không dồn nhiều khái niệm mới vào cùng một màn hình.
 - Mỗi bước hướng dẫn chỉ tập trung vào một hành động then chốt.
 
+### 3.9. Nhãn điều hướng (Navigation Labels — IA Nested Canvas)
+
+- **Rail desktop & tab bar mobile (4 mục, thứ tự cố định):** `Tin nhắn` · `Nhật ký` · `Bạn bè` · `Hoạt động`. Không dùng "Thông báo" — mặt gộp thông báo + lời mời mang tên `Hoạt động`.
+- **Menu/sheet tài khoản (bấm avatar):** `Hồ sơ` · `Cài đặt` · `Giao diện` · `Đăng xuất`.
+- **Bộ lọc trang Hoạt động:** `Tất cả` · `Lời mời kết bạn`.
+- **Bộ lọc trang Bạn bè:** `Tất cả` · `Gợi ý` · `Đã gửi`; nút mở lời mời mang nhãn `Lời mời`, nút thêm bạn mang nhãn `Thêm bạn`.
+- **Nút đọc nhanh trên card:** `Đọc tất cả` (đánh dấu tất cả thông báo đã đọc).
+
 ---
 
 ## 4. Quy chuẩn hành văn & Cấu trúc ngữ pháp (Grammar & Style)

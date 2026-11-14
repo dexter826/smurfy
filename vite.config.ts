@@ -30,7 +30,7 @@ export default defineConfig(({ mode }) => {
             short_name: 'Smurfy',
             description: 'Mạng xã hội kết nối cộng đồng Smurfy',
             theme_color: '#4C9EEB',
-            background_color: '#f7f9fc',
+            background_color: '#EDF1F6',
             display: 'standalone',
             start_url: '/',
             icons: [
@@ -107,7 +107,6 @@ export default defineConfig(({ mode }) => {
                 if (id.includes('react-easy-crop')) return 'vendor-media';
                 if (id.includes('lucide-react')) return 'vendor-icons';
                 if (id.includes('date-fns') || id.includes('react-loading-skeleton')) return 'vendor-ui';
-                if (id.includes('lottie-react')) return 'vendor-lottie';
               }
               if (id.includes('/src/services/') || id.includes('/src/store/')) return 'app-core';
             }

@@ -32,9 +32,37 @@ export const ConversationHeader: React.FC<ConversationHeaderProps> = ({
   archivedCount,
   onMarkAllRead,
 }) => (
-  <div className="flex-shrink-0 px-3 h-16 flex items-center border-b border-border gap-1.5 bg-surface">
-    {/* Search Input */}
-    <div className="flex items-center gap-1.5 flex-1 min-w-0">
+  <div className="flex-shrink-0 px-3 pt-3 pb-2 border-b border-line-soft bg-surface">
+    {!isSearchFocused && !searchTerm && (
+      /* Title Row */
+      <div className="flex items-center justify-between h-10 mb-2">
+        <h2 className="text-xl font-bold text-ink">Tin nhắn</h2>
+        <div className="flex items-center gap-0.5">
+          {onNewGroup && (
+            <IconButton
+              onClick={onNewGroup}
+              variant="primary"
+              size="sm"
+              icon={<Users size={18} />}
+              title="Tạo nhóm mới"
+              aria-label="Tạo nhóm mới"
+            />
+          )}
+
+          <IconButton
+            onClick={() => onViewModeChange?.(viewMode === 'archived' ? 'normal' : 'archived')}
+            icon={<Archive size={18} />}
+            variant="ghost"
+            title={viewMode === 'archived' ? 'Quay lại tin nhắn' : 'Tin nhắn đã lưu trữ'}
+            aria-label={viewMode === 'archived' ? 'Quay lại tin nhắn' : 'Tin nhắn đã lưu trữ'}
+            className={viewMode === 'archived' ? 'text-accent-strong bg-accent-soft' : 'text-ink-2'}
+          />
+        </div>
+      </div>
+    )}
+
+    {/* Search Pill */}
+    <div className="flex items-center gap-1.5">
       <div className="relative flex-1 flex items-center">
         <Input
           icon={<Search size={15} />}
@@ -42,7 +70,7 @@ export const ConversationHeader: React.FC<ConversationHeaderProps> = ({
           value={searchTerm}
           onChange={onSearchChange}
           onFocus={() => onSearchFocus(true)}
-          className="bg-background text-sm"
+          className="h-10 bg-surface-2 border-line-soft rounded-full text-sm"
           containerClassName="flex-1"
         />
         {searchTerm && (
@@ -51,6 +79,7 @@ export const ConversationHeader: React.FC<ConversationHeaderProps> = ({
             className="absolute right-2"
             icon={<X size={14} />}
             size="sm"
+            aria-label="Xoá tìm kiếm"
           />
         )}
       </div>
@@ -59,35 +88,11 @@ export const ConversationHeader: React.FC<ConversationHeaderProps> = ({
           onClick={onCancelSearch}
           variant="ghost"
           size="sm"
-          className="text-primary flex-shrink-0 font-semibold"
+          className="text-accent-strong flex-shrink-0 font-semibold"
         >
           Hủy
         </Button>
       )}
     </div>
-
-    {/* Action Buttons */}
-    {!isSearchFocused && !searchTerm && (
-      <div className="flex items-center gap-0.5 flex-shrink-0">
-        {onNewGroup && (
-          <IconButton
-            onClick={onNewGroup}
-            variant="ghost"
-            size="md"
-            icon={<Users size={19} />}
-            title="Tạo nhóm mới"
-            className="text-primary"
-          />
-        )}
-
-        <IconButton
-          onClick={() => onViewModeChange?.(viewMode === 'archived' ? 'normal' : 'archived')}
-          icon={<Archive size={19} />}
-          variant="ghost"
-          title={viewMode === 'archived' ? 'Quay lại tin nhắn' : 'Tin nhắn đã lưu trữ'}
-          className={viewMode === 'archived' ? 'text-primary bg-primary/10' : 'text-secondary'}
-        />
-      </div>
-    )}
   </div>
 );

@@ -34,15 +34,15 @@ export const MessageStatus: React.FC<MessageStatusProps> = ({
           ))}
         </div>
         {readers.length > 3 && (
-          <span className="text-[10px] text-muted font-semibold ml-0.5">+{readers.length - 3}</span>
+          <span className="text-[10px] text-ink-3 font-semibold ml-0.5">+{readers.length - 3}</span>
         )}
       </div>
     );
   }
 
   if (isDelivered) {
-    return <CheckCheck size={13} strokeWidth={2.5} className="text-muted" />;
+    return <CheckCheck size={13} strokeWidth={2.5} className="text-ink-3" />;
   }
 
-  return <Check size={13} strokeWidth={2.5} className="text-muted" />;
+  return <Check size={13} strokeWidth={2.5} className="text-ink-3" />;
 };

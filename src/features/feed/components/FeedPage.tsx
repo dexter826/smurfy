@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react';
-import { StickyNote, Sparkles } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { StickyNote, Bell, ChevronRight } from 'lucide-react';
 import {
   PostItem,
   PostModal,
@@ -10,12 +11,15 @@ import {
 } from '../components/feed';
 
 import { useAuthStore } from '@/features/auth';
+import { useNotificationStore } from '@/features/notification';
+import { useContactStore } from '@/features/friend';
 import { useSharePostStore } from '@/store';
 import { useLoadingStore } from '@/store/loadingStore';
 import { Visibility, MediaObject, Post } from '@shared/types';
 import { useFeed, usePostNavigation } from '@/hooks';
 import { AlertDialog, EmptyState } from '@/components/ui';
 import { useFriendIds } from '@/hooks/utils';
+import { useMediaQuery } from '@/hooks/utils/useMediaQuery';
 import { CONFIRM_MESSAGES } from '@/constants';
 
 const FeedPage: React.FC = () => {
@@ -34,6 +38,11 @@ const FeedPage: React.FC = () => {
   const isLoadingMore = useLoadingStore((state) => state.loadingStates['feed.loadMore']);
   const { viewPost } = usePostNavigation();
   const openSharePost = useSharePostStore((state) => state.openSharePost);
+  const navigate = useNavigate();
+  const isLarge = useMediaQuery('(min-width: 1280px)');
+  const unreadNotifications = useNotificationStore((state) => state.unreadCount);
+  const requestCount = useContactStore((state) => state.receivedRequests.length);
+  const activityBadge = unreadNotifications + requestCount;
 
   const [showEditModal, setShowEditModal] = useState<string | null>(null);
   const [postToDelete, setPostToDelete] = useState<string | null>(null);
@@ -63,7 +72,7 @@ const FeedPage: React.FC = () => {
   if (!currentUser) {
     return (
       <div className="h-full flex items-center justify-center">
-        <p className="text-secondary">Vui lòng đăng nhập</p>
+        <p className="text-ink-2">Vui lòng đăng nhập</p>
       </div>
     );
   }
@@ -77,69 +86,102 @@ const FeedPage: React.FC = () => {
       className="flex justify-center h-full w-full overflow-y-auto transition-theme scroll-smooth"
       id="feed-container"
     >
-      <div className="w-full max-w-[680px] py-4 md:py-6 px-3 sm:px-4 md:px-0 pb-20 md:pb-24">
-        <CreatePost currentUser={currentUser} />
+      <div className="flex w-full justify-center gap-4 py-4 md:py-6 px-3 sm:px-4 md:px-0 pb-20 md:pb-24">
+        {/* Cột đọc ≤640 */}
+        <div className="w-full max-w-[640px] min-w-0">
+          <CreatePost currentUser={currentUser} />
 
-        <BirthdayWidget />
+          {/* Mobile: widget gập sau composer, tự ẩn khi không có dữ liệu */}
+          {!isLarge && (
+            <>
+              <BirthdayWidget />
+              <FriendSuggestionsWidget />
+            </>
+          )}
 
-        <FriendSuggestionsWidget />
-
-        {posts.length === 0 ? (
-          <>
-            <EmptyState
-              icon={StickyNote}
-              title="Chưa có bài viết nào"
-              description="Hãy kết nối với bạn bè hoặc chia sẻ khoảnh khắc đầu tiên của bạn!"
-              variant="boxed"
-              size="lg"
-              className="mt-4"
-            />
-            <div className="h-12 w-full flex-shrink-0" />
-          </>
-        ) : (
-          <>
-            <div className="space-y-3 md:space-y-4">
-              {posts.map((post, index) => {
-                const author = usersMap[post.authorId];
-                if (!author) return <PostItem.Skeleton key={post.id} />;
-                return (
-                  <div
-                    key={post.id}
-                    className="animate-fade-in-up motion-reduce:animate-none"
-                    style={{ animationDelay: `${Math.min(index * 60, 300)}ms` }}
-                  >
-                    <PostItem
-                      post={post}
-                      author={author}
-                      currentUser={currentUser}
-                      onReact={handleReact}
-                      onEdit={setShowEditModal}
-                      onDelete={setPostToDelete}
-                      onViewDetail={viewPost}
-                      onShare={handleOpenShareModal}
-                    />
-                  </div>
-                );
-              })}
-            </div>
-
-            <div ref={observerRef} className="h-4 w-full" />
-
-            {isLoadingMore && hasMore && (
-              <div className="space-y-4 mt-4">
-                {[...Array(2)].map((_, i) => (
-                  <PostItem.Skeleton key={`more-${i}`} />
-                ))}
+          {posts.length === 0 ? (
+            <>
+              <EmptyState
+                icon={StickyNote}
+                title="Chưa có bài viết nào"
+                description="Hãy kết nối với bạn bè hoặc chia sẻ khoảnh khắc đầu tiên của bạn!"
+                variant="boxed"
+                size="lg"
+                className="mt-4"
+              />
+              <div className="h-12 w-full flex-shrink-0" />
+            </>
+          ) : (
+            <>
+              <div className="space-y-3 md:space-y-4">
+                {posts.map((post, index) => {
+                  const author = usersMap[post.authorId];
+                  if (!author) return <PostItem.Skeleton key={post.id} />;
+                  return (
+                    <div
+                      key={post.id}
+                      className="animate-fade-in-up motion-reduce:animate-none"
+                      style={{ animationDelay: `${Math.min(index * 60, 300)}ms` }}
+                    >
+                      <PostItem
+                        post={post}
+                        author={author}
+                        currentUser={currentUser}
+                        onReact={handleReact}
+                        onEdit={setShowEditModal}
+                        onDelete={setPostToDelete}
+                        onViewDetail={viewPost}
+                        onShare={handleOpenShareModal}
+                      />
+                    </div>
+                  );
+                })}
               </div>
-            )}
 
-            {!hasMore && posts.length > 0 && (
-              <div className="flex items-center justify-center gap-2 py-8">
-                <p className="text-muted text-sm font-medium">Bạn đã xem hết bài viết.</p>
-              </div>
-            )}
-            <div className="h-12 w-full flex-shrink-0" />
-          </>
+              <div ref={observerRef} className="h-4 w-full" />
+
+              {isLoadingMore && hasMore && (
+                <div className="space-y-4 mt-4">
+                  {[...Array(2)].map((_, i) => (
+                    <PostItem.Skeleton key={`more-${i}`} />
+                  ))}
+                </div>
+              )}
+
+              {!hasMore && posts.length > 0 && (
+                <div className="flex items-center justify-center gap-2 py-8">
+                  <p className="text-ink-3 text-sm font-medium">Bạn đã xem hết bài viết.</p>
+                </div>
+              )}
+              <div className="h-12 w-full flex-shrink-0" />
+            </>
+          )}
+        </div>
+
+        {/* Rail phải 320 (desktop) */}
+        {isLarge && (
+          <aside className="w-[320px] flex-shrink-0 flex flex-col gap-4">
+            <BirthdayWidget />
+            <FriendSuggestionsWidget />
+            <button
+              onClick={() => navigate('/activity')}
+              className="w-full bg-surface rounded-card border border-line shadow-card p-4 flex items-center gap-3 hover:bg-surface-2 transition-colors text-left"
+            >
+              <span className="w-10 h-10 rounded-full bg-accent-soft flex items-center justify-center flex-shrink-0">
+                <Bell size={18} className="text-accent-strong" />
+              </span>
+              <span className="flex-1 min-w-0">
+                <span className="block text-sm font-semibold text-ink">Hoạt động của bạn</span>
+                <span className="block text-xs text-ink-3">Thông báo và lời mời kết bạn</span>
+              </span>
+              {activityBadge > 0 && (
+                <span className="bg-accent text-on-accent text-[10px] font-bold min-w-[20px] h-5 px-1.5 rounded-full flex items-center justify-center tnum">
+                  {activityBadge > 99 ? '99+' : activityBadge}
+                </span>
+              )}
+              <ChevronRight size={16} className="text-ink-3 flex-shrink-0" />
+            </button>
+          </aside>
         )}
       </div>
 

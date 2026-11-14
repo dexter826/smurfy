@@ -25,12 +25,12 @@ export const ProfileMediaPreview: React.FC<ProfileMediaPreviewProps> = ({
   );
 
   return (
-    <div className="bg-surface rounded-2xl border border-border p-4 hidden md:block">
+    <div className="bg-surface rounded-card border border-line p-4 hidden md:block">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="font-semibold text-base text-foreground">Ảnh</h3>
+        <h3 className="font-semibold text-base text-ink">Ảnh</h3>
         <button
           onClick={onSeeAll}
-          className="text-xs text-primary font-semibold hover:underline transition-colors"
+          className="text-xs text-accent-strong font-semibold hover:underline transition-colors"
         >
           Xem tất cả
         </button>
@@ -41,7 +41,7 @@ export const ProfileMediaPreview: React.FC<ProfileMediaPreviewProps> = ({
           {media.map((item, idx) => (
             <div
               key={idx}
-              className="aspect-square rounded-xl overflow-hidden bg-background cursor-pointer group"
+              className="aspect-square rounded-control overflow-hidden bg-surface-2 cursor-pointer group"
               onClick={() => setSelectedIndex(idx)}
             >
               <img

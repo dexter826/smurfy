@@ -119,18 +119,18 @@ const OnboardingPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-[100dvh] bg-background selection:bg-primary/20 flex flex-col">
-      <header className="h-14 flex-shrink-0 bg-surface border-b border-default flex items-center px-4 gap-3">
+    <div className="min-h-[100dvh] bg-canvas selection:bg-accent/20 flex flex-col">
+      <header className="h-14 flex-shrink-0 bg-surface border-b border-line flex items-center px-4 gap-3">
         <img src="/logo.svg" alt="Smurfy" className="h-8 w-8 object-contain" />
-        <span className="font-display font-extrabold text-foreground">Smurfy</span>
+        <span className="font-display font-extrabold text-ink">Smurfy</span>
       </header>
 
       <main className="flex-1 overflow-y-auto flex flex-col animate-fade-in">
         <div className="w-full max-w-[480px] mx-auto flex flex-col flex-1 p-6">
           {/* Header */}
           <div className="mb-8 flex-shrink-0">
-            <h1 className="text-2xl font-bold text-foreground mb-1">Chào mừng bạn!</h1>
-            <p className="text-sm text-secondary leading-relaxed">
+            <h1 className="text-2xl font-bold text-ink mb-1">Chào mừng bạn!</h1>
+            <p className="text-sm text-ink-2 leading-relaxed">
               Cập nhật nơi ở và sở thích của bạn.
             </p>
           </div>
@@ -155,10 +155,8 @@ const OnboardingPage: React.FC = () => {
                 {/* Input Field */}
                 <div className="space-y-3">
                   <div className="flex items-center justify-between px-1">
-                    <label className="text-sm font-semibold text-foreground">
-                      Sở thích của bạn
-                    </label>
-                    <span className="text-caption font-bold text-muted bg-background px-2 py-0.5 rounded-full border border-border">
+                    <label className="text-sm font-semibold text-ink">Sở thích của bạn</label>
+                    <span className="text-caption font-bold text-ink-3 bg-surface-2 px-2 py-0.5 rounded-full border border-line">
                       {formData.interests?.length ?? 0}/{VALIDATION.INTEREST_MAX_COUNT}
                     </span>
                   </div>
@@ -168,13 +166,13 @@ const OnboardingPage: React.FC = () => {
                     onKeyDown={handleInterestInput}
                     placeholder="Âm nhạc, Du lịch, Gaming..."
                     error={errors.interests?.message}
-                    rightElement={<Sparkles size={18} className="text-muted" />}
+                    rightElement={<Sparkles size={18} className="text-ink-3" />}
                   />
                 </div>
 
                 {/* Suggestions Cloud */}
                 <div className="space-y-3">
-                  <p className="text-caption font-bold text-muted uppercase tracking-wider ml-1">
+                  <p className="text-caption font-bold text-ink-3 uppercase tracking-wider ml-1">
                     Gợi ý cho bạn
                   </p>
                   <div className="flex flex-wrap gap-2">
@@ -188,8 +186,8 @@ const OnboardingPage: React.FC = () => {
                           className={`px-3 py-1.5 rounded-full text-caption font-semibold border transition-all
                             ${
                               (formData.interests?.length ?? 0) >= VALIDATION.INTEREST_MAX_COUNT
-                                ? 'border-border bg-background text-muted cursor-pointer'
-                                : 'border-border bg-surface text-secondary hover:border-primary hover:text-primary hover:bg-primary-soft'
+                                ? 'border-line bg-surface-2 text-ink-3 cursor-pointer'
+                                : 'border-line bg-surface text-ink-2 hover:border-accent hover:text-accent-strong hover:bg-accent-soft'
                             }`}
                         >
                           + {tag}
@@ -200,17 +198,18 @@ const OnboardingPage: React.FC = () => {
 
                 {/* Selected Tags Display */}
                 {formData.interests && formData.interests.length > 0 && (
-                  <div className="flex flex-wrap gap-2 pt-2 border-t border-dashed border-border animate-fade-in">
+                  <div className="flex flex-wrap gap-2 pt-2 border-t border-dashed border-line animate-fade-in">
                     {formData.interests.map((tag) => (
                       <span
                         key={tag}
-                        className="inline-flex items-center gap-2 px-3 py-2 rounded-full text-caption font-bold bg-primary text-on-primary animate-fade-in"
+                        className="inline-flex items-center gap-2 px-3 py-2 rounded-full text-caption font-bold bg-accent-soft text-accent-strong animate-fade-in"
                       >
                         {tag}
                         <button
                           type="button"
                           onClick={() => handleRemoveInterest(tag)}
-                          className="hover:bg-white/20 rounded-full p-0.5 transition-colors"
+                          aria-label={`Xoá sở thích ${tag}`}
+                          className="hover:bg-accent/10 rounded-full p-0.5 transition-colors"
                         >
                           <X size={12} strokeWidth={3} />
                         </button>
@@ -223,7 +222,7 @@ const OnboardingPage: React.FC = () => {
           </div>
 
           {/* Footer - Sticky/Fixed */}
-          <div className="mt-auto pt-6 border-t border-border bg-surface flex-shrink-0">
+          <div className="mt-auto pt-6 border-t border-line bg-surface flex-shrink-0">
             <div className="space-y-4">
               <Button
                 fullWidth
@@ -240,7 +239,7 @@ const OnboardingPage: React.FC = () => {
                   type="button"
                   onClick={handleSkip}
                   disabled={isSubmitting}
-                  className="group flex items-center gap-2 text-xs font-bold text-muted hover:text-primary transition-all py-1"
+                  className="group flex items-center gap-2 text-xs font-bold text-ink-3 hover:text-accent-strong transition-all py-1"
                 >
                   BỎ QUA BƯỚC NÀY
                   <SkipForward

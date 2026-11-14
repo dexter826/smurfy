@@ -24,17 +24,15 @@ export const DropdownItem: React.FC<DropdownItemProps> = ({
     onSelect={onClick}
     className={cn(
       'flex w-full cursor-pointer select-none items-center gap-3 px-4 py-2.5 text-left text-sm font-medium outline-none',
-      'transition-colors duration-fast data-[highlighted]:bg-hover data-[highlighted]:text-foreground',
+      'transition-colors duration-fast data-[highlighted]:bg-surface-2 data-[highlighted]:text-ink',
       variant === 'danger'
         ? 'text-danger data-[highlighted]:bg-danger-soft data-[highlighted]:text-danger'
-        : 'text-foreground',
+        : 'text-ink',
       className,
     )}
   >
     {icon && (
-      <span
-        className={cn('flex-shrink-0', variant === 'danger' ? 'text-danger' : 'text-secondary')}
-      >
+      <span className={cn('flex-shrink-0', variant === 'danger' ? 'text-danger' : 'text-ink-2')}>
         {icon}
       </span>
     )}
@@ -43,7 +41,7 @@ export const DropdownItem: React.FC<DropdownItemProps> = ({
 );
 
 export const DropdownSeparator: React.FC<{ className?: string }> = ({ className = '' }) => (
-  <DropdownMenuPrimitive.Separator className={cn('h-px bg-border-default', className)} />
+  <DropdownMenuPrimitive.Separator className={cn('h-px bg-line-soft', className)} />
 );
 
 interface DropdownProps {
@@ -79,8 +77,8 @@ export const Dropdown: React.FC<DropdownProps> = ({
         sideOffset={sideOffset}
         collisionPadding={12}
         className={cn(
-          'z-popover min-w-[180px] max-w-[calc(100vw-24px)] rounded-md border border-border',
-          'bg-surface-elevated shadow-dropdown overflow-hidden animate-fade-in outline-none',
+          'z-popover min-w-[180px] max-w-[calc(100vw-24px)] rounded-card border border-line',
+          'bg-surface shadow-float overflow-hidden animate-fade-in outline-none',
           menuClassName,
         )}
         style={

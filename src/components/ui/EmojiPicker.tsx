@@ -94,7 +94,7 @@ export const EmojiPicker: React.FC<EmojiPickerProps> = ({
                 right: isMobile ? 0 : window.innerWidth - coords.right > 350 ? coords.right : 16,
               }}
             >
-              <div className="w-full md:w-auto shadow-dropdown rounded-t-2xl md:rounded-xl overflow-hidden bg-surface border border-border pb-safe md:pb-0 animate-fade-in">
+              <div className="w-full md:w-auto shadow-float rounded-t-dialog md:rounded-card overflow-hidden bg-surface border border-line pb-safe md:pb-0 animate-fade-in">
                 <EmojiPickerReact
                   onEmojiClick={(data: EmojiClickData) => onEmojiSelect(data.emoji)}
                   autoFocusSearch={false}

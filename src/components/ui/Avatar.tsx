@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo } from 'react';
-import { getInitials, getAvatarGradient } from '@/utils';
+import { getInitials, getAvatarColor } from '@/utils';
 import { User, MediaObject } from '@shared/types';
 import { usePresence } from '@/features/presence';
 import { useAuthStore } from '@/features/auth';
@@ -57,7 +57,7 @@ const MemberTile: React.FC<{ member: User; isOverflow: boolean; overflowCount: n
     return (
       <div
         aria-hidden="true"
-        className="w-full h-full flex items-center justify-center bg-hover text-[8px] font-bold text-foreground"
+        className="w-full h-full flex items-center justify-center bg-surface-2 text-[8px] font-bold text-ink"
       >
         +{overflowCount}
       </div>
@@ -78,8 +78,8 @@ const MemberTile: React.FC<{ member: User; isOverflow: boolean; overflowCount: n
   return (
     <div
       aria-hidden="true"
-      className="w-full h-full flex items-center justify-center text-[8px] font-bold text-on-primary uppercase"
-      style={{ background: getAvatarGradient(member.fullName || member.id) }}
+      className="w-full h-full flex items-center justify-center text-[8px] font-bold text-on-accent uppercase"
+      style={{ background: getAvatarColor(member.fullName || member.id) }}
     >
       {getInitials(member.fullName).substring(0, 1)}
     </div>
@@ -125,7 +125,7 @@ const AvatarInner: React.FC<AvatarProps> = ({
           {displayMembers.map((member, idx) => (
             <div
               key={member.id || idx}
-              className={`absolute rounded-full overflow-hidden border-2 border-surface bg-background flex items-center justify-center ${positions[idx]}`}
+              className={`absolute rounded-full overflow-hidden border-2 border-surface bg-canvas flex items-center justify-center ${positions[idx]}`}
             >
               <MemberTile
                 member={member}
@@ -140,8 +140,8 @@ const AvatarInner: React.FC<AvatarProps> = ({
 
     return (
       <div
-        className="w-full h-full flex items-center justify-center font-bold text-on-primary uppercase leading-none"
-        style={{ background: getAvatarGradient(name || '?') }}
+        className="w-full h-full flex items-center justify-center font-bold text-on-accent uppercase leading-none"
+        style={{ background: getAvatarColor(name || '?') }}
       >
         {getInitials(name || '?')}
       </div>
@@ -157,8 +157,8 @@ const AvatarInner: React.FC<AvatarProps> = ({
         className={`
         w-full h-full relative rounded-full flex items-center justify-center
         ${!isCompositeGrid ? 'overflow-hidden' : ''}
-        ${!isGroup ? 'bg-background' : 'bg-transparent'}
-        ${size !== '2xs' && !isGroup && showBorder ? 'border border-border' : ''}
+        ${!isGroup ? 'bg-canvas' : 'bg-transparent'}
+        ${size !== '2xs' && !isGroup && showBorder ? 'border border-line' : ''}
       `}
       >
         {renderContent()}

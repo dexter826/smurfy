@@ -4,7 +4,8 @@ import { useState, useEffect } from 'react';
  * Kiểm tra media query
  */
 export const useMediaQuery = (query: string): boolean => {
-  const [matches, setMatches] = useState(false);
+  // Khởi tạo đồng bộ từ matchMedia để tránh nháy layout sai ở lần render đầu
+  const [matches, setMatches] = useState(() => window.matchMedia(query).matches);
 
   useEffect(() => {
     const media = window.matchMedia(query);
@@ -12,8 +13,8 @@ export const useMediaQuery = (query: string): boolean => {
       setMatches(media.matches);
     }
     const listener = () => setMatches(media.matches);
-    window.addEventListener('resize', listener);
-    return () => window.removeEventListener('resize', listener);
+    media.addEventListener('change', listener);
+    return () => media.removeEventListener('change', listener);
   }, [matches, query]);
 
   return matches;

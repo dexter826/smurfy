@@ -156,13 +156,13 @@ const SettingsPage: React.FC = () => {
   return (
     <div className="flex h-full w-full overflow-hidden">
       {/* ── Desktop sidebar ── */}
-      <aside className="hidden md:flex flex-col w-[280px] lg:w-[320px] border-r border-border bg-surface flex-shrink-0">
-        <div className="h-16 px-5 border-b border-border flex items-center">
+      <aside className="hidden md:flex flex-col w-[280px] lg:w-[320px] border-r border-line bg-surface flex-shrink-0">
+        <div className="h-16 px-5 border-b border-line flex items-center">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 bg-primary text-on-primary rounded-xl flex items-center justify-center shadow-xs flex-shrink-0">
+            <div className="w-8 h-8 bg-accent text-on-accent rounded-control flex items-center justify-center shadow-xs flex-shrink-0">
               <Settings size={16} />
             </div>
-            <h1 className="text-base font-semibold text-foreground">Cài đặt</h1>
+            <h1 className="text-base font-semibold text-ink">Cài đặt</h1>
           </div>
         </div>
 
@@ -171,15 +171,15 @@ const SettingsPage: React.FC = () => {
             <button
               key={id}
               onClick={() => setActiveSection(id)}
-              className={`w-full flex items-center gap-3 px-3 py-2.5 min-h-[44px] rounded-xl transition-all duration-200 text-sm font-medium text-left
+              className={`w-full flex items-center gap-3 px-3 py-2.5 min-h-[44px] rounded-control transition-all duration-200 text-sm font-medium text-left
                 ${
                   activeSection === id
-                    ? 'bg-primary/10 text-primary font-semibold'
-                    : 'text-secondary hover:bg-hover hover:text-foreground active:bg-active'
+                    ? 'bg-accent-soft text-accent-strong font-semibold'
+                    : 'text-ink-2 hover:bg-surface-2 hover:text-ink active:bg-surface-3'
                 }`}
             >
               <span
-                className={`flex-shrink-0 ${activeSection === id ? 'text-primary' : 'text-muted'}`}
+                className={`flex-shrink-0 ${activeSection === id ? 'text-accent-strong' : 'text-ink-3'}`}
               >
                 {icon}
               </span>
@@ -193,43 +193,43 @@ const SettingsPage: React.FC = () => {
       <div className="flex-1 flex-col h-full min-w-0 flex">
         {/* Header */}
         <div
-          className="flex-shrink-0 h-16 px-4 border-b border-border bg-surface flex items-center gap-2 sticky top-0"
+          className="flex-shrink-0 h-16 px-4 border-b border-line bg-surface flex items-center gap-2 sticky top-0"
           style={{ zIndex: 'var(--z-sticky)' }}
         >
           {activeSection && (
             <button
               onClick={() => setActiveSection(null)}
-              className="md:hidden w-9 h-9 flex items-center justify-center rounded-xl hover:bg-hover text-secondary transition-colors duration-200 -ml-1 flex-shrink-0"
+              className="md:hidden w-9 h-9 flex items-center justify-center rounded-control hover:bg-surface-2 text-ink-2 transition-colors duration-200 -ml-1 flex-shrink-0"
             >
               <ChevronLeft size={20} />
             </button>
           )}
-          <h2 className="text-sm font-semibold text-foreground">{currentLabel}</h2>
+          <h2 className="text-sm font-semibold text-ink">{currentLabel}</h2>
         </div>
 
         <div className="flex-1 overflow-y-auto scroll-hide">
           {/* Mobile menu list */}
           {!activeSection && (
             <div className="p-4 space-y-2 animate-fade-in md:hidden">
-              <p className="px-1 pb-1 text-xs font-semibold text-muted uppercase tracking-widest">
+              <p className="px-1 pb-1 text-xs font-semibold text-ink-3 uppercase tracking-widest">
                 Danh mục cài đặt
               </p>
               {MENU_ITEMS.map(({ id, label, icon, desc }) => (
                 <button
                   key={id}
                   onClick={() => setActiveSection(id)}
-                  className="w-full flex items-center justify-between p-4 bg-surface rounded-2xl border border-border hover:bg-hover active:bg-active transition-all duration-200 group"
+                  className="w-full flex items-center justify-between p-4 bg-surface rounded-card border border-line hover:bg-surface-2 active:bg-surface-3 transition-all duration-200 group"
                 >
                   <div className="flex items-center gap-3.5">
-                    <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center text-primary flex-shrink-0">
+                    <div className="w-10 h-10 bg-accent/10 rounded-control flex items-center justify-center text-accent flex-shrink-0">
                       {icon}
                     </div>
                     <div className="text-left">
-                      <p className="text-sm font-semibold text-foreground">{label}</p>
-                      <p className="text-xs text-muted mt-0.5">{desc}</p>
+                      <p className="text-sm font-semibold text-ink">{label}</p>
+                      <p className="text-xs text-ink-3 mt-0.5">{desc}</p>
                     </div>
                   </div>
-                  <ChevronRight size={16} className="text-muted flex-shrink-0" />
+                  <ChevronRight size={16} className="text-ink-3 flex-shrink-0" />
                 </button>
               ))}
             </div>

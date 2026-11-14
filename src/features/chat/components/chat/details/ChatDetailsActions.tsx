@@ -60,20 +60,20 @@ const QuickActionButton: React.FC<{
   <button onClick={onClick} className="flex flex-col items-center gap-1.5 group outline-none">
     <div
       className={`
-      w-11 h-11 rounded-xl flex items-center justify-center transition-all duration-200
+      w-11 h-11 rounded-control flex items-center justify-center transition-all duration-200
       ${
         danger
-          ? 'bg-danger/10 text-danger hover:bg-danger hover:text-white'
+          ? 'bg-danger/10 text-danger hover:bg-danger hover:text-on-danger'
           : active
-            ? 'bg-primary/10 text-primary'
-            : 'bg-background text-secondary hover:bg-active hover:text-foreground border border-transparent'
+            ? 'bg-accent/10 text-accent-strong'
+            : 'bg-surface-2 text-ink-2 hover:bg-surface-3 hover:text-ink border border-transparent'
       }
     `}
     >
       {icon}
     </div>
     <span
-      className={`text-[10px] font-semibold transition-colors ${danger ? 'text-danger' : active ? 'text-primary' : 'text-muted group-hover:text-foreground'}`}
+      className={`text-[10px] font-semibold transition-colors ${danger ? 'text-danger' : active ? 'text-accent-strong' : 'text-ink-3 group-hover:text-ink'}`}
     >
       {label}
     </span>
@@ -185,32 +185,32 @@ export const ChatDetailsActions: React.FC<ChatDetailsActionsProps> = ({
         )}
       </div>
 
-      <div className="h-px bg-border" />
+      <div className="h-px bg-line" />
       {/* Main Settings Sections */}
       <div className="pt-2 pb-6">
         {/* Section: Group Special Settings */}
         {isGroup && isAdminOrCreator && onToggleApprovalMode && (
           <div
-            className="flex items-center justify-between w-full px-5 py-3 hover:bg-hover transition-colors cursor-pointer group"
+            className="flex items-center justify-between w-full px-5 py-3 hover:bg-surface-2 transition-colors cursor-pointer group"
             onClick={handleApprovalToggle}
           >
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-full flex items-center justify-center bg-background text-muted transition-colors">
+              <div className="w-8 h-8 rounded-full flex items-center justify-center bg-surface-2 text-ink-3 transition-colors">
                 <ShieldCheck size={18} />
               </div>
               <div className="flex flex-col">
-                <span className="text-sm font-semibold text-foreground leading-tight">
+                <span className="text-sm font-semibold text-ink leading-tight">
                   Phê duyệt thành viên
                 </span>
-                <span className="text-[10px] text-muted">Kiểm soát người mới</span>
+                <span className="text-[10px] text-ink-3">Kiểm soát người mới</span>
               </div>
             </div>
             <div
               className={`w-9 h-5 rounded-full transition-all duration-300 relative flex items-center px-1
-              ${approvalMode ? 'bg-primary border border-primary' : 'bg-surface-sunken border border-border'}`}
+              ${approvalMode ? 'bg-accent border border-accent' : 'bg-surface-2 border border-line'}`}
             >
               <div
-                className={`w-3 h-3 bg-white rounded-full shadow-sm transition-all duration-300
+                className={`w-3 h-3 bg-surface rounded-full shadow-sm transition-all duration-300
                 ${approvalMode ? 'translate-x-4' : 'translate-x-0'}`}
               />
             </div>
@@ -220,16 +220,16 @@ export const ChatDetailsActions: React.FC<ChatDetailsActionsProps> = ({
         {/* Section: General & Actions */}
         <div className="flex flex-col">
           {isGroup && isAdminOrCreator && (
-            <div className="flex items-center justify-between w-full px-5 py-3 hover:bg-hover transition-colors group">
+            <div className="flex items-center justify-between w-full px-5 py-3 hover:bg-surface-2 transition-colors group">
               <div className="flex items-center gap-3 min-w-0">
-                <div className="w-8 h-8 rounded-full bg-background flex items-center justify-center text-muted shrink-0">
+                <div className="w-8 h-8 rounded-full bg-surface-2 flex items-center justify-center text-ink-3 shrink-0">
                   <Link2 size={18} />
                 </div>
                 <div className="flex flex-col min-w-0">
-                  <span className="text-sm font-semibold text-foreground leading-tight">
+                  <span className="text-sm font-semibold text-ink leading-tight">
                     Link tham gia
                   </span>
-                  <span className="text-[10px] text-primary truncate">
+                  <span className="text-[10px] text-accent-strong truncate">
                     {conversation.data.inviteLink
                       ? `${window.location.origin}/join/${conversation.data.inviteLink}`
                       : 'Chưa có link mời'}
@@ -240,23 +240,26 @@ export const ChatDetailsActions: React.FC<ChatDetailsActionsProps> = ({
                 <button
                   onClick={handleCopyInvite}
                   disabled={isCopyingInvite}
-                  className="p-2 rounded-lg hover:bg-active text-muted hover:text-primary transition-all disabled:opacity-50 outline-none"
+                  className="p-2 rounded-control hover:bg-surface-3 text-ink-3 hover:text-accent transition-all disabled:opacity-50 outline-none"
                   title="Sao chép link"
+                  aria-label="Sao chép link"
                 >
                   {copied ? <Check size={16} className="text-success" /> : <Copy size={16} />}
                 </button>
                 <button
                   onClick={() => setShowQRCode(true)}
-                  className="p-2 rounded-lg hover:bg-active text-muted hover:text-primary transition-all outline-none"
+                  className="p-2 rounded-control hover:bg-surface-3 text-ink-3 hover:text-accent transition-all outline-none"
                   title="Hiển thị mã QR"
+                  aria-label="Hiển thị mã QR"
                 >
                   <QrCode size={16} />
                 </button>
                 <button
                   onClick={() => setShowResetInviteConfirm(true)}
                   disabled={isResettingInvite}
-                  className="p-2 rounded-lg hover:bg-active text-muted hover:text-primary transition-all disabled:opacity-50 outline-none"
+                  className="p-2 rounded-control hover:bg-surface-3 text-ink-3 hover:text-accent transition-all disabled:opacity-50 outline-none"
                   title="Tạo lại link"
+                  aria-label="Tạo lại link"
                 >
                   <RotateCcw size={16} className={isResettingInvite ? 'animate-spin' : ''} />
                 </button>
@@ -267,7 +270,7 @@ export const ChatDetailsActions: React.FC<ChatDetailsActionsProps> = ({
           {isGroup && isCreator && onTransferCreator && (
             <button
               onClick={() => setShowTransferConfirm(true)}
-              className="w-full flex items-center justify-between px-5 py-3 hover:bg-hover transition-colors text-left group"
+              className="w-full flex items-center justify-between px-5 py-3 hover:bg-surface-2 transition-colors text-left group"
             >
               <div className="flex items-center gap-3">
                 <div className="w-8 h-8 rounded-full bg-warning/10 flex items-center justify-center text-warning transition-colors">
@@ -277,7 +280,7 @@ export const ChatDetailsActions: React.FC<ChatDetailsActionsProps> = ({
                   Chuyển quyền trưởng nhóm
                 </span>
               </div>
-              <ChevronRight size={14} className="text-muted" />
+              <ChevronRight size={14} className="text-ink-3" />
             </button>
           )}
 

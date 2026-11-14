@@ -13,7 +13,7 @@ const SecuritySection: React.FC<SecuritySectionProps> = ({ onOpenChangePassword 
       title="Đổi mật khẩu"
       description="Cập nhật mật khẩu để bảo vệ tài khoản"
       onClick={onOpenChangePassword}
-      action={<ChevronRight size={16} className="text-muted" />}
+      action={<ChevronRight size={16} className="text-ink-3" />}
     />
   </div>
 );

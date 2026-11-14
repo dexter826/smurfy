@@ -88,7 +88,7 @@ export const ImageMessage: React.FC<ImageMessageProps> = ({
       9: 'grid-cols-3',
     };
 
-    const wrapperClass = `relative overflow-hidden flex flex-col gap-0.5 w-full max-w-[320px] ${message.data.content ? 'rounded-t-xl' : 'rounded-xl'}`;
+    const wrapperClass = `relative overflow-hidden flex flex-col gap-0.5 w-full max-w-[320px] ${message.data.content ? 'rounded-t-card' : 'rounded-card'}`;
 
     let contentUI;
     if (rowLayouts[count]) {
@@ -116,7 +116,7 @@ export const ImageMessage: React.FC<ImageMessageProps> = ({
       const cols = singleGrid[count] ?? 'grid-cols-3';
       contentUI = (
         <div
-          className={`relative overflow-hidden grid gap-0.5 ${cols} w-full max-w-[320px] ${message.data.content ? 'rounded-t-xl' : 'rounded-xl'}`}
+          className={`relative overflow-hidden grid gap-0.5 ${cols} w-full max-w-[320px] ${message.data.content ? 'rounded-t-card' : 'rounded-card'}`}
         >
           {mediaItems.map((item, idx) => renderItem(item, idx))}
           <CircularProgressOverlay
@@ -131,7 +131,7 @@ export const ImageMessage: React.FC<ImageMessageProps> = ({
       <div className="flex flex-col w-full max-w-[320px]">
         {contentUI}
         {message.data.content && (
-          <div className="px-3 pb-2 pt-2 border-t border-border/40">
+          <div className="px-3 pb-2 pt-2 border-t border-line/40">
             <MessageTextContent
               content={message.data.content}
               isMe={isMe}
@@ -149,7 +149,7 @@ export const ImageMessage: React.FC<ImageMessageProps> = ({
       <div
         className={`
           overflow-hidden max-w-[320px] max-h-[420px] cursor-pointer group relative w-fit
-          ${message.data.content ? 'rounded-t-xl' : 'rounded-xl'}
+          ${message.data.content ? 'rounded-t-card' : 'rounded-card'}
         `}
         onClick={() => onOpenImage(0)}
       >
@@ -172,7 +172,7 @@ export const ImageMessage: React.FC<ImageMessageProps> = ({
       </div>
 
       {message.data.content && (
-        <div className="px-3 pb-2 pt-2 border-t border-border/40">
+        <div className="px-3 pb-2 pt-2 border-t border-line/40">
           <MessageTextContent
             content={message.data.content}
             isMe={isMe}

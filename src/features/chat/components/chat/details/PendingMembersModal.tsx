@@ -77,8 +77,8 @@ export const PendingMembersModal: React.FC<PendingMembersModalProps> = ({
       >
         <div className="flex flex-col max-h-[70vh]">
           {/* Sub Header */}
-          <div className="px-4 py-3 bg-background/50 border-b border-border flex items-center justify-between">
-            <div className="flex items-center gap-2 text-secondary">
+          <div className="px-4 py-3 bg-canvas/50 border-b border-line-soft flex items-center justify-between">
+            <div className="flex items-center gap-2 text-ink-2">
               <Users size={16} />
               <span className="text-sm font-medium">
                 {pendingEntries.length} người đang chờ duyệt
@@ -105,7 +105,7 @@ export const PendingMembersModal: React.FC<PendingMembersModalProps> = ({
                 return (
                   <div
                     key={uid}
-                    className="flex items-center gap-3 px-4 py-3.5 hover:bg-hover transition-colors border-b border-border last:border-0"
+                    className="flex items-center gap-3 px-4 py-3.5 hover:bg-surface-2 transition-colors border-b border-line last:border-0"
                   >
                     <UserAvatar
                       userId={uid}
@@ -114,19 +114,18 @@ export const PendingMembersModal: React.FC<PendingMembersModalProps> = ({
                       size="md"
                     />
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-semibold text-foreground truncate">
+                      <p className="text-sm font-semibold text-ink truncate">
                         {user?.fullName || 'Người dùng'}
                       </p>
-                      <p className="text-xs text-muted truncate mt-0.5">
-                        Được mời bởi{' '}
-                        <span className="text-secondary font-medium">{inviterName}</span>
+                      <p className="text-xs text-ink-3 truncate mt-0.5">
+                        Được mời bởi <span className="text-ink-2 font-medium">{inviterName}</span>
                       </p>
                     </div>
                     <div className="flex items-center gap-2">
                       <button
                         onClick={() => handleApproveSingle(uid)}
                         disabled={isProcessing}
-                        className="h-8 px-3 flex items-center gap-1.5 rounded-lg bg-success/10 text-success hover:bg-success/20 transition-colors text-xs font-bold disabled:opacity-50"
+                        className="h-8 px-3 flex items-center gap-1.5 rounded-control bg-success/10 text-success hover:bg-success/20 transition-colors text-xs font-bold disabled:opacity-50"
                       >
                         <Check size={14} />
                         Duyệt
@@ -134,7 +133,7 @@ export const PendingMembersModal: React.FC<PendingMembersModalProps> = ({
                       <button
                         onClick={() => setConfirmReject(uid)}
                         disabled={isProcessing}
-                        className="h-8 w-8 flex items-center justify-center rounded-lg bg-background text-muted hover:bg-danger/10 hover:text-danger transition-colors disabled:opacity-50"
+                        className="h-8 w-8 flex items-center justify-center rounded-control bg-surface-2 text-ink-3 hover:bg-danger/10 hover:text-danger transition-colors disabled:opacity-50"
                       >
                         <X size={16} />
                       </button>

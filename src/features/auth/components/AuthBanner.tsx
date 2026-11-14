@@ -16,17 +16,17 @@ const config: Record<
   { container: string; icon: React.ReactNode; text: string }
 > = {
   info: {
-    container: 'bg-primary-soft border-primary/20',
-    icon: <Info size={17} className="text-primary-strong" aria-hidden="true" />,
-    text: 'text-primary-strong',
+    container: 'bg-accent-soft border-l-4 border-l-accent',
+    icon: <Info size={17} className="text-accent-strong" aria-hidden="true" />,
+    text: 'text-accent-strong',
   },
   success: {
-    container: 'bg-success-soft border-success/20',
+    container: 'bg-success-soft border-l-4 border-l-success',
     icon: <CheckCircle size={17} className="text-success" aria-hidden="true" />,
     text: 'text-success',
   },
   error: {
-    container: 'bg-danger-soft border-danger/20',
+    container: 'bg-danger-soft border-l-4 border-l-danger',
     icon: <AlertCircle size={17} className="text-danger" aria-hidden="true" />,
     text: 'text-danger',
   },
@@ -37,7 +37,7 @@ export const AuthBanner: React.FC<AuthBannerProps> = ({ variant, children, actio
   return (
     <div
       className={cn(
-        'flex items-start gap-3 p-3.5 border rounded-sm animate-fade-in',
+        'flex items-start gap-3 p-3.5 rounded-control animate-fade-in',
         c.container,
         className,
       )}

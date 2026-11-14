@@ -99,13 +99,13 @@ const ChatDetailsMediaInner: React.FC<ChatDetailsMediaProps> = ({ messages, onMe
             />
           );
         return (
-          <div className="grid grid-cols-3 gap-0.5 p-0.5">
+          <div className="grid grid-cols-3 gap-1.5 p-1">
             {mediaItems.images.map((item, index) => (
               <button
                 key={item.key}
                 type="button"
                 onClick={() => setViewer({ open: true, index, items: imageViewerItems })}
-                className="aspect-square overflow-hidden hover:opacity-85 active:opacity-70 transition-opacity duration-200 group relative"
+                className="aspect-square overflow-hidden rounded-control hover:opacity-85 active:opacity-70 transition-opacity duration-200 group relative"
               >
                 <LazyImage
                   src={item.media.url || ''}
@@ -133,28 +133,28 @@ const ChatDetailsMediaInner: React.FC<ChatDetailsMediaProps> = ({ messages, onMe
             {mediaItems.links.map((item) => (
               <div
                 key={item.key}
-                className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-hover transition-colors duration-200"
+                className="flex items-center gap-3 px-3 py-2.5 rounded-card hover:bg-surface-2 transition-colors duration-200"
               >
                 <button
                   type="button"
                   onClick={() => onMessageClick?.(item.msgId)}
                   className="flex items-center gap-3 flex-1 min-w-0 text-left"
                 >
-                  <div className="w-9 h-9 bg-primary/10 rounded-xl flex items-center justify-center flex-shrink-0">
-                    <Link2 size={17} className="text-primary" />
+                  <div className="w-9 h-9 bg-accent/10 rounded-control flex items-center justify-center flex-shrink-0">
+                    <Link2 size={17} className="text-accent" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-foreground truncate">
+                    <p className="text-sm font-medium text-ink truncate">
                       {item.title || 'Liên kết'}
                     </p>
-                    <p className="text-xs text-muted truncate max-w-[200px]">{item.url}</p>
+                    <p className="text-xs text-ink-3 truncate max-w-[200px]">{item.url}</p>
                   </div>
                 </button>
                 <a
                   href={item.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-active text-muted hover:text-primary transition-all duration-200 flex-shrink-0"
+                  className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-surface-3 text-ink-3 hover:text-accent transition-all duration-200 flex-shrink-0"
                   title="Mở liên kết"
                 >
                   <ExternalLink size={16} />
@@ -169,18 +169,18 @@ const ChatDetailsMediaInner: React.FC<ChatDetailsMediaProps> = ({ messages, onMe
   return (
     <div className="flex flex-col h-full min-h-0">
       {/* Sub Tab Bar */}
-      <div className="flex border-b border-border flex-shrink-0 w-full">
+      <div className="flex border-b border-line flex-shrink-0 w-full">
         {tabs.map((tab) => (
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
             className={`flex-1 flex items-center justify-center gap-1.5 px-2 py-2.5 text-xs font-semibold whitespace-nowrap transition-all duration-200 relative outline-none
-              ${activeTab === tab.id ? 'text-primary' : 'text-muted hover:text-secondary'}`}
+              ${activeTab === tab.id ? 'text-accent-strong' : 'text-ink-3 hover:text-ink-2'}`}
           >
             {tab.icon}
             {tab.label}
             {activeTab === tab.id && (
-              <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary rounded-full" />
+              <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-accent rounded-full" />
             )}
           </button>
         ))}

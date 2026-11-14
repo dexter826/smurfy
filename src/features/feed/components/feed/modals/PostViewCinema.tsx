@@ -22,7 +22,7 @@ export const PostViewCinema: React.FC<PostViewCinemaProps> = ({
   setActiveMediaIndex,
   setIsMediaViewerOpen,
 }) => (
-  <div className="hidden lg:flex flex-[1.6] bg-chat items-center justify-center relative overflow-hidden border-r border-white/5 shrink-0">
+  <div className="hidden lg:flex flex-[1.6] bg-surface-2 items-center justify-center relative overflow-hidden border-r border-white/5 shrink-0">
     <div
       className="w-full h-full relative flex items-center justify-center min-h-0 min-w-0"
       style={{ zIndex: 10 }}

@@ -39,7 +39,7 @@ export const SharedPostMessage: React.FC<SharedPostMessageProps> = ({
         {/* Media preview */}
         {payload.previewMediaUrl && (
           <div
-            className="relative w-full bg-black/5 dark:bg-white/5 overflow-hidden rounded-lg mb-2"
+            className="relative w-full bg-black/5 dark:bg-white/5 overflow-hidden rounded-card mb-2"
             style={{ aspectRatio: '4/3', maxHeight: 160 }}
           >
             <img
@@ -62,26 +62,24 @@ export const SharedPostMessage: React.FC<SharedPostMessageProps> = ({
               showStatus={false}
               showBorder={false}
             />
-            <p className="text-[11px] font-semibold text-foreground truncate">
-              {payload.authorName}
-            </p>
+            <p className="text-[11px] font-semibold text-ink truncate">{payload.authorName}</p>
           </div>
 
           {/* Snippet */}
-          <p className="text-[13px] font-medium leading-snug text-foreground line-clamp-3 break-words">
+          <p className="text-[13px] font-medium leading-snug text-ink line-clamp-3 break-words">
             {payload.snippet}
           </p>
 
           {/* Footer */}
           <div className="mt-1.5 flex items-center justify-between">
-            <span className="text-[10px] font-semibold text-primary hover:underline">
+            <span className="text-[10px] font-semibold text-accent-strong hover:underline">
               Xem bài viết
             </span>
           </div>
         </div>
       </button>
 
-      {isEdited && <span className="mt-1 text-[10px] italic text-muted">(đã chỉnh sửa)</span>}
+      {isEdited && <span className="mt-1 text-[10px] italic text-ink-3">(đã chỉnh sửa)</span>}
     </div>
   );
 };

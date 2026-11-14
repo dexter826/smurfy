@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" role="img" aria-labelledby="t">
+  <title id="t">Smurfy — mạng xã hội kết nối cộng đồng</title>
+  <rect width="1200" height="630" fill="#EDF1F6"/>
+  <rect x="120" y="175" width="280" height="280" rx="60" fill="#4C9EEB"/>
+  <g transform="translate(160 215) scale(0.78125)" fill="#0B1220">
+    <path d="M52 122 C 52 54 88 26 132 26 C 172 26 204 52 206 92 C 214 96 220 104 220 112 L 220 122 C 220 127 216 130 210 130 L 46 130 C 42 130 40 127 40 122 Z"/>
+    <path fill-rule="evenodd" d="M128 88 a70 70 0 0 1 0 140 a70 70 0 0 1 0-140 Z M100 158 a13 13 0 0 1 0 26 a13 13 0 0 1 0-26 Z M156 158 a13 13 0 0 1 0 26 a13 13 0 0 1 0-26 Z"/>
+  </g>
+  <text x="470" y="330" font-family="Arial, sans-serif" font-size="110" font-weight="800" fill="#0F172A" letter-spacing="-4">Smurfy</text>
+  <text x="472" y="392" font-family="Arial, sans-serif" font-size="30" font-weight="500" fill="#475569">Mạng xã hội kết nối cộng đồng Smurfy</text>
+</svg>

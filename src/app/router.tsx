@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { Loading } from '@/components/ui';
 import { AppLayout } from './layout/AppLayout';
 import { ProtectedRoute } from './layout/ProtectedRoute';
@@ -10,13 +10,10 @@ const FeedPage = React.lazy(() => import('@/features/feed/components/FeedPage'))
 const ContactsPage = React.lazy(() => import('@/features/friend/components/ContactsPage'));
 const ProfilePage = React.lazy(() => import('@/features/profile/components/ProfilePage'));
 const SettingsPage = React.lazy(() => import('@/features/settings/components/SettingsPage'));
-const NotificationsPage = React.lazy(
-  () => import('@/features/notification/components/NotificationsPage'),
-);
+const ActivityPage = React.lazy(() => import('@/features/notification/components/ActivityPage'));
 const EmailVerificationPage = React.lazy(
   () => import('@/features/auth/components/EmailVerificationPage'),
 );
-const MobileMenuPage = React.lazy(() => import('./pages/MobileMenuPage'));
 const OnboardingPage = React.lazy(() => import('@/features/auth/components/OnboardingPage'));
 const NotFoundPage = React.lazy(() => import('./pages/NotFoundPage'));
 const JoinGroupPage = React.lazy(() => import('@/features/chat/components/JoinGroupPage'));
@@ -41,8 +38,8 @@ const AppRoutes: React.FC = () => (
         <Route path="profile" element={<ProfilePage />} />
         <Route path="profile/:userId" element={<ProfilePage />} />
         <Route path="settings" element={<SettingsPage />} />
-        <Route path="notifications" element={<NotificationsPage />} />
-        <Route path="menu" element={<MobileMenuPage />} />
+        <Route path="activity" element={<ActivityPage />} />
+        <Route path="notifications" element={<Navigate to="/activity" replace />} />
       </Route>
 
       <Route path="/verify-email" element={<EmailVerificationPage />} />

@@ -33,7 +33,7 @@ export const RequestsListSection: React.FC<RequestsListSectionProps> = ({
 
   if (isLoading) {
     return (
-      <div className="bg-surface rounded-xl border border-border overflow-hidden shadow-xs divide-y divide-border/60">
+      <div className="bg-surface rounded-card border border-line overflow-hidden shadow-card divide-y divide-line/60">
         {[...Array(3)].map((_, i) => (
           <FriendRequestItem.Skeleton key={i} />
         ))}
@@ -59,7 +59,7 @@ export const RequestsListSection: React.FC<RequestsListSectionProps> = ({
   }
 
   return (
-    <div className="bg-surface rounded-xl border border-border overflow-hidden shadow-xs divide-y divide-border/60">
+    <div className="bg-surface rounded-card border border-line overflow-hidden shadow-card divide-y divide-line/60">
       {requests.map((request) => {
         const userId = isReceived ? request.senderId : request.receiverId;
         const targetUser = userCache[userId];
@@ -69,7 +69,7 @@ export const RequestsListSection: React.FC<RequestsListSectionProps> = ({
           <div
             key={request.id}
             onClick={() => onSelectUser?.(targetUser)}
-            className={`transition-colors ${selectedUserId === targetUser.id ? 'bg-primary/5 ring-1 ring-inset ring-primary/20' : ''}`}
+            className={`cursor-pointer transition-colors ${selectedUserId === targetUser.id ? 'bg-accent-soft ring-1 ring-inset ring-accent/20' : ''}`}
           >
             <FriendRequestItem
               request={request}

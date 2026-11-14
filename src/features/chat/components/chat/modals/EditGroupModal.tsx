@@ -118,7 +118,7 @@ export const EditGroupModal: React.FC<EditGroupModalProps> = ({
           {/* Group Avatar */}
           <div className="flex flex-col items-center">
             <div className="relative">
-              <div className="w-20 h-20 rounded-full overflow-hidden bg-primary/10 flex items-center justify-center">
+              <div className="w-20 h-20 rounded-full overflow-hidden bg-accent/10 flex items-center justify-center">
                 {previewUrl || groupAvatar ? (
                   <img
                     src={previewUrl || groupAvatar}
@@ -126,15 +126,15 @@ export const EditGroupModal: React.FC<EditGroupModalProps> = ({
                     className="w-full h-full object-cover"
                   />
                 ) : (
-                  <Users size={30} className="text-primary" />
+                  <Users size={30} className="text-accent" />
                 )}
               </div>
               <button
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
-                className="absolute bottom-0 right-0 w-7 h-7 btn-gradient rounded-full flex items-center justify-center shadow-accent border-2 border-surface"
+                className="absolute bottom-0 right-0 w-7 h-7 bg-accent rounded-full flex items-center justify-center shadow-xs border-2 border-surface"
               >
-                <Camera size={13} className="text-white" />
+                <Camera size={13} className="text-on-accent" />
               </button>
               <input
                 ref={fileInputRef}
@@ -144,7 +144,7 @@ export const EditGroupModal: React.FC<EditGroupModalProps> = ({
                 className="hidden"
               />
             </div>
-            <p className="text-xs text-muted mt-2">Nhấn để thay đổi ảnh nhóm</p>
+            <p className="text-xs text-ink-3 mt-2">Nhấn để thay đổi ảnh nhóm</p>
           </div>
 
           {/* Group Name */}
@@ -153,7 +153,7 @@ export const EditGroupModal: React.FC<EditGroupModalProps> = ({
             placeholder="Nhập tên nhóm..."
             value={groupName}
             onChange={(e) => setGroupName(e.target.value)}
-            className="bg-background"
+            className="bg-surface-2"
           />
         </div>
       </Modal>

@@ -38,8 +38,8 @@ export class ErrorBoundary extends React.Component<Props, State> {
       const isEnvError = error?.message.includes('environment');
 
       return (
-        <div className="flex items-center justify-center min-h-screen bg-background">
-          <div className="max-w-md w-full bg-surface shadow-xl rounded-2xl border border-border p-6">
+        <div className="flex items-center justify-center min-h-screen bg-canvas">
+          <div className="max-w-md w-full bg-surface shadow-float rounded-card border border-line p-6">
             <div className="flex items-center justify-center w-12 h-12 mx-auto bg-danger/10 rounded-full border border-danger/20">
               <svg
                 className="w-6 h-6 text-danger"
@@ -55,18 +55,18 @@ export class ErrorBoundary extends React.Component<Props, State> {
                 />
               </svg>
             </div>
-            <h3 className="mt-4 text-lg font-medium text-foreground text-center">
+            <h3 className="mt-4 text-lg font-medium text-ink text-center">
               {isEnvError ? 'Lỗi Cấu Hình' : 'Có lỗi xảy ra'}
             </h3>
-            <p className="mt-2 text-sm text-secondary text-center">
+            <p className="mt-2 text-sm text-ink-2 text-center">
               {isEnvError
                 ? 'Ứng dụng chưa được cấu hình đúng. Vui lòng kiểm tra file .env'
                 : 'Đã xảy ra lỗi không mong muốn. Vui lòng tải lại trang.'}
             </p>
             {isEnvError && (
-              <div className="mt-4 bg-background rounded-2xl p-4">
-                <p className="text-sm text-foreground font-medium mb-2">Các bước khắc phục:</p>
-                <ol className="text-sm text-secondary space-y-1 list-decimal list-inside">
+              <div className="mt-4 bg-canvas rounded-card p-4">
+                <p className="text-sm text-ink font-medium mb-2">Các bước khắc phục:</p>
+                <ol className="text-sm text-ink-2 space-y-1 list-decimal list-inside">
                   <li>Tạo file .env từ .env.example</li>
                   <li>Điền đầy đủ thông tin Firebase</li>
                   <li>Khởi động lại ứng dụng</li>
@@ -74,14 +74,14 @@ export class ErrorBoundary extends React.Component<Props, State> {
               </div>
             )}
             {error && (
-              <details className="mt-4 text-xs text-muted">
+              <details className="mt-4 text-xs text-ink-3">
                 <summary className="cursor-pointer">Chi tiết lỗi</summary>
                 <pre className="mt-2 whitespace-pre-wrap break-words">{error.toString()}</pre>
               </details>
             )}
             <button
               onClick={() => window.location.reload()}
-              className="mt-6 w-full btn-gradient text-on-primary py-2.5 px-4 rounded-xl hover:brightness-110 active:brightness-95 transition-colors duration-200 font-semibold text-sm"
+              className="mt-6 w-full bg-accent text-on-accent py-2.5 px-4 rounded-control hover:bg-accent-edge active:brightness-95 transition-colors duration-200 font-semibold text-sm"
             >
               Tải lại trang
             </button>

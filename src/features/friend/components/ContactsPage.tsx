@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Users, Sparkles, Bell, UserPlus } from 'lucide-react';
+import { Search, ArrowUpDown, RefreshCw, UserPlus, UserCheck } from 'lucide-react';
 import { useContacts } from '../hooks/useContacts';
-import { AlertDialog, BlockOptionsModal } from '@/components/ui';
+import { AlertDialog, BlockOptionsModal, Input, Button } from '@/components/ui';
 import { CONFIRM_MESSAGES, TOAST_MESSAGES } from '@/constants';
 import { AddFriendModal } from './AddFriendModal';
 import { useAuthStore } from '@/features/auth';
@@ -10,9 +10,6 @@ import { toast } from '@/store/toastStore';
 import { BlockOptions, User } from '@shared/types';
 import {
   ContactsTab,
-  TabConfigItem,
-  ContactsSidebar,
-  ContactsActionBar,
   FriendsListSection,
   RequestsListSection,
   SuggestionsListSection,
@@ -106,82 +103,128 @@ const ContactsPage: React.FC = () => {
     }
   };
 
-  const tabConfig = useMemo<TabConfigItem[]>(
-    () => [
-      {
-        id: 'all',
-        label: 'Tất cả bạn bè',
-        mobileLabel: 'Bạn bè',
-        icon: <Users size={18} />,
-        count: friends.length,
-      },
-      {
-        id: 'suggestions',
-        label: 'Gợi ý kết bạn',
-        mobileLabel: 'Gợi ý',
-        icon: <Sparkles size={18} />,
-        count: filteredSuggestions.length,
-      },
-      {
-        id: 'requests',
-        label: 'Lời mời kết bạn',
-        mobileLabel: 'Lời mời',
-        icon: <Bell size={18} />,
-        count: receivedRequests.length,
-        badge: receivedRequests.length > 0,
-      },
-      {
-        id: 'sent',
-        label: 'Lời mời đã gửi',
-        mobileLabel: 'Đã gửi',
-        icon: <UserPlus size={18} />,
-        count: sentRequests.length,
-      },
-    ],
-    [friends.length, filteredSuggestions.length, receivedRequests.length, sentRequests.length],
-  );
-
   const isSelectedUserFriend = useMemo(
     () => (selectedUser ? friends.some((f) => f.id === selectedUser.id) : false),
     [selectedUser, friends],
   );
 
+  const selectTab = useCallback((tab: ContactsTab) => {
+    setActiveTab(tab);
+    setSelectedUser(null);
+  }, []);
+
+  const segments: { id: ContactsTab; label: string }[] = [
+    { id: 'all', label: 'Tất cả' },
+    { id: 'suggestions', label: 'Gợi ý' },
+    { id: 'sent', label: 'Đã gửi' },
+  ];
+
   return (
-    <div className="flex h-full w-full overflow-hidden">
-      {/* ── Left Sidebar (Desktop) ── */}
-      <ContactsSidebar
-        activeTab={activeTab}
-        onSelectTab={(tab) => {
-          setActiveTab(tab);
-          setSelectedUser(null);
-        }}
-        tabConfig={tabConfig}
-        onOpenAddModal={() => setShowAddModal(true)}
-      />
+    <div className="flex h-full w-full overflow-hidden bg-canvas md:gap-3 md:p-3">
+      {/* ── Main card: header gộp + danh sách ── */}
+      <div className="flex-1 flex flex-col h-full min-w-0 bg-surface md:rounded-card md:border md:border-line md:shadow-card overflow-hidden">
+        {/* Header: tiêu đề + lời mời + thêm bạn */}
+        <div className="flex-shrink-0 px-4 pt-4 bg-surface">
+          <div className="flex items-center justify-between mb-3">
+            <h1 className="text-2xl font-extrabold text-ink tracking-tight">Bạn bè</h1>
+            <div className="flex items-center gap-2">
+              <Button
+                variant={activeTab === 'requests' ? 'primary' : 'secondary'}
+                size="sm"
+                icon={<UserCheck size={15} />}
+                onClick={() => selectTab('requests')}
+              >
+                Lời mời
+                {receivedRequests.length > 0 && (
+                  <span
+                    className={`text-[10px] font-bold min-w-[18px] h-[18px] px-1 rounded-full inline-flex items-center justify-center tnum ${
+                      activeTab === 'requests'
+                        ? 'bg-surface text-accent-strong'
+                        : 'bg-accent text-on-accent'
+                    }`}
+                  >
+                    {receivedRequests.length > 99 ? '99+' : receivedRequests.length}
+                  </span>
+                )}
+              </Button>
+              <Button
+                variant="primary"
+                size="sm"
+                icon={<UserPlus size={15} />}
+                onClick={() => setShowAddModal(true)}
+              >
+                Thêm bạn
+              </Button>
+            </div>
+          </div>
 
-      {/* ── Center Content ── */}
-      <div className="flex-1 flex flex-col h-full min-w-0 bg-surface bg-app-pattern">
-        <ContactsActionBar
-          activeTab={activeTab}
-          onSelectTab={(tab) => {
-            setActiveTab(tab);
-            setSelectedUser(null);
-          }}
-          tabConfig={tabConfig}
-          searchTerm={searchTerm}
-          onSearchChange={setSearchTerm}
-          sortOrder={sortOrder}
-          onToggleSortOrder={toggleSortOrder}
-          isSuggestionsLoading={isSuggestionsLoading}
-          onRefreshSuggestions={handleRefreshSuggestions}
-          onOpenAddModal={() => setShowAddModal(true)}
-          friendsCount={friends.length}
-          suggestionsCount={filteredSuggestions.length}
-          receivedCount={receivedRequests.length}
-          sentCount={sentRequests.length}
-        />
+          {/* Segmented */}
+          <div className="flex p-[3px] rounded-control bg-surface-2 mb-3">
+            {segments.map((seg) => {
+              const isActive = activeTab === seg.id;
+              return (
+                <button
+                  key={seg.id}
+                  onClick={() => selectTab(seg.id)}
+                  className={`flex-1 py-2 rounded-[8px] text-xs font-semibold text-center transition-all duration-200 outline-none ${
+                    isActive ? 'bg-surface text-ink shadow-card' : 'text-ink-3 hover:text-ink-2'
+                  }`}
+                >
+                  {seg.label}
+                </button>
+              );
+            })}
+          </div>
 
-        <div className="flex-1 overflow-y-auto p-4 md:p-6 scroll-smooth">
+          {/* Search pill + hành động theo tab */}
+          <div className="flex items-center gap-2 pb-3">
+            <Input
+              placeholder={`Tìm kiếm trong ${
+                activeTab === 'all'
+                  ? 'bạn bè'
+                  : activeTab === 'requests'
+                    ? 'lời mời'
+                    : activeTab === 'sent'
+                      ? 'lời mời đã gửi'
+                      : 'gợi ý'
+              }...`}
+              icon={<Search size={16} />}
+              className="h-10 bg-surface-2 border-line-soft rounded-full"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              containerClassName="flex-1"
+            />
+            {activeTab === 'all' && (
+              <Button
+                variant="ghost"
+                size="md"
+                icon={<ArrowUpDown size={16} />}
+                onClick={toggleSortOrder}
+                className="flex-shrink-0 text-ink-2 hover:text-accent-strong hover:bg-accent-soft"
+                title="Sắp xếp thứ tự"
+                aria-label="Sắp xếp thứ tự"
+              >
+                {sortOrder === 'asc' ? 'A-Z' : 'Z-A'}
+              </Button>
+            )}
+            {activeTab === 'suggestions' && (
+              <Button
+                variant="ghost"
+                size="md"
+                icon={
+                  <RefreshCw size={16} className={isSuggestionsLoading ? 'animate-spin' : ''} />
+                }
+                onClick={handleRefreshSuggestions}
+                disabled={isSuggestionsLoading}
+                className="flex-shrink-0 text-ink-2 hover:text-accent-strong hover:bg-accent-soft"
+                title="Làm mới gợi ý"
+                aria-label="Làm mới gợi ý"
+              />
+            )}
+          </div>
+        </div>
+
+        <div className="flex-1 overflow-y-auto p-3 md:p-4 scroll-smooth">
           <div className="w-full">
             {activeTab === 'all' && (
               <FriendsListSection

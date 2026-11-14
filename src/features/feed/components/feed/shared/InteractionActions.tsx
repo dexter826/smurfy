@@ -34,7 +34,7 @@ export const InteractionActions: React.FC<InteractionActionsProps> = ({
   onViewReactions,
   showEmptyDivider = false,
   className = '',
-  statsClassName = 'px-4 py-2.5 flex justify-between items-center border-b border-border/50',
+  statsClassName = 'px-4 py-2.5 flex justify-between items-center border-b border-line/50',
   actionClassName = 'flex px-1 py-1 gap-0.5',
   selectorClassName = '',
   selectorPosition = 'top',
@@ -64,14 +64,14 @@ export const InteractionActions: React.FC<InteractionActionsProps> = ({
           {commentCount > 0 && (
             <button
               onClick={onCommentClick}
-              className="text-xs text-muted hover:text-secondary hover:underline transition-colors duration-200 font-medium"
+              className="text-xs text-ink-3 hover:text-ink-2 hover:underline transition-colors duration-200 font-medium"
             >
               {commentCount} bình luận
             </button>
           )}
         </div>
       ) : (
-        showEmptyDivider && <div className="mx-4 border-t border-border/40" />
+        showEmptyDivider && <div className="mx-4 border-t border-line/40" />
       )}
 
       {/* Action buttons */}
@@ -98,11 +98,11 @@ export const InteractionActions: React.FC<InteractionActionsProps> = ({
           <Button
             variant="ghost"
             fullWidth
-            className={`h-10 rounded-xl text-sm font-semibold transition-all duration-200
+            className={`h-10 rounded-control text-sm font-semibold transition-all duration-200
               ${
                 myReaction
-                  ? `${getReactionColorClass(myReaction)} hover:bg-hover`
-                  : 'text-secondary hover:text-foreground hover:bg-hover'
+                  ? `${getReactionColorClass(myReaction)} hover:bg-surface-2`
+                  : 'text-ink-2 hover:text-ink hover:bg-surface-2'
               }`}
             onClick={() => onReact(myReaction ? 'REMOVE' : ReactionType.LIKE)}
             onMouseEnter={() => setShowReactions(true)}
@@ -122,7 +122,7 @@ export const InteractionActions: React.FC<InteractionActionsProps> = ({
         <Button
           variant="ghost"
           fullWidth
-          className="flex-1 h-10 rounded-xl text-sm font-semibold text-secondary hover:text-foreground hover:bg-hover transition-all duration-200"
+          className="flex-1 h-10 rounded-control text-sm font-semibold text-ink-2 hover:text-ink hover:bg-surface-2 transition-all duration-200"
           onClick={onCommentClick}
           icon={<MessageCircle size={18} />}
         >
@@ -133,7 +133,7 @@ export const InteractionActions: React.FC<InteractionActionsProps> = ({
           <Button
             variant="ghost"
             fullWidth
-            className="flex-1 h-10 rounded-xl text-sm font-semibold text-secondary hover:text-foreground hover:bg-hover transition-all duration-200"
+            className="flex-1 h-10 rounded-control text-sm font-semibold text-ink-2 hover:text-ink hover:bg-surface-2 transition-all duration-200"
             onClick={onShareClick}
             icon={<Send size={18} />}
           >

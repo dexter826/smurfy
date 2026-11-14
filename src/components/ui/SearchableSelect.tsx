@@ -99,20 +99,20 @@ export const SearchableSelect: React.FC<SearchableSelectProps> = ({
             type="button"
             disabled={disabled}
             className={cn(
-              'flex w-full items-center justify-between rounded-sm bg-surface border font-normal outline-none',
+              'flex w-full items-center justify-between rounded-control bg-surface border font-normal outline-none',
               'transition-all duration-200 cursor-pointer text-left',
-              'border-border hover:border-border-strong',
-              'focus-visible:ring-2 focus-visible:ring-focus/50 focus-visible:border-primary',
-              'data-[state=open]:border-primary data-[state=open]:ring-2 data-[state=open]:ring-focus/50',
+              'border-line hover:border-line-strong',
+              'focus-visible:ring-2 focus-visible:ring-focus/50 focus-visible:border-accent',
+              'data-[state=open]:border-accent data-[state=open]:ring-2 data-[state=open]:ring-focus/50',
               error && 'border-danger ring-2 ring-danger/50',
-              disabled && 'cursor-not-allowed opacity-50 bg-background',
+              disabled && 'cursor-not-allowed opacity-50 bg-canvas',
               sizeClasses[size],
             )}
           >
             <span
               className={cn(
                 'flex-1 truncate',
-                !selectedOption && !value ? 'text-muted' : 'text-foreground',
+                !selectedOption && !value ? 'text-ink-3' : 'text-ink',
               )}
             >
               {selectedOption ? selectedOption.label : value || placeholder}
@@ -120,7 +120,7 @@ export const SearchableSelect: React.FC<SearchableSelectProps> = ({
             <ChevronDown
               size={size === 'sm' ? 14 : 18}
               className={cn(
-                'ml-2 flex-shrink-0 text-muted transition-transform duration-200',
+                'ml-2 flex-shrink-0 text-ink-3 transition-transform duration-200',
                 open && 'rotate-180',
               )}
             />
@@ -129,7 +129,7 @@ export const SearchableSelect: React.FC<SearchableSelectProps> = ({
             <button
               type="button"
               onClick={handleClear}
-              className="absolute right-9 top-1/2 -translate-y-1/2 text-muted transition-colors hover:text-foreground"
+              className="absolute right-9 top-1/2 -translate-y-1/2 text-ink-3 transition-colors hover:text-ink"
               aria-label="Xóa"
             >
               <X size={14} />
@@ -139,11 +139,11 @@ export const SearchableSelect: React.FC<SearchableSelectProps> = ({
       }
     >
       <div className="flex flex-col" onKeyDown={handleInputKeyDown}>
-        <div className="flex-shrink-0 border-b border-border p-2">
+        <div className="flex-shrink-0 border-b border-line p-2">
           <div className="relative">
             <Search
               size={14}
-              className="absolute left-2.5 top-1/2 -translate-y-1/2 text-muted"
+              className="absolute left-2.5 top-1/2 -translate-y-1/2 text-ink-3"
               aria-hidden="true"
             />
             <input
@@ -152,14 +152,14 @@ export const SearchableSelect: React.FC<SearchableSelectProps> = ({
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder={searchPlaceholder}
-              className="w-full rounded-sm border-none bg-background py-1.5 pl-7 pr-3 text-sm text-foreground outline-none placeholder:text-muted"
+              className="w-full h-10 rounded-full bg-surface-2 border-none pl-7 pr-3 text-sm text-ink outline-none placeholder:text-ink-3"
             />
           </div>
         </div>
 
         <div className="max-h-60 overflow-y-auto scroll-hide">
           {filtered.length === 0 ? (
-            <div className="px-4 py-3 text-center text-sm text-muted">Không tìm thấy kết quả</div>
+            <div className="px-4 py-3 text-center text-sm text-ink-3">Không tìm thấy kết quả</div>
           ) : (
             filtered.map((option) => (
               <button
@@ -170,15 +170,19 @@ export const SearchableSelect: React.FC<SearchableSelectProps> = ({
                 onClick={() => handleSelect(option)}
                 className={cn(
                   'flex w-full items-center justify-between gap-2 px-4 py-2.5 text-left text-sm outline-none',
-                  'transition-colors duration-fast hover:bg-hover active:bg-active',
+                  'transition-colors duration-fast hover:bg-surface-2 active:bg-surface-3',
                   option.value === value
-                    ? 'bg-primary-soft font-medium text-primary'
-                    : 'font-normal text-foreground',
+                    ? 'bg-accent-soft font-medium text-accent-strong'
+                    : 'font-normal text-ink',
                 )}
               >
                 <span className="truncate">{option.label}</span>
                 {option.value === value && (
-                  <Check size={15} className="flex-shrink-0 text-primary" aria-hidden="true" />
+                  <Check
+                    size={15}
+                    className="flex-shrink-0 text-accent-strong"
+                    aria-hidden="true"
+                  />
                 )}
               </button>
             ))
