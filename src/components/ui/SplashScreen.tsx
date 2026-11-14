@@ -33,10 +33,19 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ isReady, onFinish })
         isFadingOut ? 'opacity-0 pointer-events-none' : 'opacity-100'
       }`}
     >
-      <img src="/logo.svg" alt="Smurfy" className="h-28 w-28 object-contain" />
-      <h1 className="font-display font-extrabold text-4xl text-ink mt-4 tracking-tight">Smurfy</h1>
-      <div className="w-24 h-1.5 mt-8 overflow-hidden rounded-full bg-surface-3">
-        <div className="h-full w-1/2 rounded-full bg-accent animate-shimmer" />
+      <img
+        src="/logo.svg"
+        alt="Smurfy"
+        className="h-24 w-24 object-contain animate-fade-in-up motion-reduce:animate-none"
+      />
+      <h1
+        className="font-display font-extrabold text-3xl text-ink mt-5 tracking-tight animate-fade-in motion-reduce:animate-none"
+        style={{ animationDelay: '200ms', animationFillMode: 'both' }}
+      >
+        Smurfy
+      </h1>
+      <div className="w-40 h-1 mt-9 overflow-hidden rounded-full bg-surface-3">
+        <div className="h-full w-full rounded-full bg-gradient-to-r from-transparent via-accent to-transparent bg-[length:200%_100%] animate-shimmer motion-reduce:animate-none" />
       </div>
     </div>
   );
