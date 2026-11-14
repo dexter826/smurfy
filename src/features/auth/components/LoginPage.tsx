@@ -207,8 +207,8 @@ const LoginPage: React.FC = () => {
         />
 
         <div className="flex items-center gap-3 relative">
-          <span className="h-[38px] w-[38px] lg:h-11 lg:w-11 rounded-control bg-on-accent text-accent flex items-center justify-center font-display font-extrabold text-xl lg:text-2xl">
-            S
+          <span className="h-[38px] w-[38px] lg:h-11 lg:w-11 rounded-control bg-on-accent flex items-center justify-center overflow-hidden">
+            <img src="/smurfy-symbol.svg" alt="" className="h-full w-full p-1" />
           </span>
           <span className="font-display text-xl lg:text-2xl font-extrabold tracking-tight">
             Smurfy

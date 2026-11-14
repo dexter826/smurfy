@@ -38,8 +38,8 @@ export const Rail: React.FC<RailProps> = ({ badges, onLogout }) => {
         className="mb-2 rounded-control outline-none focus-visible:ring-2 focus-visible:ring-focus/60 focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
         aria-label="Về bảng tin"
       >
-        <span className="flex h-10 w-10 items-center justify-center rounded-control bg-accent font-display text-[19px] font-extrabold text-on-accent">
-          S
+        <span className="flex h-10 w-10 items-center justify-center rounded-control bg-accent">
+          <img src="/smurfy-symbol.svg" alt="" className="h-full w-full p-1" />
         </span>
       </button>
 
