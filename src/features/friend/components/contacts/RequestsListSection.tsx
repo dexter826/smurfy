@@ -69,7 +69,7 @@ export const RequestsListSection: React.FC<RequestsListSectionProps> = ({
           <div
             key={request.id}
             onClick={() => onSelectUser?.(targetUser)}
-            className={`transition-colors ${selectedUserId === targetUser.id ? 'bg-accent-soft ring-1 ring-inset ring-accent/20' : ''}`}
+            className={`cursor-pointer transition-colors ${selectedUserId === targetUser.id ? 'bg-accent-soft ring-1 ring-inset ring-accent/20' : ''}`}
           >
             <FriendRequestItem
               request={request}

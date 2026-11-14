@@ -50,7 +50,7 @@ const SuggestionItemInner: React.FC<SuggestionItemProps> = ({
   if (variant === 'card') {
     return (
       <div
-        className={`relative flex flex-col items-center p-4 border border-line rounded-card bg-surface-2 flex-shrink-0 snap-start group shadow-sm hover:shadow-md transition-shadow ${className || 'w-[160px] min-w-[160px]'}`}
+        className={`relative flex cursor-pointer flex-col items-center p-4 border border-line rounded-card bg-surface-2 flex-shrink-0 snap-start group shadow-sm hover:shadow-md transition-shadow ${className || 'w-[160px] min-w-[160px]'}`}
       >
         <button
           onClick={handleDismiss}

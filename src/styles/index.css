@@ -297,6 +297,18 @@ input::-ms-clear {
     margin: 0;
     padding: 0;
   }
+
+  /* Tailwind v4 bỏ rule này khỏi preflight — khôi phục để mọi điểm chạm có pointer */
+  button:not(:disabled),
+  [role='button']:not(:disabled),
+  [role='menuitem'],
+  [role='option'],
+  a[href]:not([aria-disabled='true']),
+  select:not(:disabled),
+  label[for]:not(:has(input:disabled)),
+  summary {
+    cursor: pointer;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
