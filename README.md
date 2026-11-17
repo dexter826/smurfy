@@ -38,7 +38,7 @@ Smurfy Social là mạng xã hội kết hợp bảng tin chia sẻ nội dung v
 
 ### Tài khoản & Hồ sơ
 
-- **Đăng ký hai bước**: tạo tài khoản bằng email, xác minh email qua link, hoàn thiện hồ sơ (tỉnh thành, sở thích) qua màn onboarding.
+- **Đăng ký tài khoản**: tạo tài khoản bằng email, xác minh email qua link, hoàn thiện hồ sơ (tỉnh thành, sở thích) qua màn onboarding.
 - **Trang cá nhân**: thay đổi ảnh đại diện, ảnh bìa (có crop), tiểu sử và thông tin giới thiệu.
 - **Quyền riêng tư**: chọn mức hiển thị bài viết (Công khai / Bạn bè / Chỉ mình tôi) và quản lý danh sách chặn với 3 mức hạn chế riêng biệt.
 
