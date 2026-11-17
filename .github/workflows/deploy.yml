@@ -4,6 +4,10 @@ on:
   push:
     branches: [main]
 
+permissions:
+  contents: read
+  deployments: write
+
 concurrency:
   group: deploy-production
   cancel-in-progress: false
@@ -11,6 +15,9 @@ concurrency:
 jobs:
   deploy:
     name: Verify, Build & Deploy
+    environment:
+      name: production
+      url: https://smurfy-138c1.web.app
     runs-on: ubuntu-latest
     env:
       VITE_FIREBASE_API_KEY: ${{ secrets.VITE_FIREBASE_API_KEY }}
