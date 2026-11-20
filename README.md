@@ -12,6 +12,8 @@
 
 **Mạng xã hội thời gian thực: bảng tin chia sẻ, trò chuyện cá nhân và hội nhóm, quản lý quan hệ bạn bè.**
 
+https://github.com/user-attachments/assets/cf6ed5b0-4636-49b7-bf54-30b7492bb779
+
 </div>
 
 ---
