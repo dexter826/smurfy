@@ -39,7 +39,7 @@ export const Rail: React.FC<RailProps> = ({ badges, onLogout }) => {
         aria-label="Về bảng tin"
       >
         <span className="flex h-10 w-10 items-center justify-center rounded-control bg-accent">
-          <img src="/smurfy-symbol.svg" alt="" className="h-full w-full p-1" />
+          <img src="/logo-symbol-dark.svg" alt="" className="h-full w-full p-1" />
         </span>
       </button>
 

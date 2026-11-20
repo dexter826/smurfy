@@ -208,7 +208,7 @@ const LoginPage: React.FC = () => {
 
         <div className="flex items-center gap-3 relative">
           <span className="h-[38px] w-[38px] lg:h-11 lg:w-11 rounded-control bg-on-accent flex items-center justify-center overflow-hidden">
-            <img src="/smurfy-symbol.svg" alt="" className="h-full w-full p-1" />
+            <img src="/logo-symbol.svg" alt="" className="h-full w-full p-1" />
           </span>
           <span className="font-display text-xl lg:text-2xl font-extrabold tracking-tight">
             Smurfy
@@ -235,7 +235,7 @@ const LoginPage: React.FC = () => {
       <main className="flex-1 flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
         <div className="my-auto w-full max-w-[440px] bg-surface rounded-card shadow-card p-6 sm:p-8">
           <img
-            src="/logo.svg"
+            src="/logo-symbol.svg"
             alt="Smurfy"
             className="h-16 w-16 object-contain mx-auto mb-5 lg:hidden"
           />

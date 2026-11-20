@@ -1,6 +1,9 @@
 <div align="center">
 
-<img src="public/logo_text_blue.png" alt="Smurfy Social Logo" width="320" />
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="public/logo-horizontal-white.svg" />
+  <img src="public/logo-horizontal.svg" alt="Smurfy Social Logo" width="320" />
+</picture>
 
 # Smurfy Social
 

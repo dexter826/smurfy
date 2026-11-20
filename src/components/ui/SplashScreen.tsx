@@ -34,7 +34,7 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ isReady, onFinish })
       }`}
     >
       <img
-        src="/logo.svg"
+        src="/logo-symbol.svg"
         alt="Smurfy"
         className="h-24 w-24 object-contain animate-fade-in-up motion-reduce:animate-none"
       />
